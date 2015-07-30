@@ -1,0 +1,19 @@
+digraph GROG { 
+
+"map filtering" -> "gutes creategame"
+"map overview" -> "gutes creategame"
+"convert current gamma to backbone" -> "gutes creategame"
+"gutes creategame" ->"remove /game/new"
+"remove /game/new" -> "disable public karo2"
+"remove /lobby" -> "disable public karo2"
+"remove /game" -> "disable public karo2"
+"convert blocker to backbone" -> "remove /blocker"
+"remove /blocker" -> "disable public karo2"
+"remove /user/settings" -> "disable public karo2"
+"remove /dran" -> "disable public karo2"
+"improve new chat" -> "remove /chat"
+"remove /chat" -> "disable public karo2"
+"disable public karo2" -> "remove current appswitch"
+"remove current appswitch" -> "allow sf switch"
+
+}

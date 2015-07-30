@@ -1,0 +1,5 @@
+app/logs/*.log
+.idea
+web
+vendor
+

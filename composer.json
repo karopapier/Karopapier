@@ -1,0 +1,14 @@
+{
+    "name": "pdietrich/wrapper",
+    "description": "wrapper",
+    "authors": [
+        {
+            "name": "Peter Dietrich",
+            "email": "peter.dietrich@smartpixelmedia.de"
+        }
+    ],
+    "require": {
+        "symfony/http-foundation": "~2.7",
+        "monolog/monolog": "~1.14"
+    }
+}
