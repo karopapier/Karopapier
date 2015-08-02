@@ -1,5 +1,6 @@
 app/logs/*.log
 .idea
-web
+node_modules
 vendor
+web
 

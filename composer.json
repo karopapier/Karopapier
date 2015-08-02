@@ -10,5 +10,8 @@
     "require": {
         "symfony/http-foundation": "~2.7",
         "monolog/monolog": "~1.14"
+    },
+    "autoload": {
+        "psr-4": {"Karopapier\\": "src/Karopapier"}
     }
 }
