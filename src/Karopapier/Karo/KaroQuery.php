@@ -93,7 +93,8 @@ class KaroQuery
         if ($stmt->execute()) {
             return $stmt;
         } else {
-            throw new \Exception($stmt->errorInfo()[2]);
+            $errArr = $stmt->errorInfo();
+            throw new \Exception($errArr[2]);
         }
     }
 
