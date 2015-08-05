@@ -14,11 +14,14 @@ use Karopapier\Karo\Model\User;
 
 class KaroApp
 {
+    /** @var  $db \Karopapier\Karo\KaroQuery */
     public $db;
+    /** @var  $authUser \Karopapier\Karo\Model\User */
     public $authUser;
 
     public function __construct()
     {
+        global $remote_addr;
         $this->db = new KaroQuery();
         $this->authUser = NULL;
 
@@ -29,6 +32,7 @@ class KaroApp
             $session_id = md5($rand1 . md5($remote_addr) . "more" . $rand2);
             session_id($session_id);
         }
+
         session_name("KaroSession");
         session_start();
     }

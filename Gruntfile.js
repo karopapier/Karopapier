@@ -4,7 +4,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             web: {
-                files: ['web/**/*.php'],
+                files: ['web/**/*.php', 'src/**/*'],
                 options: {
                     interrupt: true,
                     livereload: {
