@@ -101,4 +101,5 @@ class KaroApp
         $sql = "insert into karo_visits (U_ID,visitdate) VALUES(" . $user->getId() . ",now()) on duplicate key update visitdate=now()";
         $this->db->doQuery($sql);
     }
+
 }

@@ -100,9 +100,9 @@ class KaroQuery
 
     public function dlookup($col, $tab, $cond)
     {
+        global $app;
         $sql = "select " . $col . " from " . $tab . " where " . $cond;
-        $res = $this->doQuery($sql);
-        $row = $res->fetch();
-        return $row[$col];
+        $res = $app->db->doQuery($sql);
+        return $res->fetchColumn();
     }
 }

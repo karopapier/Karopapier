@@ -24,4 +24,14 @@ class User
     {
         return $this->Login;
     }
+
+    public function hasRight($permission)
+    {
+        global $app;
+        $sql = "select value from karo_admin join karo_rights on karo_admin.R_ID = karo_rights.R_ID WHERE karo_rights.Permission = :p";
+
+        $res = $app->db->doQuery($sql, array("p" => $permission));
+        $right = $res->fetchColumn(0);
+        return $right;
+    }
 }
