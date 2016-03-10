@@ -43,7 +43,10 @@ class GamePreviewCommand extends ContainerAwareCommand
         $folder = $input->getArgument('folder');
         $logger = $this->getContainer()->get("logger");
 
-        $folder = getcwd() . "/" . $folder;
+
+        if (!$fs->isAbsolutePath($folder)) {
+            $folder = getcwd() . "/" . $folder;
+        }
         if ($fs->exists($folder)) {
             $logger->info("I'll create an image of " . $gid . ' in ' . $folder);
         } else {
