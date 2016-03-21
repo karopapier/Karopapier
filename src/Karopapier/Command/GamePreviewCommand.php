@@ -106,7 +106,8 @@ class GamePreviewCommand extends ContainerAwareCommand
             $moves = $player['moves'];
             $mcount = count($moves);
             //if finished, don't draw last line
-            if (($player['position'] > 0) && ($player['status'] == "ok")) {
+            #if (($player['position'] > 0) && ($player['status'] == "ok")) {
+            if ($player['position'] > 0) {
                 $mcount--;
             }
             if ($mcount < 1) continue;
