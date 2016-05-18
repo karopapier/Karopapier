@@ -11,3 +11,10 @@ services:
         class: AppBundle\Security\LegacyCookieAuthenticator
         autowire: true
 
+    visit_log:
+        class: AppBundle\Services\VisitLogService
+        autowire: true
+        tags:
+          - { name: kernel.event_listener, event: security.authentication.success}
+
+

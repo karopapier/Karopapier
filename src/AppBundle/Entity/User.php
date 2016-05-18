@@ -463,6 +463,11 @@ class User implements UserInterface
      */
     private $notificationSound;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     public function getLogin()
     {
         return $this->login;

@@ -23,13 +23,13 @@ class Game
 
     /**
      * @var \AppBundle\Entity\User
-     *
+     * 
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      * })
      */
-    private $userId;
+    private $dranUser;
 
 
     /**
@@ -158,7 +158,7 @@ class Game
     
     public function getDranUser()
     {
-        return $this->userId;
+        return $this->dranUser;
     }
 
 }
