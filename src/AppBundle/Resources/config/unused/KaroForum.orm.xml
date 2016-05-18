@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\KaroForum" table="karo_forum">
+    <indexes>
+      <index name="A_ID_2" columns="A_ID"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="A_ID" columns="A_ID"/>
+    </unique-constraints>
+    <id name="aId" type="integer" column="A_ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="subject" type="string" column="Subject" length="80" nullable="false"/>
+    <field name="text" type="text" column="Text" length="65535" nullable="false"/>
+    <field name="author" type="string" column="Author" length="80" nullable="false"/>
+    <field name="creationtime" type="datetime" column="creationtime" nullable="false"/>
+    <field name="thread" type="integer" column="Thread" nullable="false"/>
+    <field name="forum" type="boolean" column="Forum" nullable="false"/>
+  </entity>
+</doctrine-mapping>

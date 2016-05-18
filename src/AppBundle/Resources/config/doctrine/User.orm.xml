@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\User" table="karo_user">
+    <indexes>
+      <index name="i_login" columns="Login"/>
+    </indexes>
+    <id name="id" type="integer" column="U_ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="login" type="string" column="Login" length="20" nullable="true"/>
+    <field name="oldPasswd" type="string" column="Old_Passwd" length="20" nullable="true"/>
+    <field name="passwd" type="string" column="Passwd" length="255" nullable="false"/>
+    <field name="vorname" type="string" column="Vorname" length="255" nullable="false"/>
+    <field name="nachname" type="string" column="Nachname" length="255" nullable="false"/>
+    <field name="email" type="string" column="Email" length="50" nullable="true"/>
+    <field name="homepage" type="string" column="Homepage" length="60" nullable="true"/>
+    <field name="icq" type="string" column="ICQ" length="255" nullable="false"/>
+    <field name="aim" type="string" column="AIM" length="255" nullable="false"/>
+    <field name="msn" type="string" column="MSN" length="255" nullable="false"/>
+    <field name="jabber" type="string" column="Jabber" length="255" nullable="false"/>
+    <field name="twitter" type="string" column="twitter" length="255" nullable="false"/>
+    <field name="xing" type="string" column="xing" length="255" nullable="false"/>
+    <field name="linkedin" type="string" column="linkedin" length="255" nullable="false"/>
+    <field name="facebook" type="string" column="facebook" length="255" nullable="false"/>
+    <field name="myspace" type="string" column="myspace" length="255" nullable="false"/>
+    <field name="picture" type="string" column="Picture" length="255" nullable="false"/>
+    <field name="shortInfo" type="string" column="short_info" length="255" nullable="false"/>
+    <field name="lastvisit" type="datetime" column="lastvisit" nullable="false"/>
+    <field name="reallastvisit" type="datetime" column="reallastvisit" nullable="false"/>
+    <field name="currentvisit" type="datetime" column="currentvisit" nullable="false"/>
+    <field name="chatvisit" type="datetime" column="chatvisit" nullable="false"/>
+    <field name="lastmailsent" type="datetime" column="lastmailsent" nullable="false"/>
+    <field name="browser" type="string" column="Browser" length="255" nullable="false"/>
+    <field name="color" type="string" column="Color" length="6" nullable="false"/>
+    <field name="size" type="integer" column="Size" nullable="false"/>
+    <field name="border" type="boolean" column="Border" nullable="false"/>
+    <field name="view" type="integer" column="View" nullable="false"/>
+    <field name="drawLimit" type="integer" column="draw_limit" nullable="false"/>
+    <field name="gamesperpage" type="integer" column="GamesPerPage" nullable="false"/>
+    <field name="gamesOrder" type="string" column="games_order" length="255" nullable="false"/>
+    <field name="theme" type="string" column="theme" length="50" nullable="false"/>
+    <field name="active" type="boolean" column="Active" nullable="false"/>
+    <field name="invited" type="integer" column="Invited" nullable="false"/>
+    <field name="invited2" type="integer" column="invited2" nullable="false"/>
+    <field name="sendmail" type="boolean" column="Sendmail" nullable="false"/>
+    <field name="tag" type="boolean" column="Tag" nullable="false"/>
+    <field name="nacht" type="boolean" column="Nacht" nullable="false"/>
+    <field name="maxgames" type="integer" column="Maxgames" nullable="false"/>
+    <field name="signupdate" type="datetime" column="Signupdate" nullable="false"/>
+    <field name="session" type="string" column="Session" length="255" nullable="false"/>
+    <field name="warned" type="boolean" column="Warned" nullable="false"/>
+    <field name="automoves" type="integer" column="automoves" nullable="false"/>
+    <field name="maillock" type="datetime" column="maillock" nullable="false"/>
+    <field name="isbot" type="integer" column="isbot" nullable="false"/>
+    <field name="birthday" type="date" column="Birthday" nullable="false"/>
+    <field name="gelesen" type="integer" column="gelesen" nullable="false"/>
+    <field name="faulpelz" type="integer" column="faulpelz" nullable="false"/>
+    <field name="moveAutoforward" type="smallint" column="move_autoforward" nullable="false"/>
+    <field name="economode" type="boolean" column="economode" nullable="false"/>
+    <field name="geolat" type="string" column="geoLat" length="30" nullable="true"/>
+    <field name="geolng" type="string" column="geoLng" length="30" nullable="true"/>
+    <field name="activejs" type="boolean" column="activeJS" nullable="false"/>
+    <field name="activecanvas" type="boolean" column="activeCanvas" nullable="false"/>
+    <field name="statusCode" type="boolean" column="status_code" nullable="false"/>
+    <field name="statusText" type="string" column="status_text" length="255" nullable="false"/>
+    <field name="statusDate" type="date" column="status_date" nullable="true"/>
+    <field name="nbDran" type="integer" column="nb_dran" nullable="true"/>
+    <field name="nbGames" type="integer" column="nb_games" nullable="true"/>
+    <field name="maxWollust" type="integer" column="max_wollust" nullable="false"/>
+    <field name="useBart" type="boolean" column="use_bart" nullable="true"/>
+    <field name="useSound" type="boolean" column="use_sound" nullable="false"/>
+    <field name="notificationSound" type="string" column="notification_sound" length="50" nullable="false"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\KaroCachehit" table="karo_cachehit">
+    <id name="id" type="boolean" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="hit" type="bigint" column="Hit" nullable="false"/>
+    <field name="miss" type="bigint" column="Miss" nullable="false"/>
+    <field name="disabled" type="bigint" column="Disabled" nullable="false"/>
+  </entity>
+</doctrine-mapping>

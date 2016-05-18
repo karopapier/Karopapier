@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\KaroFeatures" table="karo_features">
+    <id name="fId" type="integer" column="F_ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="feature" type="string" column="Feature" length="255" nullable="false"/>
+    <field name="description" type="text" column="Description" length="65535" nullable="false"/>
+    <field name="requestor" type="string" column="Requestor" length="255" nullable="false"/>
+    <field name="ranking" type="float" column="Ranking" precision="10" scale="0" nullable="false"/>
+    <field name="created" type="date" column="Created" nullable="false"/>
+    <field name="done" type="integer" column="DONE" nullable="false"/>
+    <field name="datedone" type="datetime" column="DateDone" nullable="false"/>
+  </entity>
+</doctrine-mapping>

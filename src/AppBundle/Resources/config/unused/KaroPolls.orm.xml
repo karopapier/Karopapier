@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\KaroPolls" table="karo_polls">
+    <id name="pId" type="integer" column="P_ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="topic" type="string" column="Topic" length="255" nullable="false"/>
+    <field name="comment" type="text" column="Comment" length="65535" nullable="false"/>
+    <field name="question" type="string" column="Question" length="255" nullable="false"/>
+    <field name="start" type="datetime" column="Start" nullable="false"/>
+    <field name="end" type="datetime" column="End" nullable="false"/>
+    <field name="multiple" type="integer" column="Multiple" nullable="false"/>
+    <field name="owner" type="integer" column="Owner" nullable="false"/>
+    <field name="intern" type="integer" column="Intern" nullable="false"/>
+    <field name="secret" type="integer" column="Secret" nullable="false"/>
+    <field name="closed" type="integer" column="Closed" nullable="false"/>
+  </entity>
+</doctrine-mapping>

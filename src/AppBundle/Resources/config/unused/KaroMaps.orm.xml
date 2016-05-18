@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\KaroMaps" table="karo_maps">
+    <id name="mId" type="integer" column="M_ID">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="Name" length="255" nullable="false"/>
+    <field name="code" type="text" column="Code" length="65535" nullable="false"/>
+    <field name="author" type="string" column="Author" length="255" nullable="false"/>
+    <field name="comment" type="text" column="Comment" length="65535" nullable="false"/>
+    <field name="night" type="integer" column="Night" nullable="false"/>
+    <field name="record" type="integer" column="Record" nullable="false"/>
+    <field name="starties" type="integer" column="Starties" nullable="false"/>
+    <field name="nbCps" type="integer" column="nb_cps" nullable="false"/>
+    <field name="cpsList" type="string" column="cps_list" length="50" nullable="false"/>
+    <field name="cpsRec" type="integer" column="cps_rec" nullable="false"/>
+    <field name="active" type="integer" column="Active" nullable="false"/>
+    <field name="rating" type="float" column="rating" precision="10" scale="0" nullable="false"/>
+  </entity>
+</doctrine-mapping>
