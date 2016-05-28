@@ -467,7 +467,7 @@ class User implements UserInterface
     {
         return $this->id;
     }
-    
+
     public function getLogin()
     {
         return $this->login;
@@ -497,5 +497,43 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * number of days a user is signed up at karopapier
+     * @return integer
+     */
+    public function getNbDaysSignedUp()
+    {
+        #how many days since sign up 
+        $now = new \DateTime('now');
+        return $now->diff($this->signupdate)->days;
+    }
+
+    /**
+     * number of days a user is absent from karopapier
+     * @return integer
+     */
+    public function getNbDaysAbsent()
+    {
+        #how many days passed since last visit
+        $now = new \DateTime('now');
+        return $now->diff($this->reallastvisit)->days;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbDran()
+    {
+        return $this->nbDran;
     }
 }

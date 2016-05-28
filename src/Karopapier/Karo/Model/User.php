@@ -17,14 +17,14 @@ class User
 
     public function getName()
     {
-        return $this->Login;
+        return $this->login;
     }
 
     public function getLogin()
     {
-        return $this->Login;
+        return $this->login;
     }
-
+    
     public function hasRight($permission)
     {
         global $app;

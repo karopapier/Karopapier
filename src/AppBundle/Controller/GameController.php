@@ -16,7 +16,7 @@ class GameController extends Controller
     {
         // replace this example code with whatever you need
         return $this->render('game/show.html.twig', array(
-            "game"=>$game
+                "game" => $game
         ));
     }
 }
