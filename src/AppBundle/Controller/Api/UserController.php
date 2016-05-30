@@ -15,18 +15,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractApiController
 {
     /**
-     * @Route("/user/{id}", name="user_show")
+     * @Route("/user/{id}", name="user_show", requirements={"id": "\d+"})
      * @param User $user
      */
     public function showAction(User $user)
     {
-        return new JsonResponse(array(
-                "id" => $user->getId(),
-                "login" => $user->getLogin(),
-                "color" => $user->getColor(),
-                "lastVisit" => $user->getNbDaysAbsent(),
-                "signup" => $user->getNbDaysSignedUp(),
-                "dran" => $user->getNbDran()
-        ));
+        return new JsonResponse($user->toArray());
+    }
+
+    /**
+     * @Route("/user/{login}", name="user_show_slug")
+     * @param User $user
+     */
+    public function showSlugAction(User $user)
+    {
+        return new JsonResponse($user->toArray());
     }
 }

@@ -207,7 +207,7 @@ class User implements UserInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(name="Border", type="boolean", nullable=false)
+     * @ORM\Column(name="Border", type="integer", nullable=false)
      */
     private $border;
 
@@ -333,7 +333,7 @@ class User implements UserInterface
     /**
      * @var integer
      *
-     * @ORM\Column(name="isbot", type="integer", nullable=false)
+     * @ORM\Column(name="isbot", type="boolean", nullable=false)
      */
     private $isbot;
 
@@ -452,7 +452,7 @@ class User implements UserInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(name="use_sound", type="boolean", nullable=false)
+     * @ORM\Column(name="use_sound", type="integer", nullable=false)
      */
     private $useSound;
 
@@ -535,5 +535,84 @@ class User implements UserInterface
     public function getNbDran()
     {
         return $this->nbDran;
+    }
+
+    public function getNbGames()
+    {
+        return $this->nbGames;
+    }
+
+    /**
+     * spielegeil?
+     */
+    public function isDesperate()
+    {
+        return ($this->statusCode == 10);
+    }
+
+    /**
+     * Today birthday?
+     */
+    public function isBirthdayToday()
+    {
+        if ($b = $this->birthday->format("md")) {
+            if ($b == date('md', time())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Today karoday?
+     */
+    public function isKarodayToday()
+    {
+        if ($b = $this->signupdate->format("md")) {
+            if ($b == date('md', time())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function getSoundfile()
+    {
+        if ($this->notificationSound) {
+            return "/mp3/" . $this->notificationSound . ".mp3";
+        }
+        return false;
+    }
+
+    public function toArray()
+    {
+        return array(
+                "id" => $this->id,
+                "login" => $this->login,
+                "color" => $this->color,
+                "lastVisit" => $this->getNbDaysAbsent(),
+                "signup" => $this->getNbDaysSignedUp(),
+                "dran" => $this->nbDran,
+                "activeGames" => $this->nbGames,
+                "acceptsDayGames" => $this->tag,
+                "acceptsNightGames" => $this->nacht,
+                "maxGames" => $this->maxgames,
+                "sound" => $this->useSound,
+                "soundfile" => $this->getSoundfile(),
+                "size" => $this->size,
+                "border" => $this->border,
+                "desperate" => $this->isDesperate(),
+                "birthdayToday" => $this->isBirthdayToday(),
+                "karodayToday" => $this->isKarodayToday(),
+                "theme" => $this->theme,
+                "bot" => $this->isbot,
+        );
+
     }
 }
