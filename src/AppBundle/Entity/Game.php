@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Game
@@ -23,7 +24,7 @@ class Game
 
     /**
      * @var \AppBundle\Entity\User
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
@@ -43,6 +44,7 @@ class Game
      * @var string
      *
      * @ORM\Column(name="Name", type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -155,7 +157,28 @@ class Game
     {
         return $this->name;
     }
-    
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getZzz()
+    {
+        return $this->zzz;
+    }
+
+    /**
+     * @param int $zzz
+     */
+    public function setZzz($zzz)
+    {
+        $this->zzz = $zzz;
+    }
+
     public function getDranUser()
     {
         return $this->dranUser;
