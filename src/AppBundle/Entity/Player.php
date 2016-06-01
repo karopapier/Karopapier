@@ -36,7 +36,7 @@ class Player
     /**
      * @var Game
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="Game")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="players")
      * @ORM\JoinColumn(name="G_ID", referencedColumnName="G_ID")
      */
     private $game;

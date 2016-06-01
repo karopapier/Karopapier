@@ -31,25 +31,18 @@ class Game
     /**
      * @var \AppBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
-     * })
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      */
     private $dranUser;
 
 
     /**
      * @var \AppBundle\Entity\Player
-     *
-     * @ORM\ManyToMany(targetEntity="Player")
-     * @ORM\JoinTable(name="karo_teilnehmer",
-     *     joinColumns={@ORM\JoinColumn(name="G_ID", referencedColumnName="G_ID")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="G_ID", referencedColumnName="G_ID")}
-     * )
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="game")
      */
     private $players;
-    
+
     /**
      * @return Player
      */

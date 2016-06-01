@@ -17,4 +17,8 @@ services:
         tags:
           - { name: kernel.event_listener, event: security.authentication.success}
 
+    game_manager:
+      class: AppBundle\Services\GameManager
+      autowire: true
+
 

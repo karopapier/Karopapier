@@ -41,15 +41,8 @@ class GameController extends Controller
      */
     public function showAction(Request $request, Game $game)
     {
-        //load all relations in one query?!
-
-        /** @var EntityManager $em */
-        $em = $this->get("doctrine")->getManager();
-        $qb = $em->createQueryBuilder();
-
-        $query = $em->createQuery("SELECT g,pl FROM AppBundle\Entity\Game g JOIN g.players pl WHERE g.id = " . $game->getId());
-        $query->execute();
-
+        $gm = $this->get("game_manager");
+        $gm->load($game);
 
         // replace this example code with whatever you need
         return $this->render('game/show.html.twig', array(
