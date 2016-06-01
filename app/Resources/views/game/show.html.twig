@@ -3,4 +3,9 @@
 {% block body %}
     <h1>{{ game.name }}</h1>
     Dran: {{ game.dranUser.login }}
+    Spieler:
+    <ul></ul>
+    {% for p in game.players %}
+        <li>{{ p.user.name }} {{ p.status }} {{ p.finished }}</li>
+    {% endfor %}
 {% endblock %}

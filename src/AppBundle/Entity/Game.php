@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,6 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Game
 {
+    public function __construct()
+    {
+        $this->players = new ArrayCollection();
+    }
+
     /**
      * @var integer
      *
@@ -31,6 +37,26 @@ class Game
      * })
      */
     private $dranUser;
+
+
+    /**
+     * @var \AppBundle\Entity\Player
+     *
+     * @ORM\ManyToMany(targetEntity="Player")
+     * @ORM\JoinTable(name="karo_teilnehmer",
+     *     joinColumns={@ORM\JoinColumn(name="G_ID", referencedColumnName="G_ID")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="G_ID", referencedColumnName="G_ID")}
+     * )
+     */
+    private $players;
+    
+    /**
+     * @return Player
+     */
+    public function getPlayers()
+    {
+        return $this->players;
+    }
 
 
     /**
@@ -152,6 +178,14 @@ class Game
      * @ORM\Column(name="is_archived", type="boolean", nullable=false)
      */
     private $isArchived;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function getName()
     {

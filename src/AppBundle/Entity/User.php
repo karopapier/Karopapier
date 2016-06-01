@@ -468,6 +468,11 @@ class User implements UserInterface
         return $this->id;
     }
 
+    public function getName()
+    {
+        return $this->getLogin();
+    }
+    
     public function getLogin()
     {
         return $this->login;

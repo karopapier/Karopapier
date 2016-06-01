@@ -10,6 +10,7 @@ namespace AppBundle\Form;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class GameType extends AbstractType
@@ -18,14 +19,8 @@ class GameType extends AbstractType
     {
         $builder
                 ->add("name")
-                ->add("zzz", 'integer')
-                ->add("save", "submit")
+                ->add("zzz", 'Symfony\Component\Form\Extension\Core\Type\IntegerType')
+                ->add("save", 'Symfony\Component\Form\Extension\Core\Type\SubmitType')
         ;
-        
-    }
-    
-    public function getName()
-    {
-        return "app_game";
     }
 }

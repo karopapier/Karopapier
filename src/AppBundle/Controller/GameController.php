@@ -3,10 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\GameType;
+use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Game;
 
@@ -14,6 +14,7 @@ class GameController extends Controller
 {
     /**
      * @Route("/game/new", name="game_new")
+     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
@@ -21,7 +22,7 @@ class GameController extends Controller
         $game->setName("New Aera");
 
         // create a task and give it some dummy data for this example
-        $form = $this->createForm(new GameType(), $game);
+        $form = $this->createForm('AppBundle\Form\GameType', $game);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,6 +41,16 @@ class GameController extends Controller
      */
     public function showAction(Request $request, Game $game)
     {
+        //load all relations in one query?!
+
+        /** @var EntityManager $em */
+        $em = $this->get("doctrine")->getManager();
+        $qb = $em->createQueryBuilder();
+
+        $query = $em->createQuery("SELECT g,pl FROM AppBundle\Entity\Game g JOIN g.players pl WHERE g.id = " . $game->getId());
+        $query->execute();
+
+
         // replace this example code with whatever you need
         return $this->render('game/show.html.twig', array(
                 "game" => $game

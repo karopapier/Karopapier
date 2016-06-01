@@ -34,22 +34,48 @@ class Player
     private $finished;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="G_ID", type="integer")
+     * @var Game
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Game")
+     * @ORM\JoinColumn(name="G_ID", referencedColumnName="G_ID")
      */
-    private $gameId;
+    private $game;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="U_ID", type="integer")
+     * @var User
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      */
-    private $userId;
+    private $user;
 
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    
+    public function getFinished()
+    {
+        return $this->finished;
+        
+    }
 
+    /**
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
