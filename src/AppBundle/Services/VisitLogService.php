@@ -26,7 +26,12 @@ class VisitLogService
 
     public function onSecurityAuthenticationSuccess(AuthenticationEvent $e)
     {
-        $user = $e->getAuthenticationToken()->getUser();
+        $token = $e->getAuthenticationToken();
+        $user = $token->getUser();
+        
+        if ($user == "anon.") return;
+
+        //log the visit
         $this->logger->debug("Logging visit for " . $user->getLogin());
         //$query="insert into $visitstable (U_ID,visitdate) VALUES(\"$_SESSION[S_u_id]\",now())";
         $sql = "INSERT IGNORE INTO karo_visits (U_ID, visitdate) VALUES(:id, now())";

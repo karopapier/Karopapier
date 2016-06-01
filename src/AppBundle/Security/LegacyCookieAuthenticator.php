@@ -62,11 +62,13 @@ class LegacyCookieAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+        $this->logger->debug("Auth fail from cookie");
         // TODO: Implement onAuthenticationFailure() method.
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $this->logger->debug("Auth success from cookie");
         // TODO: Implement onAuthenticationSuccess() method.
     }
 
