@@ -13,7 +13,7 @@ use AppBundle\Entity\Game;
 class GameController extends Controller
 {
     /**
-     * @Route("/game/new", name="game_new")
+     * @Route("/game/newnew", name="game_new")
      * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
