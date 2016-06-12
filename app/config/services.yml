@@ -21,4 +21,8 @@ services:
       class: AppBundle\Services\GameManager
       autowire: true
 
+    game_logger:
+      class: AppBundle\Services\GameLogger
+      arguments: [%karoroot%/logs]
+
 

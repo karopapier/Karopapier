@@ -28,14 +28,14 @@ class UserController extends Controller
         $statement->execute();
         $results = $statement->fetchAll();
         $distance = 0;
-        if ((count($results))>0) {
+        if ((count($results)) > 0) {
             $distance = $results[0]["driven"];
         }
 
         // replace this example code with whatever you need
         return $this->render('user/show.html.twig', array(
                 "user" => $user,
-                "distance"=>$distance
+                "distance" => $distance
         ));
     }
 
