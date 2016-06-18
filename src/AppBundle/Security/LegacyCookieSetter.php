@@ -11,6 +11,7 @@ namespace AppBundle\Security;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -26,6 +27,14 @@ class LegacyCookieSetter
     public function __construct($host)
     {
         $this->host = $host;
+    }
+
+    public function getCookie($id, $password)
+    {
+        $year = 60 * 60 * 24 * 30 * 12;
+        $md5password = md5($password);
+        $karocoded = base64_encode($id . "|--|" . $md5password);
+        return new Cookie("KaroKeks", $karocoded, time() + $year, "", $this->host, 0);
     }
 
     public function setCookie($id, $password)

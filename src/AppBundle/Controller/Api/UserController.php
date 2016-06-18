@@ -9,10 +9,11 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class UserController extends AbstractApiController
 {
@@ -26,20 +27,13 @@ class UserController extends AbstractApiController
     }
 
     /**
-     * @Route("/user/{login}", name="api_user_show_slug")
-     * @param User $user
-     */
-    public function showSlugAction(User $user)
-    {
-        return new JsonResponse($user->toArray());
-    }
-
-    /**
-     * @Route("/user/login", name="api_user_login")
+     * @Route("/login", name="api_user_login")
      * @Method("POST")
      */
-    public function loginAction($username, $password)
+    public function loginAction(Request $request)
     {
+        $login = "";
+        $password = "";
         $json = $request->getContent();
         $obj = json_decode($json, true);
         if (isset($obj["login"]) && isset($obj["password"])) {
@@ -48,5 +42,31 @@ class UserController extends AbstractApiController
         } else {
             throw new AccessDeniedHttpException();
         }
+
+        $em = $this->get("doctrine.orm.default_entity_manager");
+        $user = $em->getRepository('AppBundle:User')->findOneBy(array(
+                "login" => $login
+        ));
+        if (!$user) {
+            throw new AccessDeniedHttpException();
+        }
+
+        if ($password != $user->getPassword()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $json = new JsonResponse($user->toArray());
+        $json->headers->setCookie($this->get("legacy_cookie_setter")->getCookie($user->getId(), $password));
+        return $json;
     }
+
+    /**
+     * @Route("/user/{login}", name="api_user_show_slug")
+     * @param User $user
+     */
+    public function showSlugAction(User $user)
+    {
+        return new JsonResponse($user->toArray());
+    }
+
 }
