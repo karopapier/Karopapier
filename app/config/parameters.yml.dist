@@ -17,4 +17,5 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    host: www.karopapier.de
     karoroot: /var/wwwroot/karo/karopapier.de/httpdocs

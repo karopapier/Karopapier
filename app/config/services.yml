@@ -11,6 +11,10 @@ services:
         class: AppBundle\Security\LegacyCookieAuthenticator
         autowire: true
 
+    legacy_cookie_setter:
+        class: AppBundle\Security\LegacyCookieSetter
+        arguments: [%host%]
+
     legacy_route_loader:
         class: AppBundle\Services\LegacyRouteLoader
         arguments: [%karoroot%]
