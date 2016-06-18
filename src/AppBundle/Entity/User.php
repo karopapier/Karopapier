@@ -472,7 +472,7 @@ class User implements UserInterface
     {
         return $this->getLogin();
     }
-    
+
     public function getLogin()
     {
         return $this->login;
@@ -621,8 +621,41 @@ class User implements UserInterface
 
     }
 
-public function __toString()
-{
-	return $this->login;
-}
+    public function touch()
+    {
+        $this->currentvisit = new \DateTime('now');
+        $this->active = true;
+    }
+
+    public function visitUpdate($userAgent)
+    {
+        $this->warned = false;
+        $this->lastvisit = $this->currentvisit;
+        $this->reallastvisit = $this->currentvisit;
+        $this->browser = $userAgent;
+    }
+
+    public function __toString()
+    {
+        return $this->login;
+    }
+
+    public function asLegacySessionArray()
+    {
+        return array(
+                "login" => $this->login,
+                "u_id" => $this->id,
+                "vorname" => $this->vorname,
+                "nachname" => $this->nachname,
+                "size" => $this->size,
+                "border" => $this->border,
+                "view" => $this->view,
+                "GamesPerPage" => $this->gamesperpage,
+                "games_order" => $this->gamesOrder,
+                "faulpelz" => $this->faulpelz,
+                "move_autoforward" => $this->moveAutoforward,
+                "economode" => $this->economode,
+                "draw_limit" => $this->drawLimit
+        );
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,12 +13,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Player
 {
-    /**
+    public function __construct()
+    {
+        $this->moves = new ArrayCollection();
+    }
+
+    /*
      * @var integer
      *
      * @ORM\Column(name="status", type="integer", nullable=false)
      */
     private $status;
+
+
+    /**
+     * var \AppBundle\Entity\Move
+     * @ORM\OneToMany(targetEntity="Move", mappedBy="player")
+     * @ORM\OrderBy({"date" = "ASC"})
+     */
+    private $moves;
+
 
     /**
      * @var boolean
@@ -56,11 +71,11 @@ class Player
     {
         return $this->status;
     }
-    
+
     public function getFinished()
     {
         return $this->finished;
-        
+
     }
 
     /**
@@ -78,4 +93,24 @@ class Player
     {
         return $this->user;
     }
+
+    public function __toString()
+    {
+        return $this->user->getLogin();
+    }
+
+    public function getMoves()
+    {
+        return $this->moves;
+    }
+
+    /**
+     * @return Move
+     */
+    public function getLastMove()
+    {
+        return $this->moves->last();
+    }
+
+
 }

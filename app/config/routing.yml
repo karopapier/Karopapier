@@ -8,3 +8,6 @@ api:
     prefix:   "/api/"
 
 
+legacy:
+    resource: .
+    type: phpfiles

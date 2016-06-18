@@ -68,11 +68,12 @@ class Game
     private $name;
 
     /**
-     * @var integer
+     * @var \AppBundle\Entity\Map
      *
-     * @ORM\Column(name="M_ID", type="integer", nullable=false)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Map")
+     * @ORM\JoinColumn(name="M_ID", referencedColumnName="M_ID", nullable=false)
      */
-    private $mapId;
+    private $map;
 
     /**
      * @var boolean
@@ -209,6 +210,11 @@ class Game
     public function getDranUser()
     {
         return $this->dranUser;
+    }
+
+    public function getMap()
+    {
+        return $this->map;
     }
 
 }

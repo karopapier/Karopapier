@@ -28,4 +28,11 @@ class GameManager
         $query = $this->em->createQuery('SELECT g, p, u FROM AppBundle\Entity\Game g JOIN g.players p  JOIN p.user u WHERE g.id = :gid')->setParameter('gid', $game->getId());
         $query->execute();
     }
+
+    public function loadWithMoves(Game $game)
+    {
+        //load all relations in one query?!
+        $query = $this->em->createQuery('SELECT g, p, u,m FROM AppBundle\Entity\Game g JOIN g.players p  JOIN p.user u JOIN p.moves m WHERE g.id = :gid')->setParameter('gid', $game->getId());
+        $query->execute();
+    }
 }

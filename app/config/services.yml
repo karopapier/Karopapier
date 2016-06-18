@@ -11,6 +11,12 @@ services:
         class: AppBundle\Security\LegacyCookieAuthenticator
         autowire: true
 
+    legacy_route_loader:
+        class: AppBundle\Services\LegacyRouteLoader
+        arguments: [%karoroot%]
+        tags:
+          - { name: routing.loader }
+
     visit_log:
         class: AppBundle\Services\VisitLogService
         autowire: true
@@ -24,5 +30,6 @@ services:
     game_logger:
       class: AppBundle\Services\GameLogger
       arguments: [%karoroot%/logs]
+
 
 
