@@ -33,7 +33,6 @@ class LegacyCookieSetter
         $year = 60 * 60 * 24 * 30 * 12;
         $md5password = md5($password);
         $karocoded = base64_encode($id . "|--|" . $md5password);
-        var_dump($this->host);
         setcookie("KaroKeks", "$karocoded", time() + $year, "", $this->host, 0);
         return true;
     }
