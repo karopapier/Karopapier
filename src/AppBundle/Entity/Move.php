@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Model\Motion;
+use AppBundle\Model\Position;
 
 /**
  * Move
