@@ -36,4 +36,10 @@ services:
       arguments: [%karoroot%/logs]
 
 
+    usermap_voter:
+        class: AppBundle\Security\UserMapVoter
+        arguments: ['@security.access.decision_manager']
+        public: false
+        tags:
+               - { name: security.voter }
 

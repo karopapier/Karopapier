@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>UserMap list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Mapcode</th>
+                <th>Comment</th>
+                <th>Used</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for userMap in userMaps %}
+                <tr>
+                    <td><a href="{{ path('usermap_show', { 'id': userMap.id }) }}">{{ userMap.name }}</a></td>
+                    <td>{{ userMap.mapcode }}</td>
+                    <td>{{ userMap.comment }}</td>
+                    <td>{% if userMap.used %}Yes{% else %}No{% endif %}</td>
+                    <td>{{ userMap.id }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('usermap_show', { 'id': userMap.id }) }}">show</a>
+                            </li>
+                            {% if app.user == userMap.creator or is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('usermap_edit', { 'id': userMap.id }) }}">edit</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('usermap_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
