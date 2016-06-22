@@ -51,6 +51,7 @@ class LegacyRouteLoader extends Loader
     {
         $finder = new Finder();
         $finder->files()->name('*.php');
+        $finder->depth('== 0');
         $collection = new RouteCollection();
         /** @var SplFileInfo $file */
         foreach ($finder->in($this->webRoot) as $file) {
