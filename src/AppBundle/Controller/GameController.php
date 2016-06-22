@@ -37,7 +37,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/game/{id}", requirements={"\d+"}, name="game_show")
+     * @Route("/game/{id}", requirements={"id" = "\d+"}, name="game_show")
      */
     public function showAction(Request $request, Game $game)
     {
