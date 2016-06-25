@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\BaseMap;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="karo_maps")
  * @ORM\Entity
  */
-class Map
+class Map extends BaseMap
 {
     /**
      * @var string
@@ -108,6 +109,41 @@ class Map
     public function getId()
     {
         return $this->id;
+    }
 
+    public function setMapcode($mapcode)
+    {
+        $this->code = $mapcode;
+    }
+
+    public function getCode()
+    {
+        return str_replace("\r", "", $this->code);
+    }
+
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    public function getCpArray()
+    {
+        return json_decode($this->cpsList);
+    }
+
+    public function toArray()
+    {
+        $m = array(
+                "id" => $this->id,
+                "name" => $this->name,
+                "author" => $this->author,
+                "cols" => $this->getNbCols(),
+                "rows" => $this->getNbRows(),
+                "rating" => $this->getRating(),
+                "players" => $this->starties,
+                "mapcode" => $this->getCode(),
+                "cps" => $this->getCpArray()
+        );
+        return $m;
     }
 }

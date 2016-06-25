@@ -27,22 +27,18 @@ class Mapvote
     private $comment;
 
     /**
-     * @var integer
+     * @var \AppBundle\Entity\User
      *
-     * @ORM\Column(name="U_ID", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      */
-    private $uId;
+    private $user;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="M_ID", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @var Map
+     * @ORM\ManyToOne(targetEntity="Map", inversedBy="votes")
+     * @ORM\JoinColumn(name="M_ID", referencedColumnName="M_ID")
      */
-    private $mId;
-
+    private $game;
 
 }

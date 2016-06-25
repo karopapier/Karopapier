@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\BaseMap;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="karo_user_map")
  * @ORM\Entity
  */
-class UserMap
+class UserMap extends BaseMap
 {
     /**
      * @var string
@@ -23,9 +24,9 @@ class UserMap
      * @var \AppBundle\Entity\User
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
-     * @ORM\JoinColumn(name="creator_id", referencedColumnName="U_ID")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="U_ID")
      */
-    private $creator;
+    private $author;
 
     /**
      * @var string
@@ -131,9 +132,9 @@ class UserMap
     /**
      * @return User
      */
-    public function getCreator()
+    public function getAuthor()
     {
-        return $this->creator;
+        return $this->author;
     }
 
     /**
@@ -143,6 +144,6 @@ class UserMap
     {
         $this->archived = $archived;
     }
-    
+
 
 }
