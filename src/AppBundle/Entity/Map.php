@@ -139,7 +139,7 @@ class Map extends BaseMap
                 "author" => $this->author,
                 "cols" => $this->getNbCols(),
                 "rows" => $this->getNbRows(),
-                "rating" => $this->getRating(),
+                "rating" => $this->rating,
                 "players" => $this->starties,
                 "mapcode" => $this->getCode(),
                 "cps" => $this->getCpArray()

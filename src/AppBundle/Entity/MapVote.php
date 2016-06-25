@@ -29,6 +29,7 @@ class Mapvote
     /**
      * @var \AppBundle\Entity\User
      *
+     * @ORM\Id
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      */
@@ -36,9 +37,10 @@ class Mapvote
 
     /**
      * @var Map
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Map", inversedBy="votes")
      * @ORM\JoinColumn(name="M_ID", referencedColumnName="M_ID")
      */
-    private $game;
+    private $map;
 
 }

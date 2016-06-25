@@ -23,7 +23,7 @@ class UserMap extends BaseMap
     /**
      * @var \AppBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="U_ID")
      */
     private $author;
@@ -59,11 +59,44 @@ class UserMap extends BaseMap
     /**
      * @var integer
      *
+     * @ORM\Column(name="Starties", type="integer", nullable=false)
+     */
+    private $starties;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_cps", type="integer", nullable=false)
+     */
+    private $nbCps;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cps_list", type="string", length=50, nullable=false)
+     */
+    private $cpsList;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="rating", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $rating;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    public function __construct()
+    {
+        $this->rating = 0;
+    }
 
     /**
      * @return string
@@ -95,6 +128,19 @@ class UserMap extends BaseMap
     public function setMapcode($mapcode)
     {
         $this->mapcode = $mapcode;
+        //unique list of chars
+        $chars = count_chars($mapcode, 3);
+        //only ints
+        $ints = preg_replace('/[^0-9]+/', '', $chars);
+        //split and sort them
+        $cps = array();
+        if ($ints != "") {
+            $cps = str_split($ints);
+        }
+        sort($cps);
+        $this->cpsList = json_encode($cps);
+        $this->nbCps = count($cps);
+        $this->starties = substr_count($mapcode, "S");
     }
 
     /**
@@ -145,5 +191,40 @@ class UserMap extends BaseMap
         $this->archived = $archived;
     }
 
+    public function getCode()
+    {
+        return str_replace("\r", "", $this->mapcode);
+    }
 
+    public function getCpArray()
+    {
+        if (!$this->cpsList) return array();
+        return json_decode($this->cpsList);
+    }
+
+    public function getAuthorName()
+    {
+        return $this->author->getUsername();
+    }
+
+    public function toArray()
+    {
+        $m = array(
+                "id" => $this->id,
+                "name" => $this->name,
+                "author" => $this->getAuthorName(),
+                "cols" => $this->getNbCols(),
+                "rows" => $this->getNbRows(),
+                "rating" => $this->rating,
+                "players" => $this->starties,
+                "mapcode" => $this->getCode(),
+                "cps" => $this->getCpArray()
+        );
+        return $m;
+    }
+
+    public function setAuthor(User $user)
+    {
+        $this->author = $user;
+    }
 }

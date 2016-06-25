@@ -11,13 +11,6 @@ namespace AppBundle\Model;
 
 abstract class BaseMap
 {
-    private $code;
-
-    public function getCode()
-    {
-        return str_replace("\r", "", $this->code);
-    }
-
     public function getNbCols()
     {
         $matrix = $this->getMatrix();
@@ -45,4 +38,5 @@ abstract class BaseMap
         $this->matrix = $matrix;
         return $matrix;
     }
+
 }

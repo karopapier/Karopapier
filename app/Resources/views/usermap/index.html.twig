@@ -27,10 +27,10 @@
                             <li>
                                 <a href="{{ path('usermap_show', { 'id': userMap.id }) }}">show</a>
                             </li>
-                            {% if app.user == userMap.creator or is_granted('ROLE_ADMIN') %}
-                            <li>
-                                <a href="{{ path('usermap_edit', { 'id': userMap.id }) }}">edit</a>
-                            </li>
+                            {% if app.user == userMap.author or is_granted('ROLE_ADMIN') %}
+                                <li>
+                                    <a href="{{ path('usermap_edit', { 'id': userMap.id }) }}">edit</a>
+                                </li>
                             {% endif %}
                         </ul>
                     </td>
