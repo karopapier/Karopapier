@@ -210,7 +210,7 @@ class UserMap extends BaseMap
     public function toArray()
     {
         $m = array(
-                "id" => $this->id,
+                "id" => "u" . $this->id,
                 "name" => $this->name,
                 "author" => $this->getAuthorName(),
                 "cols" => $this->getNbCols(),
