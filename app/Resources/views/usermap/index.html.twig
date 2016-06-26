@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block headjavascripts %}
+    <script src="/js/MapPreview.js"></script>
+{% endblock %}
+
+
 {% block body %}
     <h1>UserMap list</h1>
 
@@ -18,7 +23,17 @@
             {% for userMap in userMaps %}
                 <tr>
                     <td><a href="{{ path('usermap_show', { 'id': userMap.id }) }}">{{ userMap.name }}</a></td>
-                    <td>{{ userMap.mapcode }}</td>
+                    <td>
+                        <canvas id="preview{{ userMap.id }}"/>
+                        <script type="text/javascript">
+                            var mpv{{ userMap.id }}= new MapPreview({
+                                el: "#preview{{ userMap.id }}",
+                                size: 1,
+                                border: 0
+                            });
+                            mpv{{ userMap.id }}.setMapcode("{{ userMap.mapcode|replace({"\r":"", "\n":"\\n"}) }}");
+                        </script>
+                    </td>
                     <td>{{ userMap.comment }}</td>
                     <td>{% if userMap.used %}Yes{% else %}No{% endif %}</td>
                     <td>{{ userMap.id }}</td>
