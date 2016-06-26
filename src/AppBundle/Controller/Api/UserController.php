@@ -57,6 +57,7 @@ class UserController extends AbstractApiController
 
         $json = new JsonResponse($user->toArray());
         $json->headers->setCookie($this->get("legacy_cookie_setter")->getCookie($user->getId(), $password));
+        $json->setCallback($request->get("callback"));
         return $json;
     }
 
@@ -64,9 +65,11 @@ class UserController extends AbstractApiController
      * @Route("/user/{login}", name="api_user_show_slug")
      * @param User $user
      */
-    public function showSlugAction(User $user)
+    public function showSlugAction(Request $request, User $user)
     {
-        return new JsonResponse($user->toArray());
+        $json = new JsonResponse($user->toArray());
+        $json->setCallback($request->get("callback"));
+        return $json;
     }
 
 }

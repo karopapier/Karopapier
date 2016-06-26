@@ -22,17 +22,21 @@ class MapController extends AbstractApiController
      * @Route("/map/{id}", name="api_map_show", requirements={"id": "\d+"})
      * @param Map $map
      */
-    public function showAction(Map $map)
+    public function showAction(Request $request, Map $map)
     {
-        return new JsonResponse($map->toArray());
+        $response = new JsonResponse($map->toArray());
+        $response->setCallback($request->get("callback"));
+        return $response;
     }
 
     /**
      * @Route("/map/u{id}", name="api_usermap_show", requirements={"id": "\d+"})
      * @param UserMap $map
      */
-    public function showCustomAction(UserMap $map)
+    public function showCustomAction(Request $request, UserMap $map)
     {
-        return new JsonResponse($map->toArray());
+        $response = new JsonResponse($map->toArray());
+        $response->setCallback($request->get("callback"));
+        return $response;
     }
 }
