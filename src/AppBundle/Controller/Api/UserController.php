@@ -21,9 +21,11 @@ class UserController extends AbstractApiController
      * @Route("/user/{id}", name="api_user_show", requirements={"id": "\d+"})
      * @param User $user
      */
-    public function showAction(User $user)
+    public function showAction(Request $request, User $user)
     {
-        return new JsonResponse($user->toArray());
+        $json = new JsonResponse($user->toArray());
+        $json->setCallback($request->get("callback"));
+        return $json;
     }
 
     /**
