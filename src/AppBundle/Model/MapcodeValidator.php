@@ -24,6 +24,20 @@ class MapcodeValidator
 
     public function validate()
     {
+        //caps lock
+        //dimensionen <40x40
+        //S
+        //F
+        //Rand
+        //parc
+        
+        //Linien gleich lang
+        //keine unbekannten Zeichen
+
+        //run accessible
+        //accessible onOf("F");
+        //each CP accessible onOf(cp)
+
         return true;
     }
 }

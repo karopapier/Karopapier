@@ -11,6 +11,11 @@ namespace AppBundle\Model;
 
 abstract class BaseMap
 {
+    private $fields = array(
+        "X" => "gras",
+        "O" => "road"
+    );
+
     public function getNbCols()
     {
         $matrix = $this->getMatrix();
