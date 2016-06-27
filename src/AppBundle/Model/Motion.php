@@ -36,7 +36,7 @@ class Motion
         $this->pos = clone $this->pos;
         $this->vec = clone $this->vec;
     }
-
+    
     /**
      * @return Position
      */

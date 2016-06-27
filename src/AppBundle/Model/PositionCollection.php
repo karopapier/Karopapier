@@ -1,9 +1,7 @@
 <?php
 namespace AppBundle\Model;
 
-use Doctrine\DBAL\Driver\PingableConnection;
-
-class PositionCollection implements iterator, arrayaccess, countable
+class PositionCollection
 {
     private $positions = array();
 
@@ -108,8 +106,8 @@ class PositionCollection implements iterator, arrayaccess, countable
         $positions = array();
         foreach ($this->positions as $pos) {
             $positions[] = array(
-                    'x' => $pos->getX(),
-                    'y' => $pos->getY()
+                'x' => $pos->getX(),
+                'y' => $pos->getY()
             );
         }
         return $positions;
