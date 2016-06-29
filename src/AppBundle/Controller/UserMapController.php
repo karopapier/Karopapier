@@ -87,6 +87,9 @@ class UserMapController extends Controller
      */
     public function editAction(Request $request, UserMap $userMap)
     {
+        if ($userMap->isUsed()) {
+            return $this->redirectToRoute('usermap_show', array('id' => $userMap->getId()));
+        }
         $deleteForm = $this->createDeleteForm($userMap);
         $editForm = $this->createForm('AppBundle\Form\UserMapType', $userMap);
         $editForm->handleRequest($request);

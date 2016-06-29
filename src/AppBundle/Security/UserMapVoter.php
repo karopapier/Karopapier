@@ -55,7 +55,7 @@ class UserMapVoter extends Voter
             return true;
         }
 
-        $creator = $userMap->getCreator();
+        $creator = $userMap->getAuthor();
         if (!$creator) return false;
 
         if ($user->getId() === $creator->getId()) {

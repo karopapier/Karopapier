@@ -4,10 +4,13 @@ namespace AppBundle\Entity;
 
 use AppBundle\Model\BaseMap;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Validator\Constraints\Mapcode as Mapcode;
 
 /**
  * UserMap
  *
+ * @Assert\GroupSequence({"UserMap", "Analysis"})
  * @ORM\Table(name="karo_user_map")
  * @ORM\Entity
  */
@@ -31,6 +34,14 @@ class UserMap extends BaseMap
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
+     * @Assert\Regex(pattern="/S/",message="Braucht ein Startfeld S")
+     * @Assert\Regex(pattern="/F/",message="Braucht ein Zielfeld F")
+     * @Mapcode\LinesEqualLength()
+     * @Mapcode\HasBorder(groups={"Analysis"})    //only do this when all simple checks pass
+     * @Mapcode\Finishable(groups={"Analysis"})    //only do this when all simple checks pass
+     *
      * @ORM\Column(name="mapcode", type="text", length=65535, nullable=false)
      */
     private $mapcode;
@@ -45,14 +56,14 @@ class UserMap extends BaseMap
     /**
      * @var boolean
      *
-     * @ORM\Column(name="used", type="boolean", nullable=true, options={"default":false})
+     * @ORM\Column(name="used", type="boolean", nullable=false, options={"default":false})
      */
     private $used;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="archived", type="boolean", nullable=true, options={"default":false})
+     * @ORM\Column(name="archived", type="boolean", nullable=false, options={"default":false})
      */
     private $archived;
 
@@ -96,6 +107,7 @@ class UserMap extends BaseMap
     public function __construct()
     {
         $this->rating = 0;
+        $this->used = false;
     }
 
     /**

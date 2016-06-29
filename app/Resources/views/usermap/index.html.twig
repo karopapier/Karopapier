@@ -11,17 +11,19 @@
     <table>
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Name</th>
                 <th>Mapcode</th>
                 <th>Comment</th>
                 <th>Used</th>
-                <th>Id</th>
+                <th>Author</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for userMap in userMaps %}
                 <tr>
+                    <td>{{ userMap.id }}</td>
                     <td><a href="{{ path('usermap_show', { 'id': userMap.id }) }}">{{ userMap.name }}</a></td>
                     <td>
                         <canvas id="preview{{ userMap.id }}"/>
@@ -36,16 +38,18 @@
                     </td>
                     <td>{{ userMap.comment }}</td>
                     <td>{% if userMap.used %}Yes{% else %}No{% endif %}</td>
-                    <td>{{ userMap.id }}</td>
+                    <td>{{ userMap.author }}</td>
                     <td>
                         <ul>
                             <li>
                                 <a href="{{ path('usermap_show', { 'id': userMap.id }) }}">show</a>
                             </li>
-                            {% if app.user == userMap.author or is_granted('ROLE_ADMIN') %}
-                                <li>
-                                    <a href="{{ path('usermap_edit', { 'id': userMap.id }) }}">edit</a>
-                                </li>
+                            {% if not userMap.used %}
+                                {% if app.user == userMap.author or is_granted('ROLE_ADMIN') %}
+                                    <li>
+                                        <a href="{{ path('usermap_edit', { 'id': userMap.id }) }}">edit</a>
+                                    </li>
+                                {% endif %}
                             {% endif %}
                         </ul>
                     </td>

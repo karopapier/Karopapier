@@ -6,15 +6,11 @@
  * Time: 00:38
  */
 
-namespace AppBundle\Model;
-
-
-use AppBundle\Entity\Map;
+namespace AppBundle\Validator;
 
 class MapcodeValidator
 {
     private $mapcode;
-    private $map;
 
     public function __construct($mapcode)
     {
@@ -30,8 +26,7 @@ class MapcodeValidator
         //F
         //Rand
         //parc
-        
-        //Linien gleich lang
+
         //keine unbekannten Zeichen
 
         //run accessible
