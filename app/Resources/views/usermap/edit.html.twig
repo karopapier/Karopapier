@@ -4,17 +4,17 @@
     <h1>UserMap edit</h1>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+    {{ form_widget(edit_form) }}
+    <input type="submit" value="Ändern"/>
     {{ form_end(edit_form) }}
 
     <ul>
         <li>
-            <a href="{{ path('usermap_index') }}">Back to the list</a>
+            <a href="{{ path('usermap_index') }}">Zurück zur Liste</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Löschen">
             {{ form_end(delete_form) }}
         </li>
     </ul>

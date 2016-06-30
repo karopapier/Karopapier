@@ -13,11 +13,11 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Mapcode</th>
-                <th>Comment</th>
-                <th>Used</th>
-                <th>Author</th>
-                <th>Actions</th>
+                <th>Karte</th>
+                <th>Kommentar</th>
+                <th>Bespielt?</th>
+                <th>Ersteller</th>
+                <th>Was machen?</th>
             </tr>
         </thead>
         <tbody>
@@ -42,12 +42,12 @@
                     <td>
                         <ul>
                             <li>
-                                <a href="{{ path('usermap_show', { 'id': userMap.id }) }}">show</a>
+                                <a href="{{ path('usermap_show', { 'id': userMap.id }) }}">Anzeigen</a>
                             </li>
                             {% if not userMap.used %}
                                 {% if app.user == userMap.author or is_granted('ROLE_ADMIN') %}
                                     <li>
-                                        <a href="{{ path('usermap_edit', { 'id': userMap.id }) }}">edit</a>
+                                        <a href="{{ path('usermap_edit', { 'id': userMap.id }) }}">Ändern</a>
                                     </li>
                                 {% endif %}
                             {% endif %}
@@ -60,7 +60,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('usermap_new') }}">Create a new entry</a>
+            <a href="{{ path('usermap_new') }}">Neue Karte anlegen</a>
         </li>
     </ul>
 {% endblock %}
