@@ -7,7 +7,6 @@ api:
     type:     annotation
     prefix:   "/api/"
 
-
 legacy:
     resource: .
     type: phpfiles
