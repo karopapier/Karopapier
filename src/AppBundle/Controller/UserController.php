@@ -2,12 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\User;
 
 class UserController extends Controller
 {
@@ -34,9 +33,25 @@ class UserController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('user/show.html.twig', array(
-                "user" => $user,
-                "distance" => $distance
+            "user" => $user,
+            "distance" => $distance
         ));
+    }
+
+    /**
+     * #@Route("/users.php")
+     * @Route("/users")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function listAction(Request $request)
+    {
+        $um = $this->get('doctrine')->getRepository('AppBundle:User');
+        $users = $um->findAll();
+
+        return $this->render('user/list.html.twig', array(
+            "users" => $users,
+        ));
+
     }
 
 }
