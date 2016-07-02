@@ -40,7 +40,7 @@ class UserController extends Controller
 
     /**
      * #@Route("/users.php")
-     * @Route("/users")
+     * @Route("/user/")
      * @Security("has_role('ROLE_USER')")
      */
     public function listAction(Request $request)

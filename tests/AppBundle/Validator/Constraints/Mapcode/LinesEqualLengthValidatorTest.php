@@ -1,10 +1,9 @@
 <?php
 
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints\Length;
-use  Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 use AppBundle\Validator\Constraints\Mapcode\LinesEqualLength;
 use AppBundle\Validator\Constraints\Mapcode\LinesEqualLengthValidator;
+use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
+
 
 /**
  * Created by PhpStorm.
@@ -26,8 +25,8 @@ class LinesEqualLengthValidatorTest extends AbstractConstraintValidatorTest
         $mapcode = "XXXXXX\nXXXX";
         $this->validator->validate($mapcode, new LinesEqualLength());
         $this->buildViolation("Alle Zeilen müssen gleich lang sein")
-                ->setParameter('%string%', $mapcode)
-                ->assertRaised();
+            ->setParameter('%string%', $mapcode)
+            ->assertRaised();
     }
 
 }
