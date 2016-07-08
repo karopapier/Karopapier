@@ -3,9 +3,9 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Model\BaseMap;
+use AppBundle\Validator\Constraints\Mapcode as Mapcode;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use AppBundle\Validator\Constraints\Mapcode as Mapcode;
 
 /**
  * UserMap

@@ -32,3 +32,5 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+liip_functional_test: ~

@@ -14,3 +14,14 @@ web_profiler:
 
 #swiftmailer:
     #disable_delivery: true
+
+
+doctrine:
+    dbal:
+        driver:     pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   karo_test
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:    UTF8

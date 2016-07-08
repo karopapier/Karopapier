@@ -25,8 +25,9 @@ class LinesEqualLengthValidatorTest extends AbstractConstraintValidatorTest
         $mapcode = "XXXXXX\nXXXX";
         $this->validator->validate($mapcode, new LinesEqualLength());
         $this->buildViolation("Alle Zeilen müssen gleich lang sein")
-            ->setParameter('%string%', $mapcode)
-            ->assertRaised();
+                ->setParameter('%string%', $mapcode)
+                ->assertRaised();
+        return true;
     }
 
 }

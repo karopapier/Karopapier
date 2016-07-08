@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * User
@@ -46,21 +47,21 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="Vorname", type="string", length=255, nullable=false)
+     * @ORM\Column(name="Vorname", type="string", length=255, nullable=true)
      */
-    private $vorname;
+    private $vorname = "";
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Nachname", type="string", length=255, nullable=false)
+     * @ORM\Column(name="Nachname", type="string", length=255, nullable=true)
      */
-    private $nachname;
+    private $nachname = "";
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Email", type="string", length=50, nullable=true)
+     * @ORM\Column(name="Email", type="string", length=50, nullable=false)
      */
     private $email;
 
@@ -74,119 +75,119 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="ICQ", type="string", length=255, nullable=false)
+     * @ORM\Column(name="ICQ", type="string", length=255, nullable=true)
      */
     private $icq;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="AIM", type="string", length=255, nullable=false)
+     * @ORM\Column(name="AIM", type="string", length=255, nullable=true)
      */
     private $aim;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="MSN", type="string", length=255, nullable=false)
+     * @ORM\Column(name="MSN", type="string", length=255, nullable=true)
      */
     private $msn;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Jabber", type="string", length=255, nullable=false)
+     * @ORM\Column(name="Jabber", type="string", length=255, nullable=true)
      */
     private $jabber;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="twitter", type="string", length=255, nullable=false)
+     * @ORM\Column(name="twitter", type="string", length=255, nullable=true)
      */
     private $twitter;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="xing", type="string", length=255, nullable=false)
+     * @ORM\Column(name="xing", type="string", length=255, nullable=true)
      */
     private $xing;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="linkedin", type="string", length=255, nullable=false)
+     * @ORM\Column(name="linkedin", type="string", length=255, nullable=true)
      */
     private $linkedin;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="facebook", type="string", length=255, nullable=false)
+     * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
      */
     private $facebook;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="myspace", type="string", length=255, nullable=false)
+     * @ORM\Column(name="myspace", type="string", length=255, nullable=true)
      */
     private $myspace;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Picture", type="string", length=255, nullable=false)
+     * @ORM\Column(name="Picture", type="string", length=255, nullable=true)
      */
     private $picture;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="short_info", type="string", length=255, nullable=false)
+     * @ORM\Column(name="short_info", type="string", length=255, nullable=true)
      */
     private $shortInfo;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="lastvisit", type="datetime", nullable=false)
+     * @ORM\Column(name="lastvisit", type="datetime", nullable=true)
      */
     private $lastvisit;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="reallastvisit", type="datetime", nullable=false)
+     * @ORM\Column(name="reallastvisit", type="datetime", nullable=true)
      */
     private $reallastvisit;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="currentvisit", type="datetime", nullable=false)
+     * @ORM\Column(name="currentvisit", type="datetime", nullable=true)
      */
     private $currentvisit;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="chatvisit", type="datetime", nullable=false)
+     * @ORM\Column(name="chatvisit", type="datetime", nullable=true)
      */
     private $chatvisit;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="lastmailsent", type="datetime", nullable=false)
+     * @ORM\Column(name="lastmailsent", type="datetime", nullable=true)
      */
     private $lastmailsent;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Browser", type="string", length=255, nullable=false)
+     * @ORM\Column(name="Browser", type="string", length=255, nullable=true)
      */
     private $browser;
 
@@ -195,105 +196,105 @@ class User implements UserInterface
      *
      * @ORM\Column(name="Color", type="string", length=6, nullable=false)
      */
-    private $color;
+    private $color = 'ff0000';
 
     /**
      * @var integer
      *
      * @ORM\Column(name="Size", type="integer", nullable=false)
      */
-    private $size;
+    private $size = 12;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="Border", type="integer", nullable=false)
      */
-    private $border;
+    private $border = 1;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="View", type="integer", nullable=false)
      */
-    private $view;
+    private $view = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="draw_limit", type="integer", nullable=false)
      */
-    private $drawLimit;
+    private $drawLimit = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="GamesPerPage", type="integer", nullable=false)
      */
-    private $gamesperpage;
+    private $gamesperpage = 25;
 
     /**
      * @var string
      *
      * @ORM\Column(name="games_order", type="string", length=255, nullable=false)
      */
-    private $gamesOrder;
+    private $gamesOrder = "name";
 
     /**
      * @var string
      *
      * @ORM\Column(name="theme", type="string", length=50, nullable=false)
      */
-    private $theme;
+    private $theme = "karo1";
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="Active", type="boolean", nullable=false)
      */
-    private $active;
+    private $active = false;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="Invited", type="integer", nullable=false)
      */
-    private $invited;
+    private $invited = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="invited2", type="integer", nullable=false)
      */
-    private $invited2;
+    private $invited2 = 0;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="Sendmail", type="boolean", nullable=false)
      */
-    private $sendmail;
+    private $sendmail = false;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="Tag", type="boolean", nullable=false)
      */
-    private $tag;
+    private $tag = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="Nacht", type="boolean", nullable=false)
      */
-    private $nacht;
+    private $nacht = true;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="Maxgames", type="integer", nullable=false)
      */
-    private $maxgames;
+    private $maxgames = 0;
 
     /**
      * @var \DateTime
@@ -307,26 +308,26 @@ class User implements UserInterface
      *
      * @ORM\Column(name="Session", type="string", length=255, nullable=false)
      */
-    private $session;
+    private $session = "0";
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="Warned", type="boolean", nullable=false)
      */
-    private $warned;
+    private $warned = false;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="automoves", type="integer", nullable=false)
      */
-    private $automoves;
+    private $automoves = 0;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="maillock", type="datetime", nullable=false)
+     * @ORM\Column(name="maillock", type="datetime", nullable=true)
      */
     private $maillock;
 
@@ -335,12 +336,12 @@ class User implements UserInterface
      *
      * @ORM\Column(name="isbot", type="boolean", nullable=false)
      */
-    private $isbot;
+    private $isbot = false;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="Birthday", type="date", nullable=false)
+     * @ORM\Column(name="Birthday", type="date", nullable=true)
      */
     private $birthday;
 
@@ -349,28 +350,28 @@ class User implements UserInterface
      *
      * @ORM\Column(name="gelesen", type="integer", nullable=false)
      */
-    private $gelesen;
+    private $gelesen = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="faulpelz", type="integer", nullable=false)
      */
-    private $faulpelz;
+    private $faulpelz = false;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="move_autoforward", type="smallint", nullable=false)
      */
-    private $moveAutoforward;
+    private $moveAutoforward = 0;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="economode", type="boolean", nullable=false)
      */
-    private $economode;
+    private $economode = true;
 
     /**
      * @var string
@@ -391,28 +392,28 @@ class User implements UserInterface
      *
      * @ORM\Column(name="activeJS", type="boolean", nullable=false)
      */
-    private $activejs;
+    private $activejs = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="activeCanvas", type="boolean", nullable=false)
      */
-    private $activecanvas;
+    private $activecanvas = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="status_code", type="boolean", nullable=false)
      */
-    private $statusCode;
+    private $statusCode = 0;
 
     /**
      * @var string
      *
      * @ORM\Column(name="status_text", type="string", length=255, nullable=false)
      */
-    private $statusText;
+    private $statusText = "";
 
     /**
      * @var \DateTime
@@ -433,35 +434,47 @@ class User implements UserInterface
      *
      * @ORM\Column(name="nb_games", type="integer", nullable=true)
      */
-    private $nbGames;
+    private $nbGames = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="max_wollust", type="integer", nullable=false)
      */
-    private $maxWollust;
+    private $maxWollust = 0;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="use_bart", type="boolean", nullable=true)
      */
-    private $useBart;
+    private $useBart = true;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="use_sound", type="integer", nullable=false)
      */
-    private $useSound;
+    private $useSound = true;
 
     /**
      * @var string
      *
      * @ORM\Column(name="notification_sound", type="string", length=50, nullable=false)
      */
-    private $notificationSound;
+    private $notificationSound = "brumm";
+
+    public function __construct()
+    {
+        $this->signupdate = new \DateTime('now');
+    }
+
+    public function init($data)
+    {
+        foreach ($data as $prop => $value) {
+            $this->$prop = $value;
+        }
+    }
 
     public function getId()
     {

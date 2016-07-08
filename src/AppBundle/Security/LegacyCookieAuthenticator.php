@@ -37,9 +37,11 @@ class LegacyCookieAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         $cookie = $request->cookies->get("KaroKeks");
+        //$this->logger->debug("KEKS " . $cookie);
         if (!$cookie) return null;
         if (!($codestring = base64_decode($cookie))) return null;
         list($id, $hash) = explode('|--|', $codestring);
+        //$this->logger->debug($id . ":" . $hash);
         if ($id) {
             return array(
                     "id" => $id,
@@ -52,11 +54,14 @@ class LegacyCookieAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $this->user = $this->em->find('AppBundle:User', $credentials['id']);
+        //$this->logger->debug("Found user " . $this->user);
         return $this->user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        //$this->logger->debug("CHekc user " . $user);
+        //$this->logger->debug("COmpare " . $credentials);
         return ((md5($this->user->getPassword())) == $credentials['hash']);
     }
 

@@ -33,14 +33,14 @@ class UserController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('user/show.html.twig', array(
-            "user" => $user,
-            "distance" => $distance
+                "user" => $user,
+                "distance" => $distance
         ));
     }
 
     /**
      * #@Route("/users.php")
-     * @Route("/user/")
+     * @Route("/users/")
      * @Security("has_role('ROLE_USER')")
      */
     public function listAction(Request $request)
@@ -49,7 +49,7 @@ class UserController extends Controller
         $users = $um->findAll();
 
         return $this->render('user/list.html.twig', array(
-            "users" => $users,
+                "users" => $users,
         ));
 
     }
