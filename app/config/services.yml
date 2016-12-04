@@ -43,6 +43,12 @@ services:
         tags:
                - { name: security.voter }
 
+    chat_service:
+      class: AppBundle\Services\ChatService
+      arguments:
+        - '%chatlogpath%'
+        - '@doctrine'
+
 
     twig.extension.date:
         class: AppBundle\Twig\DateExtension
