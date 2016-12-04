@@ -70,4 +70,38 @@ class ChatMessage
      */
     private $id;
 
+    public function __construct(User $user, $text)
+    {
+        $this->login = $user->getUsername();
+        $this->uId = $user->getId();
+        $this->text = $text;
+        $this->ts = time();
+        $this->after = time();
+        $this->before = time();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTs()
+    {
+        return $this->ts;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
 }

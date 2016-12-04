@@ -1,0 +1,6 @@
+{% block footer %}
+    {% set msg = lastchatmessage() %}
+    <br/>
+    Letzter Satz im <a href="/chat">Chat</a>:<br/>
+    <B>{{ msg.login }}</B> ({{ msg.ts|date('H:i') }}): {{ msg.text }}
+{% endblock %}

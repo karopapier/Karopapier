@@ -15,8 +15,8 @@
         </TR>
         {% for user in users %}
             <tr>
-                <td><a href="{{ path('user_show', {'id': user.id}) }}"><b>{{ user.login }}</b></a></td>
-                <td>{{ user.name }}</td>
+                <td><a href="{{ path('user_show', {'id': user.id}) }}"><b>{{ user.login|raw }}</b></a></td>
+                <td>{{ user.name|raw }}</td>
                 <td>
                     <a href="{{ user.picture }}">
                         <img src="{{ user.picture }}" style="width: 20px; height: 20px"/>

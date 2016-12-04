@@ -50,6 +50,13 @@ services:
         - '@doctrine'
 
 
+    twig.extension.last_chat_message:
+      class: AppBundle\Twig\ChatMessageExtension
+      arguments:
+        - '@chat_service'
+      tags:
+       - { name: 'twig.extension' }
+
     twig.extension.date:
         class: AppBundle\Twig\DateExtension
         tags:
