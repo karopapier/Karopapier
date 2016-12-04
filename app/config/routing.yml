@@ -5,7 +5,7 @@ app:
 api:
     resource: "@AppBundle/Controller/Api"
     type:     annotation
-    prefix:   "/api/"
+    prefix:   "/apiv2/"
 
 legacy:
     resource: .

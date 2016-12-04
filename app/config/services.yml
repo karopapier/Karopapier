@@ -13,11 +13,11 @@ services:
 
     legacy_cookie_setter:
         class: AppBundle\Security\LegacyCookieSetter
-        arguments: [%host%]
+        arguments: ['%host%']
 
     legacy_route_loader:
         class: AppBundle\Services\LegacyRouteLoader
-        arguments: [%karoroot%]
+        arguments: ['%karoroot%']
         tags:
           - { name: routing.loader }
 
@@ -33,7 +33,7 @@ services:
 
     game_logger:
       class: AppBundle\Services\GameLogger
-      arguments: [%karoroot%/logs]
+      arguments: ['%karoroot%/logs']
 
 
     usermap_voter:
