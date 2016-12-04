@@ -24,7 +24,9 @@ class LoadUserData extends AbstractFixture implements FixtureInterface
                 "id" => 1,
                 "login" => "Didi",
                 "passwd" => "qwerasdf",
-                "email" => "didi@karopapier.de",
+                "email" => "didi@karoworld.de",
+                "signupdate" => new \DateTime("2010-01-01"),
+                "reallastvisit" => new \DateTime("2016-01-01")
         ]);
         $this->setReference('didi', $didi);
         $manager->persist($didi);
