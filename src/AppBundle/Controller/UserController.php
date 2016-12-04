@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/user/new/{id}", name="user_show")
+     * @Route("/users/{id}", name="user_show")
      */
     public function showAction(Request $request, User $user)
     {

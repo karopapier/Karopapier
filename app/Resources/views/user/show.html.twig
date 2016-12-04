@@ -1,6 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>{{ user.name }}</h1>
-    Gefahren: {{ (distance)|round }} m
+    <h1 class="karoborder">Wer ist {{ user.name }}?</h1>
+    Nun, was wissen wir über {{ user.name }}?<br/>
+    <div class="userimage">
+        <img src="{{ user.picture }}">
+    </div>
+    Gefahren: {{ (distance)|round }} m<br/>
+    Gravatar: <img src="{{ user.gravatar }}?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40"><br/>
+    Dabei seit:  {{ user.signupdate|date("d.m.Y") }} ({{ user.signupdate|daysAgo }} Tage)<br/>
+    Geburtstag:  {{ user.birthday|date("d.m.Y") }}<br/>
+
+    {% if user.invitor.id != 0 %}
+        Wurde nachweislich von {{ user.invitor.login }} eingeladen.<br/>
+    {% else %}
+        Hat sich einfach so angemeldet.<br/>
+    {% endif %}
+
+    {% if user.isbot %}
+        <b>Ist ein BOT</b>
+    {% endif %}
+
+    {#
+    //Maxgames
+    //
+
+    //Color
+    //faulpelz
+    //Signupdate
+    //Dran, Stats mit Zügen der letzten X
+    //
+    #}
 {% endblock %}

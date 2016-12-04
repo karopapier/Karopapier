@@ -255,9 +255,9 @@ class User implements UserInterface
     private $active = false;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="Invited", type="integer", nullable=false)
+     * @var User
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="Invited", referencedColumnName="U_ID")
      */
     private $invited = 0;
 
@@ -691,5 +691,32 @@ class User implements UserInterface
     public function getRealLastvisit()
     {
         return $this->reallastvisit;
+    }
+
+    public function getGravatar()
+    {
+        $grav = 'http://www.gravatar.com/avatar/' . md5(strtolower($this->email));
+        return $grav;
+    }
+
+    public function getBirthday()
+    {
+        return $this->birthday;
+
+    }
+
+    public function getShortInfo()
+    {
+        return $this->shortInfo;
+    }
+
+    public function getInvitor()
+    {
+        return $this->invited;
+    }
+
+    public function isBot()
+    {
+        return (bool)$this->isbot;
     }
 }
