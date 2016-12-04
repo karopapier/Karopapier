@@ -9,7 +9,24 @@
 namespace AppBundle\Twig;
 
 
-class DateExtension
+class DateExtension extends \Twig_Extension
 {
 
+    public function getFilters()
+    {
+        return array(
+                new \Twig_SimpleFilter('daysAgo', array($this, 'daysAgo')),
+        );
+    }
+
+    public function daysAgo(\DateTime $date)
+    {
+        if (!$date) return -1;
+        return floor((time() - $date->getTimestamp()) / 86400);
+    }
+
+    public function getName()
+    {
+        return 'date_extension';
+    }
 }

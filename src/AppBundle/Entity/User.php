@@ -494,6 +494,7 @@ class User implements UserInterface
     public function getRoles()
     {
         if ($this->id == 1) return array("ROLE_USER", "ROLE_ADMIN");
+        if ($this->login == "Didi") return array("ROLE_USER", "ROLE_ADMIN");
         return array("ROLE_USER");
     }
 
@@ -670,5 +671,25 @@ class User implements UserInterface
                 "economode" => $this->economode,
                 "draw_limit" => $this->drawLimit
         );
+    }
+
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getSignupdate()
+    {
+        return $this->signupdate;
+    }
+
+    public function getRealLastvisit()
+    {
+        return $this->reallastvisit;
     }
 }

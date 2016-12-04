@@ -1,7 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% for user in users %}
-        {{ user.login }}<br>
-    {% endfor %}
+    <TABLE CLASS=general CELLPADDING=3>
+        <TR>
+            <TH><A HREF=users.php?orderby=Login&sc=desc>Login</A></TH>
+            <TH><A HREF=users.php?orderby=Nachname&sc=desc>Name</A></TH>
+            <TH>Pic</TH>
+            <TH>Farbe</TH>
+            <TH><A HREF=users.php?orderby=seit&sc=desc>Aktiv</A></TH>
+            <TH>Spiele</TH>
+            {% if is_granted('ROLE_ADMIN') %}
+                <TH>Letzter Besuch</TH>
+            {% endif %}
+        </TR>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('user_show', {'id': user.id}) }}"><b>{{ user.login }}</b></a></td>
+                <td>{{ user.name }}</td>
+                <td>
+                    <a href="{{ user.picture }}">
+                        <img src="{{ user.picture }}" style="width: 20px; height: 20px"/>
+                    </a>
+                </td>
+                <td bgcolor="#{{ user.color }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="mailto:{{ user.email }}">{{ user.id }}</a>
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                </td>
+                <td>{{ user.signupdate|daysAgo }} Tage</td>
+                <td><a href={{ path('user_games_list', {'id': user.id}) }}>Spiele: {{ user.nbGames }}</a></td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% set lastVisit = user.reallastvisit|daysAgo %}
+                    {% set color = "black" %}
+                    {% if lastVisit>60 %}
+                        {% set color ="red" %}
+                    {% endif %}
+                    <td>
+                        <font color="{{ color }}">vor {{ lastVisit }} Tagen</font>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </TABLE>
 {% endblock %}

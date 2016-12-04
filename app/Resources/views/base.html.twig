@@ -5,6 +5,8 @@
         <title>{% block title %}Karopapier{% endblock %} - Autofahren wie in der Vorlesung</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+        <link rel="stylesheet" type="text/css" href="http://www.karoworld.de/karo.css">
+        <script type="text/javascript" src="http://www.karoworld.de/js/jquery.min.js?v=3"></script>
         {% block headjavascripts %}{% endblock %}
     </head>
     <body>
@@ -12,15 +14,31 @@
         {% block javascripts %}{% endblock %}
     </body>
     <footer>
-        <small>
-            Dass diese Seite so unformatiert aussieht, hat einen Grund.
-            Wäre sie fein kariert, würdet Ihr glauben, es sei fertig und man müsste mich schon mal auf Fehler hinweisen oder Verbesserungen vorschlagen.
-            Aber wichtig war ja nur erst mal, dass es funktioniert, damit ich die Wette gegen Sly gewinne - wegen des Ciders.
-            Der Deal war, dass ich im Juni fertig bekomme, dass man "eigene Karten spielen kann"... Hat nur leider nicht ganz geklappt...
-            Es mag vielleicht noch nicht alles super prkatisch sein, aber das kommt noch. Der Grundstein ist gelegt.
-            Wenn dann auch unter der Haube alles richtig tut, bekommt die Seite das Layout, das sie verdient.
-            Und auch so mit Integration vom
-            <a href="//2.karopapier.de/editor.html">KaMEL</a> und Probefahren und so Schnickschnack. 2028!
-        </small>
+        <br/>
+        Letzter Satz im <a href="/chat">Chat</a>:<br/>
+        <B>goodygoody</B> (16:27): Wenn du crashst, musst du aussetzen. So kann ich das eigentlich auch von dem Papier Karospiel.
     </footer>
+    <!-- Piwik -->
+    <script type="text/javascript">
+        var pkBaseURL = "http://stats.karopapier.de/";
+        pkBaseURL = "//www.karopapier.de/piwik/";
+        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        piwik_action_name = '';
+        piwik_idsite = 1;
+        piwik_url = pkBaseURL + "piwik.php";
+        piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object>
+        <noscript><p>Web analytics
+                <img src="http://www.karopapier.de/piwik/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
+    </object>
+    <!-- End Piwik Tag -->
+    <script type="text/javascript">
+        if (!/karopapier/.test(window.location.hostname)) {
+            document.write('<scr' + 'ipt src="http://localhost:7776/livereload.js"></scr' + 'ipt>');
+        }
+    </script>
 </html>
+

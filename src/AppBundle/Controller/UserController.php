@@ -46,7 +46,7 @@ class UserController extends Controller
     public function listAction(Request $request)
     {
         $um = $this->get('doctrine')->getRepository('AppBundle:User');
-        $users = $um->findAll();
+        $users = $um->findBy(array("active" => true), array("login" => 'ASC'));
 
         return $this->render('user/list.html.twig', array(
                 "users" => $users,
@@ -54,4 +54,12 @@ class UserController extends Controller
 
     }
 
+    /**
+     * @Route("/showgames.php?spielevon={id}")
+     * @Route("/users/{id}/games", name="user_games_list")
+     */
+    public function listGamesAction(Request $request, User $user)
+    {
+
+    }
 }

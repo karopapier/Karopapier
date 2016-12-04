@@ -43,3 +43,8 @@ services:
         tags:
                - { name: security.voter }
 
+
+    twig.extension.date:
+        class: AppBundle\Twig\DateExtension
+        tags:
+             - { name: 'twig.extension' }
