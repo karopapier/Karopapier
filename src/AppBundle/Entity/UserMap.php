@@ -108,6 +108,7 @@ class UserMap extends BaseMap
     {
         $this->rating = 0;
         $this->used = false;
+        $this->archived =false;
     }
 
     /**
