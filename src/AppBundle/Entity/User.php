@@ -719,4 +719,21 @@ class User implements UserInterface
     {
         return (bool)$this->isbot;
     }
+
+    /**
+     * @return string
+     */
+    public function getHomepage()
+    {
+        return $this->homepage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwitter()
+    {
+        return $this->twitter;
+    }
+
 }

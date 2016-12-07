@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractApiController
 {
     /**
+     * @Route("/users/{id}", name="api_users_show", requirements={"id": "\d+"})
      * @Route("/user/{id}", name="api_user_show", requirements={"id": "\d+"})
      * @param User $user
      */
@@ -64,6 +65,7 @@ class UserController extends AbstractApiController
     }
 
     /**
+     * @Route("/users/{login}", name="api_users_show_slug")
      * @Route("/user/{login}", name="api_user_show_slug")
      * @param User $user
      */
