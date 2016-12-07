@@ -46,4 +46,10 @@ class LegacyCookieSetter
         setcookie("karopwd", $md5password, time() + $year, "", $this->host, 0);
         return true;
     }
+    public function clearCookie()
+    {
+        $past = time()-1000;
+        setcookie("KaroKeks", "gone", $past, "", $this->host, 0);
+        setcookie("karopwd", "gone", $past, "", $this->host, 0);
+    }
 }
