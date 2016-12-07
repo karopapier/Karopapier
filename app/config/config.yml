@@ -28,6 +28,7 @@ framework:
         # handler_id set to null will use default session handler from php.ini
         storage_id: session.storage.php_bridge
         handler_id:  ~
+        name: KaroSession
     fragments:       ~
     http_method_override: true
 
