@@ -48,6 +48,8 @@ services:
       arguments:
         - '%chatlogpath%'
         - '@doctrine'
+        - '@event_dispatcher'
+        - '@logger'
 
 
     twig.extension.last_chat_message:
