@@ -19,4 +19,6 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
     host: www.karopapier.de
     karoroot: /var/wwwroot/karo/karopapier.de/httpdocs
-    chatlogpath: /var/wwwroot/karo/karopapier.de/httpdocs/chat.logfile
+    chat:
+      logpath: /var/wwwroot/karo/karopapier.de/httpdocs/chat.logfile
+      redis_key: chatlog

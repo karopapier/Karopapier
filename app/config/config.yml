@@ -81,3 +81,10 @@ nelmio_cors:
             origin_regex: false
         paths:
             '^/api':
+
+snc_redis:
+    clients:
+        default:
+            type: phpredis
+            alias: default
+            dsn: redis://localhost

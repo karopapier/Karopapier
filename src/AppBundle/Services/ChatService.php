@@ -13,6 +13,7 @@ use AppBundle\Entity\User;
 use AppBundle\Event\ChatMessageEvent;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Psr\Log\LoggerInterface;
+use Snc\RedisBundle\Client\Phpredis\Client;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -20,6 +21,8 @@ class ChatService
 {
     /** @var  string $chatlogpath */
     private $chatlogpath;
+    /** @var  string $chatRedisKey */
+    private $chatRedisKey;
 
     /** @var Registry $em */
     private $em;
@@ -30,17 +33,22 @@ class ChatService
     /** @var LoggerInterface $logger */
     private $logger;
 
+    /** @var Client $redis */
+    private $redis;
+
     /**
      * ChatService constructor.
      * @param $chatlogpath
      * @param Registry $registry
      * @param EventDispatcher $dispatcher
      */
-    public function __construct($chatlogpath, Registry $registry, EventDispatcherInterface $dispatcher, LoggerInterface $logger)
+    public function __construct($config, Registry $registry, EventDispatcherInterface $dispatcher, Client $redis, LoggerInterface $logger)
     {
-        $this->chatlogpath = $chatlogpath;
+        $this->chatlogpath = $config["logpath"];
+        $this->chatRedisKey = $config["redis_key"];
         $this->em = $registry->getManager();
         $this->dispatcher = $dispatcher;
+        $this->redis = $redis;
         $this->logger = $logger;
     }
 
@@ -85,7 +93,13 @@ class ChatService
 
     public function addToRedis(ChatMessage $chatMessage)
     {
-
+        //Karo2 uses only user (login string), text (actual text) and time (hh:mm string)
+        $data = array(
+                "user" => $chatMessage->getLogin(),
+                "time" => $chatMessage->getTime(),
+                "text" => $chatMessage->getText()
+        );
+        $this->redis->rpush($this->chatRedisKey, json_encode($data));
     }
 
     public function checkDate()

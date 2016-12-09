@@ -46,9 +46,10 @@ services:
     chat_service:
       class: AppBundle\Services\ChatService
       arguments:
-        - '%chatlogpath%'
+        - '%chat%'
         - '@doctrine'
         - '@event_dispatcher'
+        - '@snc_redis.default'
         - '@logger'
 
 

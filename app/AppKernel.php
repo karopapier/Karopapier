@@ -19,6 +19,7 @@ class AppKernel extends Kernel
                 new Karopapier\Karopapier(),
                 new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
                 new Nelmio\CorsBundle\NelmioCorsBundle(),
+                new Snc\RedisBundle\SncRedisBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
