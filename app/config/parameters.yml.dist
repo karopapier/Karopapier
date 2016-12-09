@@ -22,3 +22,4 @@ parameters:
     chat:
       logpath: /var/wwwroot/karo/karopapier.de/httpdocs/chat.logfile
       redis_key: chatlog
+    smiley_dir: /var/wwwroot/karo/karopapier.de/httpdocs/bilder/smilies

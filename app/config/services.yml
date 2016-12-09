@@ -43,6 +43,16 @@ services:
         tags:
                - { name: security.voter }
 
+    smilifier:
+      class: AppBundle\Services\Smilifier
+      arguments:
+        - '%kernel.cache_dir%'
+        - '%smiley_dir%'
+        - '@logger'
+      tags:
+        - { name: 'kernel.cache_clearer' }
+        - { name: 'kernel.cache_warmer' }
+
     chat_service:
       class: AppBundle\Services\ChatService
       arguments:
