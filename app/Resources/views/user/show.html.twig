@@ -29,11 +29,11 @@
 
     <div class="floatleft">
         {% if user.homepage %}
-            Homepage: <a href=" {{ user.homepage }}"> {{ user.homepage }}</a><br/>
+            Homepage: <a href="{{ user.homepage }}">{{ user.homepage }}</a><br/>
         {% endif %}
 
         {% if user.twitter %}
-            twitter: <a href=" {{ user.twitter }}"> {{ user.twitter }}</a><br/>
+            twitter: <a href="https://www.twitter.com/{{ user.twitter }}">@{{ user.twitter }}</a><br/>
         {% endif %}
 
         {% if user.shortInfo %}
