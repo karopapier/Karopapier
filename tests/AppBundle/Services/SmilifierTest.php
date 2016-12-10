@@ -35,8 +35,9 @@ class SmilifierTest extends \PHPUnit_Framework_TestCase
     {
         $sm = $this->smilifier;
         $this->assertEquals('Hallo', $sm->smilify("Hallo"), 'unchanged');
-        $this->assertEquals('Hallo <b>FETT</b>', $sm->smilify('Hallo -:FFETTF:-'), "Fett");
-        $this->assertEquals('Hallo <i>KURSIV</i>', $sm->smilify('Hallo -:KKURSIVK:-'), "Kursiv");
-        $this->assertEquals('Hallo <img src="/images/smilies/approve.gif" alt="approve" title="approve">', $sm->smilify('Hallo :approve:'), "smiley to img");
+        $this->assertEquals('Hallo <b>FETT</b>', $sm->smilify('Hallo -:FFETTF:-'), 'Fett');
+        $this->assertEquals('Hallo <i>KURSIV</i>', $sm->smilify('Hallo -:KKURSIVK:-'), 'Kursiv');
+        $this->assertEquals('Hallo <img src="/images/smilies/approve.gif" alt="approve" title="approve">', $sm->smilify('Hallo :approve:'), 'smiley to img');
+        $this->assertEquals('Hallo :ismiregal: gibts nich', $sm->smilify('Hallo :ismiregal: gibts nich'), 'no change if smiley does not exist');
     }
 }
