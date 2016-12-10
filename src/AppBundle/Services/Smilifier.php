@@ -31,7 +31,7 @@ class Smilifier implements CacheClearerInterface, CacheWarmerInterface
         $this->logger = $logger;
     }
 
-    public static function smilify($content)
+    public function smilify($content)
     {
         $content = str_replace('<', '&lt;', $content);
         $content = str_replace('>', '&gt;', $content);
@@ -40,19 +40,13 @@ class Smilifier implements CacheClearerInterface, CacheWarmerInterface
         $content = str_replace('"', '&quot;', $content);
         $content = str_replace("\n", '<BR>', $content);
 
-        $smileyDir = sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . "smilies";
-        #$enter=chr(13);
-
-        $smile = opendir($smileyDir);
-        while ($file = readdir($smile)) {
-            if (preg_match("/.*\.gif/", $file)) {
-                $parts = explode(".", $file);
-                #$content = preg_replace ( ":$parts[0]:", image_tag('smilies/' . $parts[0] . '.gif',array('alt_title'=>$parts[0])), $content);
-                $content = str_replace(':' . $parts[0] . ':', '<img src="/images/smilies/' . $parts[0] . '.gif" alt="' . $parts[0] . '" title="' . $parts[0] . '">', $content);
+        // if there are two : at all...
+        if (preg_match('/:.*:/', $content)) {
+            $smilies = $this->getSmilies();
+            foreach ($smilies as $smiley) {
+                $content = str_replace(':' . $smiley . ':', '<img src="/images/smilies/' . $smiley . '.gif" alt="' . $smiley . '" title="' . $smiley . '">', $content);
             }
         }
-        closedir($smile);
-
 
         $textparts = explode(":-", $content);
         if (count($textparts) > 1) {
@@ -75,14 +69,13 @@ class Smilifier implements CacheClearerInterface, CacheWarmerInterface
                 $value = str_replace("-:B", "<b>", $value);
                 $value = str_replace("B:-", "</b>", $value);
                 $value = str_replace(":-Link:", "</a>", $value);
-                $value = preg_replace("/-:Link text=(.*) url=(.*) Link:-/", "<a href=\"\\2\">\\1</a>", $value);    //Monti Link
-                $value = preg_replace("/-:Pic src=(.*) Pic:-/", "<img src=\"\\1\" />", $value);        //Monti Pic
+                $value = preg_replace("/-:Link text=(.*) url=(.*) Link:-/", "<a href=\"\\2\">\\1</a>", $value);
+                $value = preg_replace("/-:Pic src=(.*) Pic:-/", "<img src=\"\\1\" />", $value);
                 $value = str_replace("  ", "&nbsp;&nbsp;", $value);
                 $content = $content . $value;
             }
             $content = $content . array_pop($textparts);
         }
-
         return $content;
     }
 

@@ -90,8 +90,11 @@ class ChatMessage
         $this->login = $user->getUsername();
         $this->uId = $user->getId();
         $this->text = $text;
+        $this->raw = $text;
+        //$text = KaroLayout::smilify($msg);
         $t = time();
         $this->ts = $t;
+        $this->time = date("G:i", $t);
         $this->after = $t;
         $this->before = $t;
     }
