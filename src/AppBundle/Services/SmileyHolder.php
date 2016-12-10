@@ -14,9 +14,20 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
+/**
+ * Class SmileyHolder
+ *
+ * Intended to find, cache and provide the list of available smilies in the smiley directory
+ * This omits the need to parse the directory on every call
+ *
+ * @package AppBundle\Services
+ */
 class SmileyHolder implements CacheClearerInterface, CacheWarmerInterface, SmileyHolderInterface
 {
     const CACHE_FILE = "/karopapier/smilies.cache.php";
+
+    /** @var  string $cacheDir */
+    private $cacheDir;
 
     /** @var  string $smileyDir */
     private $smileyDir;
