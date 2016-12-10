@@ -55,6 +55,13 @@ class ChatMessage
     private $text;
 
     /**
+     * Raw string entered by user, not smiliefied
+     * @var string
+     * @ORM\Column(name="raw", type="text", length=65535, nullable=false)
+     */
+    private $raw;
+
+    /**
      * For the sake of recalculating the original date, a ts that indicates the message must have been sent after this
      * @var \DateTime
      *
