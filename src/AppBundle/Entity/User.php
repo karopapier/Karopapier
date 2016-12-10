@@ -257,16 +257,16 @@ class User implements UserInterface
     /**
      * @var User
      * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="Invited", referencedColumnName="U_ID")
+     * @ORM\JoinColumn(name="Invited", referencedColumnName="U_ID", nullable=true)
      */
-    private $invited = 0;
+    private $invited = null;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="invited2", type="integer", nullable=false)
+     * @ORM\Column(name="invited2", type="integer", nullable=true)
      */
-    private $invited2 = 0;
+    private $invited2 = null;
 
     /**
      * @var boolean

@@ -9,25 +9,18 @@
 namespace AppBundle\Services;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
-use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
-class Smilifier implements CacheClearerInterface, CacheWarmerInterface
+class Smilifier
 {
-    const CACHE_FILE = "/karopapier/smilies.cache.php";
-
-    /** @var  string $smileyDir */
-    private $smileyDir;
+    /** @var SmileyHolderInterface $smileyHolder */
+    private $smileyHolder;
 
     /** @var LoggerInterface $logger */
     private $logger;
 
-    public function __construct($cacheDir, $smileyDir, LoggerInterface $logger)
+    public function __construct(SmileyHolderInterface $smileyHolder, LoggerInterface $logger)
     {
-        $this->cacheDir = $cacheDir;
-        $this->smileyDir = $smileyDir;
+        $this->smileyHolder = $smileyHolder;
         $this->logger = $logger;
     }
 
@@ -42,7 +35,7 @@ class Smilifier implements CacheClearerInterface, CacheWarmerInterface
 
         // if there are two : at all...
         if (preg_match('/:.*:/', $content)) {
-            $smilies = $this->getSmilies();
+            $smilies = $this->smileyHolder->getSmilies();
             foreach ($smilies as $smiley) {
                 $content = str_replace(':' . $smiley . ':', '<img src="/images/smilies/' . $smiley . '.gif" alt="' . $smiley . '" title="' . $smiley . '">', $content);
             }
@@ -77,47 +70,5 @@ class Smilifier implements CacheClearerInterface, CacheWarmerInterface
             $content = $content . array_pop($textparts);
         }
         return $content;
-    }
-
-    private function getSmilies()
-    {
-        $smilies = array();
-        if (file_exists($this->cacheDir . self::CACHE_FILE)) {
-            $smilies = include($this->cacheDir . self::CACHE_FILE);
-        }
-        $c = count($smilies);
-        if ($c > 0) {
-            $this->logger->debug("Get " . $c . " smilies from cache");
-            return $smilies;
-        }
-
-        $this->logger->debug("Parse Smiley Dir");
-        $smilies = array();
-        $finder = new Finder();
-        $finder->files()->name('*.gif');
-        $finder->depth('== 0');
-        /** @var \SplFileInfo $file */
-        foreach ($finder->in($this->smileyDir) as $file) {
-            $smilies[] = strtolower($file->getBasename(".gif"));
-        }
-        return $smilies;
-    }
-
-    public function clear($cacheDir)
-    {
-        $fs = new Filesystem();
-        $fs->remove($cacheDir . self::CACHE_FILE);
-    }
-
-    public function warmUp($cacheDir)
-    {
-        $smilies = $this->getSmilies();
-        $fs = new Filesystem();
-        $fs->dumpFile($cacheDir . self::CACHE_FILE, '<?php return ' . var_export($smilies, true));
-    }
-
-    public function isOptional()
-    {
-        return true;
     }
 }

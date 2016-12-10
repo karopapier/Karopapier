@@ -54,6 +54,7 @@ class ChatService
 
     public function getLast()
     {
+        return new ChatMessage(new User(), "Bald");
         $mama = $this->em->getRepository("AppBundle:User")->find(26);
         $chatmessage = new ChatMessage($mama, "Noch nicht, aber bald");
         return $chatmessage;

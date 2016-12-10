@@ -46,6 +46,13 @@ services:
     smilifier:
       class: AppBundle\Services\Smilifier
       arguments:
+        - '@smiley_holder'
+        - '@logger'
+
+    smiley_holder:
+      class: AppBundle\Services\SmileyHolder
+      public: false
+      arguments:
         - '%kernel.cache_dir%'
         - '%smiley_dir%'
         - '@logger'
