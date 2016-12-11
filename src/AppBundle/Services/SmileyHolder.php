@@ -61,7 +61,7 @@ class SmileyHolder implements CacheClearerInterface, CacheWarmerInterface, Smile
         $finder->depth('== 0');
         /** @var \SplFileInfo $file */
         foreach ($finder->in($this->smileyDir) as $file) {
-            $smilies[] = strtolower($file->getBasename(".gif"));
+            $smilies[] = $file->getBasename(".gif");
         }
         return $smilies;
     }
@@ -76,7 +76,7 @@ class SmileyHolder implements CacheClearerInterface, CacheWarmerInterface, Smile
     {
         $smilies = $this->getSmilies();
         $fs = new Filesystem();
-        $fs->dumpFile($cacheDir . self::CACHE_FILE, '<?php return ' . var_export($smilies, true));
+        $fs->dumpFile($cacheDir . self::CACHE_FILE, '<?php return ' . var_export($smilies, true) . ';');
     }
 
     public function isOptional()
