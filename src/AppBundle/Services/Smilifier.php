@@ -24,7 +24,7 @@ class Smilifier
         $this->logger = $logger;
     }
 
-    public function smilify($content, $smileytype = "images", $picType = "quotes", $linkType = "quotes", $escapeAmp = true)
+    public function smilify($content, $smileytype = "images", $picType = "quotes", $linkType = "quotes", $escapeAmp = true, $replaceSpaces = true)
     {
         /*
         $content = str_replace('<', '&lt;', $content);
@@ -47,6 +47,9 @@ class Smilifier
                 },
                 "quotesnoalt" => function ($smiley) {
                     return '<IMG SRC="bilder/smilies/' . $smiley . '.gif" title=' . $smiley . '>';
+                },
+                "quotes" => function ($smiley) {
+                    return '<IMG SRC="bilder/smilies/' . $smiley . '.gif" alt="' . $smiley . '" title="' . $smiley . '">';
                 },
                 "images" => function ($smiley) {
                     return '<img src="/images/smilies/' . $smiley . '.gif" alt="' . $smiley . '" title="' . $smiley . '">';
@@ -75,7 +78,12 @@ class Smilifier
         );
 
         //$content = htmlentities($content);
-        $content = htmlspecialchars($content);
+        $enc_content = htmlspecialchars($content); //, ENT_SUBSTITUTE);
+        if ($enc_content == "") {
+            $content = htmlspecialchars($content, ENT_SUBSTITUTE);
+        } else {
+            $content = $enc_content;
+        }
         //re-replace amps
         if (!$escapeAmp) {
             $content = str_replace('&amp;', '&', $content);
@@ -100,19 +108,16 @@ class Smilifier
                 $value = $textparts[$i];
                 $value = $value . ":-";
                 #echo "VALUE: $value<BR>";
-                $value = str_replace(":-F:", "<b>", $value);
-                $value = str_replace(":F-:", "</b>", $value);
-
                 $value = str_replace("-:RED", "<font color=#CC0000>", $value);
                 $value = str_replace("RED:-", "</font>", $value);
 
                 $value = str_replace("-:K", "<i>", $value);
                 $value = str_replace("K:-", "</i>", $value);
 
-                $value = str_replace("-:F", "<b>", $value);
-                $value = str_replace("F:-", "</b>", $value);
                 $value = str_replace("-:B", "<b>", $value);
                 $value = str_replace("B:-", "</b>", $value);
+                $value = str_replace("-:F", "<b>", $value);
+                $value = str_replace("F:-", "</b>", $value);
                 $value = str_replace(":-Link:", "</a>", $value);
                 if (preg_match("/-:Link text=(.*?) url=(.*?) Link:-/", $value, $matches)) {
                     $text = $matches[1];
@@ -125,11 +130,15 @@ class Smilifier
                     $value = str_ireplace('-:Pic src=' . $src . ' Pic:-', $picfunc($src), $value);
                 }
 
-                $value = str_replace("  ", "&nbsp;&nbsp;", $value);
                 $content = $content . $value;
             }
             $content = $content . array_pop($textparts);
         }
+
+        if ($replaceSpaces) {
+            $content = str_replace('  ', '&nbsp;&nbsp;', $content);
+        }
+        $content = str_replace("\n", '<BR>', $content);
 
         return $content;
     }
@@ -141,9 +150,11 @@ class Smilifier
      */
     public function guessRaw($text, $escapedAmp = true)
     {
-        $raw = $text;
-        $raw = str_replace("&nbsp;&nbsp;", "  ", $raw);
+        $raw = trim($text);
         $raw = preg_replace('/ <BR>$/', '', $raw);
+        $raw = preg_replace('/<BR>/', "\n", $raw);
+        $raw = str_replace("&nbsp;&nbsp;", "  ", $raw);
+
 
         //find links
         $raw = preg_replace('/<a href="(.*?)">(.*?)<\/a>/', '-:Link text=\\2 url=\\1 Link:-', $raw);
@@ -177,6 +188,6 @@ class Smilifier
         $raw = html_entity_decode($raw);
 
         //$raw = preg_replace("/-:Pic src=(.*) Pic:-/", "<img src=\"\\1\" />", $value);
-        return trim($raw);
+        return $raw;
     }
 }

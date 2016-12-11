@@ -28,126 +28,110 @@ class ChatGuessTestCommand extends ContainerAwareCommand
         $chatService = $container->get("chat_service");
         $smilifier = $container->get("smilifier");
         $accept = array(
-                5645, //<BR> mitten drin!!!
-                6980, //tabelle
-                6996, //tabelle
-                7020, //tabelle
                 8462, //dis(s)approve problem
                 10842, //dis(s)approve problem
                 10952, //-:Blöd
-            /*
-            347, //da wurden & noch nicht escaped geschrieben
-            1404, //ein &gt statt &gt;
-            1862, //da wurden & noch nicht escaped geschrieben
-            2199, //da wurden & noch nicht escaped geschrieben
-            2257, //da wurden & noch nicht escaped geschrieben
-            2261, //da wurden & noch nicht escaped geschrieben
-            2264, //da wurden & noch nicht escaped geschrieben
-            2902, //da wurden & noch nicht escaped geschrieben
-            2986, //da wurden & noch nicht escaped geschrieben
-            3006, //da wurden & noch nicht escaped geschrieben
-            3278, //&copy;
-            3470, //da wurden & noch nicht escaped geschrieben
-            3659, //ein &gt statt &gt;
-            5524, //´
-            5688, //´
-            5934, //da wurden & noch nicht escaped geschrieben
-            5936, //da wurden & noch nicht escaped geschrieben
-            6052, //unicode quark
-            6054, //unicode quark
-            6056, //unicode quark
-            6057, //unicode quark
-            6116, //da wurden & noch nicht escaped geschrieben
-            6565, //da wurden & noch nicht escaped geschrieben
-            7590, //unicode quark
-            7666, //unicode/html quark
-            7667, //unicode/html quark
-            7668, //unicode/html quark
-            7669, //unicode/html quark
-            7839, //da wurden & noch nicht escaped geschrieben
-            8208, //&copy;
-            8209, //html codes
-            8258, //&copy;
-            9443, //da wurden & noch nicht escaped geschrieben
-            9498, //da wurden & noch nicht escaped geschrieben
-            9961, //da wurden & noch nicht escaped geschrieben
-            11201, //da wurden & noch nicht escaped geschrieben
-            11390, //<BR> mitten drin!!!
-            11406, //da wurden & noch nicht escaped geschrieben
-            11722, //&copy;
-            11726, //&copy;
-        /*
-            11727, //da wurden & noch nicht escaped geschrieben
-            11772, //da wurden & noch nicht escaped geschrieben
-            11825, //da wurden & noch nicht escaped geschrieben
-            11828, //da wurden & noch nicht escaped geschrieben
-            11834, //da wurden & noch nicht escaped geschrieben
-            11856, //da wurden & noch nicht escaped geschrieben
-            11861, //da wurden & noch nicht escaped geschrieben
-            11865, //da wurden & noch nicht escaped geschrieben
-            12003, //da wurden & noch nicht escaped geschrieben
-            12176, //da wurden & noch nicht escaped geschrieben
-            12286, //da wurden & noch nicht escaped geschrieben
-            12288, //da wurden & noch nicht escaped geschrieben
-            13019, //da wurden & noch nicht escaped geschrieben
-            13021, //da wurden & noch nicht escaped geschrieben
-            13159, //da wurden & noch nicht escaped geschrieben
-            13163, //da wurden & noch nicht escaped geschrieben
-            13166, //da wurden & noch nicht escaped geschrieben
-            13369, //da wurden & noch nicht escaped geschrieben
-            13377, //html codes
-            13379, //html codes
-            13382, //unicode quark
-            13384, //unicode quark
-            13395, //unicode quark
-            13401, //unicode quark
-            13838, //&copy;
-            14244, //da wurden & noch nicht escaped geschrieben
-            14248, //da wurden & noch nicht escaped geschrieben
-            14449, //&szlig;
-            14616, //&szlig;
-            14840, //&szlig;
-            16215, //<BR> mitten drin!!!
-            16885, //troest nicht ersetzt
-            16904, //troest nicht ersetzt
-            17334, //troest nicht ersetzt
-            17421, //troest nicht ersetzt
-            17640, //<BR> mitten drin!!!
-            19148, //dis(s)approve problem
-            20175, //<BR> mitten drin!!!
-            20180, //amp
-            20249, //unicode quark
-            20252, //unicode quark
-            21175, //&copy;
-            24591, //nbsps
-            26819, //<BR> mitten drin!!!
-            30813, //da wurden & noch nicht escaped geschrieben
-            35808, //:fluch: nicht ersetzt
-            35812, //:fluch: nicht ersetzt
-            35819, //:fluch: nicht ersetzt
-            35823, //:fluch: nicht ersetzt
-            36928, //<BR> mitten drin!!!
-            39268, //:muede: nicht ersetzt
-            39270, //:muede: nicht ersetzt
-            39289, //:muede: nicht ersetzt
-            39291, //:muede: nicht ersetzt
-            100000, //--WEITER REIN
-            101671, //<BR> mitten drin!!!
-            101673, //<BR> mitten drin!!!
-            101691, //<BR> mitten drin!!!
-            106699, //nbsp
-            106700, //nbsp
-            106701, //nbsp
-            106702, //nbsp
-            106703, //nbsp
-            106704, //nbsp
-            107066, //nbsp
-            110610, //<BR> mitten drin!!!
-            149500, //--WEITER REIN
-
-        */
-
-
+                16885, //troest nicht ersetzt
+                16904, //troest nicht ersetzt
+                17334, //troest nicht ersetzt
+                17421, //troest nicht ersetzt
+                19148, //dis(s)approve problem
+                35808, //:fluch: nicht ersetzt
+                35812, //:fluch: nicht ersetzt
+                35819, //:fluch: nicht ersetzt
+                35823, //:fluch: nicht ersetzt
+                39268, //:muede: nicht ersetzt
+                39270, //:muede: nicht ersetzt
+                39289, //:muede: nicht ersetzt
+                39291, //:muede: nicht ersetzt
+                39295, //:muede: nicht ersetzt
+                55619, //nbsp
+                69443, //:happy: nicht ersetzt
+                79548, //:music: nicht ersetzt
+                83144, //:wavey: nicht ersetzt
+                83145, //:wavey: nicht ersetzt
+                83146, //:wavey: nicht ersetzt
+                83146, //:confused: nicht ersetzt
+                83147, //:confused: nicht ersetzt
+                83148, //:smile: nicht ersetzt
+                85469, //nbsp
+                85476, //nbsp
+                85478, //nbsp
+                85489, //nbsp
+                85491, //nbsp
+                85493, //nbsp
+                85565, //nbsp
+                85567, //nbsp
+                85569, //nbsp
+                85577, //nbsp
+                85579, //nbsp
+                85590, //nbsp
+                85592, //nbsp
+                85602, //nbsp
+                86345, //regexp
+                86592, //nbsp
+                86594, //nbsp
+                87700, //:zzzsleep: nicht ersetzt
+                87701, //nbsp
+                88018, //nbsp
+                88417, //nbsp
+                92097, //nbsp
+                92098, //nbsp
+                92100, //nbsp
+                92102, //nbsp
+                92106, //nbsp
+                92109, //nbsp
+                92117, //nbsp
+                92120, //nbsp
+                92122, //nbsp
+                92124, //nbsp
+                92129, //nbsp
+                92134, //nbsp
+                92139, //nbsp
+                92143, //nbsp
+                92155, //nbsp
+                92158, //nbsp
+                92160, //nbsp
+                92162, //nbsp
+                94042, //-:B nicht ersetzt
+                98110, //nbsp
+                132451, //:music: nicht ersetzt
+                133657, //:music: nicht ersetzt
+                134048, //:music: nicht ersetzt
+                136180, //:music: nicht ersetzt
+                147467, //:music: nicht ersetzt
+                170909, //Didi hat mit font size gepfuscht
+                177750, //:music: nicht ersetzt
+                182194, //:rofl: nicht ersetzt
+                182198, //:rofl: nicht ersetzt
+                182205, //:wavey: nicht ersetzt
+                182207, //:wavey: nicht ersetzt
+                230972, //Didi hat im Chat gepfuscht - <I><BIG><B>BOTRIX</B> WIRD VOM BLITZ GETROFFEN</BIG></I>
+                238236,  //multiple pics
+                260507, //:glover: nicht ersetzt
+                260508, //:glover: nicht ersetzt
+                260514, //:glover: nicht ersetzt
+                260583, //:glover: nicht ersetzt
+                266621, //<B>
+                268329, //<B>
+                306876, //nbsp
+                313946, //nbsp
+                344654, //JS code
+                344760, //fixed encoding fuckup
+                346755, //fixed encoding fuckup
+                346759, //fixed encoding fuckup
+                350535, //fixed encoding fuckup
+                350536, //fixed encoding fuckup
+                351575, //fixed encoding fuckup
+                358874, //fixed encoding fuckup
+                364595, //fixed encoding fuckup
+                364606, //fixed encoding fuckup
+                375218, //encoding fuckup
+                375219, //encoding fuckup
+                375220, //encoding fuckup
+                376711, //encoding fuckup
+                376712, //encoding fuckup
+                379764, //encoding fuckup
         );
 
         $fs = new Filesystem();
@@ -158,6 +142,8 @@ class ChatGuessTestCommand extends ContainerAwareCommand
         $linkType = "quoteless";
         $escapeAmp = false;
         $escapedAmp = false;
+        $preventBR = false;
+        $replaceSpaces = false;
         $maxAccept = $accept[count($accept) - 1];
 
         while (!$file->eof()) {
@@ -165,13 +151,21 @@ class ChatGuessTestCommand extends ContainerAwareCommand
             $line = $file->fgets();
 
             //switches in types
-            if ($lc == 100000) {
+            if ($lc == 40347) {
+                $replaceSpaces = true;
+            }
+
+            if ($lc == 92270) {
                 $smileyType = "quotesnoalt";
                 $picType = "quotesnoslash";
                 $linkType = "quotes";
             }
-            if ($lc == 200000) {
-                $escapeAmp = true;
+            if ($lc == 182211) {
+                $smileyType = "quotes";
+            }
+
+            if ($lc == 212269) {
+                $picType = "quotes";
             }
 
             //skip until last accept
@@ -183,10 +177,15 @@ class ChatGuessTestCommand extends ContainerAwareCommand
 
             preg_match('/<B>(.*?)<\/B> \((.*?)\): (.*)<BR>/', $line, $matches);
             if (count($matches) < 3) {
-                echo "FEHLERLINE: $line";
-                var_dump($matches);
-                die();
+                if (in_array($lc, $accept)) {
+                    continue;
+                } else {
+                    echo "FEHLERLINE $lc: $line";
+                    var_dump($matches);
+                    die();
+                }
             }
+
             $text = $matches[3];
             if (!$text) die("FEHLT");
 
@@ -195,19 +194,26 @@ class ChatGuessTestCommand extends ContainerAwareCommand
             // adjust smiley type according to age/line counter
 
 
-            $raw = $smilifier->guessRaw($text, $escapedAmp);
-            $smil = trim(strtolower($smilifier->smilify($raw, $smileyType, $picType, $linkType, $escapeAmp)));
+            $raw = $smilifier->guessRaw($text, $escapedAmp, $preventBR);
+
+            $smil = trim(strtolower($smilifier->smilify($raw, $smileyType, $picType, $linkType, $escapeAmp, $replaceSpaces)));
+            $smil2 = trim(strtolower($smilifier->smilify($raw, "quotesnoalt", "quotesnoslash", $linkType, $escapeAmp, true))); //alte chatenter
             $text = trim(strtolower($text));
 
-            if ($text != $smil) {
+            //zum vergleichen alle nbsps wieder nach " "
+            $testtext = str_replace('&nbsp;', ' ', $text);
+            $smil = str_replace('&nbsp;', ' ', $smil);
+            $smil2 = str_replace('&nbsp;', ' ', $smil2);
+            if (($testtext != $smil) && ($testtext != $smil2)) {
                 if (!in_array($lc, $accept)) {
                     echo "Mismatch in $lc: [$line]\n";
-                    echo "Line: |" . $text . "\n";
-                    echo "Raw:  |" . $raw . "\n";
-                    echo "Smil: |" . $smil . "\n";
+                    echo "Line: |" . $text . "|\n";
+                    echo "Raw:  |" . $raw . "|\n";
+                    echo "Smil: |" . $smil . "| (len: " . strlen($smil) . ")\n";
                     return;
                 }
             }
+            echo "$lc\n";
         }
     }
 }
