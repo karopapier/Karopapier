@@ -21,16 +21,17 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         //SELECT SUM( SQRT( POW( x_vec, 2 ) + POW( y_vec, 2 ) ) * .5 )/100 from karo_moves where U_ID=1
 
-        $connection = $em->getConnection();
-        $statement = $connection->prepare("SELECT SUM( SQRT( POW( x_vec, 2 ) + POW( y_vec, 2 ) ) * .5 )/100 as driven from karo_moves where U_ID=:id");
-        $statement->bindValue('id', $id);
-        $statement->execute();
-        $results = $statement->fetchAll();
+        #$connection = $em->getConnection();
+        #$statement = $connection->prepare("SELECT SUM( SQRT( POW( x_vec, 2 ) + POW( y_vec, 2 ) ) * .5 )/100 as driven from karo_moves where U_ID=:id");
+        #$statement->bindValue('id', $id);
+        #$statement->execute();
+        #$results = $statement->fetchAll();
         $distance = 0;
         if ((count($results)) > 0) {
             $distance = $results[0]["driven"];
         }
 
+        $distance = 0;
         // replace this example code with whatever you need
         return $this->render('user/show.html.twig', array(
                 "user" => $user,
