@@ -42,7 +42,7 @@ class ChatService
      * @param Registry $registry
      * @param EventDispatcher $dispatcher
      */
-    public function __construct($config, Registry $registry, EventDispatcherInterface $dispatcher, Client $redis, LoggerInterface $logger)
+    public function __construct($config, Registry $registry, EventDispatcherInterface $dispatcher, $redis, LoggerInterface $logger)
     {
         $this->chatlogpath = $config["logpath"];
         $this->chatRedisKey = $config["redis_key"];

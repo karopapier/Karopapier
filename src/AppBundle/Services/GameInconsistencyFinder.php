@@ -87,6 +87,7 @@ class GameInconsistencyFinder
         $games = $query->execute();
         foreach ($games as $game) {
             $this->logger->info("Game " . $game->getId());
+            $this->checker->ensureFinished($game);
         }
 
     }
