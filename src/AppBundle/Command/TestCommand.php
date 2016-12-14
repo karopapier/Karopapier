@@ -25,13 +25,8 @@ class TestCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $container = $this->getContainer();
         $chatService = $container->get("chat_service");
-
-        $user = new User();
-        $cm = new ChatMessage($user, "Bla");
-        $chatService->addToRedis($cm);
-
+        $chatService->doof();
     }
 }

@@ -106,10 +106,10 @@ class GameChecker
         /** @var Move $lm */
         $fd = $game->getFinishedDate();
         if (!$fd) {
-            $lm = $this->em->getRepository("AppBundle:Move")->findLastMove($game);
-            if ($lm) {
+            try {
+                $lm = $this->em->getRepository("AppBundle:Move")->findLastMove($game);
                 $fd = $lm->getDate();
-            } else {
+            } catch (\Exception $exception) {
                 $fd = new \DateTime("now");
             }
         }
