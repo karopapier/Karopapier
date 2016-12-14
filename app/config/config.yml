@@ -32,6 +32,13 @@ framework:
     fragments:       ~
     http_method_override: true
 
+monolog:
+    handlers:
+        console:
+            type: console
+            verbosity_levels:
+              VERBOSITY_NORMAL: INFO
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"

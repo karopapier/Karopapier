@@ -10,7 +10,6 @@ namespace Tests\AppBundle\Services;
 
 
 use AppBundle\Services\Smilifier;
-use AppBundle\Services\SmileyHolder;
 
 
 class SmilifierTest extends \PHPUnit_Framework_TestCase

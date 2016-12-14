@@ -35,6 +35,20 @@ services:
       class: AppBundle\Services\GameLogger
       arguments: ['%karoroot%/logs']
 
+    game_inconsistency_finder:
+      class: AppBundle\Services\GameInconsistencyFinder
+      autowire: true
+
+    game_checker:
+      class: AppBundle\Services\GameChecker
+      autowire: true
+
+    game_finisher:
+      class: AppBundle\Services\GameFinisher
+      arguments:
+        - '@doctrine.orm.default_entity_manager'
+        - '@logger'
+        - '@event_dispatcher'
 
     usermap_voter:
         class: AppBundle\Security\UserMapVoter

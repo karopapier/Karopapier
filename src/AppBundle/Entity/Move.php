@@ -10,7 +10,7 @@ use AppBundle\Model\Position;
  * Move
  *
  * @ORM\Table(name="karo_moves", indexes={@ORM\Index(name="U_ID", columns={"U_ID"}), @ORM\Index(name="G_U_ID", columns={"G_ID", "U_ID"}), @ORM\Index(name="idx_date", columns={"date"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MoveRepository")
  */
 class Move
 {
@@ -95,6 +95,28 @@ class Move
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+
+
+
+
+
 
     /**
      * @return int
@@ -215,4 +237,5 @@ class Move
     {
         return $this->getCrash();
     }
+
 }

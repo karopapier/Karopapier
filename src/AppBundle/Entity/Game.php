@@ -9,8 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Game
  *
+ *
  * @ORM\Table(name="karo_games", indexes={@ORM\Index(name="U_ID", columns={"U_ID"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GameRepository")
  */
 class Game
 {
@@ -217,4 +218,35 @@ class Game
         return $this->map;
     }
 
+    /**
+     * Mark the game as finished, with optional timestamp and final user (KaroMAMA id 26)
+     * @param int $ts
+     * @param User $user
+     */
+    public function finish(\DateTimeInterface $fd = null, User $user)
+    {
+        if ($fd === null) {
+            $fd = new \DateTime("now");
+        }
+        $this->finisheddate = $fd;
+        $this->datemailsent = $fd;
+        $this->dranUser = $user;
+        $this->finished = true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFinished()
+    {
+        return (bool)$this->finished;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFinishedDate()
+    {
+        return $this->finisheddate;
+    }
 }

@@ -18,7 +18,7 @@ class Player
         $this->moves = new ArrayCollection();
     }
 
-    /*
+    /**
      * @var integer
      *
      * @ORM\Column(name="status", type="integer", nullable=false)
@@ -72,6 +72,11 @@ class Player
         return $this->status;
     }
 
+    public function isFinished()
+    {
+        return ($this->finished != 0);
+    }
+
     public function getFinished()
     {
         return $this->finished;
@@ -112,5 +117,8 @@ class Player
         return $this->moves->last();
     }
 
-
+    public function isActive()
+    {
+        return (bool)$this->status == 1;
+    }
 }
