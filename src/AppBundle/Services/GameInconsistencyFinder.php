@@ -78,8 +78,9 @@ class GameInconsistencyFinder
         $rsm->addRootEntityFromClassMetadata('AppBundle:Game', 'g');
         $rsm->addFieldResult('g', 'G_ID', 'id');
 
+        //"SELECT g.G_ID, count(p.U_ID) as num FROM `karo_games` as g left join karo_teilnehmer as p on g.G_ID=p.G_ID where g.G_ID >= 94760 group by g.G_ID having num=0 order by g.G_ID asc ",
         $query = $this->em->createNativeQuery(
-                "SELECT g.G_ID, count(p.U_ID) as num FROM `karo_games` as g left join karo_teilnehmer as p on g.G_ID=p.G_ID where g.G_ID >= 94760 group by g.G_ID having num=0 order by g.G_ID asc ",
+                "SELECT g.G_ID, count(p.U_ID) as num FROM `karo_games` as g left join karo_teilnehmer as p on g.G_ID=p.G_ID where g.U_ID != 26 group by g.G_ID having num=0 order by g.G_ID asc",
                 $rsm
         );
         /** @var Game $game */
