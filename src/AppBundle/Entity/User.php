@@ -464,6 +464,13 @@ class User implements UserInterface
      */
     private $notificationSound = "brumm";
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="distance", type="integer", nullable=false)
+     */
+    private $distance = 0;
+
     public function __construct()
     {
         $this->signupdate = new \DateTime('now');
@@ -736,4 +743,16 @@ class User implements UserInterface
         return $this->twitter;
     }
 
+    /**
+     * @return int
+     */
+    public function getDistance()
+    {
+        return $this->distance;
+    }
+
+    public function setDistance($d)
+    {
+        $this->distance = $d;
+    }
 }

@@ -16,26 +16,20 @@ class UserController extends Controller
     public function showAction(Request $request, User $user)
     {
         $id = $user->getId();
-
-        //Gefahrene Meter
-        $em = $this->getDoctrine()->getManager();
-        //SELECT SUM( SQRT( POW( x_vec, 2 ) + POW( y_vec, 2 ) ) * .5 )/100 from karo_moves where U_ID=1
-
-        #$connection = $em->getConnection();
-        #$statement = $connection->prepare("SELECT SUM( SQRT( POW( x_vec, 2 ) + POW( y_vec, 2 ) ) * .5 )/100 as driven from karo_moves where U_ID=:id");
-        #$statement->bindValue('id', $id);
-        #$statement->execute();
-        #$results = $statement->fetchAll();
-        $distance = 0;
-        if ((count($results)) > 0) {
-            $distance = $results[0]["driven"];
+        $moveStats = $this->get("snc_redis.default")->hGetAll("users:" . $id . ":moves");
+        $months = array();
+        $moveCounts = array();
+        foreach ($moveStats as $month => $moveCount) {
+            $months[] = $month;
+            $moveCounts[] = (int)$moveCount;
         }
 
-        $distance = 0;
-        // replace this example code with whatever you need
+        dump($moveStats);
         return $this->render('user/show.html.twig', array(
                 "user" => $user,
-                "distance" => $distance
+                "distance" => $user->getDistance(),
+                "months" => $months,
+                "moveCounts" => $moveCounts
         ));
     }
 

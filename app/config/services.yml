@@ -27,6 +27,16 @@ services:
         tags:
           - { name: kernel.event_listener, event: security.authentication.success}
 
+    user_repository:
+      class: Doctrine\ORM\EntityRepository
+      factory: ['@doctrine.orm.default_entity_manager', getRepository]
+      arguments:
+          - 'AppBundle:User'
+
+    user_distance_calculator:
+      class: AppBundle\Services\User\DistanceCalculator
+      autowire: true
+
     game_manager:
       class: AppBundle\Services\GameManager
       autowire: true
