@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <script src="http://www.karopapier.de/js/jquery.sparkline.js"></script>
     <h1 class="karoborder">Wer ist {{ user.name }}?</h1>
     <div class="floatleft">
 
@@ -42,9 +43,22 @@
     </div>
 
     <div class="floatleft">
-        Gefahren: {{ (distance)|round }} m<br/>
+        Gefahren: <span title="{{ distance }} Karomilimeter auf Karopapier">{{ (distance/1000)|round }} Karometer</span><br/>
+        Zugverteilung &uuml;ber die Jahre (pro Monat):
+        <div id="moves"></div>
+        <script type="text/javascript">
+            var months = {{ months|json_encode }};
+            var moves = {{ moveCounts|json_encode }};
+            $('#moves').sparkline(moves, {
+                values: months,
+                tooltipFormatter: function(sp, o, fields) {
+                    var m = months[fields.x];
+                    console.log(fields);
+                    return m + ": " + fields.y;
+                }
+            });
+        </script>
     </div>
-
     {#
     //Maxgames
     //
