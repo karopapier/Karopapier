@@ -24,7 +24,6 @@ class UserController extends Controller
             $moveCounts[] = (int)$moveCount;
         }
 
-        dump($moveStats);
         return $this->render('user/show.html.twig', array(
                 "user" => $user,
                 "distance" => $user->getDistance(),
