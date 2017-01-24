@@ -6,6 +6,7 @@ use AppBundle\Form\GameType;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Game;
@@ -15,6 +16,7 @@ class GameController extends Controller
     /**
      * @Route("/game/newnew", name="game_new")
      * @Security("has_role('ROLE_USER')")
+     * @Template("default/new")
      */
     public function newAction(Request $request)
     {
@@ -31,13 +33,14 @@ class GameController extends Controller
             return $this->redirectToRoute('task_success');
         }
 
-        return $this->render('default/new.html.twig', array(
+        return array(
                 'form' => $form->createView(),
-        ));
+        );
     }
 
     /**
      * @Route("/game/{id}", requirements={"id" = "\d+"}, name="game_show")
+     * @Template("game/show.html.twig")
      */
     public function showAction(Request $request, Game $game)
     {
@@ -45,9 +48,9 @@ class GameController extends Controller
         $gl->load($game);
 
         // replace this example code with whatever you need
-        return $this->render('game/show.html.twig', array(
+        return array(
                 "game" => $game
-        ));
+        );
     }
 
 }
