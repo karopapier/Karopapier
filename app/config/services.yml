@@ -37,8 +37,8 @@ services:
       class: AppBundle\Services\User\DistanceCalculator
       autowire: true
 
-    game_manager:
-      class: AppBundle\Services\GameManager
+    game_loader:
+      class: AppBundle\Services\GameLoader
       autowire: true
 
     game_logger:

@@ -13,7 +13,7 @@ use AppBundle\Entity\Game;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Psr\Log\LoggerInterface;
 
-class GameManager
+class GameLoader
 {
 
     public function __construct(Registry $doctrine, LoggerInterface $logger)

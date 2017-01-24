@@ -41,8 +41,8 @@ class GameController extends Controller
      */
     public function showAction(Request $request, Game $game)
     {
-        $gm = $this->get("game_manager");
-        $gm->load($game);
+        $gl = $this->get("game_loader");
+        $gl->load($game);
 
         // replace this example code with whatever you need
         return $this->render('game/show.html.twig', array(
