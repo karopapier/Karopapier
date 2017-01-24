@@ -24,7 +24,7 @@ class GameLogger
             throw new \Exception("GAME_LOGFILE_ERROR");
         }
         $now = date('Y-m-d H:i:s');
-        fputs($f, "$now: $text\n");
+        fwrite($f, "$now: $text\n");
         fclose($f);
     }
 }

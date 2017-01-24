@@ -21,7 +21,7 @@ class LegacyRouteLoader extends Loader
 {
     private $webRoot;
     private $loaded = false;
-   
+
     public function __construct($webRoot)
     {
         $this->webRoot = $webRoot;
