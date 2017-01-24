@@ -79,17 +79,47 @@ class GameInconsistencyFinder
         $rsm->addFieldResult('g', 'G_ID', 'id');
 
         //"SELECT g.G_ID, count(p.U_ID) as num FROM `karo_games` as g left join karo_teilnehmer as p on g.G_ID=p.G_ID where g.G_ID >= 94760 group by g.G_ID having num=0 order by g.G_ID asc ",
+        $sql = "SELECT g.G_ID, count(p.U_ID) as num FROM `karo_games` as g left join karo_teilnehmer as p on g.G_ID=p.G_ID where g.U_ID != 26 group by g.G_ID having num=0 order by g.G_ID asc";
         $query = $this->em->createNativeQuery(
-                "SELECT g.G_ID, count(p.U_ID) as num FROM `karo_games` as g left join karo_teilnehmer as p on g.G_ID=p.G_ID where g.U_ID != 26 group by g.G_ID having num=0 order by g.G_ID asc",
+                $sql,
                 $rsm
         );
         /** @var Game $game */
 
         $games = $query->execute();
         foreach ($games as $game) {
-            $this->logger->info("Game " . $game->getId());
+            $this->logger->info("Game started without players: " . $game->getId());
             $this->checker->ensureFinished($game);
         }
 
+    }
+
+    public function checkDranNotActive()
+    {
+        /*
+         *  SELECT karo_games.G_ID, name, karo_teilnehmer.U_ID, status FROM `karo_games` inner join `karo_teilnehmer` on karo_games.G_ID=karo_teilnehmer.G_ID where karo_games.U_ID=karo_teilnehmer.U_ID and status<1
+         */
+        $rsm = new ResultSetMappingBuilder($this->em);
+        $rsm->addRootEntityFromClassMetadata('AppBundle:Game', 'g');
+        $rsm->addFieldResult('g', 'G_ID', 'id');
+
+        $sql = "SELECT karo_games.G_ID, name, karo_teilnehmer.U_ID, status FROM `karo_games` inner join `karo_teilnehmer` on karo_games.G_ID=karo_teilnehmer.G_ID where karo_games.U_ID=karo_teilnehmer.U_ID and status<1";
+        $query = $this->em->createNativeQuery(
+                $sql,
+                $rsm
+        );
+        $games = $query->execute();
+        /** @var Game $game */
+        foreach ($games as $game) {
+            $this->logger->info("Game dran user not active: " . $game->getId());
+            $this->checker->ensureFinished($game);
+        }
+    }
+
+    public function deletePlayingMama()
+    {
+        $nativeConnection = $this->em->getConnection();
+        $sql = "DELETE from karo_teilnehmer WHERE U_ID=26";
+        $nativeConnection->executeUpdate($sql);
     }
 }

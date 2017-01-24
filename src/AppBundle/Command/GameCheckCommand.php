@@ -28,7 +28,9 @@ class GameCheckCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
         $finder = $container->get("game_inconsistency_finder");
+        $finder->deletePlayingMama();
         $finder->checkStartedWithoutPlayers();
         $finder->checkFinishedWithoutKaroMAMA();
+        $finder->checkDranNotActive();
     }
 }
