@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Enter Message</title>
+        <link rel="stylesheet" type="text/css" href="http://www.karopapier.de/karo.css">
+    </head>
+    <body background="http://www.karopapier.de/images/karolight.gif" bgcolor="#fff" text="#339" link="#33f" vlink="#33f" alink="#00f">
+        <form method="post">
+            {{ app.user.login }} sagt:
+            <input type="text" name="chatline" size="80" id="chatline"><input type="submit" name="Sub" value="Sag es!">
+        </form>
+
+        <script type="text/javascript">
+            document.getElementById('chatline').focus();
+        </script>
+
+        <hr width=75%>
+        <center>Brought to you by Didi</center>
+    </body>
+</html>

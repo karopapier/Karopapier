@@ -27,6 +27,12 @@ class ChatService
     /** @var Registry $em */
     private $em;
 
+    /** @var  MessageNormalizer */
+    private $normalizer;
+
+    /** @var  LegacyChatlineConverter */
+    private $legacyChatlineConverter;
+
     /** @var EventDispatcher $dispatcher */
     private $dispatcher;
 
@@ -42,11 +48,14 @@ class ChatService
      * @param Registry $registry
      * @param EventDispatcher $dispatcher
      */
-    public function __construct($config, Registry $registry, EventDispatcherInterface $dispatcher, $redis, LoggerInterface $logger)
+    public function __construct($config, Registry $registry, MessageNormalizer $messageNormalizer, LegacyChatlineConverter $legacyChatlineConverter, EventDispatcherInterface $dispatcher, $redis, LoggerInterface $logger)
     {
         $this->chatlogpath = $config["logpath"];
         $this->chatRedisKey = $config["redis_key"];
         $this->em = $registry->getManager();
+        $this->repo = $this->em->getRepository("AppBundle:ChatMessage");
+        $this->normalizer = $messageNormalizer;
+        $this->legacyChatlineConverter = $legacyChatlineConverter;
         $this->dispatcher = $dispatcher;
         $this->redis = $redis;
         $this->logger = $logger;
@@ -54,9 +63,7 @@ class ChatService
 
     public function getLast()
     {
-        return new ChatMessage(new User(), "Bald");
-        $mama = $this->em->getRepository("AppBundle:User")->find(26);
-        $chatmessage = new ChatMessage($mama, "Noch nicht, aber bald");
+        $chatmessage = $this->repo->findLast();
         return $chatmessage;
     }
 
@@ -76,23 +83,32 @@ class ChatService
     }
 
     /**
+     * To be used to FILL the collection, not on new Messages. See newMessage instead
      * @param User $user
      * @param $message
      * @return ChatMessage
      */
     public function add(User $user, $message)
     {
+        $text = $this->normalizer->normalize($message);
         $chatmessage = new ChatMessage($user, $message);
         $this->em->persist($chatmessage);
+        $this->em->flush();
         return $chatmessage;
     }
 
-    public function addToLog(ChatMessage $chatMessage)
+    private function addToLog(ChatMessage $chatMessage)
     {
-
+        $line = $this->legacyChatlineConverter->toLegacyChatline($chatMessage);
+        $fh = fopen($this->chatlogpath, "a");
+        if (!$fh) {
+            throw new \Exception("Chatlog not writable");
+        }
+        fwrite($fh, $line);
+        fclose($fh);
     }
 
-    public function addToRedis(ChatMessage $chatMessage)
+    private function addToRedis(ChatMessage $chatMessage)
     {
         //Karo2 uses only user (login string), text (actual text) and time (hh:mm string)
         $data = array(
@@ -106,7 +122,8 @@ class ChatService
     public function checkDate()
     {
         $lastMessage = $this->getLast();
-        $lastDay = date("Y-m-d", $lastMessage->getTs());
+        if (!$lastMessage) return;
+        $lastDay = $lastMessage->getTs()->format("Y-m-d");
         $today = date('Y-m-d', time());
         if ($today != $lastDay) {
             $this->logger->debug("Date change in chat");

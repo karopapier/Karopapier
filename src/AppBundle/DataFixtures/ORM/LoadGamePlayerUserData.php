@@ -26,7 +26,7 @@ class LoadGamePlayerUserData extends AbstractKaroLoader
         ]);
 
         $xosofox = $this->makeUser($manager, "xosofox", [
-                "id" => 1,
+                "id" => 2,
                 "login" => "xosofox",
                 "passwd" => "qwerasdf",
                 "email" => "xosofox@karoworld.de",
@@ -35,7 +35,7 @@ class LoadGamePlayerUserData extends AbstractKaroLoader
         ]);
 
         $fred = $this->makeUser($manager, "fred", [
-                "id" => 1,
+                "id" => 3,
                 "login" => "fred",
                 "passwd" => "qwerasdf",
                 "email" => "fred@karoworld.de",

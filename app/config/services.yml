@@ -21,6 +21,11 @@ services:
         tags:
           - { name: routing.loader }
 
+    legacy_chatline_converter:
+        class: AppBundle\Services\LegacyChatlineConverter
+        arguments:
+        - '@smilifier'
+
     visit_log:
         class: AppBundle\Services\VisitLogService
         autowire: true
@@ -87,12 +92,18 @@ services:
     chat_service:
       class: AppBundle\Services\ChatService
       arguments:
-        - '%chat%'
+        - '%chat%' #config
         - '@doctrine'
+        - '@message_normalizer'
+        - '@legacy_chatline_converter'
         - '@event_dispatcher'
         - '@snc_redis.default'
         - '@logger'
 
+    message_normalizer:
+      class: AppBundle\Services\MessageNormalizer
+      arguments:
+        - '@logger'
 
     twig.extension.last_chat_message:
       class: AppBundle\Twig\ChatMessageExtension

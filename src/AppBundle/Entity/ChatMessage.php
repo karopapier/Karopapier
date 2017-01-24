@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * KaroChat
  *
  * @ORM\Table(name="karo_chat", uniqueConstraints={@ORM\UniqueConstraint(name="lineId", columns={"lineId"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ChatMessageRepository")
  */
 class ChatMessage
 {
@@ -55,27 +55,20 @@ class ChatMessage
     private $text;
 
     /**
-     * Raw string entered by user, not smiliefied
-     * @var string
-     * @ORM\Column(name="raw", type="text", length=65535, nullable=false)
-     */
-    private $raw;
-
-    /**
      * For the sake of recalculating the original date, a ts that indicates the message must have been sent after this
      * @var \DateTime
      *
-     * @ORM\Column(name="after", type="datetime", nullable=true)
+     * @ORM\Column(name="after_ts", type="datetime", nullable=true)
      */
-    private $after;
+    private $after_ts;
 
     /**
      * For the sake of recalculating the original date, a ts that indicates the message must have been sent before this
      * @var \DateTime
      *
-     * @ORM\Column(name="before", type="datetime", nullable=true)
+     * @ORM\Column(name="before_ts", type="datetime", nullable=true)
      */
-    private $before;
+    private $before_ts;
 
     /**
      * Unique ID, not related to time, line or md5
@@ -94,16 +87,16 @@ class ChatMessage
      */
     public function __construct(User $user, $text)
     {
+        $this->lineid = 12345;
         $this->login = $user->getUsername();
         $this->uId = $user->getId();
         $this->text = $text;
         $this->raw = $text;
-        //$text = KaroLayout::smilify($msg);
-        $t = time();
-        $this->ts = $t;
-        $this->time = date("G:i", $t);
-        $this->after = $t;
-        $this->before = $t;
+        $now = new \DateTime();
+        $this->ts = $now;
+        $this->time = $now->format("G:i");
+        $this->after_ts = $now;
+        $this->before_ts = $now;
     }
 
     /**

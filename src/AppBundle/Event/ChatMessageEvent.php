@@ -10,8 +10,9 @@ namespace AppBundle\Event;
 
 
 use AppBundle\Entity\ChatMessage;
+use Symfony\Component\EventDispatcher\Event;
 
-class ChatMessageEvent
+class ChatMessageEvent extends Event
 {
     /** @var ChatMessage $chatmessage */
     private $chatmessage;
