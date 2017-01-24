@@ -28,6 +28,6 @@ class GameCheckerTest extends WebTestCase
         //find id for Didi
         $id = $this->fixtures->getReference("didi")->getId();
 
-        $this->assertEquals("asdf", "qwer", "asdfqwer");
+        #$this->assertEquals("asdf", "qwer", "asdfqwer");
     }
 }
