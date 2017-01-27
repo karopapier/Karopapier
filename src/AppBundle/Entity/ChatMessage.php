@@ -80,16 +80,21 @@ class ChatMessage
     private $id;
 
     /**
-     * Create a new message and require a User to be given
+     * Create a new message
      * ChatMessage constructor.
      * @param User $user
      * @param $text
      */
-    public function __construct(User $user, $text)
+    public function __construct(User $user = null, $text, $lineId = 0)
     {
-        $this->lineid = 12345;
-        $this->login = $user->getUsername();
-        $this->uId = $user->getId();
+        $this->lineid = $lineId;
+        if ($user) {
+            $this->login = $user->getUsername();
+            $this->uId = $user->getId();
+        } else {
+            $this->login = "";
+            $this->uId = 0;
+        }
         $this->text = $text;
         $this->raw = $text;
         $now = new \DateTime();
@@ -129,5 +134,13 @@ class ChatMessage
     public function getTime()
     {
         return $this->time;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLineId()
+    {
+        return $this->lineid;
     }
 }

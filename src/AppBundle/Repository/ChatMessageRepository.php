@@ -9,7 +9,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\ChatMessage;
-use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class ChatMessageRepository extends EntityRepository
@@ -25,11 +24,9 @@ class ChatMessageRepository extends EntityRepository
                 );
         $query->setMaxResults(1);
         try {
-            $last = $query->getSingleResult();
-            dump($last);
-            return $last;
+            return $query->getSingleResult();
         } catch (\Exception $exception) {
-            return new ChatMessage(new User(), "Chat ist gerade kaputt");
+            return new ChatMessage(null, "Chat ist gerade kaputt");
         }
     }
 }

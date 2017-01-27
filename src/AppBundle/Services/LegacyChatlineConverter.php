@@ -26,6 +26,6 @@ class LegacyChatlineConverter
         $text = $this->smilifier->smilify($chatMessage->getText());
         $login = $chatMessage->getLogin();
         $time = $chatMessage->getTime();
-        return sprintf("%s (%s): %s <BR>\n", $login, $time, $text);
+        return sprintf("<B>%s</B> (%s): %s <BR>\n", $login, $time, $text);
     }
 }

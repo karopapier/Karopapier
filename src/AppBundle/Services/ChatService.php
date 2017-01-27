@@ -63,8 +63,7 @@ class ChatService
 
     public function getLast()
     {
-        $chatmessage = $this->repo->findLast();
-        return $chatmessage;
+        return $this->repo->findLast();
     }
 
     /**
@@ -83,15 +82,16 @@ class ChatService
     }
 
     /**
-     * To be used to FILL the collection, not on new Messages. See newMessage instead
-     * @param User $user
+     * To be used to FILL the collection internally, not on new Messages. See newMessage instead
+     * @param User|null $user
      * @param $message
      * @return ChatMessage
      */
-    public function add(User $user, $message)
+    public function add(User $user = null, $message)
     {
         $text = $this->normalizer->normalize($message);
-        $chatmessage = new ChatMessage($user, $message);
+        $lastId = $this->getLast()->getLineId();
+        $chatmessage = new ChatMessage($user, $message, $lastId + 1);
         $this->em->persist($chatmessage);
         $this->em->flush();
         return $chatmessage;
