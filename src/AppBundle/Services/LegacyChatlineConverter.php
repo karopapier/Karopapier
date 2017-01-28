@@ -28,4 +28,20 @@ class LegacyChatlineConverter
         $time = $chatMessage->getTime();
         return sprintf("<B>%s</B> (%s): %s <BR>\n", $login, $time, $text);
     }
+
+    public function parseLegacyChatline($line)
+    {
+
+        if (!preg_match('/^<B>(.*?)<\/B> \((.*?)\): (.*?) <BR>/', $line, $matches)) {
+            return array();
+        }
+
+        $data = array(
+                "login" => $matches[1],
+                "time" => $matches[2],
+                "text" => $matches[3],
+        );
+
+        return $data;
+    }
 }

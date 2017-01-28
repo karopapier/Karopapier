@@ -100,6 +100,14 @@ services:
         - '@snc_redis.default'
         - '@logger'
 
+    chatlog_importer:
+      class: AppBundle\Services\ChatlogImporter
+      arguments:
+        - '@doctrine'
+        - '@smilifier'
+        - '@legacy_chatline_converter'
+        - '@logger'
+
     message_normalizer:
       class: AppBundle\Services\MessageNormalizer
       arguments:

@@ -99,7 +99,7 @@ class ChatMessage
         $this->raw = $text;
         $now = new \DateTime();
         $this->ts = $now;
-        $this->time = $now->format("G:i");
+        $this->time = $now->format("H:i");
         $this->after_ts = $now;
         $this->before_ts = $now;
     }
