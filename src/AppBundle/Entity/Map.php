@@ -142,8 +142,10 @@ class Map extends BaseMap
                 "rating" => $this->rating,
                 "players" => $this->starties,
                 "mapcode" => $this->getCode(),
-                "cps" => $this->getCpArray()
+                "cps" => $this->getCpArray(),
+                "active" => (bool)$this->active,
         );
+
         return $m;
     }
 }

@@ -26,6 +26,7 @@ class MapController extends AbstractApiController
     {
         $response = new JsonResponse($map->toArray());
         $response->setCallback($request->get("callback"));
+
         return $response;
     }
 
@@ -37,6 +38,7 @@ class MapController extends AbstractApiController
     {
         $response = new JsonResponse($map->toArray());
         $response->setCallback($request->get("callback"));
+
         return $response;
     }
 }
