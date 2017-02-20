@@ -48,8 +48,15 @@ class ChatService
      * @param Registry $registry
      * @param EventDispatcher $dispatcher
      */
-    public function __construct($config, Registry $registry, MessageNormalizer $messageNormalizer, LegacyChatlineConverter $legacyChatlineConverter, EventDispatcherInterface $dispatcher, $redis, LoggerInterface $logger)
-    {
+    public function __construct(
+            $config,
+            Registry $registry,
+            MessageNormalizer $messageNormalizer,
+            LegacyChatlineConverter $legacyChatlineConverter,
+            EventDispatcherInterface $dispatcher,
+            $redis,
+            LoggerInterface $logger
+    ) {
         $this->chatlogpath = $config["logpath"];
         $this->chatRedisKey = $config["redis_key"];
         $this->em = $registry->getManager();
@@ -78,33 +85,40 @@ class ChatService
         $this->addToRedis($cm);
         $event = new ChatMessageEvent($cm);
         $this->dispatcher->dispatch("chat_message", $event);
+
         return $cm;
     }
 
     /**
-     * To be used to FILL the collection internally, not on new Messages. See newMessage instead
+     * To be used to FILL the collection internally, not on new User Messages. See newMessage instead
      * @param User|null $user
      * @param $message
+     * @param int $lineId
+     * @param string $legacyLine
+     * @param string $time
      * @return ChatMessage
      */
-    public function add(User $user = null, $message)
+    public function add(User $user = null, $message, $lineId = 0, $legacyLine = "", $time = "00:00")
     {
         $text = $this->normalizer->normalize($message);
-        $lastId = $this->getLast()->getLineId();
-        $chatmessage = new ChatMessage($user, $message, $lastId + 1);
+
+        if ($lineId == 0) {
+            $lastId = $this->getLast()->getLineId();
+            $lineId = $lastId + 1;
+        }
+        $chatmessage = new ChatMessage($user, $message, $lineId, $legacyLine, $time);
         $this->em->persist($chatmessage);
-        $this->em->flush();
+
         return $chatmessage;
     }
 
     private function addToLog(ChatMessage $chatMessage)
     {
-        $line = $this->legacyChatlineConverter->toLegacyChatline($chatMessage);
         $fh = fopen($this->chatlogpath, "a");
         if (!$fh) {
             throw new \Exception("Chatlog not writable");
         }
-        fwrite($fh, $line);
+        fwrite($fh, $chatMessage->getLegacyLine());
         fclose($fh);
     }
 
@@ -114,7 +128,7 @@ class ChatService
         $data = array(
                 "user" => $chatMessage->getLogin(),
                 "time" => $chatMessage->getTime(),
-                "text" => $chatMessage->getText()
+                "text" => $chatMessage->getText(),
         );
         $this->redis->rpush($this->chatRedisKey, json_encode($data));
     }
@@ -122,12 +136,19 @@ class ChatService
     public function checkDate()
     {
         $lastMessage = $this->getLast();
-        if (!$lastMessage) return;
-        $lastDay = $lastMessage->getTs()->format("Y-m-d");
+        if (!$lastMessage) {
+            return;
+        }
+        $lts = $lastMessage->getTs();
+        if (!$lts) {
+            return;
+        }
+        $lastDay = $lts->format("Y-m-d");
         $today = date('Y-m-d', time());
         if ($today != $lastDay) {
             $this->logger->debug("Date change in chat");
-            $this->add(null, '---------------- ' . $today . ' ----------------');
+            $line = '---------------- '.$today.' ----------------';
+            $this->add(null, $line, 0, $line);
         }
     }
 }

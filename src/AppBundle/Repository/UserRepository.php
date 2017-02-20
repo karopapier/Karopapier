@@ -9,24 +9,26 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\ChatMessage;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
-class ChatMessageRepository extends EntityRepository
+class UserRepository extends EntityRepository
 {
+    /** @var array */
+    private $cache = array();
+
     /**
-     * @return ChatMessage
+     * @return User
      */
-    public function findLast()
+    public function getUserForLogin($login)
     {
-        $query = $this->getEntityManager()
-                ->createQuery(
-                        'SELECT cm FROM AppBundle:ChatMessage cm ORDER BY cm.ts DESC'
-                );
-        $query->setMaxResults(1);
-        try {
-            return $query->getSingleResult();
-        } catch (\Exception $exception) {
-            return new ChatMessage(null, "Chat ist gerade kaputt");
+        if (isset($this->cache[$login])) {
+            return $this->cache[$login];
         }
+
+        /** @var User $user */
+        $user = $this->findOneBy(array("login" => $login));
+        $this->cache[$login] = $user;
+        return $user;
     }
 }

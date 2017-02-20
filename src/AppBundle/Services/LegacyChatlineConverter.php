@@ -21,25 +21,33 @@ class LegacyChatlineConverter
         $this->smilifier = $smilifier;
     }
 
-    public function toLegacyChatline(ChatMessage $chatMessage)
+    public function toLegacyChatline($login, $time, $text)
     {
-        $text = $this->smilifier->smilify($chatMessage->getText());
-        $login = $chatMessage->getLogin();
-        $time = $chatMessage->getTime();
+        $text = $this->smilifier->smilify($text);
         return sprintf("<B>%s</B> (%s): %s <BR>\n", $login, $time, $text);
     }
 
     public function parseLegacyChatline($line)
     {
+        if (substr($line, 0, 5) === '-----') {
+            return array(
+                    "login" => "",
+                    "time" => "00:00",
+                    "text" => $line
+            );
+        }
 
-        if (!preg_match('/^<B>(.*?)<\/B> \((.*?)\): (.*?) <BR>/', $line, $matches)) {
+        if (!preg_match('/^<B>(.*?)<\/B> \((.*?)\): (.*?)<BR>/', $line, $matches)) {
             return array();
         }
+
+        $text = $matches[3];
+        $text = trim($text);
 
         $data = array(
                 "login" => $matches[1],
                 "time" => $matches[2],
-                "text" => $matches[3],
+                "text" => $text
         );
 
         return $data;

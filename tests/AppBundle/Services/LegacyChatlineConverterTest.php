@@ -28,19 +28,15 @@ class LegacyChatlineConverterTest extends \PHPUnit_Framework_TestCase
         $smilfier = $this->getMockBuilder(Smilifier::class)->disableOriginalConstructor()->getMock();
         $smilfier->expects($this->once())
                 ->method('smilify')
-                ->will($this->returnValue("Lala"));
+                ->will($this->returnValue("Was ne Nachricht..."));
 
         $this->converter = new LegacyChatlineConverter($smilfier);
 
-        $time = time();
-        $user = $this->getMock(User::class);
-        $user->expects($this->once())
-                ->method('getUsername')
-                ->will($this->returnValue("Diadia"));
-        $cm = new ChatMessage($user, "Lala");
+        $time = "12:34";
+        $login = "Diadia";
 
-        $line = $this->converter->toLegacyChatline($cm);
-        $expected = "<B>Diadia</B> (" . date("H:i", $time) . "): Lala <BR>\n";
+        $line = $this->converter->toLegacyChatline($login, $time, "Egal, ruft smilifier");
+        $expected = "<B>Diadia</B> (12:34): Was ne Nachricht... <BR>\n";
 
         $this->assertEquals($line, $expected, "returns old school line");
 

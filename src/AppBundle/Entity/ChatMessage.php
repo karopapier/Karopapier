@@ -55,6 +55,12 @@ class ChatMessage
     private $text;
 
     /**
+     * @var string
+     * @ORM\Column(name="line", type="text", length=65535, nullable=false)
+     */
+    private $line;
+
+    /**
      * For the sake of recalculating the original date, a ts that indicates the message must have been sent after this
      * @var \DateTime
      *
@@ -83,9 +89,12 @@ class ChatMessage
      * Create a new message
      * ChatMessage constructor.
      * @param User $user
-     * @param $text
+     * @param string $text
+     * @param int $lineId
+     * @param string $legacyLine
+     * @param string $time
      */
-    public function __construct(User $user = null, $text, $lineId = 0)
+    public function __construct(User $user = null, $text, $lineId = 0, $legacyLine = "", $time = "")
     {
         $this->lineid = $lineId;
         if ($user) {
@@ -95,11 +104,12 @@ class ChatMessage
             $this->login = "";
             $this->uId = 0;
         }
-        $this->text = $text;
-        $this->raw = $text;
+        $this->text = substr($text, 0, 65000);
+        $this->line = substr($legacyLine, 0, 65000);
         $now = new \DateTime();
         $this->ts = $now;
-        $this->time = $now->format("H:i");
+        if ($time == "") $time = $now->format("H:i");
+        $this->time = $time;
         $this->after_ts = $now;
         $this->before_ts = $now;
     }
@@ -142,5 +152,50 @@ class ChatMessage
     public function getLineId()
     {
         return $this->lineid;
+    }
+
+    public function getLegacyLine()
+    {
+        return $this->line;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getAfterTs()
+    {
+        return $this->after_ts;
+    }
+
+    /**
+     * @param \DateTime $after_ts
+     */
+    public function setAfterTs(\DateTime $after_ts = null)
+    {
+        $this->after_ts = $after_ts;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBeforeTs()
+    {
+        return $this->before_ts;
+    }
+
+    /**
+     * @param \DateTime $before_ts
+     */
+    public function setBeforeTs(\DateTime $before_ts = null)
+    {
+        $this->before_ts = $before_ts;
+    }
+
+    /**
+     * @param \DateTime $ts
+     */
+    public function setTs(\DateTime $ts = null)
+    {
+        $this->ts = $ts;
     }
 }
