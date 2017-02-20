@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * KaroChat
  *
- * @ORM\Table(name="karo_chat", uniqueConstraints={@ORM\UniqueConstraint(name="lineId", columns={"lineId"})})
+ * @ORM\Table(name="karo_chat", uniqueConstraints={@ORM\UniqueConstraint(name="lineId", columns={"lineId"})}, options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ChatMessageRepository")
  */
 class ChatMessage
