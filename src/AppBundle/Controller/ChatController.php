@@ -12,7 +12,7 @@ class ChatController extends Controller
 {
     /**
      * @Security("has_role('ROLE_USER')")
-     * @Route("/chat/realchatenter", name="legacy_chat_enter")
+     * @Route("/chat/realchatenter_2", name="legacy_chat_enter")
      * @Template("chat/realchatenter.html.twig")
      */
     public function realchatEnterAction(Request $request)
