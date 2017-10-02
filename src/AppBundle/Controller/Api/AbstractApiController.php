@@ -18,7 +18,7 @@ abstract class AbstractApiController extends Controller
     public function getJson(Request $request)
     {
         $content = $request->getContent();
-        dump($content);
+        //dump($content);
         if (!($content)) return "";
         $json = json_decode($content, true);
         return $json;

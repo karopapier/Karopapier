@@ -8,7 +8,6 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\ChatMessage;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 

@@ -5,40 +5,40 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Message
+ * KaroMessage
  *
- * @ORM\Table(name="karo_message", indexes={@ORM\Index(name="from_id", columns={"from_id"}), @ORM\Index(name="to_id", columns={"to_id"})})
- * @ORM\Entity
+ * @ORM\Table(name="karo_message", indexes={@ORM\Index(name="from_id", columns={"user_id"}), @ORM\Index(name="to_id", columns={"contact_id"})})
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MessageRepository")
  */
 class Message
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="from_id", type="integer", nullable=false)
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
-    private $fromId;
+    private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="from_name", type="string", length=50, nullable=false)
+     * @ORM\Column(name="user_name", type="string", length=50, nullable=false)
      */
-    private $fromName;
+    private $userName;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="to_id", type="integer", nullable=false)
+     * @ORM\Column(name="contact_id", type="integer", nullable=false)
      */
-    private $toId;
+    private $contactId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="to_name", type="string", length=50, nullable=false)
+     * @ORM\Column(name="contact_name", type="string", length=50, nullable=false)
      */
-    private $toName;
+    private $contactName;
 
     /**
      * @var string
@@ -46,6 +46,13 @@ class Message
      * @ORM\Column(name="text", type="text", nullable=false)
      */
     private $text;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rxtx", type="string", length=2, nullable=false)
+     */
+    private $rxtx = 'tx';
 
     /**
      * @var \DateTime
@@ -66,7 +73,7 @@ class Message
      *
      * @ORM\Column(name="is_deleted", type="boolean", nullable=false)
      */
-    private $isDeleted;
+    private $isDeleted = '0';
 
     /**
      * @var integer
@@ -79,3 +86,4 @@ class Message
 
 
 }
+

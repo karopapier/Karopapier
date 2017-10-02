@@ -499,8 +499,13 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        if ($this->id == 1) return array("ROLE_USER", "ROLE_ADMIN");
-        if ($this->login == "Didi") return array("ROLE_USER", "ROLE_ADMIN");
+        if ($this->id == 1) {
+            return array("ROLE_USER", "ROLE_ADMIN");
+        }
+        if ($this->login == "Didi") {
+            return array("ROLE_USER", "ROLE_ADMIN");
+        }
+
         return array("ROLE_USER");
     }
 
@@ -540,6 +545,7 @@ class User implements UserInterface
     {
         #how many days since sign up 
         $now = new \DateTime('now');
+
         return $now->diff($this->signupdate)->days;
     }
 
@@ -551,6 +557,7 @@ class User implements UserInterface
     {
         #how many days passed since last visit
         $now = new \DateTime('now');
+
         return $now->diff($this->reallastvisit)->days;
     }
 
@@ -610,33 +617,34 @@ class User implements UserInterface
     public function getSoundfile()
     {
         if ($this->notificationSound) {
-            return "/mp3/" . $this->notificationSound . ".mp3";
+            return "/mp3/".$this->notificationSound.".mp3";
         }
+
         return false;
     }
 
     public function toArray()
     {
         return array(
-                "id" => $this->id,
-                "login" => $this->login,
-                "color" => $this->color,
-                "lastVisit" => $this->getNbDaysAbsent(),
-                "signup" => $this->getNbDaysSignedUp(),
-                "dran" => $this->nbDran,
-                "activeGames" => $this->nbGames,
-                "acceptsDayGames" => $this->tag,
-                "acceptsNightGames" => $this->nacht,
-                "maxGames" => $this->maxgames,
-                "sound" => $this->useSound,
-                "soundfile" => $this->getSoundfile(),
-                "size" => $this->size,
-                "border" => $this->border,
-                "desperate" => $this->isDesperate(),
-                "birthdayToday" => $this->isBirthdayToday(),
-                "karodayToday" => $this->isKarodayToday(),
-                "theme" => $this->theme,
-                "bot" => $this->isbot,
+            "id" => $this->id,
+            "login" => $this->login,
+            "color" => $this->color,
+            "lastVisit" => $this->getNbDaysAbsent(),
+            "signup" => $this->getNbDaysSignedUp(),
+            "dran" => $this->nbDran,
+            "activeGames" => $this->nbGames,
+            "acceptsDayGames" => $this->tag,
+            "acceptsNightGames" => $this->nacht,
+            "maxGames" => $this->maxgames,
+            "sound" => $this->useSound,
+            "soundfile" => $this->getSoundfile(),
+            "size" => $this->size,
+            "border" => $this->border,
+            "desperate" => $this->isDesperate(),
+            "birthdayToday" => $this->isBirthdayToday(),
+            "karodayToday" => $this->isKarodayToday(),
+            "theme" => $this->theme,
+            "bot" => $this->isbot,
         );
 
     }
@@ -663,19 +671,19 @@ class User implements UserInterface
     public function asLegacySessionArray()
     {
         return array(
-                "login" => $this->login,
-                "u_id" => $this->id,
-                "vorname" => $this->vorname,
-                "nachname" => $this->nachname,
-                "size" => $this->size,
-                "border" => $this->border,
-                "view" => $this->view,
-                "GamesPerPage" => $this->gamesperpage,
-                "games_order" => $this->gamesOrder,
-                "faulpelz" => $this->faulpelz,
-                "move_autoforward" => $this->moveAutoforward,
-                "economode" => $this->economode,
-                "draw_limit" => $this->drawLimit
+            "login" => $this->login,
+            "u_id" => $this->id,
+            "vorname" => $this->vorname,
+            "nachname" => $this->nachname,
+            "size" => $this->size,
+            "border" => $this->border,
+            "view" => $this->view,
+            "GamesPerPage" => $this->gamesperpage,
+            "games_order" => $this->gamesOrder,
+            "faulpelz" => $this->faulpelz,
+            "move_autoforward" => $this->moveAutoforward,
+            "economode" => $this->economode,
+            "draw_limit" => $this->drawLimit,
         );
     }
 
@@ -701,7 +709,8 @@ class User implements UserInterface
 
     public function getGravatar()
     {
-        $grav = 'http://www.gravatar.com/avatar/' . md5(strtolower($this->email));
+        $grav = 'http://www.gravatar.com/avatar/'.md5(strtolower($this->email));
+
         return $grav;
     }
 
