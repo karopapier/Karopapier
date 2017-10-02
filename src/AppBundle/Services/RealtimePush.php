@@ -8,7 +8,7 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Document\User;
+use AppBundle\Entity\User;
 use AppBundle\Entity\ChatMessage;
 use AppBundle\Event\ChatMessageEvent;
 use Psr\Log\LoggerInterface;
@@ -35,7 +35,6 @@ class RealtimePush
     private function notifyUser(User $user, $event, $payload)
     {
         $username = $user->getUsername();
-        $this->logger->debug('Resolver defined server '.$server);
 
         $this->turtedPush->notifyUser(
             $username,
