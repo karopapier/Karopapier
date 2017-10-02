@@ -1,0 +1,6 @@
+services:
+    turted_push:
+      class: Turted\Bundle\Service\TurtedRestPushService
+      arguments:
+        - '%turted%'
+        - '@logger'

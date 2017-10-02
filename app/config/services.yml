@@ -109,6 +109,12 @@ services:
         - '@legacy_chatline_converter'
         - '@logger'
 
+    realtime_push:
+        class: AppBundle\Services\RealtimePush
+        autowire: true
+        tags:
+          - { name: kernel.event_listener, event: chat_message}
+
     message_normalizer:
       class: AppBundle\Services\MessageNormalizer
       arguments:

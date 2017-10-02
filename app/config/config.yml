@@ -95,3 +95,10 @@ snc_redis:
             type: phpredis
             alias: default
             dsn: redis://localhost
+
+
+turted:
+  enabled: true
+  push:
+    url: http://192.168.0.50:6969/push/
+    password: ThisPW4PushingEvents
