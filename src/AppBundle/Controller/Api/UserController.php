@@ -10,8 +10,8 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,6 +26,24 @@ class UserController extends AbstractApiController
     {
         $json = new JsonResponse($user->toArray());
         $json->setCallback($request->get("callback"));
+
+        return $json;
+    }
+
+    /**
+     * @Route("/users", name="api_users_list", requirements={"id": "\d+"})
+     */
+    public function listAction(Request $request)
+    {
+        $loginFilter = $request->get("login", "");
+        $users = $this->getDoctrine()->getRepository("AppBundle:User")->getActiveUsers($loginFilter);
+        $data = [];
+        foreach ($users as $user) {
+            $data[] = $user->toArray();
+        }
+        $json = new JsonResponse($data);
+        $json->setCallback($request->get("callback"));
+
         return $json;
     }
 
@@ -47,9 +65,11 @@ class UserController extends AbstractApiController
         }
 
         $em = $this->get("doctrine.orm.default_entity_manager");
-        $user = $em->getRepository('AppBundle:User')->findOneBy(array(
-                "login" => $login
-        ));
+        $user = $em->getRepository('AppBundle:User')->findOneBy(
+            array(
+                "login" => $login,
+            )
+        );
         if (!$user) {
             throw new AccessDeniedHttpException();
         }
@@ -61,6 +81,7 @@ class UserController extends AbstractApiController
         $json = new JsonResponse($user->toArray());
         $json->headers->setCookie($this->get("legacy_cookie_setter")->getCookie($user->getId(), $password));
         $json->setCallback($request->get("callback"));
+
         return $json;
     }
 
@@ -73,6 +94,7 @@ class UserController extends AbstractApiController
     {
         $json = new JsonResponse($user->toArray());
         $json->setCallback($request->get("callback"));
+
         return $json;
     }
 

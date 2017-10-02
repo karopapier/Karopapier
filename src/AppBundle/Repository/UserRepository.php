@@ -29,6 +29,31 @@ class UserRepository extends EntityRepository
         /** @var User $user */
         $user = $this->findOneBy(array("login" => $login));
         $this->cache[$login] = $user;
+
         return $user;
+    }
+
+    /**
+     * @param string $login
+     * @return User[]
+     */
+    public function getActiveUsers($login = "")
+    {
+        $filter = [
+            "active" => true,
+        ];
+        $sort = [
+            "id" => "ASC",
+        ];
+
+        $qb = $this->createQueryBuilder('u')
+            ->where("u.active=true");
+        if ($login) {
+            $qb->andWhere('u.login LIKE :login')
+                ->setParameter('login', '%'.$login.'%');
+        }
+        $query = $qb->getQuery();
+
+        return $query->execute();
     }
 }
