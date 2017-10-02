@@ -100,5 +100,5 @@ snc_redis:
 turted:
   enabled: true
   push:
-    url: http://192.168.0.50:6969/push/
-    password: ThisPW4PushingEvents
+    url: %turted_url%
+    password: %turted_password%
