@@ -15,7 +15,7 @@
 {% block javascripts %}
     <script type="text/template" id="send-template">
         An
-        <div class="userDropdown"></div>: <input type="text">
+        <span class="userDropdown"></span>: <input type="text">
         <button>Send</button>
     </script>
 
@@ -91,7 +91,7 @@
         });
 
         var MessageView = Marionette.View.extend({
-            template: _.template("<%= user_name %>: <%- text %>")
+            template: _.template("<%= ts %>: <%= contact_name %>: <%- text %> <%= rxtx %>")
         });
         var MessagesView = Marionette.CollectionView.extend({
             childView: MessageView

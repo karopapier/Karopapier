@@ -12,6 +12,21 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
+    public function __construct(User $user, User $contact, $text, $rxtx)
+    {
+        $this->userId = $user->getId();
+        $this->userName = $user->getUsername();
+        $this->contactId = $contact->getId();
+        $this->contactName = $contact->getUsername();
+        $this->text = $text;
+        $this->rxtx = $rxtx;
+        $now = new \DateTime();
+        $this->createdAt = $now;
+        if ($this->isTx()) {
+            $this->readAt = $now;
+        }
+    }
+
     /**
      * @var integer
      *
@@ -83,6 +98,25 @@ class Message
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    public function isTx()
+    {
+        return ($this->rxtx === "tx");
+    }
+
+    public function toArray()
+    {
+        return [
+            "id" => $this->id,
+            "user_id" => $this->userId,
+            "user_name" => $this->userName,
+            "contact_id" => $this->contactId,
+            "contact_name" => $this->contactName,
+            "ts" => $this->createdAt->getTimestamp(),
+            "text" => $this->text,
+            "rxtx" => $this->rxtx,
+        ];
+    }
 
 
 }

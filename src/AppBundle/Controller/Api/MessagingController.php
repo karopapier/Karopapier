@@ -9,6 +9,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Message;
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -47,19 +48,22 @@ class MessagingController extends AbstractApiController
      */
     public function addAction(Request $request)
     {
+        $user = $this->getUser();
+        /** @var User $user */
         $data = $this->getJson($request);
-        list($userId, $text) = $this->requireKeys($data, array("userId", "text"));
-        $recipient = $this->getDoctrine()->getRepository("AppBundle:User")->findOneBy(["id" => $userId]);
+        list($recipientId, $text) = $this->requireKeys($data, array("userId", "text"));
+        $recipient = $this->getDoctrine()->getRepository("AppBundle:User")->findOneBy(["id" => $recipientId]);
+
         if (!$recipient) {
             return $this->sendError(404, "UNKNOWN USER");
         }
-        $json = new JsonResponse(
-            [
-                "id" => md5(time()),
-                "text" => $text,
-                "user_name" => $recipient->getLogin(),
-            ]
-        );
+
+        if ($recipient->getId() == $user->getId()) {
+            return $this->sendError(400, "SELF");
+        }
+
+        $message = $this->get("messaging_service")->add($user, $recipient, $text);
+        $json = new JsonResponse($message->toArray());
         $json->setCallback($request->get("callback"));
 
         return $json;

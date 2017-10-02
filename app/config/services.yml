@@ -120,6 +120,14 @@ services:
       arguments:
         - '@logger'
 
+    messaging_service:
+      class: AppBundle\Services\MessagingService
+      arguments:
+        - '@doctrine.orm.default_entity_manager'
+        - '@message_normalizer'
+        - '@realtime_push'
+        - '@logger'
+
     twig.extension.last_chat_message:
       class: AppBundle\Twig\ChatMessageExtension
       arguments:
