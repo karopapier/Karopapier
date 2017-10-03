@@ -9,16 +9,50 @@
 
 {% block body %}
     <style type="text/css">
-        .selected {
-            background-color: red;
+        .clickable: {
+            cursor: pointer;
         }
 
-        .message-rx {
+        .selected {
+            font-weight: bold;
+            background-image: url(/images/unterstrich.png);
+            background-repeat: no-repeat;
+            background-position: 0 15px;
+            width: 100px;
+        }
+
+        #messaging {
+            display: flex;
+        }
+
+        .contact-list {
+            width: 200px;
+        }
+
+        .message-wrapper {
+            flex: 2;
+            max-width: 480px;
+        }
+
+        .message-list {
+
+        }
+
+        .send-view {
+
+        }
+
+        .date-separator {
+            text-align: center;
+        }
+
+        .message-tx {
+            text-align: right;
         }
     </style>
     <h1 class="karoborder">Zettel schreiben</h1>
     <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben ohne reinzuschauen.</p>
-    <div id="content">Lala</div>
+    <div id="messaging">Loading...</div>
 {% endblock %}
 
 {% block javascripts %}
@@ -34,12 +68,18 @@
 
     <script type="text/template" id="messaging-template">
         <div class="contact-list"></div>
-        <div class="message-list"></div>
-        <div class="send-view"></div>
+        <div class="message-wrapper">
+            <div class="message-list"></div>
+            <div class="send-view"></div>
+        </div>
     </script>
 
     <script type="text/template" id="message-template">
-        <%= formatTs(ts) %>: <%= contact_name %>: <%- text %> <%= rxtx %>
+        <% if (dateSeparator) { %>
+        <div class="date-separator">---------------- <%= formatTsIsoDate(ts) %> ----------------</div><% } %>
+        <div class="message-<%= rxtx %>">
+            <b><% if (rxtx=="rx") { %><%= contact_name %><% } else { %><%= user_name %><% } %></b> (<%= formatTs(ts) %>): <%- text %>
+        </div>
     </script>
 
     <script type="text/javascript">
@@ -48,7 +88,14 @@
             url: "/api/users"
         });
 
+        var Message = Backbone.Model.extend({
+            defaults: {
+                dateSeparator: false
+            }
+        });
+
         var MessageCollection = Backbone.Collection.extend({
+            model: Message,
             comparator: "ts",
             url: "/api/messages"
         });
@@ -89,7 +136,7 @@
             send: function() {
                 var text = this.$('input').val();
                 var userId = this.$('select').val();
-                console.log("Nachricht", text, "an", userId);
+                console.info("Nachricht", text, "an", userId);
                 this.trigger("send", {
                     userId: userId,
                     text: text
@@ -98,15 +145,16 @@
         });
 
         var UserOptionView = Marionette.View.extend({
-            initialize: function(options) {
-                this.selected = this.getOption("selected");
-            },
             tagName: "option",
             template: _.template("<%= login %>"),
-            onRender: function() {
-                if (this.selected.get("id") == this.model.get("id")) {
-                    this.$el.attr("selected", "selected");
+            attributes: function() {
+                var attr = {
+                    value: this.model.get("id")
+                };
+                if (this.options.selected.get("id") == this.model.get("id")) {
+                    attr["selected"] = "selected";
                 }
+                return attr;
             }
         });
 
@@ -132,17 +180,38 @@
         var MessageView = Marionette.View.extend({
             template: "#message-template",
             templateContext: {
+                formatTsIsoDate: function(ts) {
+                    var dat = new Date(ts * 1000);
+                    var y = dat.getFullYear();
+                    var m = dat.getMonth() + 1;
+                    var d = dat.getDate();
+                    if (m < 10) m = "0" + m;
+                    if (d < 10) d = "0" + d;
+                    return y + "-" + m + "-" + d;
+                },
                 formatTs: function(ts) {
                     var d = new Date(ts * 1000);
-                    return d.toLocaleDateString() + " " + d.toLocaleTimeString();
+                    var m = d.getMinutes();
+                    if (m < 10) m = "0" + m;
+                    return d.getHours() + ":" + m;
                 }
             }
         });
         var MessagesView = Marionette.CollectionView.extend({
-            childView: MessageView
+
+            childView: function(child) {
+                return MessageView;
+            },
+            childViewOptions: function(model, index) {
+                // do some calculations based on the model
+                return {
+                    childIndex: "index"
+                }
+            }
         });
 
         var ContactView = Marionette.View.extend({
+            className: "clickable",
             template: "#contact-template",
             triggers: {
                 "click": "contact:select"
@@ -183,18 +252,20 @@
         var MessagingApp = Marionette.Application.extend({
             initialize: function() {
                 this.contacts = new ContactCollection();
-                //this.contacts.fetch();
 
                 this.messages = new MessageCollection();
-                //this.messages.fetch();
+                this.userMessages = new MessageCollection();
+                this.listenTo(this.messages, "add", function(m) {
+                    this.userMessages.add(m);
+                });
 
                 this.messagingLayout = new MessagingLayout({
-                    el: '#content'
+                    el: '#messaging'
                 });
             },
 
             start: function() {
-                console.log("Start App");
+                console.info("Start App");
                 var me = this;
                 this.messagingLayout.render();
 
@@ -216,7 +287,7 @@
             },
 
             selectName: function(contactName) {
-                console.log("Select", contactName);
+                console.info("Select", contactName);
                 var c = this.contacts.findWhere({
                     "login": contactName
                 });
@@ -233,11 +304,21 @@
                 this.contacts.each(function(c) {
                     c.set("selected", contact.get("id") === c.get("id"))
                 });
-                var userMessages = new MessageCollection(this.messages.where({
+                var messages = this.messages.where({
                     contact_id: contact.get("id")
-                }));
+                });
+                var prevDate = "";
+                messages.forEach(function(m) {
+                    var d = new Date(m.get("ts") * 1000);
+                    var dat = "" + d.getDate() + d.getMonth();
+                    if (dat != prevDate) {
+                        m.set("dateSeparator", true);
+                        prevDate = dat;
+                    }
+                });
+                this.userMessages.reset(messages);
                 this.messagingLayout.getRegion("messages").show(new MessagesView({
-                    collection: userMessages
+                    collection: this.userMessages
                 }));
                 this.sendView = new SendView({
                     model: contact
