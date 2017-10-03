@@ -16,7 +16,7 @@ class MessagingController extends Controller
 {
     /**
      * @param $name
-     * @Route("/mitteilungen/{name}", name="messaging")
+     * @Route("/zettel/{name}", name="messaging")
      * @Template("messaging/messaging.html.twig")
      */
     public function indexAction($name = "")
@@ -30,5 +30,13 @@ class MessagingController extends Controller
         return [
             "users" => $data,
         ];
+    }
+
+    /**
+     * @Route("/mitteilungen", name="messaging_redirect")
+     */
+    public function redirAction()
+    {
+        return $this->redirect("/zettel");
     }
 }
