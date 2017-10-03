@@ -49,6 +49,7 @@
         });
 
         var MessageCollection = Backbone.Collection.extend({
+            comparator: "ts",
             url: "/api/messages"
         });
 
@@ -79,6 +80,7 @@
             },
             onRender: function() {
                 this.getRegion("users").show(new UserDropdownView({
+                    model: this.model,
                     collection: USERS
                 }));
             },
@@ -87,10 +89,10 @@
                 var text = this.$('input').val();
                 var userId = this.$('select').val();
                 console.log("Nachricht", text, "an", userId);
-                window.MESSAGES.create({
+                this.trigger("send", {
                     userId: userId,
                     text: text
-                }, {wait: true});
+                });
             }
         });
 
@@ -98,9 +100,14 @@
             tagName: "select",
             template: false,
             onRender: function() {
+                var me = this;
                 var html = '';
                 this.collection.each(function(m) {
-                    html += '<option value="' + m.get("id") + '">' + m.get("login") + '</option>';
+                    if (m.get("id") == me.model.get("id")) {
+                        html += '<option value="' + m.get("id") + '" selected="selected">' + m.get("login") + '</option>';
+                    } else {
+                        html += '<option value="' + m.get("id") + '">' + m.get("login") + '</option>';
+                    }
                 });
                 this.$el.html(html);
             }
@@ -120,7 +127,7 @@
             templateContext: {
                 formatTs: function(ts) {
                     var d = new Date(ts * 1000);
-                    return d.toLocaleDateString();
+                    return d.toLocaleDateString() + " " + d.toLocaleTimeString();
                 }
             }
         });
@@ -150,13 +157,29 @@
             childView: ContactView
         });
 
+        var MessagingRouter = Backbone.Router.extend({
+            initialize: function(options) {
+                this.app = options.app;
+            },
+            routes: {
+                "zettel/:contact": "select",
+                "zettel": "index"
+            },
+            index: function() {
+
+            },
+            select: function(contactName) {
+                this.app.selectName(contactName);
+            }
+        });
+
         var MessagingApp = Marionette.Application.extend({
             initialize: function() {
                 this.contacts = new ContactCollection();
-                this.contacts.fetch();
+                //this.contacts.fetch();
 
                 this.messages = new MessageCollection();
-                this.messages.fetch();
+                //this.messages.fetch();
 
                 this.messagingLayout = new MessagingLayout({
                     el: '#content'
@@ -164,6 +187,7 @@
             },
 
             start: function() {
+                console.log("Start App");
                 var me = this;
                 this.messagingLayout.render();
 
@@ -171,16 +195,34 @@
                     collection: this.contacts
                 });
 
-                this.messagingLayout.getRegion("send").show(new SendView());
                 this.messagingLayout.getRegion("contacts").show(this.contactsView);
 
                 this.listenTo(this.contactsView, "childview:contact:select", function(e, v) {
                     var contact = e.model;
                     me.select(contact);
                 });
+
+                this.router = new MessagingRouter({
+                    app: this
+                });
+                Backbone.history.start({pushState: true});
+            },
+
+            selectName: function(contactName) {
+                console.log("Select", contactName);
+                var c = this.contacts.findWhere({
+                    "login": contactName
+                });
+                if (!c) {
+                    console.warn("Not a contact");
+                    return false;
+                }
+
+                this.select(c);
             },
 
             select: function(contact) {
+                var me = this;
                 this.contacts.each(function(c) {
                     c.set("selected", contact.get("id") === c.get("id"))
                 });
@@ -190,12 +232,23 @@
                 this.messagingLayout.getRegion("messages").show(new MessagesView({
                     collection: userMessages
                 }));
+                this.sendView = new SendView({
+                    model: contact
+                });
+                this.messagingLayout.getRegion("send").show(this.sendView);
+                this.listenTo(this.sendView, "send", function(data) {
+                    me.messages.create(data, {wait: true});
+                });
+                Backbone.history.navigate("zettel/" + contact.get("login"));
             }
         });
 
         $(document).ready(function() {
             window.app = new MessagingApp();
-            app.start();
+
+            $.when(app.contacts.fetch(), app.messages.fetch()).done(function() {
+                app.start();
+            });
         });
 
     </script>
