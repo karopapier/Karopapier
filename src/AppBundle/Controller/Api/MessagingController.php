@@ -43,6 +43,25 @@ class MessagingController extends AbstractApiController
     }
 
     /**
+     * @Route("/contacts", name="api_messages_contacts")
+     * @Method("GET")
+     */
+    public function listContactsAction(Request $request)
+    {
+        $user = $this->getUser();
+        $contactIds = $this->getDoctrine()->getRepository("AppBundle:Message")->getContactIds($user);
+        $contacts = $this->getDoctrine()->getRepository("AppBundle:User")->findBy(["id" => $contactIds]);
+        $data = [];
+        foreach ($contacts as $user) {
+            $data[] = $user->toArray();
+        }
+        $json = new JsonResponse($data);
+        $json->setCallback($request->get("callback"));
+
+        return $json;
+    }
+
+    /**
      * @Route("/messages", name="api_message_add")
      * @Method("POST")
      */
@@ -60,6 +79,14 @@ class MessagingController extends AbstractApiController
 
         if ($recipient->getId() == $user->getId()) {
             return $this->sendError(400, "SELF");
+        }
+
+        if (strlen($text) == 0) {
+            return $this->sendError(400, "EMPTY");
+        }
+
+        if (mb_strlen($text) > 1000) {
+            return $this->sendError(400, "TOO LONG");
         }
 
         $message = $this->get("messaging_service")->add($user, $recipient, $text);

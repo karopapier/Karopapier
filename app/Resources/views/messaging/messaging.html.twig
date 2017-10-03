@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="karoborder">Mitteilungen</h1>
+    <h1 class="karoborder">Zettel schreiben</h1>
     <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben ohne reinzuschauen.</p>
     <div id="content">Lala</div>
 {% endblock %}
@@ -43,6 +43,13 @@
         );
         window.MESSAGES = new MessageCollection();
         window.MESSAGES.fetch();
+
+        var ContactCollection = Backbone.Collection.extend({
+            url: "/api/contacts"
+        });
+
+        var contacts = new ContactCollection();
+        contacts.fetch();
 
         var Message = Backbone.Model.extend();
 
@@ -87,7 +94,8 @@
             template: "#messaging-template",
             regions: {
                 send: ".send-view",
-                messages: ".message-list"
+                messages: ".message-list",
+                contacts: ".contact-list"
             }
         });
 
@@ -98,16 +106,55 @@
             childView: MessageView
         });
 
-        $(document).ready(function() {
-            var messagingLayout = new MessagingLayout({
-                el: '#content'
-            });
-            messagingLayout.render();
+        var ContactView = Marionette.View.extend({
+            template: _.template("<%= login %>"),
+            triggers: {
+                "click": "contact:select"
+            }
+        });
 
-            messagingLayout.getRegion("send").show(new SendView());
-            messagingLayout.getRegion("messages").show(new MessagesView({
-                collection: MESSAGES
-            }));
+        var ContactsView = Marionette.CollectionView.extend({
+            childView: ContactView
+        });
+
+        var MessagingApp = Marionette.Application.extend({
+            initialize: function() {
+                this.messagingLayout = new MessagingLayout({
+                    el: '#content'
+                });
+            },
+
+            start: function() {
+                var me = this;
+                this.messagingLayout.render();
+
+                this.contactsView = new ContactsView({
+                    collection: contacts
+                });
+
+                this.messagingLayout.getRegion("send").show(new SendView());
+                this.messagingLayout.getRegion("contacts").show(this.contactsView);
+
+                this.listenTo(this.contactsView, "childview:contact:select", function(e, v) {
+                    var contact = e.model;
+                    me.select(contact);
+                });
+            },
+
+            select: function(contact) {
+                var userMessages = new ContactCollection(MESSAGES.where({
+                    contact_id: contact.get("id")
+                }));
+                console.log(userMessages);
+                this.messagingLayout.getRegion("messages").show(new MessagesView({
+                    collection: userMessages
+                }));
+            }
+        });
+
+        $(document).ready(function() {
+            window.app = new MessagingApp();
+            app.start();
         });
 
     </script>
