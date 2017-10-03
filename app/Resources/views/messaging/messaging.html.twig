@@ -8,6 +8,14 @@
 {% endblock %}
 
 {% block body %}
+    <style type="text/css">
+        .selected {
+            background-color: red;
+        }
+
+        .message-rx {
+        }
+    </style>
     <h1 class="karoborder">Zettel schreiben</h1>
     <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben ohne reinzuschauen.</p>
     <div id="content">Lala</div>
@@ -20,13 +28,19 @@
         <button>Send</button>
     </script>
 
+    <script type="text/template" id="contact-template">
+        <%= login %>
+    </script>
+
     <script type="text/template" id="messaging-template">
         <div class="contact-list"></div>
         <div class="message-list"></div>
         <div class="send-view"></div>
     </script>
 
-    <script type="text/template" id="message-template"></script>
+    <script type="text/template" id="message-template">
+        <%= formatTs(ts) %>: <%= contact_name %>: <%- text %> <%= rxtx %>
+    </script>
 
     <script type="text/javascript">
 
@@ -41,15 +55,17 @@
         window.USERS = new UserCollection(
                 {{ users|json_encode|raw }}
         );
-        window.MESSAGES = new MessageCollection();
-        window.MESSAGES.fetch();
 
-        var ContactCollection = Backbone.Collection.extend({
-            url: "/api/contacts"
+        var Contact = Backbone.Model.extend({
+            defaults: {
+                selected: false
+            }
         });
 
-        var contacts = new ContactCollection();
-        contacts.fetch();
+        var ContactCollection = Backbone.Collection.extend({
+            model: Contact,
+            url: "/api/contacts"
+        });
 
         var Message = Backbone.Model.extend();
 
@@ -100,16 +116,33 @@
         });
 
         var MessageView = Marionette.View.extend({
-            template: _.template("<%= ts %>: <%= contact_name %>: <%- text %> <%= rxtx %>")
+            template: "#message-template",
+            templateContext: {
+                formatTs: function(ts) {
+                    var d = new Date(ts * 1000);
+                    return d.toLocaleDateString();
+                }
+            }
         });
         var MessagesView = Marionette.CollectionView.extend({
             childView: MessageView
         });
 
         var ContactView = Marionette.View.extend({
-            template: _.template("<%= login %>"),
+            template: "#contact-template",
             triggers: {
                 "click": "contact:select"
+            },
+            initialize: function() {
+                var me = this;
+                this.listenTo(this.model, "change:selected", this.render);
+            },
+            onRender: function() {
+                if (this.model.get("selected")) {
+                    this.$el.addClass("selected");
+                } else {
+                    this.$el.removeClass("selected");
+                }
             }
         });
 
@@ -119,6 +152,12 @@
 
         var MessagingApp = Marionette.Application.extend({
             initialize: function() {
+                this.contacts = new ContactCollection();
+                this.contacts.fetch();
+
+                this.messages = new MessageCollection();
+                this.messages.fetch();
+
                 this.messagingLayout = new MessagingLayout({
                     el: '#content'
                 });
@@ -129,7 +168,7 @@
                 this.messagingLayout.render();
 
                 this.contactsView = new ContactsView({
-                    collection: contacts
+                    collection: this.contacts
                 });
 
                 this.messagingLayout.getRegion("send").show(new SendView());
@@ -142,10 +181,12 @@
             },
 
             select: function(contact) {
-                var userMessages = new ContactCollection(MESSAGES.where({
+                this.contacts.each(function(c) {
+                    c.set("selected", contact.get("id") === c.get("id"))
+                });
+                var userMessages = new MessageCollection(this.messages.where({
                     contact_id: contact.get("id")
                 }));
-                console.log(userMessages);
                 this.messagingLayout.getRegion("messages").show(new MessagesView({
                     collection: userMessages
                 }));

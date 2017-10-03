@@ -13,9 +13,10 @@ class TestController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $finder = $this->get("game_inconsistency_finder");
-        $finder->checkFinishedWithoutKaroMAMA();
-        $finder->checkStartedWithoutPlayers();
+        $push = $this->get("realtime_push");
+        $user = $this->getDoctrine()->getRepository("AppBundle:User")->findOneBy(array("login"=>"Didi"));
+        $push->notifyGeneric($user, "lala", []);
+
         return $this->render('test/index.html.twig', array());
     }
 }
