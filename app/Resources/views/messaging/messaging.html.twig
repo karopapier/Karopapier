@@ -80,6 +80,7 @@
             },
             onRender: function() {
                 this.getRegion("users").show(new UserDropdownView({
+                    viewComparator: 'login',
                     model: this.model,
                     collection: USERS
                 }));
@@ -96,20 +97,26 @@
             }
         });
 
-        var UserDropdownView = Marionette.View.extend({
-            tagName: "select",
-            template: false,
+        var UserOptionView = Marionette.View.extend({
+            initialize: function(options) {
+                this.selected = this.getOption("selected");
+            },
+            tagName: "option",
+            template: _.template("<%= login %>"),
             onRender: function() {
-                var me = this;
-                var html = '';
-                this.collection.each(function(m) {
-                    if (m.get("id") == me.model.get("id")) {
-                        html += '<option value="' + m.get("id") + '" selected="selected">' + m.get("login") + '</option>';
-                    } else {
-                        html += '<option value="' + m.get("id") + '">' + m.get("login") + '</option>';
-                    }
-                });
-                this.$el.html(html);
+                if (this.selected.get("id") == this.model.get("id")) {
+                    this.$el.attr("selected", "selected");
+                }
+            }
+        });
+
+        var UserDropdownView = Marionette.CollectionView.extend({
+            tagName: "select",
+            childView: UserOptionView,
+            childViewOptions: function() {
+                return {
+                    selected: this.model
+                }
             }
         });
 
