@@ -9,8 +9,26 @@
 
 {% block body %}
     <style type="text/css">
-        .clickable: {
+        .clickable {
             cursor: pointer;
+        }
+
+        .js-selected .contact-list {
+            display: none;
+        }
+
+        @media (min-width: 600px) {
+            .js-selected .contact-list {
+                display: block;
+            }
+
+            .backnav {
+                display: none;
+            }
+        }
+
+        .js-unselected .backnav {
+            display: none;
         }
 
         .selected {
@@ -30,8 +48,7 @@
         }
 
         .message-wrapper {
-            flex: 2;
-            max-width: 480px;
+            flex: 1;
         }
 
         .message-list {
@@ -43,16 +60,12 @@
         }
 
         .date-separator {
-            text-align: center;
         }
 
         .message-rx {
-            margin-right: 15px;
         }
 
         .message-tx {
-            text-align: right;
-            margin-left: 15px;
         }
     </style>
     <h1 class="karoborder">Zettel schreiben</h1>
@@ -67,6 +80,10 @@
         <button>Send</button>
     </script>
 
+    <script type="text/template" id="contact-info-template">
+        <b>Zettel von und mit <%= login %></b>
+    </script>
+
     <script type="text/template" id="contact-template">
         <%= login %>
     </script>
@@ -74,6 +91,8 @@
     <script type="text/template" id="messaging-template">
         <div class="contact-list"></div>
         <div class="message-wrapper">
+            <span class="backnav"><img src="/images/knickohr.jpg"></span>
+            <span class="contact-info"></span>
             <div class="message-list"></div>
             <div class="send-view"></div>
         </div>
@@ -178,6 +197,7 @@
             regions: {
                 send: ".send-view",
                 messages: ".message-list",
+                contactInfo: ".contact-info",
                 contacts: ".contact-list"
             }
         });
@@ -238,6 +258,11 @@
             childView: ContactView
         });
 
+        var ContactInfoView = Marionette.View.extend({
+            tagName: "span",
+            template: '#contact-info-template'
+        });
+
         var MessagingRouter = Backbone.Router.extend({
             initialize: function(options) {
                 this.app = options.app;
@@ -265,7 +290,10 @@
                 });
 
                 this.messagingLayout = new MessagingLayout({
-                    el: '#messaging'
+                    el: '#messaging',
+                    triggers: {
+                        "click .backnav": "unselect"
+                    }
                 });
             },
 
@@ -279,6 +307,10 @@
                 });
 
                 this.messagingLayout.getRegion("contacts").show(this.contactsView);
+
+                this.listenTo(this.messagingLayout, "unselect", function() {
+                    me.unselect();
+                });
 
                 this.listenTo(this.contactsView, "childview:contact:select", function(e, v) {
                     var contact = e.model;
@@ -329,10 +361,29 @@
                     model: contact
                 });
                 this.messagingLayout.getRegion("send").show(this.sendView);
+                this.messagingLayout.$el.addClass("js-selected");
+                this.messagingLayout.$el.removeClass("js-unselected");
                 this.listenTo(this.sendView, "send", function(data) {
                     me.messages.create(data, {wait: true});
                 });
+
+                this.messagingLayout.getRegion("contactInfo").show(new ContactInfoView({
+                    model: contact
+                }));
+
                 Backbone.history.navigate("zettel/" + contact.get("login"));
+            },
+
+            unselect: function(contact) {
+                this.contacts.each(function(c) {
+                    c.set("selected", false);
+                });
+                this.userMessages.reset([]);
+                this.messagingLayout.$el.addClass("js-unselected");
+                this.messagingLayout.$el.removeClass("js-selected");
+                this.messagingLayout.getRegion("send").empty();
+                this.messagingLayout.getRegion("contactInfo").empty();
+                Backbone.history.navigate("zettel");
             }
         });
 
