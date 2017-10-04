@@ -13,12 +13,12 @@
             cursor: pointer;
         }
 
-        .js-selected .contact-list {
+        .js-selected .contact-list-wrapper {
             display: none;
         }
 
         @media (min-width: 600px) {
-            .js-selected .contact-list {
+            .js-selected .contact-list-wrapper {
                 display: block;
             }
 
@@ -43,8 +43,8 @@
             display: flex;
         }
 
-        .contact-list {
-            width: 200px;
+        .contact-list-wrapper {
+            width: 300px;
         }
 
         .message-wrapper {
@@ -75,9 +75,17 @@
 
 {% block javascripts %}
     <script type="text/template" id="send-template">
-        An
-        <span class="userDropdown"></span>: <input type="text">
-        <button>Send</button>
+        An <%= login %>: <input type="text" class="send-text"/>
+        <input type="submit" value="Schicken"/>
+    </script>
+
+    <script type="text/template" id="addcontact-template">
+        Neu:
+        <div class="autowrapper" style="display: inline-block; position: relative">
+            <input type="text" placeholder="Benutzername">
+            <div class="js-auto" style="position: absolute; top: 10px"></div>
+        </div>
+        <button>Hinzu</button>
     </script>
 
     <script type="text/template" id="contact-info-template">
@@ -89,7 +97,11 @@
     </script>
 
     <script type="text/template" id="messaging-template">
-        <div class="contact-list"></div>
+        <div class="contact-list-wrapper">
+            <div><b>Zettelsammlung</b></div>
+            <div class="contact-list"></div>
+            <div class="contact-add"></div>
+        </div>
         <div class="message-wrapper">
             <span class="backnav"><img src="/images/knickohr.jpg"></span>
             <span class="contact-info"></span>
@@ -142,29 +154,36 @@
         var Message = Backbone.Model.extend();
 
         var SendView = Marionette.View.extend({
+            tagName: "form",
             events: {
-                "click button": "send"
+                "submit": "send"
             },
             template: "#send-template",
-            regions: {
-                "users": '.userDropdown'
-            },
-            onRender: function() {
-                this.getRegion("users").show(new UserDropdownView({
-                    viewComparator: 'login',
-                    model: this.model,
-                    collection: USERS
-                }));
-            },
 
-            send: function() {
-                var text = this.$('input').val();
-                var userId = this.$('select').val();
+            send: function(e) {
+                var text = this.$('.send-text').val().trim();
+                if (text.length == 0) {
+                    e.preventDefault();
+                    return false;
+                }
+                var userId = this.model.get("id");
                 console.info("Nachricht", text, "an", userId);
+
                 this.trigger("send", {
                     userId: userId,
                     text: text
                 });
+                this.$('input[type=submit]').prop("disabled", true);
+                e.preventDefault();
+            },
+
+            reset: function() {
+                this.$('.send-text').val("");
+                this.enable();
+            },
+
+            enable: function() {
+                this.$('input[type=submit]').prop("disabled", false);
             }
         });
 
@@ -172,24 +191,15 @@
             tagName: "option",
             template: _.template("<%= login %>"),
             attributes: function() {
-                var attr = {
+                return {
                     value: this.model.get("id")
-                };
-                if (this.options.selected.get("id") == this.model.get("id")) {
-                    attr["selected"] = "selected";
                 }
-                return attr;
             }
         });
 
         var UserDropdownView = Marionette.CollectionView.extend({
             tagName: "select",
-            childView: UserOptionView,
-            childViewOptions: function() {
-                return {
-                    selected: this.model
-                }
-            }
+            childView: UserOptionView
         });
 
         var MessagingLayout = Marionette.View.extend({
@@ -198,7 +208,8 @@
                 send: ".send-view",
                 messages: ".message-list",
                 contactInfo: ".contact-info",
-                contacts: ".contact-list"
+                contacts: ".contact-list",
+                addcontact: ".contact-add"
             }
         });
 
@@ -272,10 +283,79 @@
                 "zettel": "index"
             },
             index: function() {
-
+                this.app.unselect();
             },
             select: function(contactName) {
                 this.app.selectName(contactName);
+            }
+        });
+
+
+        var UserlistItemView = Marionette.View.extend({
+            tagName: "li",
+            template: _.template('<%= login %>'),
+            triggers: {
+                "click": "select"
+            }
+        });
+
+        var UserlistView = Marionette.CollectionView.extend({
+            tagName: "ul",
+            childView: UserlistItemView
+        });
+
+
+        var AddContactView = Marionette.View.extend({
+            initialize: function() {
+                var me = this;
+                this.collection = new UserCollection();
+                this.listview = new UserlistView({
+                    collection: this.collection
+                });
+                this.listenTo(this.listview, "childview:select", function(e) {
+                    console.log("click", e);
+                    me.insert(e.model);
+                    me.unautocomplete();
+                });
+                this.listview.$el.css({
+                    maxHeight: 60,
+                    overflow: "auto",
+                    "backgroundColor": "white",
+                    "border": "1px solid black"
+                });
+            },
+            template: "#addcontact-template",
+            events: {
+                "focus input": "autocomplete",
+                "input input": "autocomplete",
+                "click button": "select"
+            },
+
+            regions: {
+                "auto": ".js-auto"
+            },
+
+            autocomplete: function(e) {
+                var typed = this.$('input').val().toLowerCase();
+                console.log("show & update auto", typed);
+                this.collection.reset(USERS.filter(function(m) {
+                    return !m.get("login").toLowerCase().indexOf(typed);
+                }));
+                this.listview = this.getRegion("auto").show(this.listview);
+                this.getRegion("auto").$el.show();
+            },
+
+            unautocomplete: function() {
+                this.getRegion("auto").$el.hide();
+            },
+
+            insert: function(m) {
+                console.log("INsert", m.get("login"));
+                this.$('input').val(m.get("login"));
+            },
+
+            select: function() {
+                this.trigger("select", this.$('input').val());
             }
         });
 
@@ -316,6 +396,14 @@
                     var contact = e.model;
                     me.select(contact);
                 });
+                this.addContactView = new AddContactView({
+                    viewComparator: 'login',
+                    collection: USERS
+                });
+                this.messagingLayout.getRegion("addcontact").show(this.addContactView);
+                this.addContactView.on("select", function(contactName) {
+                    me.selectName(contactName);
+                });
 
                 this.router = new MessagingRouter({
                     app: this
@@ -329,8 +417,15 @@
                     "login": contactName
                 });
                 if (!c) {
-                    console.warn("Not a contact");
-                    return false;
+                    c = USERS.findWhere({
+                        "login": contactName
+                    });
+
+                    if (!c) {
+                        console.warn("Not found");
+                        return false;
+                    }
+                    this.contacts.add(c);
                 }
 
                 this.select(c);
@@ -364,7 +459,16 @@
                 this.messagingLayout.$el.addClass("js-selected");
                 this.messagingLayout.$el.removeClass("js-unselected");
                 this.listenTo(this.sendView, "send", function(data) {
-                    me.messages.create(data, {wait: true});
+                    me.messages.create(data, {
+                        wait: true,
+                        success: function() {
+                            me.sendView.reset();
+                        },
+                        error: function() {
+                            me.sendView.enable();
+                            //Fehler beim Versand
+                        }
+                    });
                 });
 
                 this.messagingLayout.getRegion("contactInfo").show(new ContactInfoView({

@@ -26,7 +26,7 @@ class ChatMessageRepository extends EntityRepository
         try {
             return $query->getSingleResult();
         } catch (\Exception $exception) {
-            return new ChatMessage(null, "Chat ist gerade kaputt");
+            return new ChatMessage(null, "Diese Chatanzeige ist gerade kaputt");
         }
     }
 }
