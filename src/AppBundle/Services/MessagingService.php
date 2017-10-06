@@ -60,6 +60,8 @@ class MessagingService
         $this->em->persist($receiverMessage);
         $this->em->flush();
 
+        $this->push->notifyGeneric($receiver, "MSG", $receiverMessage->toArray());
+
         return $senderMessage;
     }
 
