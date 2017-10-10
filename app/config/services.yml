@@ -139,3 +139,9 @@ services:
         class: AppBundle\Twig\DateExtension
         tags:
              - { name: 'twig.extension' }
+
+    twig.extension.messaging:
+        autowire: true
+        class: AppBundle\Twig\MessagingExtension
+        tags:
+             - { name: 'twig.extension' }

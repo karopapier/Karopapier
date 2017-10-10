@@ -12,7 +12,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         {% block headjavascripts %}{% endblock %}
 
+        <style type="text/css">
+            @keyframes wobble {
+                0% {
+                    -webkit-transform: rotate(0deg) scale(1);;
+                }
+                5% {
+                    -webkit-transform: rotate(5deg) scale(1.5);;
+                }
+                10% {
+                    -webkit-transform: rotate(-5deg) scale(1.5);
+                }
+                15% {
+                    -webkit-transform: rotate(5deg) scale(1.5);
+                }
+                20% {
+                    -webkit-transform: rotate(-5deg) scale(1.5);
+                }
+                30% {
+                    -webkit-transform: rotate(0deg) scale(1);;
+                }
+            }
+
+            .unread {
+                animation: wobble 2s infinite;
+            }
+        </style>
+
     </head>
+    <header id="header">
+        <div id="userInfoBar">
+            {% if app.user %}
+                <span class="userLabel">{{ app.user.login }}</span>
+                <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
+                </small>
+                {% if uc >0 %}
+                    <div class="unread" style="display: inline-block"><a href="/zettel">{{ getUnreadCounter(app.user) }}</a></div>
+                {% endif %}
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/login">Logout</a>
+            {% endif %}
+        </div>
+    </header>
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}

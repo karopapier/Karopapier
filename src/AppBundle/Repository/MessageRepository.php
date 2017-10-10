@@ -52,4 +52,14 @@ class MessageRepository extends EntityRepository
 
         return $ids;
     }
+
+    public function getUnreadById($id)
+    {
+        $sql = 'SELECT count(id) as uc FROM karo_message WHERE user_id = '.$id.' AND `read_at` IS NULL';
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        //I used FETCH_COLUMN because I only needed one Column.
+        return (int)$stmt->fetchColumn();
+    }
 }
