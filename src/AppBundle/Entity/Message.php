@@ -22,9 +22,6 @@ class Message
         $this->rxtx = $rxtx;
         $now = new \DateTime();
         $this->createdAt = $now;
-        if ($this->isTx()) {
-            $this->readAt = $now;
-        }
     }
 
     /**
@@ -113,6 +110,7 @@ class Message
             "contact_id" => $this->contactId,
             "contact_name" => $this->contactName,
             "ts" => $this->createdAt->getTimestamp(),
+            "r" => (int)(!is_null($this->readAt)),
             "text" => $this->text,
             "rxtx" => $this->rxtx,
         ];
