@@ -46,8 +46,10 @@
                 <span class="userLabel">{{ app.user.login }}</span>
                 <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
                 </small>
+                {% set uc = getUnreadCounter(app.user) %}
                 {% if uc >0 %}
-                    <div class="unread" style="display: inline-block"><a href="/zettel">{{ getUnreadCounter(app.user) }}</a></div>
+                    <div class="unread" style="display: inline-block">
+                        <a href="/zettel">{{ uc }}</a></div>
                 {% endif %}
                 <a href="/logout">Logout</a>
             {% else %}
