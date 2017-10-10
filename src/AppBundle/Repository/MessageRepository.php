@@ -55,7 +55,7 @@ class MessageRepository extends EntityRepository
 
     public function getUnreadById($id)
     {
-        $sql = 'SELECT count(id) as uc FROM karo_message WHERE user_id = '.$id.' AND `read_at` IS NULL';
+        $sql = 'SELECT count(id) as uc FROM karo_message WHERE user_id = '.$id.' AND read_at IS NULL';
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
 
