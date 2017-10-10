@@ -10,9 +10,16 @@ namespace AppBundle\Controller\Api;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+
+/**
+ * Class ChatController
+ * @Security("has_role('ROLE_USER')")
+ * @package AppBundle\Controller\Api
+ */
 class ChatController extends AbstractApiController
 {
     /**
@@ -36,6 +43,7 @@ class ChatController extends AbstractApiController
 
         $res = new JsonResponse();
         $res->setData($chatmessage->toApi());
+
         return $res;
     }
 }

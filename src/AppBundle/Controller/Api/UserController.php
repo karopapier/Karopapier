@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -28,6 +29,25 @@ class UserController extends AbstractApiController
         $json->setCallback($request->get("callback"));
 
         return $json;
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     * @Route("/users/check", name="api_users_check")
+     * @Route("/user/check.json", name="api_user_check_json")
+     * @param User $user
+     */
+    public function checkAction(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $data = $user->toArray();
+        $data["uc"] = $this->get("messaging_service")->getUnreadCounter($user);
+        $json = new JsonResponse($data);
+        $json->setCallback($request->get("callback"));
+
+        return $json;
+
     }
 
     /**
