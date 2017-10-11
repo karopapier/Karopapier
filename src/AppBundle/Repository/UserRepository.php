@@ -55,4 +55,5 @@ class UserRepository extends EntityRepository
 
         return $query->execute();
     }
+
 }

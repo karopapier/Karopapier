@@ -96,7 +96,7 @@
     </script>
 
     <script type="text/template" id="contact-template">
-        <%= login %>
+        <%= login %> |<%= uc %>|
     </script>
 
     <script type="text/template" id="messaging-template">
@@ -145,7 +145,19 @@
 
         var Contact = Backbone.Model.extend({
             defaults: {
+                uc: 0,
                 selected: false
+            },
+
+            setAllRead: function() {
+                console.warn("PUT contact");
+                this.save({r: true}, {
+                    patch: true,
+                    wait: true,
+                    success: function() {
+                        console.log("JEzt alle 0");
+                    }
+                });
             }
         });
 
@@ -153,8 +165,6 @@
             model: Contact,
             url: "/api/contacts"
         });
-
-        var Message = Backbone.Model.extend();
 
         var SendView = Marionette.View.extend({
             tagName: "form",
@@ -258,6 +268,7 @@
             initialize: function() {
                 var me = this;
                 this.listenTo(this.model, "change:selected", this.render);
+                this.listenTo(this.model, "change:uc", this.render);
             },
             onRender: function() {
                 if (this.model.get("selected")) {
@@ -316,7 +327,7 @@
                     collection: this.collection
                 });
                 this.listenTo(this.listview, "childview:select", function(e) {
-                    console.log("click", e);
+                    //console.log("click", e);
                     me.insert(e.model);
                     me.unautocomplete();
                 });
@@ -340,7 +351,7 @@
 
             autocomplete: function(e) {
                 var typed = this.$('input').val().toLowerCase();
-                console.log("show & update auto", typed);
+                //console.log("show & update auto", typed);
                 this.collection.reset(USERS.filter(function(m) {
                     return !m.get("login").toLowerCase().indexOf(typed);
                 }));
@@ -353,7 +364,7 @@
             },
 
             insert: function(m) {
-                console.log("INsert", m.get("login"));
+                //console.log("INsert", m.get("login"));
                 this.$('input').val(m.get("login"));
             },
 
@@ -364,12 +375,20 @@
 
         var MessagingApp = Marionette.Application.extend({
             initialize: function() {
+                Backbone.emulateHTTP = true;
+                var me = this;
                 this.contacts = new ContactCollection();
-
                 this.messages = new MessageCollection();
                 this.userMessages = new MessageCollection();
                 this.listenTo(this.messages, "add", function(m) {
-                    this.userMessages.add(m);
+                    //console.log("Add", m);
+                    //me.unreadRecalc();
+                    var selectedContact = me.getSelectedContact();
+                    if (selectedContact) {
+                        if (m.get("contact_id") === selectedContact.get("id")) {
+                            this.userMessages.add(m);
+                        }
+                    }
                 });
 
                 this.messagingLayout = new MessagingLayout({
@@ -383,6 +402,7 @@
             start: function() {
                 console.info("Start App");
                 var me = this;
+                this.unreadRecalc();
                 this.messagingLayout.render();
 
                 this.contactsView = new ContactsView({
@@ -443,6 +463,7 @@
                     contact_id: contact.get("id")
                 });
                 var prevDate = "";
+                var uc = 0;
                 messages.forEach(function(m) {
                     var d = new Date(m.get("ts") * 1000);
                     var dat = "" + d.getDate() + d.getMonth();
@@ -450,6 +471,7 @@
                         m.set("dateSeparator", true);
                         prevDate = dat;
                     }
+                    if (!m.get("r") && (m.get("rxtx") == "rx")) uc++;
                 });
                 this.userMessages.reset(messages);
                 this.messagingLayout.getRegion("messages").show(new MessagesView({
@@ -478,6 +500,10 @@
                     model: contact
                 }));
 
+                if (uc > 0) {
+                    contact.setAllRead();
+                }
+
                 Backbone.history.navigate("zettel/" + contact.get("login"));
             },
 
@@ -491,13 +517,35 @@
                 this.messagingLayout.getRegion("send").empty();
                 this.messagingLayout.getRegion("contactInfo").empty();
                 Backbone.history.navigate("zettel");
+            },
+
+            unreadRecalc: function() {
+                console.info("Unread recalc");
+                var me = this;
+                this.contacts.each(function(c) {
+                    console.log("Zähle für", c.get("login"));
+                    var uc = me.messages.where({
+                        r: 0,
+                        "contact_id": c.get("id"),
+                        rxtx: "rx"
+                    });
+                    console.log("set uc", uc.length);
+                    c.set("uc", uc.length);
+                })
+            },
+
+            getSelectedContact: function() {
+                return this.contacts.findWhere({selected: true});
             }
         });
 
         $(document).ready(function() {
             window.app = new MessagingApp();
 
-            $.when(app.contacts.fetch(), app.messages.fetch()).done(function() {
+            $.when(
+                app.contacts.fetch(),
+                app.messages.fetch()
+            ).done(function() {
                 app.start();
             });
         });

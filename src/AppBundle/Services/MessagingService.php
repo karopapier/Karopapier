@@ -69,4 +69,9 @@ class MessagingService
     {
         return $this->em->getRepository("AppBundle:Message")->getUnreadById($user->getId());
     }
+
+    public function setAllRead($user, $contact)
+    {
+        return $this->em->getRepository("AppBundle:Message")->setAllRead($user->getId(), $contact->getId());
+    }
 }

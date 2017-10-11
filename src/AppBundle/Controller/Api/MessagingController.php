@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Message;
 use AppBundle\Entity\User;
+use AppBundle\Services\MessagingService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -91,6 +92,23 @@ class MessagingController extends AbstractApiController
 
         $message = $this->get("messaging_service")->add($user, $recipient, $text);
         $json = new JsonResponse($message->toArray());
+        $json->setCallback($request->get("callback"));
+
+        return $json;
+    }
+
+    /**
+     * @Route("/contacts/{id}", name="api_contact_patch")
+     * @Method("PATCH")
+     */
+    public function patchAction(Request $request, User $contact)
+    {
+        $user = $this->getUser();
+        //$data = $this->getJson($request);
+        /** @var MessagingService $ms */
+        $ms = $this->get("messaging_service");
+        $ms->setAllRead($user, $contact);
+        $json = new JsonResponse(array("uc" => 0));
         $json->setCallback($request->get("callback"));
 
         return $json;

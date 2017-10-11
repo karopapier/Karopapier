@@ -55,11 +55,35 @@ class MessageRepository extends EntityRepository
 
     public function getUnreadById($id)
     {
-        $sql = 'SELECT count(id) as uc FROM karo_message WHERE user_id = '.$id.' AND read_at IS NULL';
+        $sql = 'SELECT count(id) as uc FROM karo_message WHERE user_id = '.$id.' AND rxtx="rx" AND read_at IS NULL';
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
         $stmt->execute();
 
-        //I used FETCH_COLUMN because I only needed one Column.
         return (int)$stmt->fetchColumn();
+    }
+
+    public function setAllRead($userId, $contactId)
+    {
+        $now = date('Y-m-d H:i:s');
+        $sql = 'UPDATE karo_message SET read_at="'.$now.'" WHERE user_id = :uid AND contact_id= :cid AND rxtx=:rxrx AND read_at IS NULL';
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+
+        //I read all
+        $stmt->execute(
+            [
+                "uid" => $userId,
+                "cid" => $contactId,
+                "rxrx" => "rx",
+            ]
+        );
+
+        //tell other on I read all
+        $stmt->execute(
+            [
+                "uid" => $contactId,
+                "cid" => $userId,
+                "rxrx" => "tx",
+            ]
+        );
     }
 }
