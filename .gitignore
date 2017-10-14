@@ -1,6 +1,5 @@
 .idea
 node_modules
-/web
 /app/config/parameters.yml
 /build/
 /phpunit.xml
@@ -17,3 +16,4 @@ node_modules
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/web/js
