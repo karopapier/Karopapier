@@ -1,43 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block headjavascripts %}
-{% endblock %}
-
 {% block body %}
     <h1 class="karoborder">Zettel schreiben</h1>
     <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben ohne reinzuschauen.</p>
     <div id="messaging">Loading...</div>
 {% endblock %}
 
-{% block stylesheets %}
-{% endblock %}
-
 {% block javascripts %}
-    <script type="text/template" id="send-template">
-        An <%= login %>: <input type="text" class="send-text"/>
-        <input type="submit" value="Schicken"/>
-    </script>
-
-    <script type="text/template" id="addcontact-template">
-        Neu:
-        <div class="autowrapper" style="display: inline-block; position: relative">
-            <input type="text" placeholder="Benutzername">
-            <div class="js-auto" style="position: absolute; top: 10px"></div>
-        </div>
-        <button>Hinzu</button>
-    </script>
-
-    <script type="text/template" id="contact-template">
-        <%= login %> |<%= uc %>|
-    </script>
-
-    <script type="text/template" id="message-template">
-        <% if (dateSeparator) { %>
-        <div class="date-separator">---------------- <%= formatTsIsoDate(ts) %> ----------------</div><% } %>
-        <div class="message-<%= rxtx %>">
-            <b><% if (rxtx=="rx") { %><%= contact_name %><% } else { %><%= user_name %><% } %></b> (<%= formatTs(ts) %>): <%- text %>
-        </div>
-    </script>
-
     <script src="{{ asset('js/KaroApp.dev.js') }}"></script>
 {% endblock %}
