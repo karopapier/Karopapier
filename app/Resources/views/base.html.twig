@@ -3,61 +3,48 @@
     <head>
         <meta charset="UTF-8"/>
         <title>{% block title %}Karopapier{% endblock %} - Autofahren wie in der Vorlesung</title>
+        <link rel="stylesheet" href="{{ asset('css/pre.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-        <link rel="stylesheet" type="text/css" href="//www.karopapier.de/css/karo.css">
-        <link rel="stylesheet" href="//2.karopapier.de/css/Karopapier.min.css">
-        <link rel="stylesheet" href="//www.karopapier.de/themes/karo1/css/theme.css">
-        <script type="text/javascript" src="/js/libs/jquery-1.11.2.min.js?v=3"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         {% block headjavascripts %}{% endblock %}
 
         <style type="text/css">
-            @keyframes wobble {
-                0% {
-                    -webkit-transform: rotate(0deg) scale(1);;
-                }
-                5% {
-                    -webkit-transform: rotate(5deg) scale(1.5);;
-                }
-                10% {
-                    -webkit-transform: rotate(-5deg) scale(1.5);
-                }
-                15% {
-                    -webkit-transform: rotate(5deg) scale(1.5);
-                }
-                20% {
-                    -webkit-transform: rotate(-5deg) scale(1.5);
-                }
-                30% {
-                    -webkit-transform: rotate(0deg) scale(1);;
-                }
-            }
-
             .unread {
                 animation: wobble 2s infinite;
             }
         </style>
 
     </head>
-    <header id="header">
-        <div id="userInfoBar">
-            {% if app.user %}
-                <span class="userLabel">{{ app.user.login }}</span>
-                <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
-                </small>
-                {% set uc = getUnreadCounter(app.user) %}
-                {% if uc >0 %}
-                    <div class="unread" style="display: inline-block">
-                        <a href="/zettel">{{ uc }}</a></div>
-                {% endif %}
-                <a href="/logout">Logout</a>
-            {% else %}
-                <a href="/login">Logout</a>
-            {% endif %}
-        </div>
-    </header>
     <body>
+        <nav class="nav-menu-mobile hidden">
+            <ul>
+                <li>A</li>
+                <li>B</li>
+                <li>C</li>
+                <li>D</li>
+            </ul>
+        </nav>
+        <header>
+            <div id="userInfoBar">
+                <div class="unread" style="display: inline-block">123</div>
+                {% if app.user %}
+                    <span class="userLabel">{{ app.user.login }}</span>
+                    <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
+                    </small>
+                    {% set uc = getUnreadCounter(app.user) %}
+                    {% if uc >0 %}
+                        <div class="unread" style="display: inline-block">
+                            <a href="/zettel">{{ uc }}</a></div>
+                    {% endif %}
+                    <a href="/logout">Logout</a>
+                {% else %}
+                    <a href="/login">Logout</a>
+                {% endif %}
+            </div>
+        </header>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

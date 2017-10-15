@@ -1,4 +1,9 @@
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
 var Marionette = require('backbone.marionette');
+
+var MessagingLayout = require('../layout/MessagingLayout');
 var ContactDetailsView = require("../view/messaging/ContactDetailsView");
 var UserCollection = Backbone.Collection.extend({
     url: "/api/users"
@@ -88,17 +93,6 @@ var UserOptionView = Marionette.View.extend({
 var UserDropdownView = Marionette.CollectionView.extend({
     tagName: "select",
     childView: UserOptionView
-});
-
-var MessagingLayout = Marionette.View.extend({
-    template: "#messaging-template",
-    regions: {
-        send: ".send-view",
-        messages: ".message-list",
-        contactInfo: ".contact-info",
-        contacts: ".contact-list",
-        addcontact: ".contact-add"
-    }
 });
 
 var MessageView = Marionette.View.extend({
@@ -393,13 +387,11 @@ module.exports = Marionette.Application.extend({
         console.info("Unread recalc");
         var me = this;
         this.contacts.each(function(c) {
-            console.log("Zähle für", c.get("login"));
             var uc = me.messages.where({
                 r: 0,
                 "contact_id": c.get("id"),
                 rxtx: "rx"
             });
-            console.log("set uc", uc.length);
             c.set("uc", uc.length);
         })
     },

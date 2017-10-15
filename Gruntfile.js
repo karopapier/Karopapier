@@ -8,6 +8,9 @@ module.exports = function(grunt) {
         cert: grunt.file.read("/etc/ssl/panamapapier/cert.pem"),
     };
 
+    var cleanCssOptions = {
+        level: 2
+    };
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -32,8 +35,6 @@ module.exports = function(grunt) {
                     "web/js/<%= pkg.name %>.dev.js": "web/js/<%= pkg.name %>.src.js"
                 },
                 options: {
-                    sourceMapIncludeSources: true,
-                    sourceMap: true,
                     banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
                     beautify: true
                 }
@@ -51,8 +52,16 @@ module.exports = function(grunt) {
         },
         watch: {
             app: {
-                files: ['frontend/**/*.js'],
+                files: ['frontend/src/**/*', 'frontend/templates/**/*'],
                 tasks: ['build:js'],
+                options: {
+                    interrupt: true,
+                    livereload: livereloadConfig
+                }
+            },
+            css: {
+                files: ['frontend/css/*'],
+                tasks: ['less'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig
@@ -65,6 +74,32 @@ module.exports = function(grunt) {
                     livereload: livereloadConfig
                 }
             }
+        },
+        less: {
+            app: {
+                options: {
+                    expand: true,
+                    plugins: [
+                        new (require('less-plugin-autoprefix')),
+                        new (require('less-plugin-clean-css'))(cleanCssOptions)
+                    ]
+                },
+                files: {
+                    "web/css/app.css": "frontend/css/KaroApp.less"
+                }
+            },
+            css: {
+                options: {
+                    plugins: [
+                        new (require('less-plugin-autoprefix')),
+                        new (require('less-plugin-clean-css'))(cleanCssOptions)
+                    ]
+                },
+                files: {
+                    "web/css/pre.css": "frontend/css/karo.css",
+                    "web/css/theme.css": "frontend/css/theme.css"
+                }
+            }
         }
     });
 
@@ -72,9 +107,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
     // Default task(s).
-    grunt.registerTask('build', ['build:js']);
+    grunt.registerTask('build', ['build:js', 'less']);
     grunt.registerTask('build:js', ['browserify', 'uglify']);
     grunt.registerTask('default', ['build', 'watch']);
 

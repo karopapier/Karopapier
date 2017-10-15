@@ -17,3 +17,4 @@ node_modules
 /vendor/
 /web/bundles/
 /web/js
+/web/css
