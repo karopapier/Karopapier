@@ -1,8 +1,12 @@
 var Backbone = require('backbone');
+var Radio = require('backbone.radio');
 var Marionette = require('backbone.marionette');
 
 // Layout
 var MessagingLayout = require('../layout/MessagingLayout');
+
+//Model
+var User = require('../model/User');
 
 // Collections
 var MessageCollection = require('../collection/MessageCollection');
@@ -38,10 +42,14 @@ module.exports = Marionette.Application.extend({
     initialize: function() {
         Backbone.emulateHTTP = true;
         var me = this;
+        this.authUser = new User();
+        this.authUser.url = '/api/users/check';
+        this.authUser.fetch();
+
         this.contacts = new ContactCollection();
         this.messages = new MessageCollection();
         this.userMessages = new MessageCollection();
-        this.listenTo(this.messages, "add", function(m) {
+        this.listenTo(this.messages, 'add', function(m) {
             //console.log("Add", m);
             //me.unreadRecalc();
             var selectedContact = me.getSelectedContact();
@@ -50,6 +58,11 @@ module.exports = Marionette.Application.extend({
                     this.userMessages.add(m);
                 }
             }
+        });
+
+        this.dataProvider = Radio.channel('data');
+        this.dataProvider.reply("user:logged:in", function() {
+            return me.authUser
         });
 
         this.messagingLayout = new MessagingLayout({
