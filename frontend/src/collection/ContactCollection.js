@@ -1,7 +1,7 @@
-var Backbone = require('backbone');
-var Contact = require('../model/Contact');
+const Backbone = require('backbone');
+const Contact = require('../model/Contact');
 module.exports = Backbone.Collection.extend({
     model: Contact,
-    url: "/api/contacts"
+    url: '/api/contacts'
 });
 

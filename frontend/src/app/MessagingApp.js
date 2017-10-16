@@ -1,34 +1,34 @@
-var Backbone = require('backbone');
-var Radio = require('backbone.radio');
-var Marionette = require('backbone.marionette');
+const Backbone = require('backbone');
+const Radio = require('backbone.radio');
+const Marionette = require('backbone.marionette');
 
 // Layout
-var MessagingLayout = require('../layout/MessagingLayout');
+const MessagingLayout = require('../layout/MessagingLayout');
 
-//Model
-var User = require('../model/User');
+// Model
+const User = require('../model/User');
 
 // Collections
-var MessageCollection = require('../collection/MessageCollection');
-var UserCollection = require('../collection/UserCollection');
-var ContactCollection = require('../collection/ContactCollection');
+const MessageCollection = require('../collection/MessageCollection');
+const UserCollection = require('../collection/UserCollection');
+const ContactCollection = require('../collection/ContactCollection');
 
 // Views
-var SendView = require('../view/messaging/SendView');
-var ContactDetailsView = require("../view/messaging/ContactDetailsView");
-var MessagesView = require('../view/messaging/MessagesView');
-var ContactsView = require('../view/messaging/ContactsView');
-var AddContactView = require('../view/messaging/AddContactView');
+const SendView = require('../view/messaging/SendView');
+const ContactDetailsView = require('../view/messaging/ContactDetailsView');
+const MessagesView = require('../view/messaging/MessagesView');
+const ContactsView = require('../view/messaging/ContactsView');
+const AddContactView = require('../view/messaging/AddContactView');
 
 window.USERS = new UserCollection();
 
-var MessagingRouter = Backbone.Router.extend({
+const MessagingRouter = Backbone.Router.extend({
     initialize: function(options) {
         this.app = options.app;
     },
     routes: {
-        "zettel/:contact": "select",
-        "zettel": "index"
+        'zettel/:contact': 'select',
+        'zettel': 'index'
     },
     index: function() {
         this.app.unselect();
@@ -41,7 +41,7 @@ var MessagingRouter = Backbone.Router.extend({
 module.exports = Marionette.Application.extend({
     initialize: function() {
         Backbone.emulateHTTP = true;
-        var me = this;
+        let me = this;
         this.authUser = new User();
         this.authUser.url = '/api/users/check';
         this.authUser.fetch();
@@ -50,32 +50,30 @@ module.exports = Marionette.Application.extend({
         this.messages = new MessageCollection();
         this.userMessages = new MessageCollection();
         this.listenTo(this.messages, 'add', function(m) {
-            //console.log("Add", m);
-            //me.unreadRecalc();
-            var selectedContact = me.getSelectedContact();
+            let selectedContact = me.getSelectedContact();
             if (selectedContact) {
-                if (m.get("contact_id") === selectedContact.get("id")) {
+                if (m.get('contact_id') === selectedContact.get('id')) {
                     this.userMessages.add(m);
                 }
             }
         });
 
         this.dataProvider = Radio.channel('data');
-        this.dataProvider.reply("user:logged:in", function() {
-            return me.authUser
+        this.dataProvider.reply('user:logged:in', function() {
+            return me.authUser;
         });
 
         this.messagingLayout = new MessagingLayout({
             el: '#messaging',
             triggers: {
-                "click .backnav": "unselect"
+                'click .backnav': 'unselect'
             }
         });
     },
 
     start: function() {
-        console.info("Start App");
-        var me = this;
+        console.info('Start App');
+        let me = this;
         this.unreadRecalc();
         this.messagingLayout.render();
 
@@ -83,22 +81,23 @@ module.exports = Marionette.Application.extend({
             collection: this.contacts
         });
 
-        this.messagingLayout.getRegion("contacts").show(this.contactsView);
+        this.messagingLayout.getRegion('contacts').show(this.contactsView);
 
-        this.listenTo(this.messagingLayout, "unselect", function() {
+        this.listenTo(this.messagingLayout, 'unselect', function() {
             me.unselect();
         });
 
-        this.listenTo(this.contactsView, "childview:contact:select", function(e) {
-            var contact = e.model;
+        this.listenTo(this.contactsView, 'childview:contact:select', function(e) {
+            let contact = e.model;
             me.select(contact);
         });
+
         this.addContactView = new AddContactView({
             viewComparator: 'login',
             collection: USERS
         });
-        this.messagingLayout.getRegion("addcontact").show(this.addContactView);
-        this.addContactView.on("select", function(contactName) {
+        this.messagingLayout.getRegion('addcontact').show(this.addContactView);
+        this.addContactView.on('select', function(contactName) {
             me.selectName(contactName);
         });
 
@@ -109,17 +108,17 @@ module.exports = Marionette.Application.extend({
     },
 
     selectName: function(contactName) {
-        console.info("Select", contactName);
-        var c = this.contacts.findWhere({
-            "login": contactName
+        console.info('Select', contactName);
+        let c = this.contacts.findWhere({
+            login: contactName
         });
         if (!c) {
             c = USERS.findWhere({
-                "login": contactName
+                login: contactName
             });
 
             if (!c) {
-                console.warn("Not found");
+                console.warn('Not found');
                 return false;
             }
             this.contacts.add(c);
@@ -129,35 +128,35 @@ module.exports = Marionette.Application.extend({
     },
 
     select: function(contact) {
-        var me = this;
+        let me = this;
         this.contacts.each(function(c) {
-            c.set("selected", contact.get("id") === c.get("id"))
+            c.set('selected', contact.get('id') === c.get('id'));
         });
-        var messages = this.messages.where({
-            contact_id: contact.get("id")
+        let messages = this.messages.where({
+            contact_id: contact.get('id')
         });
-        var prevDate = "";
-        var uc = 0;
+        let prevDate = '';
+        let uc = 0;
         messages.forEach(function(m) {
-            var d = new Date(m.get("ts") * 1000);
-            var dat = "" + d.getDate() + d.getMonth();
+            let d = new Date(m.get('ts') * 1000);
+            let dat = '' + d.getDate() + d.getMonth();
             if (dat !== prevDate) {
-                m.set("dateSeparator", true);
+                m.set('dateSeparator', true);
                 prevDate = dat;
             }
-            if (!m.get("r") && (m.get("rxtx") === "rx")) uc++;
+            if (!m.get('r') && (m.get('rxtx') === 'rx')) uc++;
         });
         this.userMessages.reset(messages);
-        this.messagingLayout.getRegion("messages").show(new MessagesView({
+        this.messagingLayout.getRegion('messages').show(new MessagesView({
             collection: this.userMessages
         }));
         this.sendView = new SendView({
             model: contact
         });
-        this.messagingLayout.getRegion("send").show(this.sendView);
-        this.messagingLayout.$el.addClass("js-selected");
-        this.messagingLayout.$el.removeClass("js-unselected");
-        this.listenTo(this.sendView, "send", function(data) {
+        this.messagingLayout.getRegion('send').show(this.sendView);
+        this.messagingLayout.$el.addClass('js-selected');
+        this.messagingLayout.$el.removeClass('js-unselected');
+        this.listenTo(this.sendView, 'send', function(data) {
             me.messages.create(data, {
                 wait: true,
                 success: function() {
@@ -165,12 +164,12 @@ module.exports = Marionette.Application.extend({
                 },
                 error: function() {
                     me.sendView.enable();
-                    //Fehler beim Versand
+                    // Fehler beim Versand
                 }
             });
         });
 
-        this.messagingLayout.getRegion("contactInfo").show(new ContactDetailsView({
+        this.messagingLayout.getRegion('contactInfo').show(new ContactDetailsView({
             model: contact
         }));
 
@@ -178,32 +177,32 @@ module.exports = Marionette.Application.extend({
             contact.setAllRead();
         }
 
-        Backbone.history.navigate("zettel/" + contact.get("login"));
+        Backbone.history.navigate('zettel/' + contact.get('login'));
     },
 
     unselect: function() {
         this.contacts.each(function(c) {
-            c.set("selected", false);
+            c.set('selected', false);
         });
         this.userMessages.reset([]);
-        this.messagingLayout.$el.addClass("js-unselected");
-        this.messagingLayout.$el.removeClass("js-selected");
-        this.messagingLayout.getRegion("send").empty();
-        this.messagingLayout.getRegion("contactInfo").empty();
-        Backbone.history.navigate("zettel");
+        this.messagingLayout.$el.addClass('js-unselected');
+        this.messagingLayout.$el.removeClass('js-selected');
+        this.messagingLayout.getRegion('send').empty();
+        this.messagingLayout.getRegion('contactInfo').empty();
+        Backbone.history.navigate('zettel');
     },
 
     unreadRecalc: function() {
-        console.info("Unread recalc");
-        var me = this;
+        console.info('Unread recalc');
+        let me = this;
         this.contacts.each(function(c) {
-            var uc = me.messages.where({
+            let uc = me.messages.where({
                 r: 0,
-                "contact_id": c.get("id"),
-                rxtx: "rx"
+                contact_id: c.get('id'),
+                rxtx: 'rx'
             });
-            c.set("uc", uc.length);
-        })
+            c.set('uc', uc.length);
+        });
     },
 
     getSelectedContact: function() {

@@ -1,22 +1,16 @@
-var Backbone = require('backbone');
-var Radio = require('backbone.radio');
-var Marionette = require('backbone.marionette');
+const Radio = require('backbone.radio');
+const Marionette = require('backbone.marionette');
 module.exports = Marionette.Application.extend({
 
     initialize: function() {
-        console.info("App init");
-
+        console.info('App init');
     },
 
     start: function() {
-        console.info("App start");
-
+        console.info('App start');
     },
 
     register: function() {
-
-        this.navigator = Radio.channel("navigator");
-
+        this.navigator = Radio.channel('navigator');
     }
-
 });

@@ -1,6 +1,5 @@
-var $ = require('jquery');
-
-var MessagingApp = require('./app/MessagingApp');
+const $ = require('jquery');
+let MessagingApp = require('./app/MessagingApp');
 $(document).ready(function() {
     window.app = new MessagingApp();
 
