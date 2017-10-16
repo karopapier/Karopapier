@@ -1,6 +1,6 @@
-const _ = require('underscore');
 const Backbone = require('backbone');
 const Radio = require('backbone.radio');
+const TURTED = require('turted-client');
 module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
     defaults: {},
     /**
@@ -9,10 +9,8 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
      * Karo EVent INterfcae - handling and forwarding real time notifications, forwarding them to the KaroApp
      *
      */
-    initialize(options) {
-        options = options || {};
+    initialize() {
         // console.log("Run init on KEvIn");
-        _.bindAll(this, 'ident', 'hook', 'start', 'stop');
         const dataChannel = Radio.channel('data');
         this.user = dataChannel.request('user:logged:in');
         const config = dataChannel.request('config');
@@ -23,6 +21,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
         }
 
         this.appChannel = Radio.channel('app');
+        this.messagingChannel = Radio.channel('messaging');
 
         this.listenTo(this.user, 'change:id', this.ident);
         this.turted = new TURTED(host);
@@ -63,6 +62,10 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
 
         this.turted.on('chat:message', function(data) {
             me.appChannel.trigger('chat:message', data);
+        });
+
+        this.turted.on('msg', (data) => {
+            this.messagingChannel.trigger('message:new', data);
         });
     },
 

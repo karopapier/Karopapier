@@ -1,7 +1,7 @@
-var Marionette = require('backbone.marionette');
-var UserOptionView = require('./UserOptionView');
+const Marionette = require('backbone.marionette');
+const UserOptionView = require('./UserOptionView');
 module.exports = Marionette.CollectionView.extend({
-    tagName: "select",
+    tagName: 'select',
     childView: UserOptionView
 });
 

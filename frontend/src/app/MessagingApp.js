@@ -1,3 +1,4 @@
+'use strict';
 const Backbone = require('backbone');
 const Radio = require('backbone.radio');
 const Marionette = require('backbone.marionette');
@@ -7,6 +8,8 @@ const MessagingLayout = require('../layout/MessagingLayout');
 
 // Model
 const User = require('../model/User');
+
+const KEvIn = require('../model/KEvIn');
 
 // Collections
 const MessageCollection = require('../collection/MessageCollection');
@@ -49,7 +52,7 @@ module.exports = Marionette.Application.extend({
         this.contacts = new ContactCollection();
         this.messages = new MessageCollection();
         this.userMessages = new MessageCollection();
-        this.listenTo(this.messages, 'add', function(m) {
+        this.listenTo(this.messages, 'add', (m) => {
             let selectedContact = me.getSelectedContact();
             if (selectedContact) {
                 if (m.get('contact_id') === selectedContact.get('id')) {
@@ -61,6 +64,19 @@ module.exports = Marionette.Application.extend({
         this.dataProvider = Radio.channel('data');
         this.dataProvider.reply('user:logged:in', function() {
             return me.authUser;
+        });
+
+        this.dataProvider.reply('config', () => {
+            return {
+                host: '//ws01.panamapapier.de'
+            };
+        });
+
+        this.kevin = new KEvIn();
+
+        this.messagingChannel = Radio.channel('messaging');
+        this.messagingChannel.on('message:new', (data) => {
+            this.messages.add(data);
         });
 
         this.messagingLayout = new MessagingLayout({

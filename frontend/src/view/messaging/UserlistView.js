@@ -1,7 +1,7 @@
-var Marionette = require('backbone.marionette');
-var UserlistItemView = require('./UserlistItemView');
+const Marionette = require('backbone.marionette');
+const UserlistItemView = require('./UserlistItemView');
 module.exports = Marionette.CollectionView.extend({
-    tagName: "ul",
+    tagName: 'ul',
     childView: UserlistItemView
 });
 

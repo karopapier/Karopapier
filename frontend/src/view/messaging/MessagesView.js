@@ -1,16 +1,16 @@
-var Marionette = require('backbone.marionette');
-var MessageView = require('./MessageView');
+const Marionette = require('backbone.marionette');
+const MessageView = require('./MessageView');
 module.exports = Marionette.CollectionView.extend({
 
-    childView: function(child) {
+    childView(child) {
         return MessageView;
     },
 
-    childViewOptions: function(model, index) {
+    childViewOptions(model, index) {
         // do some calculations based on the model
         return {
-            childIndex: "index"
-        }
+            childIndex: 'index'
+        };
     }
 });
 
