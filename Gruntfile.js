@@ -100,6 +100,9 @@ module.exports = function(grunt) {
                     "web/css/theme.css": "frontend/css/theme.css"
                 }
             }
+        },
+        eslint: {
+            target: ['frontend/src/**/*.js']
         }
     });
 
@@ -108,10 +111,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-eslint');
 
     // Default task(s).
     grunt.registerTask('build', ['build:js', 'less']);
-    grunt.registerTask('build:js', ['browserify', 'uglify']);
+    grunt.registerTask('build:js', ['browserify', 'uglify', 'style']);
+    grunt.registerTask('style', ['eslint']);
     grunt.registerTask('default', ['build', 'watch']);
 
 };
