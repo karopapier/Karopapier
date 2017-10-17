@@ -8,6 +8,7 @@ const MessagingLayout = require('../layout/MessagingLayout');
 
 // Model
 const User = require('../model/User');
+const Message = require('../model/Message');
 
 const KEvIn = require('../model/KEvIn');
 
@@ -22,6 +23,7 @@ const ContactDetailsView = require('../view/messaging/ContactDetailsView');
 const MessagesView = require('../view/messaging/MessagesView');
 const ContactsView = require('../view/messaging/ContactsView');
 const AddContactView = require('../view/messaging/AddContactView');
+const UserInfoBarView = require('../view/UserInfoBarView');
 
 window.USERS = new UserCollection();
 
@@ -54,6 +56,7 @@ module.exports = Marionette.Application.extend({
         this.userMessages = new MessageCollection();
         this.listenTo(this.messages, 'add', (m) => {
             let selectedContact = me.getSelectedContact();
+            // if current contact selected, add message to filtered userMessages
             if (selectedContact) {
                 if (m.get('contact_id') === selectedContact.get('id')) {
                     this.userMessages.add(m);
@@ -76,7 +79,15 @@ module.exports = Marionette.Application.extend({
 
         this.messagingChannel = Radio.channel('messaging');
         this.messagingChannel.on('message:new', (data) => {
-            this.messages.add(data);
+            let m = new Message(data);
+            let selectedContact = this.getSelectedContact();
+            // if current contact selected, add message as already read
+            if (selectedContact) {
+                if (m.get('contact_id') === selectedContact.get('id')) {
+                    m.set('r', 1);
+                }
+            }
+            this.messages.add(m);
         });
 
         this.messagingLayout = new MessagingLayout({
@@ -91,6 +102,10 @@ module.exports = Marionette.Application.extend({
         console.info('Start App');
         let me = this;
         this.unreadRecalc();
+
+        // Now bind to add in case of realtime updates
+        this.listenTo(this.messages, 'add', this.unreadRecalc);
+
         this.messagingLayout.render();
 
         this.contactsView = new ContactsView({
@@ -116,6 +131,12 @@ module.exports = Marionette.Application.extend({
         this.addContactView.on('select', function(contactName) {
             me.selectName(contactName);
         });
+
+        this.userInfoBar = new UserInfoBarView({
+            el: '#userInfoBar',
+            model: this.authUser
+        });
+        this.userInfoBar.render();
 
         this.router = new MessagingRouter({
             app: this
@@ -191,6 +212,7 @@ module.exports = Marionette.Application.extend({
 
         if (uc > 0) {
             contact.setAllRead();
+            this.unreadRecalc();
         }
 
         Backbone.history.navigate('zettel/' + contact.get('login'));
@@ -209,6 +231,7 @@ module.exports = Marionette.Application.extend({
     },
 
     unreadRecalc: function() {
+        let total = 0;
         console.info('Unread recalc');
         let me = this;
         this.contacts.each(function(c) {
@@ -218,7 +241,9 @@ module.exports = Marionette.Application.extend({
                 rxtx: 'rx'
             });
             c.set('uc', uc.length);
+            total += uc.length;
         });
+        this.authUser.set('uc', total);
     },
 
     getSelectedContact: function() {

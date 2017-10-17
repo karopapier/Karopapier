@@ -1,0 +1,11 @@
+<% if (id !==0) { %>
+<% if (uc>0) { %>
+<div class="unread" style="display: inline-block"><%= uc %></div>
+<% } %>
+<span class="userLabel"><%= login %></span>
+<small>(<a href="/dran.html"><%= dran %></a>/<a href="/showgames.php?spielevon=<%= id %>"><%= activeGames %></a>)
+</small>
+<a href="/logout">Logout</a>
+<% } else { %>
+<a href="/login">Login</a>
+<% } %>
