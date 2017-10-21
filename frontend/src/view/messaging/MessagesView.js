@@ -23,9 +23,9 @@ module.exports = Marionette.CollectionView.extend({
         const overflow = scrollhight - scrollpos - height;
         if (overflow < 80) {
             this.scrollDown();
-            return
+            return;
         }
-        console.info("New message indicator");
+        console.info('Show new message indicator');
     },
 
     scrollDown() {

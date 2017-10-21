@@ -10,7 +10,6 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -32,13 +31,16 @@ class UserController extends AbstractApiController
     }
 
     /**
-     * @Security("has_role('ROLE_USER')")
      * @Route("/users/check", name="api_users_check")
      * @Route("/user/check.json", name="api_user_check_json")
      * @param User $user
      */
     public function checkAction(Request $request)
     {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new JsonResponse(["ERROR" => "LOGIN_REQUIRED"], 401);
+        }
+
         /** @var User $user */
         $user = $this->getUser();
         $data = $user->toArray();
