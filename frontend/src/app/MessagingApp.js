@@ -25,8 +25,6 @@ const ContactsView = require('../view/messaging/ContactsView');
 const AddContactView = require('../view/messaging/AddContactView');
 const UserInfoBarView = require('../view/UserInfoBarView');
 
-window.USERS = new UserCollection();
-
 const MessagingRouter = Backbone.Router.extend({
     initialize: function(options) {
         this.app = options.app;
@@ -50,6 +48,10 @@ module.exports = Marionette.Application.extend({
         this.authUser = new User();
         this.authUser.url = '/api/users/check';
         this.authUser.fetch();
+
+        this.users = new UserCollection();
+        this.users.url = '/api/users';
+        this.users.fetch();
 
         this.contacts = new ContactCollection();
         this.messages = new MessageCollection();
@@ -91,7 +93,7 @@ module.exports = Marionette.Application.extend({
         });
 
         this.messagingLayout = new MessagingLayout({
-            el: '#messaging',
+            el: '.messaging',
             triggers: {
                 'click .backnav': 'unselect'
             }
@@ -125,7 +127,7 @@ module.exports = Marionette.Application.extend({
 
         this.addContactView = new AddContactView({
             viewComparator: 'login',
-            collection: USERS
+            collection: this.users
         });
         this.messagingLayout.getRegion('addcontact').show(this.addContactView);
         this.addContactView.on('select', function(contactName) {
@@ -150,7 +152,7 @@ module.exports = Marionette.Application.extend({
             login: contactName
         });
         if (!c) {
-            c = USERS.findWhere({
+            c = this.users.findWhere({
                 login: contactName
             });
 

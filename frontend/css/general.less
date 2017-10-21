@@ -49,6 +49,7 @@ div.clearer {
 @media all and (min-width: @media-small-breakpoint) {
   .karoborder {
     border-style: solid;
+    border-color: transparent;
     border-width: 26px 30px;
     border-image: url(images/borderImage.png) 26 30 repeat;
     behavior: url(/js/libs/PIE-1.0.0/PIE.htc)
@@ -62,3 +63,19 @@ div.clearer {
 .hidden {
   display: none;
 }
+
+.fitscreen {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  section.content {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+}
+

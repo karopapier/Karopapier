@@ -16,9 +16,9 @@ module.exports = Marionette.View.extend({
 
     initialize: function() {
         let me = this;
-        this.collection = new UserCollection();
+        this.filteredUsers = new UserCollection(this.collection.toJSON());
         this.listview = new UserlistView({
-            collection: this.collection
+            collection: this.filteredUsers
         });
         this.listenTo(this.listview, 'childview:select', function(e) {
             me.insert(e.model);
@@ -33,7 +33,7 @@ module.exports = Marionette.View.extend({
     },
     autocomplete: function(e) {
         let typed = this.$('input').val().toLowerCase();
-        this.collection.reset(USERS.filter(function(m) {
+        this.filteredUsers.reset(this.collection.filter(function(m) {
             return !m.get('login').toLowerCase().indexOf(typed);
         }));
         this.listview = this.getRegion('auto').show(this.listview);

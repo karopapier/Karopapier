@@ -1,10 +1,9 @@
 {% block footer %}
     <hr width="75%">
-    <div class="small center" style="text-align: center; font-size: 80%">Diese Seite wird Ihnen päsentiert von:
+    <div class="small center" style="text-align: center; font-size: 80%">Päsentiert von:
         <a href="https://github.com/karopapier/Karopapier">Die Zukunft des Karopapiers&trade;</a>
     </div>
     {% set msg = lastchatmessage() %}
-    <br/>
     Letzter Satz im <a href="/chat">Chat</a>:<br/>
     <B>{{ msg.login }}</B> ({{ msg.ts|date('H:i') }}): {{ msg.text }}
 {% endblock %}

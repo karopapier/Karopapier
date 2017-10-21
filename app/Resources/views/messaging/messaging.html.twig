@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="karoborder">Zettel schreiben</h1>
-    <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben ohne reinzuschauen.</p>
-    <div id="messaging">Loading...</div>
+    <div class="messaging-wrapper">
+        <h1 class="karoborder">Zettel schreiben</h1>
+        <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben ohne reinzuschauen.</p>
+        <div class="messaging">Loading...</div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

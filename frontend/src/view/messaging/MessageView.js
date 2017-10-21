@@ -1,6 +1,7 @@
 const Marionette = require('backbone.marionette');
 module.exports = Marionette.View.extend({
     template: require('../../../templates/messaging/message.html'),
+    className: 'message',
     templateContext: {
         formatTsIsoDate: function(ts) {
             const dat = new Date(ts * 1000);

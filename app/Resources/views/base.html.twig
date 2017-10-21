@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8"/>
         <title>{% block title %}Karopapier{% endblock %} - Autofahren wie in der Vorlesung</title>
-        <link rel="stylesheet" href="{{ asset('css/pre.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/previous.css') }}">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
         {% block stylesheets %}{% endblock %}
@@ -19,59 +19,65 @@
 
     </head>
     <body>
-        <nav class="nav-menu-mobile hidden">
-            <ul>
-                <li>A</li>
-                <li>B</li>
-                <li>C</li>
-                <li>D</li>
-            </ul>
-        </nav>
-        <header>
-            <div id="userInfoBar">
-                <div class="unread" style="display: inline-block">123</div>
-                {% if app.user %}
-                    <span class="userLabel">{{ app.user.login }}</span>
-                    <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
-                    </small>
-                    {% set uc = getUnreadCounter(app.user) %}
-                    {% if uc >0 %}
-                        <div class="unread" style="display: inline-block">
-                            <a href="/zettel">{{ uc }}</a></div>
+        <div class="container fitscreen">
+
+            <nav class="nav-menu-mobile hidden">
+                <ul>
+                    <li>A</li>
+                    <li>B</li>
+                    <li>C</li>
+                    <li>D</li>
+                </ul>
+            </nav>
+            <header>
+                <div id="userInfoBar">
+                    <div class="unread" style="display: inline-block">123</div>
+                    {% if app.user %}
+                        <span class="userLabel">{{ app.user.login }}</span>
+                        <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
+                        </small>
+                        {% set uc = getUnreadCounter(app.user) %}
+                        {% if uc >0 %}
+                            <div class="unread" style="display: inline-block">
+                                <a href="/zettel">{{ uc }}</a></div>
+                        {% endif %}
+                        <a href="/logout">Logout</a>
+                    {% else %}
+                        <a href="/login">Logout</a>
                     {% endif %}
-                    <a href="/logout">Logout</a>
-                {% else %}
-                    <a href="/login">Logout</a>
-                {% endif %}
-            </div>
-        </header>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+                </div>
+            </header>
+            <section class="content">
+                {% block body %}{% endblock %}
+                {% block javascripts %}{% endblock %}
+            </section>
+            <footer>
+                {% include ("footer.html.twig") %}
+            </footer>
+        </div>
+
+        <!-- Piwik -->
+        <script type="text/javascript">
+            var pkBaseURL = "//stats.karopapier.de/";
+            pkBaseURL = "//www.karopapier.de/piwik/";
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            piwik_action_name = '';
+            piwik_idsite = 1;
+            piwik_url = pkBaseURL + "piwik.php";
+            piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+        </script>
+        <object>
+            <noscript><p>Web analytics
+                    <img src="//www.karopapier.de/piwik/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
+        </object>
+        <!-- End Piwik Tag -->
+        <script type="text/javascript">
+            if (!/karopapier/.test(window.location.hostname)) {
+                document.write('<scr' + 'ipt src="//www.panamapapier.de:20001/livereload.js"></scr' + 'ipt>');
+            }
+        </script>
     </body>
-    <footer>
-        {% include ("footer.html.twig") %}
-    </footer>
-    <!-- Piwik -->
-    <script type="text/javascript">
-        var pkBaseURL = "//stats.karopapier.de/";
-        pkBaseURL = "//www.karopapier.de/piwik/";
-        document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
-    <script type="text/javascript">
-        piwik_action_name = '';
-        piwik_idsite = 1;
-        piwik_url = pkBaseURL + "piwik.php";
-        piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-    </script>
-    <object>
-        <noscript><p>Web analytics
-                <img src="//www.karopapier.de/piwik/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
-    </object>
-    <!-- End Piwik Tag -->
-    <script type="text/javascript">
-        if (!/karopapier/.test(window.location.hostname)) {
-            document.write('<scr' + 'ipt src="//www.panamapapier.de:20001/livereload.js"></scr' + 'ipt>');
-        }
-    </script>
 </html>
 

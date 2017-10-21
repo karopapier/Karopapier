@@ -61,7 +61,7 @@ module.exports = function(grunt) {
                 }
             },
             css: {
-                files: ['frontend/css/*'],
+                files: ['frontend/css/**/*'],
                 tasks: ['less'],
                 options: {
                     interrupt: true,
@@ -97,7 +97,7 @@ module.exports = function(grunt) {
                     ]
                 },
                 files: {
-                    "web/css/pre.css": "frontend/css/karo.css",
+                    "web/css/previous.css": "frontend/css/karo.css",
                     "web/css/theme.css": "frontend/css/theme.css"
                 }
             }
