@@ -65,9 +65,14 @@ class MessagingService
         return $senderMessage;
     }
 
+    public function getUnreadCounterById($id)
+    {
+        return $this->em->getRepository("AppBundle:Message")->getUnreadById($id);
+    }
+
     public function getUnreadCounter(User $user)
     {
-        return $this->em->getRepository("AppBundle:Message")->getUnreadById($user->getId());
+        return $this->getUnreadCounterById($user->getId());
     }
 
     public function setAllRead($user, $contact)
