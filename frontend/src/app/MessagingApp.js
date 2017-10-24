@@ -73,7 +73,7 @@ module.exports = Marionette.Application.extend({
 
         this.dataProvider.reply('config', () => {
             return {
-                host: '//ws01.panamapapier.de'
+                host: '//turted.karopapier.de'
             };
         });
 
