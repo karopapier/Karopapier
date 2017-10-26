@@ -3,7 +3,15 @@ module.exports = Marionette.View.extend({
     template: require('../../../templates/messaging/sendview.html'),
     tagName: 'form',
     events: {
-        submit: 'send'
+        submit: 'send',
+        keyup: 'resize'
+    },
+
+    onRender: function() {
+        var me=this;
+        setTimeout(function () {
+            me.resize();
+        },100);
     },
 
     send: function(e) {
@@ -30,6 +38,12 @@ module.exports = Marionette.View.extend({
 
     enable: function() {
         this.$('input[type=submit]').prop('disabled', false);
+    },
+
+    resize: function () {
+        var o = this.$('.send-text')[0];
+        o.style.height = "1px";
+        o.style.height = (o.scrollHeight)+"px";
     }
 });
 

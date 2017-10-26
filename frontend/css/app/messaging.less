@@ -48,8 +48,21 @@
   overflow-y: auto;
 }
 
-.send-view {
-
+.send-view form {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  textarea {
+    min-height: 20px;
+    max-height: 100px;
+  }
+  .send-text {
+    flex: 1;
+    max-width: 500px;
+  }
+  .send-controls {
+    flex: 1;
+  }
 }
 
 .date-separator {
