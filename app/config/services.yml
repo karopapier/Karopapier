@@ -145,3 +145,11 @@ services:
         class: AppBundle\Twig\MessagingExtension
         tags:
              - { name: 'twig.extension' }
+
+    dev_listener:
+      class:      AppBundle\Listener\DevListener
+      arguments:
+        - "%kernel.environment%"
+        - "%livereload%"
+      tags:
+        - { name: kernel.event_listener, event: kernel.response}

@@ -25,3 +25,4 @@ parameters:
     smiley_dir: /var/wwwroot/karo/karopapier.de/httpdocs/bilder/smilies
     turted_url: http://127.0.0.1:6969/push/
     turted_password: passwd
+    livereload: //192.168.0.50:20001/livereload.js
