@@ -1,6 +1,6 @@
 const Marionette = require('backbone.marionette');
 module.exports = Marionette.View.extend({
-    className: 'clickable',
+    className: 'clickable contact',
     template: require('../../../templates/messaging/contact.html'),
 
     triggers: {
