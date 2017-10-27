@@ -9,9 +9,11 @@
 namespace AppBundle\Listener;
 
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-class DevListener
+class DevListener implements EventSubscriberInterface
 {
     private $env;
     private $livereload;
@@ -42,5 +44,12 @@ class DevListener
         $content = $response->getContent();
         $content = str_replace("</body>", $write."</body>", $content);
         $response->setContent($content);
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::RESPONSE => "onKernelResponse",
+        ];
     }
 }

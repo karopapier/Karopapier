@@ -178,10 +178,7 @@ services:
         tags:
              - { name: 'twig.extension' }
 
-    dev_listener:
-      class:      AppBundle\Listener\DevListener
+    AppBundle\Listener\DevListener:
       arguments:
-        - "%kernel.environment%"
-        - "%livereload%"
-      tags:
-        - { name: kernel.event_listener, event: kernel.response}
+        $env: "%kernel.environment%"
+        $livereload: "%livereload%"
