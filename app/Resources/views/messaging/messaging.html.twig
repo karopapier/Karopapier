@@ -3,11 +3,20 @@
 {% block body %}
     <div class="messaging-wrapper">
         <h1 class="karoborder">Zettel schreiben</h1>
-        <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben ohne reinzuschauen.</p>
+        <p>Hier kannst Du Deinen Mitspielern einen Zettel schicken, den dann hoffentlich die Sitznachbarn weitergeben
+            ohne reinzuschauen.</p>
         <div class="messaging">Loading...</div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/KaroApp.dev.js') }}"></script>
+    <script>
+        var app = new KaroApp({
+            turtedHost: '{{ getConfig('turted') }}'
+        });
+        app.loadInitial(function () {
+            app.start();
+        });
+    </script>
 {% endblock %}

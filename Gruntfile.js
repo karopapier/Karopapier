@@ -31,7 +31,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    "web/js/<%= pkg.name %>.src.js": ['frontend/src/app.js']
+                    "web/js/<%= pkg.name %>.src.js": ['frontend/src/app/KaroApp.js']
                 }
             }
         },

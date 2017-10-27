@@ -15,16 +15,19 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
         this.user = dataChannel.request('user:logged:in');
         const config = dataChannel.request('config');
 
-        let host = '//ws01.karopapier.de';
-        if (config.host) {
-            host = config.host;
+        let turtedHost='';
+        if (config.turtedHost) {
+            turtedHost = config.turtedHost;
+        }
+        if (!turtedHost) {
+            console.error('NO HOST CONFIG');
         }
 
         this.appChannel = Radio.channel('app');
         this.messagingChannel = Radio.channel('messaging');
 
         this.listenTo(this.user, 'change:id', this.ident);
-        this.turted = new TURTED(host);
+        this.turted = new TURTED(turtedHost);
         this.ident();
         this.hook();
     },
