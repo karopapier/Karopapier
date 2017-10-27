@@ -9,6 +9,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
+use AppBundle\Services\MessagingService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,7 @@ class UserController extends AbstractApiController
      * @Route("/user/check.json", name="api_user_check_json")
      * @param User $user
      */
-    public function checkAction(Request $request)
+    public function checkAction(Request $request, MessagingService $messagingService)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             return new JsonResponse(["ERROR" => "LOGIN_REQUIRED"], 401);
@@ -44,7 +45,7 @@ class UserController extends AbstractApiController
         /** @var User $user */
         $user = $this->getUser();
         $data = $user->toArray();
-        $data["uc"] = $this->get("messaging_service")->getUnreadCounter($user);
+        $data["uc"] = $messagingService->getUnreadCounter($user);
         $json = new JsonResponse($data);
         $json->setCallback($request->get("callback"));
 

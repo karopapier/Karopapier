@@ -16,6 +16,12 @@ services:
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
 
+    #AppBundle\Services\:
+        #resource: '../../src/AppBundle/Services/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        #exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+
     #AppBundle\:
         #resource: '../../src/AppBundle/*'
         # you can exclude directories or files
@@ -24,16 +30,18 @@ services:
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
-
-    #AppBundle\Controller\:
-        #resource: '../../src/AppBundle/Controller'
-        #public: true
-        #tags: ['controller.service_arguments']
+    AppBundle\Controller\:
+        resource: '../../src/AppBundle/Controller'
+        public: true
+        tags: ['controller.service_arguments']
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    AppBundle\Services\MessagingService:
+      autowire: true
 
 
 #    service_name:
@@ -150,14 +158,6 @@ services:
     message_normalizer:
       class: AppBundle\Services\MessageNormalizer
       arguments:
-        - '@logger'
-
-    messaging_service:
-      class: AppBundle\Services\MessagingService
-      arguments:
-        - '@doctrine.orm.default_entity_manager'
-        - '@message_normalizer'
-        - '@realtime_push'
         - '@logger'
 
     twig.extension.last_chat_message:
