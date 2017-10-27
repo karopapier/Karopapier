@@ -73,6 +73,9 @@
                     <img src="//www.karopapier.de/piwik/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
         </object>
         <!-- End Piwik Tag -->
+        {% if app.environment != "prod" %}
+            <script>document.write('<scr' + 'ipt src="{{ getConfig("livereload") }}"></scr' + 'ipt>')</script>
+        {% endif %}
     </body>
 </html>
 

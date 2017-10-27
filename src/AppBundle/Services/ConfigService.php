@@ -8,9 +8,10 @@
 
 namespace AppBundle\Services;
 
-
-class ConfigService
+class ConfigService extends \Twig_Extension
 {
+    private $config = [];
+
     public function __construct($config)
     {
         $this->config = $config;
@@ -21,5 +22,13 @@ class ConfigService
         if (isset($this->config[$key])) {
             return $this->config[$key];
         }
+    }
+
+    public function getFunctions()
+    {
+        return [
+            "getConfig" => new \Twig_SimpleFunction("getConfig", [$this, "get"]),
+
+        ];
     }
 }
