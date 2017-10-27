@@ -178,7 +178,6 @@ services:
         tags:
              - { name: 'twig.extension' }
 
-    AppBundle\Listener\DevListener:
+    AppBundle\Services\ConfigService:
       arguments:
-        $env: "%kernel.environment%"
-        $livereload: "%livereload%"
+        $config: "%config%"

@@ -9,6 +9,7 @@
 namespace AppBundle\Listener;
 
 
+use AppBundle\Services\ConfigService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -18,10 +19,10 @@ class DevListener implements EventSubscriberInterface
     private $env;
     private $livereload;
 
-    public function __construct($env, $livereload)
+    public function __construct(ConfigService $config)
     {
-        $this->env = $env;
-        $this->livereload = $livereload;
+        $this->env = $config->get("env");
+        $this->livereload = $config->get("livereload");
     }
 
     private function isDev()
