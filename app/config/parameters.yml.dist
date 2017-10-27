@@ -26,6 +26,5 @@ parameters:
     turted_url: http://127.0.0.1:6969/push/
     turted_password: passwd
     config:
-      env: "%kernel.environment%"
       livereload: '//192.168.56.105:20001/livereload.js'
       turted: '//turted.karoworld.de/push/'
