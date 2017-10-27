@@ -8,10 +8,10 @@ module.exports = Marionette.View.extend({
     },
 
     onRender: function() {
-        var me=this;
-        setTimeout(function () {
+        const me=this;
+        setTimeout(function() {
             me.resize();
-        },100);
+        }, 100);
     },
 
     send: function(e) {
@@ -40,10 +40,10 @@ module.exports = Marionette.View.extend({
         this.$('input[type=submit]').prop('disabled', false);
     },
 
-    resize: function () {
-        var o = this.$('.send-text')[0];
-        o.style.height = "1px";
-        o.style.height = (o.scrollHeight)+"px";
+    resize: function() {
+        const o = this.$('.send-text')[0];
+        o.style.height = '1px';
+        o.style.height = (o.scrollHeight)+'px';
     }
 });
 
