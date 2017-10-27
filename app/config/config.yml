@@ -23,7 +23,6 @@ framework:
         engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
         storage_id: session.storage.php_bridge
@@ -100,5 +99,5 @@ snc_redis:
 turted:
   enabled: true
   push:
-    url: %turted_url%
-    password: %turted_password%
+    url: "%turted_url%"
+    password: "%turted_password%"

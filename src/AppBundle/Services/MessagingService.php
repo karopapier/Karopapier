@@ -11,15 +11,15 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\Message;
 use AppBundle\Entity\User;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 
 class MessagingService
 {
     /**
-     * @var EntityManager
+     * @var ObjectManager
      */
-    private $em;
+    private $manager;
     /**
      * @var MessageNormalizer
      */
@@ -34,12 +34,12 @@ class MessagingService
     private $logger;
 
     public function __construct(
-        EntityManager $em,
+        ObjectManager $manager,
         MessageNormalizer $normalizer,
         RealtimePush $push,
         LoggerInterface $logger
     ) {
-        $this->em = $em;
+        $this->manager = $manager;
         $this->normalizer = $normalizer;
         $this->push = $push;
         $this->logger = $logger;
@@ -56,9 +56,9 @@ class MessagingService
         $senderMessage = new Message($sender, $receiver, $text, "tx");
         $receiverMessage = new Message($receiver, $sender, $text, "rx");
 
-        $this->em->persist($senderMessage);
-        $this->em->persist($receiverMessage);
-        $this->em->flush();
+        $this->manager->persist($senderMessage);
+        $this->manager->persist($receiverMessage);
+        $this->manager->flush();
 
         $this->push->notifyGeneric($receiver, "msg", $receiverMessage->toArray());
 
@@ -67,7 +67,7 @@ class MessagingService
 
     public function getUnreadCounterById($id)
     {
-        return $this->em->getRepository("AppBundle:Message")->getUnreadById($id);
+        return $this->manager->getRepository("AppBundle:Message")->getUnreadById($id);
     }
 
     public function getUnreadCounter(User $user)
@@ -77,6 +77,6 @@ class MessagingService
 
     public function setAllRead($user, $contact)
     {
-        return $this->em->getRepository("AppBundle:Message")->setAllRead($user->getId(), $contact->getId());
+        return $this->manager->getRepository("AppBundle:Message")->setAllRead($user->getId(), $contact->getId());
     }
 }
