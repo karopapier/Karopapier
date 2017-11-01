@@ -79,7 +79,8 @@ class GamePreviewCommand extends ContainerAwareCommand
 
         $row = 0;
         $col = 0;
-        for ($i = 0; $i < strlen($mapcode); $i++) {
+        $l = strlen($mapcode);
+        for ($i = 0; $i < $l; $i++) {
             $f = $mapcode[$i];
             if ($f == "\r") continue;
             if ($f == "\n") {

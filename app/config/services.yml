@@ -40,8 +40,16 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
-    AppBundle\Services\MessagingService:
+    messaging_service:
+      class: 'AppBundle\Services\MessagingService'
       autowire: true
+
+    karo_query:
+      class: 'AppBundle\Services\KaroQuery'
+      autowire: true
+
+    AppBundle\Services\MessagingService: '@messaging_service'
+    AppBundle\Services\KaroQuery: '@karo_query'
 
 
 #    service_name:
