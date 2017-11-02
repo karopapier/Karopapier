@@ -1,12 +1,14 @@
 <?php
+
 namespace AppBundle\Tests;
 
+use AppBundle\Model\Motion;
 use AppBundle\Model\Position;
 use AppBundle\Model\PositionCollection;
 use AppBundle\Model\Vector;
-use AppBundle\Model\Motion;
+use PHPUnit\Framework\TestCase;
 
-class MotionTest extends \PHPUnit_Framework_TestCase
+class MotionTest extends TestCase
 {
     private function is($a, $b, $c)
     {
@@ -82,7 +84,11 @@ class MotionTest extends \PHPUnit_Framework_TestCase
         $illu->addXY(6, 2);
         $illu->addXY(6, 3);
         $illu->addXY(6, 4);
-        $t->is($mo->getIlluminatedPositions()->getArray(), $illu->getArray(), '->getIlluminatedPositions() returns right Positions');
+        $t->is(
+            $mo->getIlluminatedPositions()->getArray(),
+            $illu->getArray(),
+            '->getIlluminatedPositions() returns right Positions'
+        );
 
 
     }

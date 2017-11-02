@@ -1,8 +1,9 @@
 <?php
 
 use AppBundle\Model\Vector;
+use PHPUnit\Framework\TestCase;
 
-class MotionTest extends \PHPUnit_Framework_TestCase
+class MotionTest extends TestCase
 {
     private function is($a, $b, $c)
     {

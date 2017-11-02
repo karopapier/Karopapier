@@ -9,14 +9,13 @@
 namespace tests\AppBundle\Services;
 
 
-use AppBundle\Entity\ChatMessage;
-use AppBundle\Entity\User;
 use AppBundle\Services\LegacyChatlineConverter;
-use AppBundle\Services\SmileyHolder;
 use AppBundle\Services\Smilifier;
+use PHPUnit\Framework\TestCase;
 
 
-class LegacyChatlineConverterTest extends \PHPUnit_Framework_TestCase
+/* Legacy throws warning of Symfony Bridge *shrug* */
+class OldChatlineConverterTest extends TestCase
 {
 
     /** @var  LegacyChatlineConverter */
@@ -25,10 +24,10 @@ class LegacyChatlineConverterTest extends \PHPUnit_Framework_TestCase
     public function testConversion()
     {
 
-        $smilfier = $this->getMockBuilder(Smilifier::class)->disableOriginalConstructor()->getMock();
+        $smilfier = $this->createMock(Smilifier::class);
         $smilfier->expects($this->once())
-                ->method('smilify')
-                ->will($this->returnValue("Was ne Nachricht..."));
+            ->method('smilify')
+            ->willReturn("Was ne Nachricht...");
 
         $this->converter = new LegacyChatlineConverter($smilfier);
 
@@ -44,15 +43,15 @@ class LegacyChatlineConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testParser()
     {
-        $smilfier = $this->getMockBuilder(Smilifier::class)->disableOriginalConstructor()->getMock();
+        $smilfier = $this->createMock(Smilifier::class);
         $this->converter = new LegacyChatlineConverter($smilfier);
 
         $expected = array(
-                "<B>Didi</B> (13:51): LOS GEHT'S!!!! <BR>" => array(
-                        'login' => 'Didi',
-                        'time' => '13:51',
-                        'text' => "LOS GEHT'S!!!!"
-                )
+            "<B>Didi</B> (13:51): LOS GEHT'S!!!! <BR>" => array(
+                'login' => 'Didi',
+                'time' => '13:51',
+                'text' => "LOS GEHT'S!!!!",
+            ),
         );
 
         foreach ($expected as $line => $result) {

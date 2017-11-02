@@ -38,7 +38,7 @@ class UserControllerTest extends KaroWebTestCase
 
         // open /users
         $crawler = $client->request('GET', '/users/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /user/");
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /users/");
         $this->assertContains('Tagen', $client->getResponse()->getContent(), 'Cannot find "Tagen" in Response');
 
     }
@@ -58,7 +58,7 @@ class UserControllerTest extends KaroWebTestCase
 
         //email for admin
         $crawler = $client->request('GET', '/users/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /user/");
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /users/");
         $this->assertRegExp('/didi@karoworld.de/', $client->getResponse()->getContent());
 
         //no email for user

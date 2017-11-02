@@ -10,9 +10,10 @@ namespace Tests\AppBundle\Services;
 
 
 use AppBundle\Services\Smilifier;
+use PHPUnit\Framework\TestCase;
 
 
-class SmilifierTest extends \PHPUnit_Framework_TestCase
+class SmilifierTest extends TestCase
 {
 
     /** @var  Smilifier $smilifier */
@@ -20,16 +21,18 @@ class SmilifierTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $smileyHolder = $this->getMock('AppBundle\Services\SmileyHolderInterface');
+        $logger = $this->createMock('Psr\Log\LoggerInterface');
+        $smileyHolder = $this->createMock('AppBundle\Services\SmileyHolderInterface');
         $smileyHolder->expects($this->any())
-                ->method('getSmilies')
-                ->will($this->returnValue(array(
-                        "approve",
-                        "tongue",
-                        "devilfire",
-                        "unused"
-                )));
+            ->method('getSmilies')
+            ->willReturn(
+                [
+                    "approve",
+                    "tongue",
+                    "devilfire",
+                    "unused",
+                ]
+            );
         $this->smilifier = new Smilifier($smileyHolder, $logger);
     }
 
@@ -39,8 +42,16 @@ class SmilifierTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Hallo', $sm->smilify("Hallo"), 'unchanged');
         $this->assertEquals('Hallo <b>FETT</b>', $sm->smilify('Hallo -:FFETTF:-'), 'Fett');
         $this->assertEquals('Hallo <i>KURSIV</i>', $sm->smilify('Hallo -:KKURSIVK:-'), 'Kursiv');
-        $this->assertEquals('Hallo <img src="/images/smilies/approve.gif" alt="approve" title="approve">', $sm->smilify('Hallo :approve:'), 'smiley to img');
-        $this->assertEquals('Hallo :ismiregal: gibts nich', $sm->smilify('Hallo :ismiregal: gibts nich'), 'no change if smiley does not exist');
+        $this->assertEquals(
+            'Hallo <img src="/images/smilies/approve.gif" alt="approve" title="approve">',
+            $sm->smilify('Hallo :approve:'),
+            'smiley to img'
+        );
+        $this->assertEquals(
+            'Hallo :ismiregal: gibts nich',
+            $sm->smilify('Hallo :ismiregal: gibts nich'),
+            'no change if smiley does not exist'
+        );
 
         $res = $sm->smilify(':tongue:');
         $exp = '<img src="/images/smilies/tongue.gif" alt="tongue" title="tongue">';
@@ -54,7 +65,9 @@ class SmilifierTest extends \PHPUnit_Framework_TestCase
         $exp = 'Hier ist ein <a href="http://www.beididi.de">beididi</a> im Text';
         $this->assertEquals($exp, $res, 'converts links');
 
-        $res = $sm->smilify('-:Pic src=http://www.brot.de/logo.gif Pic:- und -:Pic src=http://www.brot.de/logo.png Pic:- sind Bilder');
+        $res = $sm->smilify(
+            '-:Pic src=http://www.brot.de/logo.gif Pic:- und -:Pic src=http://www.brot.de/logo.png Pic:- sind Bilder'
+        );
         $exp = '<img src="http://www.brot.de/logo.gif" /> und <img src="http://www.brot.de/logo.png" /> sind Bilder';
         $this->assertEquals($exp, $res, 'converts pics');
 
@@ -67,7 +80,11 @@ class SmilifierTest extends \PHPUnit_Framework_TestCase
     {
         $sm = $this->smilifier;
         $this->assertEquals('&lt;SCRIPT&gt;', $sm->smilify("<SCRIPT>"), 'escape tags');
-        $this->assertEquals('Wie schaut\'s aus? &quot;FETT?&quot;', $sm->smilify('Wie schaut\'s aus? "FETT?"'), 'escape tags');
+        $this->assertEquals(
+            'Wie schaut\'s aus? &quot;FETT?&quot;',
+            $sm->smilify('Wie schaut\'s aus? "FETT?"'),
+            'escape tags'
+        );
     }
 
     public function testGuessRaw()

@@ -9,17 +9,17 @@
 namespace tests\AppBundle\Services;
 
 
-use AppBundle\Entity\Message;
 use AppBundle\Services\MessageNormalizer;
+use PHPUnit\Framework\TestCase;
 
 
-class MessageNormalizerTest extends \PHPUnit_Framework_TestCase
+class MessageNormalizerTest extends TestCase
 {
     public function testNormalization()
     {
         $norm = new MessageNormalizer();
         $normalizations = array(
-                '  asd f  ' => 'asd f',
+            '  asd f  ' => 'asd f',
         );
         foreach ($normalizations as $input => $expected) {
             $actual = $norm->normalize($input);

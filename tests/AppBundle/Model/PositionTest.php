@@ -2,8 +2,9 @@
 
 use AppBundle\Model\Position;
 use AppBundle\Model\Vector;
+use PHPUnit\Framework\TestCase;
 
-class PositionTest extends \PHPUnit_Framework_TestCase
+class PositionTest extends TestCase
 {
     private function is($a, $b, $c)
     {
@@ -45,7 +46,22 @@ class PositionTest extends \PHPUnit_Framework_TestCase
         $pos1 = new Position(7, 8);
         $pos2 = new Position(1, 1);
         $positions = $pos1->getPassedPositionsTo($pos2);
-        $target = array('[7|8]', '[7|7]', '[6|7]', '[6|6]', '[5|6]', '[5|5]', '[4|5]', '[4|4]', '[3|4]', '[3|3]', '[2|3]', '[2|2]', '[1|2]', '[1|1]');
+        $target = array(
+            '[7|8]',
+            '[7|7]',
+            '[6|7]',
+            '[6|6]',
+            '[5|6]',
+            '[5|5]',
+            '[4|5]',
+            '[4|4]',
+            '[3|4]',
+            '[3|3]',
+            '[2|3]',
+            '[2|2]',
+            '[1|2]',
+            '[1|1]',
+        );
         $t->is(array_keys($positions), $target, '->getPassedPositionsTo calculates correct positions in order');
     }
 }
