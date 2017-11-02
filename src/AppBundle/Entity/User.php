@@ -587,6 +587,9 @@ class User implements UserInterface
      */
     public function isBirthdayToday()
     {
+        if (!$this->birthday) {
+            return false;
+        }
         if ($b = $this->birthday->format("md")) {
             if ($b == date('md', time())) {
                 return true;
