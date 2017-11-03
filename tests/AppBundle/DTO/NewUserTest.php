@@ -18,6 +18,9 @@ class NewUserTest extends \PHPUnit_Framework_TestCase
     {
         $usernames = array(
             'תהו' => false,
+            'Derwodernameisteinfachvielzulang' => false,
+            'zk' => false,
+            'ÜmläütT€ßtÜsér' => false,
             '-D0G-' => true,
             '0n3w0rld' => true,
             '100wasser' => true,
@@ -46,14 +49,11 @@ class NewUserTest extends \PHPUnit_Framework_TestCase
             'März-edes-CLK' => true,
             'NICHT EINLADEN' => true,
             'Schüler05' => true,
-            'ÜmläütT€ßtÜsér' => false,
             '[lunatic]suicide' => true,
             'äöüßÄÖÜ' => true,
             'ödipups' => true,
             'Örni' => true,
             '_ESKAL' => true,
-            'Derwodernameisteinfachvielzulang' => false,
-            'zk' => false,
         );
 
         $validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
