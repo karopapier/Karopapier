@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/KaroApp.src.js') }}"></script>
+    <script>
+        var app = new KaroApp({
+            turtedHost: '{{ getConfig('turted') }}'
+        });
+        app.start();
+    </script>
+{% endblock %}

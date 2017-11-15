@@ -15,7 +15,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
         this.user = dataChannel.request('user:logged:in');
         const config = dataChannel.request('config');
 
-        let turtedHost='';
+        let turtedHost = '';
         if (config.turtedHost) {
             turtedHost = config.turtedHost;
         }

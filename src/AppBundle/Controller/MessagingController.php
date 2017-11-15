@@ -17,7 +17,7 @@ class MessagingController extends Controller
     /**
      * @param $name
      * @Route("/zettel/{name}", name="messaging")
-     * @Template("messaging/messaging.html.twig")
+     * @Template("app.html.twig")
      */
     public function indexAction($name = "")
     {
