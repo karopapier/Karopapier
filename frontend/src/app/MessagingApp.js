@@ -23,16 +23,19 @@ const ContactsView = require('../view/messaging/ContactsView');
 const AddContactView = require('../view/messaging/AddContactView');
 
 const MessagingRouter = Backbone.Router.extend({
-    initialize: function(options) {
+    initialize(options) {
         this.app = options.app;
     },
+
     routes: {
         'zettel/:contact': 'select',
         'zettel': 'index'
     },
+
     index: function() {
         this.app.unselect();
     },
+
     select: function(contactName) {
         this.app.selectName(contactName);
     }
@@ -47,10 +50,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         const dataChannel = Radio.channel('data');
         this.authUser = dataChannel.request('user:logged:in');
 
-        this.users = new UserCollection();
-        this.users.url = '/api/users';
-        this.users.fetch();
-
+        this.users = dataChannel.request('users');
         this.contacts = new ContactCollection();
         this.messages = new MessageCollection();
         this.userMessages = new MessageCollection();
@@ -131,7 +131,6 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         this.router = new MessagingRouter({
             app: this
         });
-        Backbone.history.start({pushState: true});
     },
 
     selectName: function(contactName) {

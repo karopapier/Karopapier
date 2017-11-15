@@ -16,20 +16,13 @@ class MessagingController extends Controller
 {
     /**
      * @param $name
-     * @Route("/zettel/{name}", name="messaging")
+     * @Route("/zettel/{data}", name="app_messaging")
+     * @Route("/spiele/{data}", name="app_game")
      * @Template("app.html.twig")
      */
-    public function indexAction($name = "")
+    public function indexAction($data = "")
     {
-        $users = $this->getDoctrine()->getRepository("AppBundle:User")->getActiveUsers();
-        $data = [];
-        foreach ($users as $user) {
-            $data[] = $user->toArray();
-        }
-
-        return [
-            "users" => $data,
-        ];
+        return [];
     }
 
     /**

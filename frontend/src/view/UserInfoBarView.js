@@ -4,6 +4,6 @@ module.exports = Marionette.View.extend({
     template: require('../../templates/userInfoBar.html'),
 
     initialize() {
-        this.listenTo(this.model, 'change:uc', this.render);
+        this.listenTo(this.model, 'change', this.render);
     }
 });
