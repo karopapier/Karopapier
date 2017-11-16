@@ -18,3 +18,4 @@ node_modules
 /web/bundles/
 /web/js
 /web/css
+/web/cachebust.json

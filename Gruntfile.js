@@ -59,7 +59,7 @@ module.exports = function(grunt) {
         watch: {
             app: {
                 files: ['frontend/src/**/*', 'frontend/templates/**/*'],
-                tasks: ['build:js'],
+                tasks: ['build:js', 'bust'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['frontend/css/**/*'],
-                tasks: ['less'],
+                tasks: ['less', 'bust'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig
@@ -109,6 +109,11 @@ module.exports = function(grunt) {
         },
         eslint: {
             target: ['frontend/src/**/*.js']
+        },
+        shell: {
+            bust: {
+                command: "php ./cachebust.php"
+            }
         }
     });
 
@@ -118,11 +123,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-eslint');
+    grunt.loadNpmTasks('grunt-shell');
 
     // Default task(s).
-    grunt.registerTask('build', ['build:js', 'less']);
+    grunt.registerTask('build', ['build:js', 'less', 'bust']);
     grunt.registerTask('build:js', ['browserify', 'uglify', 'style']);
     grunt.registerTask('style', ['eslint']);
+    grunt.registerTask('bust', ['shell:bust']);
     grunt.registerTask('default', ['build', 'watch']);
 
 };
