@@ -1,12 +1,12 @@
-var Backbone = require('backbone');
+const Backbone = require('backbone');
 
 module.exports = Backbone.Router.extend({
     initialize: function(options) {
-        this.app = options.app
+        this.app = options.app;
     },
 
     routes: {
-        "*href": "showIndex",
+        '*href': 'showIndex'
     },
 
     showIndex: function(href) {

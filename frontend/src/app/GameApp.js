@@ -1,17 +1,17 @@
 'use strict';
-const Backbone = require('backbone');
-const Radio = require('backbone.radio');
+// const Backbone = require('backbone');
+// const Radio = require('backbone.radio');
 const Marionette = require('backbone.marionette');
 const $ = require('jquery');
 
 module.exports = Marionette.Application.extend({
     initialize(config) {
-        console.log("Init Game App");
+        console.log('Init Game App');
         this.loadInitialAndStart();
 
         this.layout = new Marionette.View({
             template() {
-                return "Lala";
+                return 'GID';
             }
         });
     },

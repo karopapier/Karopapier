@@ -12,7 +12,6 @@ const Message = require('../model/Message');
 
 // Collections
 const MessageCollection = require('../collection/MessageCollection');
-const UserCollection = require('../collection/UserCollection');
 const ContactCollection = require('../collection/ContactCollection');
 
 // Views

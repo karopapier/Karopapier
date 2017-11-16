@@ -104,7 +104,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.layout = new PageLayout({
             el: '.container'
         });
-        this.layout.on("navigate", function(href) {
+        this.layout.on('navigate', function(href) {
             me.navigate(href);
         });
 
