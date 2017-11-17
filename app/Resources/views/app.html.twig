@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/KaroApp.src.js') }}"></script>
+    <script src="{{ cachebust('/js/KaroApp.src.js') }}"></script>
     <script>
         var app = new KaroApp({
             turtedHost: '{{ getConfig('turted') }}'

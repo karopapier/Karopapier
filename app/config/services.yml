@@ -186,6 +186,14 @@ services:
         tags:
              - { name: 'twig.extension' }
 
+    twig.extension.cachebust:
+        autowire: true
+        class: AppBundle\Twig\CachebustExtension
+        arguments:
+        - '%kernel.project_dir%/web'
+        tags:
+         - { name: 'twig.extension' }
+
     AppBundle\Services\ConfigService:
       arguments:
         $config: "%config%"

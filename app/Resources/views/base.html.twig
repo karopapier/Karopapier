@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8"/>
         <title>{% block title %}Karopapier{% endblock %} - Autofahren wie in der Vorlesung</title>
-        <link rel="stylesheet" href="{{ asset('css/previous.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+        <link rel="stylesheet" href="{{ cachebust('/css/previous.css') }}">
+        <link rel="stylesheet" href="{{ cachebust('/css/app.css') }}">
+        <link rel="stylesheet" href="{{ cachebust('/css/theme.css') }}">
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
