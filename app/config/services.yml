@@ -16,6 +16,11 @@ services:
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
 
+    AppBundle\Twig\:
+        resource: '../../src/AppBundle/Twig'
+        autowire: true
+        autoconfigure: true
+
     #AppBundle\Services\:
         #resource: '../../src/AppBundle/Services/*'
         # you can exclude directories or files
@@ -44,13 +49,13 @@ services:
       class: 'AppBundle\Services\MessagingService'
       autowire: true
 
-    karo_query:
-      class: 'AppBundle\Services\KaroQuery'
-      autowire: true
+    AppBundle\Twig\CachebustExtension:
+        arguments:
+          $webpath: '%kernel.project_dir%/web'
 
-    AppBundle\Services\MessagingService: '@messaging_service'
-    AppBundle\Services\KaroQuery: '@karo_query'
-
+    AppBundle\Services\ConfigService:
+      arguments:
+        $config: "%config%"
 
 #    service_name:
 #        class: AppBundle\Directory\ClassName
@@ -168,32 +173,3 @@ services:
       arguments:
         - '@logger'
 
-    twig.extension.last_chat_message:
-      class: AppBundle\Twig\ChatMessageExtension
-      arguments:
-        - '@chat_service'
-      tags:
-       - { name: 'twig.extension' }
-
-    twig.extension.date:
-        class: AppBundle\Twig\DateExtension
-        tags:
-             - { name: 'twig.extension' }
-
-    twig.extension.messaging:
-        autowire: true
-        class: AppBundle\Twig\MessagingExtension
-        tags:
-             - { name: 'twig.extension' }
-
-    twig.extension.cachebust:
-        autowire: true
-        class: AppBundle\Twig\CachebustExtension
-        arguments:
-        - '%kernel.project_dir%/web'
-        tags:
-         - { name: 'twig.extension' }
-
-    AppBundle\Services\ConfigService:
-      arguments:
-        $config: "%config%"
