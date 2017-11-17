@@ -1,19 +1,24 @@
 'use strict';
 // const Backbone = require('backbone');
-// const Radio = require('backbone.radio');
+const Radio = require('backbone.radio');
 const Marionette = require('backbone.marionette');
 const $ = require('jquery');
+const GameRouter = require('../router/GameRouter');
+const GameLayout = require('../layout/GameLayout');
 
 module.exports = Marionette.Application.extend({
+
     initialize(config) {
         console.log('Init Game App');
-        this.loadInitialAndStart();
 
-        this.layout = new Marionette.View({
-            template() {
-                return 'GID';
-            }
+        this.navigator = Radio.channel('navigator');
+        this.navigator.on('spiele', (gid) => {
+            this.show(gid);
         });
+
+        this.layout = new GameLayout({});
+
+        this.loadInitialAndStart();
     },
 
     loadInitialAndStart() {
@@ -26,5 +31,12 @@ module.exports = Marionette.Application.extend({
 
     start() {
         console.info('Start Game App');
+        this.router = new GameRouter({
+            app: this
+        });
+    },
+
+    show(gid) {
+        console.log('Game has to show', gid);
     }
 });

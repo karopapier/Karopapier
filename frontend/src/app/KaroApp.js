@@ -84,7 +84,9 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         console.info('Switch to app', appname);
         this.initApp(appname);
         this.layout.getRegion('content').detachView();
+        console.log('Showing apps layout');
         this.layout.showChildView('content', this.apps[appname].layout);
+        console.log('Showing apps layout done');
         this.currentApp = appname;
     },
 
@@ -99,7 +101,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
     },
 
     start: function() {
-        console.info('App start');
+        console.info('Karo App start');
 
         this.layout = new PageLayout({
             el: '.container'

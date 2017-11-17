@@ -20,25 +20,7 @@ const ContactDetailsView = require('../view/messaging/ContactDetailsView');
 const MessagesView = require('../view/messaging/MessagesView');
 const ContactsView = require('../view/messaging/ContactsView');
 const AddContactView = require('../view/messaging/AddContactView');
-
-const MessagingRouter = Backbone.Router.extend({
-    initialize(options) {
-        this.app = options.app;
-    },
-
-    routes: {
-        'zettel/:contact': 'select',
-        'zettel': 'index'
-    },
-
-    index: function() {
-        this.app.unselect();
-    },
-
-    select: function(contactName) {
-        this.app.selectName(contactName);
-    }
-});
+const MessagingRouter = require('../router/MessagingRouter');
 
 module.exports = window.MessagingApp = Marionette.Application.extend({
     initialize(config) {
