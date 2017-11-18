@@ -21,6 +21,11 @@ services:
         autowire: true
         autoconfigure: true
 
+    AppBundle\Serializer\:
+        resource: '../../src/AppBundle/Serializer'
+        autowire: true
+        autoconfigure: true
+
     #AppBundle\Services\:
         #resource: '../../src/AppBundle/Services/*'
         # you can exclude directories or files

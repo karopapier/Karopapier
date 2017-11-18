@@ -14,7 +14,10 @@
  * @property {number} y y coordinate
  */
 
+const _ = require('underscore');
+const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
+
 module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
     {
         optionDefaults: {

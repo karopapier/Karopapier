@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const MapBaseView = require('./MapBaseView');
 const MapRenderPalette = require('../../model/map/MapRenderPalette');
 module.exports = MapBaseView.extend({

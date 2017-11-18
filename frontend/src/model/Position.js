@@ -1,7 +1,7 @@
 const Backbone = require('backbone');
 const Vector = require('./Vector');
 const Position = require('./Position');
-module.exports = Position = Backbone.Model.extend(/** @lends Position.prototype */{
+module.exports = Backbone.Model.extend(/** @lends Position.prototype */{
     defaults: {
         x: 0,
         y: 0

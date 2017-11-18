@@ -1,6 +1,6 @@
 const Backbone = require('backbone');
 const Position = require('../Position');
-karofill = require('../../polyfills');
+const stringhelpers = require('../../util/stringhelpers');
 module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     defaults: {
         id: 0,
@@ -148,7 +148,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     addCol: function(count, index) {
         /**
          * @param counter number of cols to insert
-         * @param index   'before where to add'. 0 is at front; undefined or negative at end
+         * @param index   "before where to add". 0 is at front; undefined or negative at end
          */
 
         const codeRows = this.getMapcodeAsArray();
@@ -163,13 +163,13 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         if (index === 0) {
             f = function(row) {
                 const first = row[0];
-                const pad = first.repeat(count);
+                const pad = stringhelpers.repeat(first, count);
                 return pad + row;
             };
         } else {
             f = function(row) {
                 const last = row.slice(-1);
-                const pad = last.repeat(count);
+                const pad = stringhelpers.repeat(last, count);
                 return row + pad;
             };
         }
@@ -247,7 +247,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     sanitize: function() {
         // console.log('sanitize and set correct code');
 
-        const dirtyCode = this.get('mapcode').toUpperCase().trim();
+        const dirtyCode = stringhelpers.trim(this.get('mapcode').toUpperCase());
         const starties = (dirtyCode.match(/S/g) || []).length;
 
         // find longest line
@@ -412,7 +412,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
      */
     verifiedMotions: function(motions) {
         const remaining = [];
-        for (const p = 0; p < motions.length; p++) {
+        for (let p = 0; p < motions.length; p++) {
             const mo = motions[p];
             if (this.isPossible(mo)) {
                 remaining.push(mo);

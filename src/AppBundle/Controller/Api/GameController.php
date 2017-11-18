@@ -8,7 +8,21 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Entity\Game;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
+
 class GameController extends AbstractApiController
 {
+    /**
+     * @Route("/games/{id}", name="api_game")
+     * @param Game $game
+     */
+    public function showAction(Game $game, Serializer $serializer)
+    {
+        $json = $serializer->serialize($game, "json");
+        return JsonResponse::fromJsonString($json);
+    }
 
 }

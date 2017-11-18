@@ -5,6 +5,8 @@ const Marionette = require('backbone.marionette');
 const $ = require('jquery');
 const GameRouter = require('../router/GameRouter');
 const GameLayout = require('../layout/GameLayout');
+const Game = require('../model/Game');
+const MapCanvasView = require('../view/map/MapCanvasView');
 
 module.exports = Marionette.Application.extend({
 
@@ -38,5 +40,12 @@ module.exports = Marionette.Application.extend({
 
     show(gid) {
         console.log('Game has to show', gid);
+        const game = new Game({id: gid});
+        game.fetch();
+
+        this.mapcanvas = new MapCanvasView({
+            model: game.getMap()
+        });
+        this.layout.getRegion('mapcanvas').show(this.mapcanvas);
     }
 });

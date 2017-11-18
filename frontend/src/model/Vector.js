@@ -1,5 +1,5 @@
 const Backbone = require('backbone');
-module.exports = Vector = Backbone.Model.extend({
+const Vector = Backbone.Model.extend({
     defaults: {
         x: 0,
         y: 0
@@ -163,3 +163,5 @@ module.exports = Vector = Backbone.Model.extend({
         return vecs;
     }
 });
+
+module.exports = Vector;
