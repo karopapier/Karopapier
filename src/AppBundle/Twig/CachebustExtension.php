@@ -11,6 +11,8 @@ namespace AppBundle\Twig;
 
 class CachebustExtension extends \Twig_Extension
 {
+    private $manifest;
+
     public function __construct($webpath)
     {
         $this->manifest = json_decode(file_get_contents($webpath.'/cachebust.json'), true);
