@@ -53,7 +53,7 @@ module.exports = Backbone.Model.extend({
 
     initialize: function() {
         this.setCharacterAlias();
-        this.listenTo(this, "change", this.setCharacterAlias);
+        this.listenTo(this, 'change', this.setCharacterAlias);
     },
 
     setCharacterAlias: function() {

@@ -4,9 +4,9 @@ const MapRenderPalette = require('../../model/map/MapRenderPalette');
 module.exports = MapBaseView.extend({
     className: 'mapRenderView',
     tagName: 'canvas',
-    initialize: function(options) {
+    initialize: function(...args) {
         // init MapBaseView with creation of a settings model
-        this.constructor.__super__.initialize.apply(this, arguments);
+        this.constructor.__super__.initialize.apply(this, args);
         this.listenTo(this.model, 'change:mapcode', this.render);
         this.listenTo(this.model, 'change:field', this.renderFieldChange);
 
