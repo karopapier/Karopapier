@@ -90,6 +90,10 @@ services:
         tags:
           - { name: kernel.event_listener, event: security.authentication.success}
 
+    karo_query:
+        class: AppBundle\Services\KaroQuery
+        autowire: true
+
     user_repository:
       class: Doctrine\ORM\EntityRepository
       factory: ['@doctrine.orm.default_entity_manager', getRepository]
