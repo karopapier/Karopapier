@@ -162,6 +162,8 @@ module.exports = MapBaseView.extend({
         this.el.width = map.get('cols') * (this.fieldSize);
         this.el.height = map.get('rows') * (this.fieldSize);
 
+        console.log('Model', map);
+
         const me = this;
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {

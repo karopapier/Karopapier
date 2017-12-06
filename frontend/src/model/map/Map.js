@@ -13,12 +13,17 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
      * @constructor Map
      * @class Map
      */
-    initialize: function() {
+    initialize: function(mapcode) {
         this.validFields = Object.keys(this.FIELDS);
         this.offroadRegEx = new RegExp('(X|P|L|G|N|V|T|W|Y|Z|_)');
 
         // sanitization binding
         this.bind('change:mapcode', this.updateMapcode);
+
+        if (mapcode) {
+            console.info('MC', mapcode);
+            this.set('mapcode', mapcode);
+        }
     },
     FIELDS: {
         'F': 'finish',

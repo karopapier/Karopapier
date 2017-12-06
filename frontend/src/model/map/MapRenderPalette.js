@@ -64,7 +64,7 @@ module.exports = Backbone.Model.extend({
             // name and nameBG are already set
 
             // so we need to set <char> and <char>_2
-            console.log(char, me.get(name));
+            // console.log(char, me.get(name));
             me.set(char, me.get(name));
             me.set(char + '_2', me.get(name + '_2'));
         });
