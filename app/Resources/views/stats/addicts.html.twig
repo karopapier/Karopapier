@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    :)idi proudly presents:<BR><BR>
+    <h1 class="karoborder">Mega-Karopapier-Addicts</h1>
+    Willkommen bei der unn&ouml;tigen Statistik. Aber lustig find ich's. Passt nur auf, dass Euer Arbeitgeber diese Seite NIEEEEE findet :-)
+    <BR>
+    <BR>
+    Die Liste l&auml;sst sich &uuml;brigens nach Z&uuml;gen und &quot;Z&uuml;gen pro Tag&quot; sortieren - dann haben die eifrigen Neueinsteiger auch eine Chance, hier auzutauchen.
+    <BR>
+    <BR>
+
+
+    <TABLE CLASS=general CELLPADDING=3 WIDTH=98%>
+        <TR>
+            <TH>Platz</TH>
+            <TH>Login</TH>
+            <TH>Name</TH>
+            <TH>Farbe</TH>
+            <TH>Dabei</TH>
+            <TH>Spiele</TH>
+            <TH><A HREF="?by=automoves">Z&uuml;ge</A></TH>
+            <TH><A HREF="?by=perday">Z&uuml;ge pro Tag</A></TH>
+            <th><a href="?by=wollust">Maxi-WOLLUST</a></th>
+            <th><a href="?by=km">KaroMeter</a></th>
+        </TR>
+
+        {% for addict in addicts %}
+            <tr>
+                <td>{{ loop.index }}</td>
+
+                <td><a href="showgames.php?spielevon={{ addict.U_ID }}">
+                        {% if loop.index < 10 %}<b>{% endif %}
+                            {% if addict.Active != 1 %}<strike>{% endif %}
+                                {{ addict.Login }}
+
+                            {% if loop.index < 10 %}</b>{% endif %}
+                        {% if addict.Active != 1 %}</strike>{% endif %}
+                    </a>
+                </td>
+                <td>{{ addict.Vorname|striptags }}&nbsp;{{ addict.Nachname|striptags }}</td>
+                <td bgcolor="#{{ addict.Color }}">&nbsp;</td>
+                {% if addict.Active == 1 %}
+                    <td>seit {{ addict.seit }} Tagen&nbsp</td>
+                {% else %}
+                    <td>nicht mehr dabei&nbsp;</td>
+                {% endif %}
+
+                <td>Spiele: {{ addict.anz }}</td>
+                <td class="center">{{ addict.automoves }}</td>
+                <td class="center">{{ addict.perday|round(2) }}</td>
+                <td class="center">{{ addict.max_wollust }}</td>
+                <td class="center">{{ (addict.km/1000)|round }} ({{ (addict.km/addict.seit/24)|round }} <span title='KaroMiliMeter pro Stunde'>KmM/h</span>)
+                </td>
+
+                {# echo '<td align="center">' . round($row['km']/1000) . " (" . round($row['km']/$row['seit']/24) ." <span title='KaroMiliMeter pro Stunde'>KmM/h</span>)</TD>";#}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h3>Neu: WOLLUST, die WOchen-Liste - Letzte Ungef&auml;hr Sieben Tage</h3>
+    <p>Die meisten Z&uuml;ge der Letzten Woche bzw. eigentlich 7 x 24h, also &auml;ndert sich eigentlich laufend</p>
+
+
+    <table>
+        <tr>
+            <th>Platz</th>
+            <th>Login</th>
+            <th>Z&uuml;ge</th>
+        </tr>
+
+        {% for wollust in wollusts %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ wollust.Login }}</td>
+                <td>{{ wollust.zuege }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
+

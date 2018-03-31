@@ -19,7 +19,7 @@
 
     </head>
     <body>
-        <div class="container fitscreen">
+        <div class="container">
 
             <nav class="nav-menu-mobile hidden">
                 <ul>
@@ -31,7 +31,7 @@
             </nav>
             <header>
                 <div id="userInfoBar">
-                    <div class="unread" style="display: inline-block">123</div>
+                    <div class="unread hidden">123</div>
                     {% if app.user %}
                         <span class="userLabel">{{ app.user.login }}</span>
                         <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
