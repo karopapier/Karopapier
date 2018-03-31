@@ -15,5 +15,6 @@ digraph GROG {
 "remove /chat" -> "disable public karo2"
 "disable public karo2" -> "remove current appswitch"
 "remove current appswitch" -> "allow sf switch"
-
+"/dran in app" -> "remove /dran"
+"app to live" -> "/dran in app"
 }
