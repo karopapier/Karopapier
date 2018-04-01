@@ -120,12 +120,21 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.dranGames.fetch();
 
         // handle realtime updates of dranGames
-        appChannel.on('user:dran', (data) => {
-            console.log('HAve to add to dran', data);
+        appChannel.on('user:moved', (data) => {
+            const gid = data.gid;
+            console.log('HAve to remove from dran', data);
+            this.dranGames.remove(gid);
         });
 
-        appChannel.on('user:moved', (data) => {
-            console.log('HAve to remove from dran', data);
+        appChannel.on('user:dran', (data) => {
+            console.log('HAve to add to dran', data);
+            const g = {
+                id: data.gid,
+                name: data.name,
+                dranName: data.nextLogin,
+                blocked: new Date().getHours() + ':' + new Date().getMinutes()
+            };
+            this.dranGames.add(g);
         });
 
         this.layout = new PageLayout({
