@@ -43,7 +43,8 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.nav2app = {
             zettel: 'messaging',
             spiele: 'game',
-            dran: 'dran'
+            dran: 'dran',
+            dran2: 'dran'
         };
         this.availableApps = {
             messaging: require('./MessagingApp'),
