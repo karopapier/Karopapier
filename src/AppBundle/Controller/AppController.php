@@ -12,12 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * @Security("has_role('ROLE_USER')")
  * @package AppBundle\Controller
  */
-class MessagingController extends Controller
+class AppController extends Controller
 {
     /**
      * @param $name
      * @Route("/zettel/{data}", name="app_messaging")
      * @Route("/spiele/{data}", name="app_game")
+     * @Route("/dran", name="app_dran")
      * @Template("app.html.twig")
      */
     public function indexAction($data = "")
