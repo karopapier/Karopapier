@@ -1,6 +1,12 @@
 const Backbone = require('backbone');
 const Map = require('./map/Map');
 module.exports = Backbone.Model.extend({
+    defaults: {
+        id: 0,
+        name: '-',
+        dranName: '-',
+        blocked: 0
+    },
 
     url: function() {
         return '/api/games/' + this.get('id');
