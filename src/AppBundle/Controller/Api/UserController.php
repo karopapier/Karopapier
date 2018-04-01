@@ -121,4 +121,19 @@ class UserController extends AbstractApiController
         return $json;
     }
 
+    /**
+     * @Route("/users/{id}/dran", name="api_users_dran")
+     * @Route("/user/{id}/dran", name="api_user_dran")
+     * @param User $user
+     */
+    public function showDranGames(User $user)
+    {
+        $serializer =$this->get('AppBundle\Serializer\GameNormalizer');
+        $gameRepository = $this->get('doctrine')->getRepository('AppBundle:Game');
+        $games = $gameRepository->getDranGames($user);
+
+        $json = new JsonResponse($games);
+
+        return $json;
+    }
 }
