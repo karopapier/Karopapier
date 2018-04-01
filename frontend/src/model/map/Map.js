@@ -1,6 +1,6 @@
 const Backbone = require('backbone');
 const Position = require('../Position');
-const stringhelpers = require('../../util/stringhelpers');
+const TextHelper = require('../../util/TextHelper');
 module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     defaults: {
         id: 0,
@@ -168,13 +168,13 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         if (index === 0) {
             f = function(row) {
                 const first = row[0];
-                const pad = stringhelpers.repeat(first, count);
+                const pad = TextHelper.repeat(first, count);
                 return pad + row;
             };
         } else {
             f = function(row) {
                 const last = row.slice(-1);
-                const pad = stringhelpers.repeat(last, count);
+                const pad = TextHelper.repeat(last, count);
                 return row + pad;
             };
         }
@@ -252,7 +252,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     sanitize: function() {
         // console.log('sanitize and set correct code');
 
-        const dirtyCode = stringhelpers.trim(this.get('mapcode').toUpperCase());
+        const dirtyCode = TextHelper.trim(this.get('mapcode').toUpperCase());
         const starties = (dirtyCode.match(/S/g) || []).length;
 
         // find longest line

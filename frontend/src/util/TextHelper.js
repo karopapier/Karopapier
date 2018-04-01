@@ -12,8 +12,12 @@ helpers.startsWith = function(searchString, position) {
     return this.indexOf(searchString, position) === position;
 };
 
-helpers.truncate = function(str, c) {
-    return str.substring(0, c) + '...';
+helpers.truncate = function(str, maxlength) {
+    if (str.length < maxlength) {
+        return str;
+    }
+
+    return str.substring(0, maxlength) + '...';
 };
 
 helpers.repeat = function(str, n) {

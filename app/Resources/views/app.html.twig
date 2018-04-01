@@ -6,6 +6,8 @@
         var app = new KaroApp({
             turtedHost: '{{ getConfig('turted') }}'
         });
-        app.start();
+        app.authUser.once('sync', () => {
+            app.start();
+        })
     </script>
 {% endblock %}

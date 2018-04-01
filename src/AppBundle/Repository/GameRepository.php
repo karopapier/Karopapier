@@ -29,7 +29,7 @@ class GameRepository extends EntityRepository
     {
         $connection = $this->getEntityManager()->getConnection();
         $qb = $connection->createQueryBuilder();
-        $qb->select('G_ID as id, name, datediff(now(),datemailsent) blocked FROM karo_games');
+        $qb->select('G_ID as id, name, "' . $user->getUsername() . '" as dranName, datediff(now(),datemailsent) blocked FROM karo_games');
         $qb->where('U_ID='.$user->getId());
         $qb->orderBy('datemailsent', 'desc');
         $this->isActive($qb);

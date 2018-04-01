@@ -8,6 +8,7 @@ const User = require('../model/User');
 
 // Collection
 const UserCollection = require('../collection/UserCollection');
+const GameCollection = require('../collection/GameCollection');
 
 const KEvIn = require('../model/KEvIn');
 
@@ -38,11 +39,13 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         this.nav2app = {
             zettel: 'messaging',
-            spiele: 'game'
+            spiele: 'game',
+            dran: 'dran'
         };
         this.availableApps = {
             messaging: require('./MessagingApp'),
-            game: require('./GameApp')
+            game: require('./GameApp'),
+            dran: require('./DranApp')
         };
 
         this.authUser = new User();
@@ -52,6 +55,8 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.users = new UserCollection();
         this.users.url = '/api/users';
         this.users.fetch();
+
+        this.dranGames = new GameCollection();
 
         this.navigator = Radio.channel('navigator');
         this.dataProvider = Radio.channel('data');
@@ -65,6 +70,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         this.dataProvider.reply('config', () => {
             return this.config;
+        });
+
+        this.dataProvider.reply('drangames', () => {
+            return this.dranGames;
         });
 
         this.kevin = new KEvIn();
@@ -102,6 +111,9 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
     start: function() {
         console.info('Karo App start');
+
+        this.dranGames.url = '/api/user/' + this.authUser.get('id') + '/dran';
+        this.dranGames.fetch();
 
         this.layout = new PageLayout({
             el: '.container'
