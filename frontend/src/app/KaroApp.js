@@ -3,6 +3,9 @@ const Radio = require('backbone.radio');
 const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
 
+// channels
+const appChannel = Radio.channel('app');
+
 // Model
 const User = require('../model/User');
 
@@ -114,6 +117,15 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         this.dranGames.url = '/api/user/' + this.authUser.get('id') + '/dran';
         this.dranGames.fetch();
+
+        // handle realtime updates of dranGames
+        appChannel.on('user:dran', (data) => {
+            console.log('HAve to add to dran', data);
+        });
+
+        appChannel.on('user:moved', (data) => {
+            console.log('HAve to remove from dran', data);
+        });
 
         this.layout = new PageLayout({
             el: '.container'
