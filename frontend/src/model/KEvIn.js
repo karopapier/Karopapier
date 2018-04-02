@@ -50,11 +50,11 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
         this.turted.on('otherMoved', (data) => {
             data.related = true;
             this.appChannel.trigger('game:move', data);
-            if (this.user.get('id') === data.nextId) {
-                this.appChannel.trigger('user:dran', data);
-            }
             if (this.user.get('id') === data.movedId) {
                 this.appChannel.trigger('user:moved', data);
+            }
+            if (this.user.get('id') === data.nextId) {
+                this.appChannel.trigger('user:dran', data);
             }
         });
 
