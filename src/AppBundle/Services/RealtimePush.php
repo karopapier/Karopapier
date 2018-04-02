@@ -8,11 +8,11 @@
 
 namespace AppBundle\Services;
 
-use AppBundle\Entity\User;
 use AppBundle\Entity\ChatMessage;
+use AppBundle\Entity\User;
 use AppBundle\Event\ChatMessageEvent;
 use Psr\Log\LoggerInterface;
-use Turted\Bundle\Service\TurtedRestPushService;
+use Turted\TurtedBundle\Service\TurtedRestPushService;
 
 class RealtimePush
 {

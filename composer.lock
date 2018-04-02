@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "19156336d4d33456ab8761c7ab0b994b",
-    "content-hash": "2ec8816a2764f93196f2fac02d29f383",
+    "hash": "cbfcabad0f326a5561622dfb8dc2d490",
+    "content-hash": "0eb8ca74c2f8c28326a342d5823a872c",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2513,6 +2513,44 @@
                 "framework"
             ],
             "time": "2018-03-05 20:02:01"
+        },
+        {
+            "name": "turted/turted-bundle",
+            "version": "v2.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TURTED/turted-bundle.git",
+                "reference": "6bac57971931d2dde6e4ddb05d692b67e8969ae3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TURTED/turted-bundle/zipball/6bac57971931d2dde6e4ddb05d692b67e8969ae3",
+                "reference": "6bac57971931d2dde6e4ddb05d692b67e8969ae3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "type": "vcs",
+            "autoload": {
+                "psr-4": {
+                    "Turted\\TurtedBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Dietrich",
+                    "email": "pd@xosofox.de",
+                    "homepage": "https://xosofox.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Symfony Bundle to send Push messages to a TURTED server",
+            "time": "2018-03-14 15:08:48"
         },
         {
             "name": "twig/extensions",
