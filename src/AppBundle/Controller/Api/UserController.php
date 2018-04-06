@@ -33,7 +33,7 @@ class UserController extends AbstractApiController
 
     /**
      * @Route("/users/check", name="api_users_check")
-     * @Route("/user/check", name="api_users_check")
+     * @Route("/user/check", name="api_user_check")
      * @Route("/user/check.json", name="api_user_check_json")
      * @param User $user
      */
