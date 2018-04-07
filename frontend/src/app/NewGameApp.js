@@ -3,10 +3,10 @@ const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');
 
 // Models
-const UserFilter = require('../model/newgame/UserFilter');
+const PlayerFilter = require('../model/newgame/PlayerFilter');
 
 // Views
-const UserFilterView = require('../view/newgame/UserFilterView');
+const PlayerFilterView = require('../view/newgame/PlayerFilterView');
 const NewGameLayout = require('../layout/NewGameLayout');
 
 module.exports = Marionette.Application.extend({
@@ -20,21 +20,21 @@ module.exports = Marionette.Application.extend({
     },
 
     loadInitialAndStart() {
-        this.users = dataChannel.request('users');
+        this.players = dataChannel.request('users');
         this.start();
     },
 
     start() {
         console.info('Start NewGame App');
-        this.userFilter = new UserFilter();
-        this.layout.getRegion('userfilter').show(new UserFilterView({
-            model: this.userFilter
+        this.playerFilter = new PlayerFilter();
+        this.layout.getRegion('playerfilter').show(new PlayerFilterView({
+            model: this.playerFilter
         }));
 
         /*
-        this.layout.getRegion('userlist').show(new UserlistView({
-            collection: this.users,
-            filterModel: this.userFilter
+        this.layout.getRegion('playerlist').show(new PlayerlistView({
+            collection: this.players,
+            filterModel: this.playerFilter
         }));
         */
     }

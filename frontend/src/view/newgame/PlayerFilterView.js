@@ -1,6 +1,6 @@
 const Marionette = require('backbone.marionette');
 module.exports = Marionette.View.extend({
-    template: require('../../../templates/newgame/userfilter.html'),
+    template: require('../../../templates/newgame/playerfilter.html'),
 
     initialize() {
         this.listenTo(this.model, 'change:desperate', this.updateDesperate);
