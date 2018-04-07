@@ -64,6 +64,10 @@ div.clearer {
   display: none;
 }
 
+.invisible {
+  visibility: hidden !important;
+}
+
 .fitscreen {
   display: flex;
   position: absolute;
@@ -79,3 +83,26 @@ div.clearer {
   }
 }
 
+.mobile-only {
+  @media (min-width: @media-small-breakpoint) {
+    display: none !important;
+  }
+}
+
+.medium-below-only {
+  @media (min-width: @media-small-breakpoint) {
+    display: none !important;
+  }
+}
+
+.medium-above-only {
+  @media (max-width: @media-small-breakpoint) {
+    display: none !important;
+  }
+}
+
+.desktop-only {
+  @media (max-width: @media-medium-breakpoint) {
+    display: none !important;
+  }
+}

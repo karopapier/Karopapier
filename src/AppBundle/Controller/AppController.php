@@ -19,6 +19,7 @@ class AppController extends Controller
      * @Route("/zettel/{data}", name="app_messaging")
      * @Route("/spiele/{data}", name="app_game")
      * @Route("/dran2", name="app_dran")
+     * @Route("/erstellen", name="app_newgame")
      * @Template("app.html.twig")
      */
     public function indexAction($data = "")

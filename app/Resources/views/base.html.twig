@@ -21,16 +21,20 @@
     <body>
         <div class="container">
 
-            <nav class="nav-menu-mobile hidden">
-                <ul>
-                    <li>A</li>
-                    <li>B</li>
-                    <li>C</li>
-                    <li>D</li>
-                </ul>
-            </nav>
             <header>
-                <div id="userInfoBar">
+                <nav class="nav-menu-mobile hidden">
+                    <ul>
+                        <li>A</li>
+                        <li>B</li>
+                        <li>C</li>
+                        <li>D</li>
+                    </ul>
+                </nav>
+                <ul class="main-nav">
+                    <li><a href="/erstellen" class="js-applink">Neues Spiel</a></li>
+                    <li><a href="/dran2" class="js-applink">Dran</a></li>
+                </ul>
+                <div id="userInfoBar" class="medium-above-only">
                     <div class="unread hidden">123</div>
                     {% if app.user %}
                         <span class="userLabel">{{ app.user.login }}</span>
@@ -57,23 +61,23 @@
         </div>
 
         {% if app.environment == "prod" %}
-        <!-- Piwik -->
-        <script type="text/javascript">
-            var pkBaseURL = "//stats.karopapier.de/";
-            pkBaseURL = "//www.karopapier.de/piwik/";
-            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-        </script>
-        <script type="text/javascript">
-            piwik_action_name = '';
-            piwik_idsite = 1;
-            piwik_url = pkBaseURL + "piwik.php";
-            piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-        </script>
-        <object>
-            <noscript><p>Web analytics
-                    <img src="//www.karopapier.de/piwik/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
-        </object>
-        <!-- End Piwik Tag -->
+            <!-- Piwik -->
+            <script type="text/javascript">
+                var pkBaseURL = "//stats.karopapier.de/";
+                pkBaseURL = "//www.karopapier.de/piwik/";
+                document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+            <script type="text/javascript">
+                piwik_action_name = '';
+                piwik_idsite = 1;
+                piwik_url = pkBaseURL + "piwik.php";
+                piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+            </script>
+            <object>
+                <noscript><p>Web analytics
+                        <img src="//www.karopapier.de/piwik/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
+            </object>
+            <!-- End Piwik Tag -->
         {% endif %}
         {% if app.environment != "prod" %}
             <script src="{{ getConfig("livereload") }}"></script>

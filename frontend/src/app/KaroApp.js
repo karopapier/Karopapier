@@ -44,12 +44,14 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             zettel: 'messaging',
             spiele: 'game',
             dran: 'dran',
-            dran2: 'dran'
+            dran2: 'dran',
+            erstellen: 'newgame'
         };
         this.availableApps = {
             messaging: require('./MessagingApp'),
             game: require('./GameApp'),
-            dran: require('./DranApp')
+            dran: require('./DranApp'),
+            newgame: require('./NewGameApp')
         };
 
         this.authUser = new User();
@@ -74,6 +76,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         this.dataProvider.reply('config', () => {
             return this.config;
+        });
+
+        this.dataProvider.reply('users', () => {
+            return this.users;
         });
 
         this.dataProvider.reply('drangames', () => {
