@@ -1,0 +1,4 @@
+<div class="clickable user<% if (selected) { %> selectedUser <% } %><% if (exceeded) { %> exceededSlot <% } %><% if  (!(acceptsDayGames || acceptsNightGames)) { %> closedSlot  <% } %><% if  (desperate) { %> desperateSlot  <% } %> ">
+    <span class="userLabel" name="userLabel<%= id %>"><%= login %></span>
+    [<%= signup %>|<%= lastVisit %>] @ <%= activeGames %> / <%= maxGames %>
+</div>

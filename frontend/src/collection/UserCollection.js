@@ -1,6 +1,6 @@
-const Backbone = require('backbone');
+const BaseCollection = require('./BaseCollection');
 const User = require('../model/User');
-module.exports = Backbone.Collection.extend({
+module.exports = BaseCollection.extend({
     model: User,
     url: '/api/users'
 });

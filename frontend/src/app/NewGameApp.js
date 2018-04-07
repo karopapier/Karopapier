@@ -2,11 +2,15 @@ const Marionette = require('backbone.marionette');
 const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');
 
+// Collections
+const LobbyUserCollection = require('../collection/LobbyUserCollection');
+
 // Models
-const PlayerFilter = require('../model/newgame/PlayerFilter');
+const LobbyUserFilter = require('../model/newgame/LobbyUserFilter');
 
 // Views
-const PlayerFilterView = require('../view/newgame/PlayerFilterView');
+const LobbyUserFilterView = require('../view/newgame/LobbyUserFilterView');
+const LobbyUsersView = require('../view/newgame/LobbyUsersView');
 const NewGameLayout = require('../layout/NewGameLayout');
 
 module.exports = Marionette.Application.extend({
@@ -20,22 +24,23 @@ module.exports = Marionette.Application.extend({
     },
 
     loadInitialAndStart() {
-        this.players = dataChannel.request('users');
-        this.start();
+        this.users = dataChannel.request('users');
+        this.users.getLoadedPromise().then(() => {
+            this.lobbyUsers = new LobbyUserCollection(this.users.toJSON());
+            this.start();
+        });
     },
 
     start() {
         console.info('Start NewGame App');
-        this.playerFilter = new PlayerFilter();
-        this.layout.getRegion('playerfilter').show(new PlayerFilterView({
-            model: this.playerFilter
+        this.lobbyUserFilter = new LobbyUserFilter();
+        this.layout.getRegion('playerfilter').show(new LobbyUserFilterView({
+            model: this.lobbyUserFilterr
         }));
 
-        /*
-        this.layout.getRegion('playerlist').show(new PlayerlistView({
-            collection: this.players,
-            filterModel: this.playerFilter
+        this.layout.getRegion('playerlist').show(new LobbyUsersView({
+            collection: this.lobbyUsers,
+            filterModel: this.lobbyUserFilter
         }));
-        */
     }
 });
