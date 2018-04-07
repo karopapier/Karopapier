@@ -7,15 +7,21 @@ module.exports = Marionette.View.extend({
     },
 
     events: {
-        '@ui.desperate change': 'checkDesperate'
+        'change @ui.desperate': 'checkDesperate',
+        'input @ui.login': 'checkLogin'
     },
 
     ui: {
-        desperate: 'input[type=checkbox]'
+        desperate: '.filter-desperate',
+        login: '.filter-login'
     },
 
     checkDesperate() {
         this.model.set('desperate', this.getUI('desperate').prop('checked'));
+    },
+
+    checkLogin(e) {
+        this.model.set('login', this.getUI('login').val());
     },
 
     updateDesperate() {

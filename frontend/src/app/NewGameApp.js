@@ -35,7 +35,7 @@ module.exports = Marionette.Application.extend({
         console.info('Start NewGame App');
         this.lobbyUserFilter = new LobbyUserFilter();
         this.layout.getRegion('playerfilter').show(new LobbyUserFilterView({
-            model: this.lobbyUserFilterr
+            model: this.lobbyUserFilter
         }));
 
         this.layout.getRegion('playerlist').show(new LobbyUsersView({
