@@ -17,8 +17,16 @@ module.exports = BaseMap.extend(/** @lends Map.prototype*/{
      * @class Map
      */
     initialize(mapId) {
-        this.id = mapId;
-
         BaseMap.prototype.initialize.apply(this);
+
+        if (!mapId) return;
+        this.setId(mapId);
+    },
+
+    setId(mapId) {
+        if (!mapId) return;
+
+        this.id = mapId;
+        this.fetch();
     }
 });

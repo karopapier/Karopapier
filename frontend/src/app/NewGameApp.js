@@ -33,7 +33,6 @@ module.exports = Marionette.Application.extend({
             this.start();
         });
         this.map = new KaroMap(1);
-        this.map.fetch();
     },
 
     start() {
