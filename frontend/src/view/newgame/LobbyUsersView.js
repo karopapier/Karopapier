@@ -5,9 +5,13 @@ module.exports = Marionette.CollectionView.extend({
     initialize() {
         this.userFilter = this.getOption('filterModel');
         this.listenTo(this.userFilter, 'change:desperate change:login', this.render);
+        this.listenTo(this.collection, 'change:selected', this.render);
     },
 
     filter(model, index, collection) {
+        // hide selected
+        if (model.get('selected')) return false;
+
         if (this.userFilter.get('desperate')) {
             if (!(model.get('desperate'))) {
                 return false;

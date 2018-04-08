@@ -12,6 +12,7 @@ const LobbyUserFilter = require('../model/newgame/LobbyUserFilter');
 const LobbyUserFilterView = require('../view/newgame/LobbyUserFilterView');
 const LobbyUsersView = require('../view/newgame/LobbyUsersView');
 const NewGameLayout = require('../layout/NewGameLayout');
+const SelectedUsersView = require('../view/newgame/SelectedUsersView');
 
 module.exports = Marionette.Application.extend({
 
@@ -41,6 +42,10 @@ module.exports = Marionette.Application.extend({
         this.layout.getRegion('playerlist').show(new LobbyUsersView({
             collection: this.lobbyUsers,
             filterModel: this.lobbyUserFilter
+        }));
+
+        this.layout.getRegion('selectedlist').show(new SelectedUsersView({
+            collection: this.lobbyUsers
         }));
     }
 });
