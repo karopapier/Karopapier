@@ -4,6 +4,7 @@ module.exports = Marionette.View.extend({
     regions: {
         playerfilter: '.playerfilter',
         playerlist: '.playerlist',
-        selectedlist: '.selectedlist'
+        selectedlist: '.selectedlist',
+        mapcanvas: '.mapcanvas'
     }
 });

@@ -7,12 +7,14 @@ const LobbyUserCollection = require('../collection/LobbyUserCollection');
 
 // Models
 const LobbyUserFilter = require('../model/newgame/LobbyUserFilter');
+const KaroMap = require('../model/map/KaroMap');
 
 // Views
 const LobbyUserFilterView = require('../view/newgame/LobbyUserFilterView');
 const LobbyUsersView = require('../view/newgame/LobbyUsersView');
 const NewGameLayout = require('../layout/NewGameLayout');
 const SelectedUsersView = require('../view/newgame/SelectedUsersView');
+const MapCanvasView = require('../view/map/MapCanvasView');
 
 module.exports = Marionette.Application.extend({
 
@@ -30,6 +32,8 @@ module.exports = Marionette.Application.extend({
             this.lobbyUsers = new LobbyUserCollection(this.users.toJSON());
             this.start();
         });
+        this.map = new KaroMap(1);
+        this.map.fetch();
     },
 
     start() {
@@ -47,5 +51,11 @@ module.exports = Marionette.Application.extend({
         this.layout.getRegion('selectedlist').show(new SelectedUsersView({
             collection: this.lobbyUsers
         }));
+
+        this.mapView = new MapCanvasView({
+            model: this.map
+        });
+        this.mapView.settings.set({size: 1, border: 0});
+        this.layout.getRegion('mapcanvas').show(this.mapView);
     }
 });
