@@ -6,5 +6,9 @@ module.exports = Marionette.View.extend({
         playerlist: '.playerlist',
         selectedlist: '.selectedlist',
         mapcanvas: '.mapcanvas'
+    },
+
+    triggers: {
+        'input input': 'map:change'
     }
 });

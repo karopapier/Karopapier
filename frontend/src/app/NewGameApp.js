@@ -23,6 +23,10 @@ module.exports = Marionette.Application.extend({
 
         this.layout = new NewGameLayout({});
 
+        this.listenTo(this.layout, 'map:change', (view, e) => {
+            this.map.setId(e.currentTarget.value);
+        });
+
         this.loadInitialAndStart();
     },
 
