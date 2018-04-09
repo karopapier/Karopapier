@@ -2,6 +2,9 @@ const BaseMap = require('./BaseMap');
 module.exports = BaseMap.extend(/** @lends Map.prototype*/{
     defaults: {
         id: 0,
+        name: '-',
+        author: '-',
+        players: 0,
         cps: [],
         rows: 0,
         cols: 0

@@ -5,7 +5,8 @@ module.exports = Marionette.View.extend({
         playerfilter: '.playerfilter',
         playerlist: '.playerlist',
         selectedlist: '.selectedlist',
-        mapcanvas: '.mapcanvas'
+        mapcanvas: '.map-canvas',
+        mapinfo: '.map-info'
     },
 
     triggers: {

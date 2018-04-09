@@ -15,6 +15,7 @@ const LobbyUsersView = require('../view/newgame/LobbyUsersView');
 const NewGameLayout = require('../layout/NewGameLayout');
 const SelectedUsersView = require('../view/newgame/SelectedUsersView');
 const MapCanvasView = require('../view/map/MapCanvasView');
+const MapInfoView = require('../view/map/MapInfoView');
 
 module.exports = Marionette.Application.extend({
 
@@ -60,5 +61,9 @@ module.exports = Marionette.Application.extend({
         });
         this.mapView.settings.set({size: 1, border: 0});
         this.layout.getRegion('mapcanvas').show(this.mapView);
+
+        this.layout.getRegion('mapinfo').show(new MapInfoView({
+            model: this.map
+        }));
     }
 });
