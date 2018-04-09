@@ -9,19 +9,22 @@
 namespace AppBundle\Controller\Api;
 
 
+use AppBundle\Interfaces\ApiControllerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-abstract class AbstractApiController extends Controller
+abstract class AbstractApiController extends Controller implements ApiControllerInterface
 {
     public function getJson(Request $request)
     {
         $content = $request->getContent();
         //dump($content);
-        if (!($content)) return "";
-        $json = json_decode($content, true);
-        return $json;
+        if (!($content)) {
+            return "";
+        }
+
+        return json_decode($content, true);
     }
 
     public function sendError($code = 404, $msg = "NOT_FOUND")
@@ -29,6 +32,7 @@ abstract class AbstractApiController extends Controller
         $response = new JsonResponse();
         $response->setStatusCode($code);
         $response->setData($msg);
+
         return $response;
     }
 
@@ -41,6 +45,7 @@ abstract class AbstractApiController extends Controller
             }
             $returns[] = $data[$key];
         }
+
         return $returns;
     }
 }

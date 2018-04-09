@@ -10,10 +10,8 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Map;
 use AppBundle\Entity\UserMap;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MapController extends AbstractApiController
