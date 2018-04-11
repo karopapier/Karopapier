@@ -1,5 +1,6 @@
 const Marionette = require('backbone.marionette');
 module.exports = Marionette.View.extend({
+    className: 'newgame-layout',
     template: require('../../templates/newgame/newGameLayout.html'),
     regions: {
         playerfilter: '.playerfilter',
