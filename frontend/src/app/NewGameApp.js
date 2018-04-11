@@ -2,6 +2,7 @@ const Marionette = require('backbone.marionette');
 const Radio = require('backbone.radio');
 const appChannel = Radio.channel('app');
 const dataChannel = Radio.channel('data');
+const layoutChannel = Radio.channel('layout');
 
 // Collections
 const LobbyUserCollection = require('../collection/LobbyUserCollection');
@@ -18,6 +19,7 @@ const NewGameLayout = require('../layout/NewGameLayout');
 const SelectedUsersView = require('../view/newgame/SelectedUsersView');
 const MapCanvasView = require('../view/map/MapCanvasView');
 const MapInfoView = require('../view/map/MapInfoView');
+const MapFilterView = require('../view/newgame/MapFilterView');
 const GameNameView = require('../view/newgame/GameNameView');
 
 module.exports = Marionette.Application.extend({
@@ -86,6 +88,10 @@ module.exports = Marionette.Application.extend({
 
         this.listenTo(this.layout, 'map:change', (view, e) => {
             this.map.setId(e.currentTarget.value);
+        });
+
+        this.listenTo(this.layout, 'map:selection', (view, e) => {
+            layoutChannel.request('region:modal').show(new MapFilterView());
         });
 
         this.layout.getRegion('mapinfo').show(new MapInfoView({

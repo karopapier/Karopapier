@@ -13,5 +13,7 @@ module.exports = Marionette.View.extend({
 
     triggers: {
         'input input': 'map:change',
+        'click .newgame-map-selection-open': 'map:selection',
     },
+
 });

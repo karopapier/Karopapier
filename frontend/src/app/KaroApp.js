@@ -6,6 +6,7 @@ const Marionette = require('backbone.marionette');
 
 // channels
 const appChannel = Radio.channel('app');
+const layoutChannel = Radio.channel('layout');
 
 // Model
 const User = require('../model/User');
@@ -24,12 +25,6 @@ const PageLayout = require('../layout/PageLayout');
 
 // View
 const UserInfoBarView = require('../view/UserInfoBarView');
-
-const BlaView = Marionette.View.extend({
-    template() {
-        return 'Text';
-    },
-});
 
 module.exports = window.KaroApp = Marionette.Application.extend({
     region: '.container',
@@ -85,6 +80,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             return this.dranGames;
         });
 
+        layoutChannel.reply('region:modal', () => {
+            return this.layout.getRegion('modal');
+        });
+
         this.kevin = new KEvIn();
 
         this.router = new AppRouter({
@@ -106,10 +105,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.layout.showChildView('content', this.apps[appname].layout);
         console.log('Showing apps layout done');
         this.currentApp = appname;
-
-        setTimeout(() => {
-            this.layout.getRegion('modal').show(new BlaView());
-        }, 500);
     },
 
     initApp(appname) {
