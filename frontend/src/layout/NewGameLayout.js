@@ -3,6 +3,7 @@ module.exports = Marionette.View.extend({
     className: 'newgame-layout',
     template: require('../../templates/newgame/newGameLayout.html'),
     regions: {
+        name: '.newgame-name',
         playerfilter: '.playerfilter',
         playerlist: '.playerlist',
         selectedlist: '.selectedlist',

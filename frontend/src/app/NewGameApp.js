@@ -8,6 +8,7 @@ const LobbyUserCollection = require('../collection/LobbyUserCollection');
 
 // Models
 const LobbyUserFilter = require('../model/newgame/LobbyUserFilter');
+const NewGame = require('../model/newgame/NewGame');
 const KaroMap = require('../model/map/KaroMap');
 
 // Views
@@ -17,6 +18,7 @@ const NewGameLayout = require('../layout/NewGameLayout');
 const SelectedUsersView = require('../view/newgame/SelectedUsersView');
 const MapCanvasView = require('../view/map/MapCanvasView');
 const MapInfoView = require('../view/map/MapInfoView');
+const GameNameView = require('../view/newgame/GameNameView');
 
 module.exports = Marionette.Application.extend({
 
@@ -54,6 +56,13 @@ module.exports = Marionette.Application.extend({
 
     start() {
         console.info('Start NewGame App');
+
+        this.game = new NewGame();
+
+        this.layout.getRegion('name').show(new GameNameView({
+            model: this.game,
+        }));
+
         this.lobbyUserFilter = new LobbyUserFilter();
         this.layout.getRegion('playerfilter').show(new LobbyUserFilterView({
             model: this.lobbyUserFilter,
