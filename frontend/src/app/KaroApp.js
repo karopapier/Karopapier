@@ -1,5 +1,6 @@
 'use strict';
 const Radio = require('backbone.radio');
+const dataChannel = Radio.channel('data');
 const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
 
@@ -65,24 +66,23 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.dranGames = new GameCollection();
 
         this.navigator = Radio.channel('navigator');
-        this.dataProvider = Radio.channel('data');
-        this.dataProvider.reply('users', function() {
+        dataChannel.reply('users', function() {
             return me.users;
         });
 
-        this.dataProvider.reply('user:logged:in', function() {
+        dataChannel.reply('user:logged:in', function() {
             return me.authUser;
         });
 
-        this.dataProvider.reply('config', () => {
+        dataChannel.reply('config', () => {
             return this.config;
         });
 
-        this.dataProvider.reply('users', () => {
+        dataChannel.reply('users', () => {
             return this.users;
         });
 
-        this.dataProvider.reply('drangames', () => {
+        dataChannel.reply('drangames', () => {
             return this.dranGames;
         });
 
