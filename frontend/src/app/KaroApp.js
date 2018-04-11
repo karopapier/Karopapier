@@ -19,16 +19,15 @@ const KEvIn = require('../model/KEvIn');
 // Router
 const AppRouter = require('./../router/StaticRouter');
 
+// Layout
+const PageLayout = require('../layout/PageLayout');
+
 // View
 const UserInfoBarView = require('../view/UserInfoBarView');
 
-const PageLayout = Marionette.View.extend({
+const BlaView = Marionette.View.extend({
     template() {
-        return;
-    },
-    regions: {
-        userinfo: '#userInfoBar',
-        content: '.content',
+        return 'Text';
     },
 });
 
@@ -107,6 +106,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.layout.showChildView('content', this.apps[appname].layout);
         console.log('Showing apps layout done');
         this.currentApp = appname;
+
+        setTimeout(() => {
+            this.layout.getRegion('modal').show(new BlaView());
+        }, 500);
     },
 
     initApp(appname) {
@@ -150,7 +153,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             me.navigate(href);
         });
 
-
         this.apps = {};
 
         this.layout.showChildView('userinfo', new UserInfoBarView({
@@ -192,7 +194,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
     resetNavState: function() {
     },
-
 
     register: function() {
     },
