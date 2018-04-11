@@ -7,7 +7,8 @@ module.exports = BaseMap.extend(/** @lends Map.prototype*/{
         players: 0,
         cps: [],
         rows: 0,
-        cols: 0
+        cols: 0,
+        rating: 0
     },
 
     url() {

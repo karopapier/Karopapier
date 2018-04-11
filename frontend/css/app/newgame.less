@@ -1,4 +1,11 @@
-.lobbyUser {
+.playerlist {
+  width: 350px;
+  max-height: 300px;
+  overflow: auto;
+  user-select: none;
+}
+
+.user-slot {
   font-size: 8pt;
   height: 20px;
   background-color: #ffe;
@@ -8,13 +15,6 @@
   padding-right: 20px;
   padding-left: 25px;
   width: 280px;
-}
-
-.playerlist {
-  width: 350px;
-  max-height: 300px;
-  overflow: auto;
-  user-select: none;
 }
 
 .mod-selected {
@@ -33,4 +33,14 @@
   background-image: url(/images/spielegeil.png);
   background-repeat: no-repeat;
   background-position: 2px 2px;
+}
+
+.mod-free {
+  background-color: #efe;
+  border: 1px solid #3c3;
+}
+
+.mod-unused {
+  background-color: transparent;
+  border: 1px dashed #999;
 }

@@ -35,7 +35,6 @@ class ApiResponse implements EventSubscriberInterface
     {
         list($controllerClass, $action) = $event->getController();
         if (!($controllerClass instanceof ApiControllerInterface)) {
-
             return;
         }
 

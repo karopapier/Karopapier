@@ -1,4 +1,7 @@
 const Marionette = require('backbone.marionette');
+const Radio = require('backbone.radio');
+const appChannel = Radio.channel('app');
+
 module.exports = Marionette.View.extend({
     template: require('../../../templates/newgame/lobbyUser.html'),
 
@@ -11,11 +14,11 @@ module.exports = Marionette.View.extend({
     },
 
     toggleSelect() {
-        this.model.set('selected', !(this.model.get('selected')));
+        appChannel.trigger('lobbyuser:select:toggle', this.model.get('id'));
     },
 
     onRender() {
-        const classes = ['lobbyUser', 'clickable'];
+        const classes = ['user-slot', 'clickable'];
         if (this.model.get('selected')) {
             classes.push('mod-selected');
         }
