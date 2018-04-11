@@ -12,9 +12,13 @@ module.exports = Backbone.View.extend({
 
     render() {
         const slots = this.map.get('players');
+        const players = this.collection.length;
 
         this.$el.empty();
-        let players = 0;
+        this.$el.append(players + '/' + slots + ' ausgewählt');
+        if (players > slots) {
+            this.$el.append('. Das passt nich!');
+        }
         this.collection.each((model, i) => {
             // mark exceeded @todo raus aus view
             // i is 0-based, so >= not >
@@ -22,7 +26,6 @@ module.exports = Backbone.View.extend({
             const v = new LobbyUserView({model: model});
             v.render();
             this.$el.append(v.el);
-            players++;
         });
 
         let usedSlots = players;
