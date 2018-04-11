@@ -2,19 +2,19 @@ module.exports = function(grunt) {
     // Project configuration.
     require('time-grunt')(grunt);
 
-    var keypath = "/etc/ssl/panamapapier/privkey.pem";
-    var certpath = "/etc/ssl/panamapapier/cert.pem";
+    var keypath = '/etc/ssl/panamapapier/privkey.pem';
+    var certpath = '/etc/ssl/panamapapier/cert.pem';
     var livereloadConfig = {
         port: 20001,
     };
 
     if (grunt.file.exists(keypath, certpath)) {
-        livereloadConfig["key"] = grunt.file.read(keypath);
-        livereloadConfig["cert"] = grunt.file.read(certpath);
+        livereloadConfig['key'] = grunt.file.read(keypath);
+        livereloadConfig['cert'] = grunt.file.read(certpath);
     }
 
     var cleanCssOptions = {
-        level: 2
+        level: 2,
     };
 
     grunt.initConfig({
@@ -22,64 +22,69 @@ module.exports = function(grunt) {
         browserify: {
             options: {
                 transform: [
-                    ['babelify', {presets:["es2015"]}],
+                    ['babelify', {presets: ['es2015']}],
                     ['jstify'] //html -> underscore templates
                 ],
+            },
+            dev: {
+                files: {
+                    'web/js/<%= pkg.name %>.dev.js': ['frontend/src/app/KaroApp.js'],
+                },
                 browserifyOptions: {
-                    debug: true
-                }
+                    debug: true,
+                },
             },
             dist: {
                 files: {
-                    "web/js/<%= pkg.name %>.src.js": ['frontend/src/app/KaroApp.js']
-                }
-            }
+                    'web/js/<%= pkg.name %>.src.js': ['frontend/src/app/KaroApp.js'],
+                },
+            },
         },
         uglify: {
             dev: {
                 files: {
-                    "web/js/<%= pkg.name %>.dev.js": "web/js/<%= pkg.name %>.src.js"
+                    'web/js/<%= pkg.name %>.dev.js': 'web/js/<%= pkg.name %>.src.js',
                 },
                 options: {
                     banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
-                    beautify: true
-                }
+                    beautify: true,
+                },
             },
             min: {
                 files: {
-                    "web/js/<%= pkg.name %>.min.js": "web/js/<%= pkg.name %>.src.js"
+                    'web/js/<%= pkg.name %>.min.js': 'web/js/<%= pkg.name %>.src.js',
                 },
                 options: {
                     sourceMapIncludeSources: false,
                     sourceMap: false,
-                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-                }
-            }
+                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                },
+            },
         },
         watch: {
             app: {
                 files: ['frontend/src/**/*', 'frontend/templates/**/*'],
-                tasks: ['build:js', 'bust'],
+                tasks: ['build:dev', 'bust'],
                 options: {
                     interrupt: true,
-                    livereload: livereloadConfig
-                }
+                    livereload: livereloadConfig,
+                },
             },
             css: {
                 files: ['frontend/css/**/*'],
                 tasks: ['less', 'bust'],
                 options: {
                     interrupt: true,
-                    livereload: livereloadConfig
-                }
+                    livereload: livereloadConfig,
+                },
             },
             web: {
                 files: ['web/**/*.php', 'src/**/*'],
                 options: {
                     interrupt: true,
-                    livereload: livereloadConfig
-                }
-            }
+                    livereload: livereloadConfig,
+                },
+            },
         },
         less: {
             app: {
@@ -87,34 +92,34 @@ module.exports = function(grunt) {
                     expand: true,
                     plugins: [
                         new (require('less-plugin-autoprefix')),
-                        new (require('less-plugin-clean-css'))(cleanCssOptions)
-                    ]
+                        new (require('less-plugin-clean-css'))(cleanCssOptions),
+                    ],
                 },
                 files: {
-                    "web/css/app.css": "frontend/css/KaroApp.less"
-                }
+                    'web/css/app.css': 'frontend/css/KaroApp.less',
+                },
             },
             css: {
                 options: {
                     plugins: [
                         new (require('less-plugin-autoprefix')),
-                        new (require('less-plugin-clean-css'))(cleanCssOptions)
-                    ]
+                        new (require('less-plugin-clean-css'))(cleanCssOptions),
+                    ],
                 },
                 files: {
-                    "web/css/previous.css": "frontend/css/karo.css",
-                    "web/css/theme.css": "frontend/css/theme.css"
-                }
-            }
+                    'web/css/previous.css': 'frontend/css/karo.css',
+                    'web/css/theme.css': 'frontend/css/theme.css',
+                },
+            },
         },
         eslint: {
-            target: ['frontend/src/**/*.js']
+            target: ['frontend/src/**/*.js'],
         },
         shell: {
             bust: {
-                command: "php ./cachebust.php"
-            }
-        }
+                command: 'php ./cachebust.php',
+            },
+        },
     });
 
     // Load the plugins
@@ -126,10 +131,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     // Default task(s).
-    grunt.registerTask('build', ['build:js', 'less', 'bust']);
-    grunt.registerTask('build:js', ['browserify', 'uglify', 'style']);
+    grunt.registerTask('build', ['build:prod', 'less', 'bust']);
+    grunt.registerTask('build:dev', ['browserify:dev', 'style']);
+    grunt.registerTask('build:prod', ['browserify:dist', 'uglify', 'style']);
     grunt.registerTask('style', ['eslint']);
     grunt.registerTask('bust', ['shell:bust']);
-    grunt.registerTask('default', ['build', 'watch']);
+    grunt.registerTask('default', ['build:dev', 'less', 'watch']);
 
 };
