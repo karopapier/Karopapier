@@ -20,8 +20,7 @@ module.exports = Marionette.CollectionView.extend({
     },
 
     onRender() {
-        const selected = this.collection.where({selected: true});
-        const players = selected.length;
+        const players = this.collection.length;
         const slots = this.map.get('players');
 
         if (slots > players) {
