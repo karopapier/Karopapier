@@ -8,12 +8,12 @@ module.exports = Marionette.View.extend({
 
     events: {
         'change @ui.desperate': 'checkDesperate',
-        'input @ui.login': 'checkLogin'
+        'input @ui.login': 'checkLogin',
     },
 
     ui: {
         desperate: '.filter-desperate',
-        login: '.filter-login'
+        login: '.filter-login',
     },
 
     checkDesperate() {
@@ -26,6 +26,6 @@ module.exports = Marionette.View.extend({
 
     updateDesperate() {
         this.getUI('desperate').prop('checked', this.model.get('desperate'));
-    }
+    },
 
 });

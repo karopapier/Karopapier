@@ -80,5 +80,5 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
     stop() {
         // this.turted.leave("karochat");
         // this.turted.leave("livelog");
-    }
+    },
 });

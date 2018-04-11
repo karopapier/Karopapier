@@ -4,5 +4,5 @@ module.exports = Marionette.View.extend({
 
     initialize() {
         this.listenTo(this.model, 'change', this.render);
-    }
+    },
 });

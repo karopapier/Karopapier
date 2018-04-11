@@ -34,7 +34,7 @@ module.exports = Marionette.Application.extend({
     start() {
         console.info('Start Game App');
         this.router = new GameRouter({
-            app: this
+            app: this,
         });
     },
 
@@ -44,8 +44,8 @@ module.exports = Marionette.Application.extend({
         game.fetch();
 
         this.mapcanvas = new MapCanvasView({
-            model: game.getMap()
+            model: game.getMap(),
         });
         this.layout.getRegion('mapcanvas').show(this.mapcanvas);
-    }
+    },
 });

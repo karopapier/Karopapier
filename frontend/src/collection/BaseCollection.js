@@ -28,5 +28,5 @@ module.exports = Backbone.Collection.extend({
 
     getLoadedTS() {
         return this.loadedTS;
-    }
+    },
 });

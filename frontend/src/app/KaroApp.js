@@ -27,8 +27,8 @@ const PageLayout = Marionette.View.extend({
     },
     regions: {
         userinfo: '#userInfoBar',
-        content: '.content'
-    }
+        content: '.content',
+    },
 });
 
 module.exports = window.KaroApp = Marionette.Application.extend({
@@ -45,13 +45,13 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             spiele: 'game',
             dran: 'dran',
             dran2: 'dran',
-            erstellen: 'newgame'
+            erstellen: 'newgame',
         };
         this.availableApps = {
             messaging: require('./MessagingApp'),
             game: require('./GameApp'),
             dran: require('./DranApp'),
-            newgame: require('./NewGameApp')
+            newgame: require('./NewGameApp'),
         };
 
         this.authUser = new User();
@@ -89,7 +89,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.kevin = new KEvIn();
 
         this.router = new AppRouter({
-            app: this
+            app: this,
         });
     },
 
@@ -138,13 +138,13 @@ module.exports = window.KaroApp = Marionette.Application.extend({
                 id: data.gid,
                 name: data.name,
                 dranName: data.nextLogin,
-                blocked: new Date().getHours() + ':' + new Date().getMinutes()
+                blocked: new Date().getHours() + ':' + new Date().getMinutes(),
             };
             this.dranGames.add(g);
         });
 
         this.layout = new PageLayout({
-            el: '.container'
+            el: '.container',
         });
         this.layout.on('navigate', function(href) {
             me.navigate(href);
@@ -154,7 +154,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.apps = {};
 
         this.layout.showChildView('userinfo', new UserInfoBarView({
-            model: this.authUser
+            model: this.authUser,
         }));
 
         Backbone.history.start({pushState: true});
@@ -184,7 +184,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         // setz die URL im Browser ohne event
         Backbone.history.navigate(url, {
-            trigger: false
+            trigger: false,
         });
 
         this.navigator.trigger(nav, data);
@@ -195,5 +195,5 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
 
     register: function() {
-    }
+    },
 });

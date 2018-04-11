@@ -6,7 +6,7 @@ module.exports = Marionette.View.extend({
         messages: '.message-list',
         contactInfo: '.contact-info',
         contacts: '.contact-list',
-        addcontact: '.contact-add'
-    }
+        addcontact: '.contact-add',
+    },
 });
 

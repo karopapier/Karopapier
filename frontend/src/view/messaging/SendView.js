@@ -4,7 +4,7 @@ module.exports = Marionette.View.extend({
     tagName: 'form',
     events: {
         submit: 'send',
-        keyup: 'resize'
+        keyup: 'resize',
     },
 
     onRender: function() {
@@ -25,7 +25,7 @@ module.exports = Marionette.View.extend({
 
         this.trigger('send', {
             userId: userId,
-            text: text
+            text: text,
         });
         this.$('input[type=submit]').prop('disabled', true);
         e.preventDefault();
@@ -44,6 +44,6 @@ module.exports = Marionette.View.extend({
         const o = this.$('.send-text')[0];
         o.style.height = '1px';
         o.style.height = (o.scrollHeight)+'px';
-    }
+    },
 });
 

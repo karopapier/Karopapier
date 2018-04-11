@@ -55,21 +55,21 @@ module.exports = Marionette.Application.extend({
         console.info('Start NewGame App');
         this.lobbyUserFilter = new LobbyUserFilter();
         this.layout.getRegion('playerfilter').show(new LobbyUserFilterView({
-            model: this.lobbyUserFilter
+            model: this.lobbyUserFilter,
         }));
 
         this.layout.getRegion('playerlist').show(new LobbyUsersView({
             collection: this.lobbyUsers,
-            filterModel: this.lobbyUserFilter
+            filterModel: this.lobbyUserFilter,
         }));
 
         this.layout.getRegion('selectedlist').show(new SelectedUsersView({
             collection: this.selectedUsers,
-            map: this.map
+            map: this.map,
         }));
 
         this.mapView = new MapCanvasView({
-            model: this.map
+            model: this.map,
         });
         this.mapView.settings.set({size: 1, border: 0});
         this.layout.getRegion('mapcanvas').show(this.mapView);
@@ -79,7 +79,7 @@ module.exports = Marionette.Application.extend({
         });
 
         this.layout.getRegion('mapinfo').show(new MapInfoView({
-            model: this.map
+            model: this.map,
         }));
     },
 
@@ -93,5 +93,5 @@ module.exports = Marionette.Application.extend({
         u.set('selected', !u.get('selected'));
 
         this.selectedUsers.add(u);
-    }
+    },
 });

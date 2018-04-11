@@ -48,7 +48,7 @@ module.exports = Backbone.Model.extend({
         'cp8': '200,000,000', // Checkpoint 8
         'cp8_2': '255,255,255',
         'cp9': '255,000,255', // Checkpoint 9
-        'cp9_2': '0,0,0'
+        'cp9_2': '0,0,0',
     },
 
     initialize: function() {
@@ -77,5 +77,5 @@ module.exports = Backbone.Model.extend({
             rgb = '0,0,0';
         }
         return 'rgb(' + this.get(field) + ')';
-    }
+    },
 });

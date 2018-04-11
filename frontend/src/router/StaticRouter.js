@@ -6,10 +6,10 @@ module.exports = Backbone.Router.extend({
     },
 
     routes: {
-        '*href': 'showIndex'
+        '*href': 'showIndex',
     },
 
     showIndex: function(href) {
         this.app.navigate(href);
-    }
+    },
 });

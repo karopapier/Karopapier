@@ -6,7 +6,7 @@ module.exports = Backbone.Router.extend({
 
     routes: {
         'zettel/:contact': 'select',
-        'zettel': 'index'
+        'zettel': 'index',
     },
 
     index: function() {
@@ -15,5 +15,5 @@ module.exports = Backbone.Router.extend({
 
     select: function(contactName) {
         this.app.selectName(contactName);
-    }
+    },
 });

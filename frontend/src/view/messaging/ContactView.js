@@ -4,7 +4,7 @@ module.exports = Marionette.View.extend({
     template: require('../../../templates/messaging/contact.html'),
 
     triggers: {
-        click: 'contact:select'
+        click: 'contact:select',
     },
 
     initialize: function() {
@@ -18,6 +18,6 @@ module.exports = Marionette.View.extend({
         } else {
             this.$el.removeClass('selected');
         }
-    }
+    },
 });
 

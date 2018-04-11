@@ -4,7 +4,7 @@ module.exports = Marionette.View.extend({
     tagName: 'tr',
     template: require('../../../templates/game/drangame.html'),
     templateContext: {
-        truncate: TextHelper.truncate
-    }
+        truncate: TextHelper.truncate,
+    },
 });
 

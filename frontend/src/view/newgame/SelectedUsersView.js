@@ -3,7 +3,7 @@ const EmptySlotView = Marionette.View.extend({
     className: 'user-slot mod-unused',
     template() {
         return '';
-    }
+    },
 });
 
 module.exports = Marionette.CollectionView.extend({
@@ -28,5 +28,5 @@ module.exports = Marionette.CollectionView.extend({
                 this.addChildView(new EmptySlotView());
             }
         }
-    }
+    },
 });

@@ -241,5 +241,5 @@ module.exports = MapBaseView.extend({
         // 30% border
         ctx.rect(0.3 * newSize, 0.3 * newSize, 0.4 * newSize, 0.4 * newSize);
         ctx.stroke();
-    }
+    },
 });

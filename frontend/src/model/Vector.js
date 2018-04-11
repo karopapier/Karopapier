@@ -2,7 +2,7 @@ const Backbone = require('backbone');
 const Vector = Backbone.Model.extend({
     defaults: {
         x: 0,
-        y: 0
+        y: 0,
     },
     initialize: function(x, y) {
         // check if first arg is an object with x and y or if we have two numeric args
@@ -161,7 +161,7 @@ const Vector = Backbone.Model.extend({
         } while (((Math.abs(x) != dx) || (Math.abs(y) != dy)));
         // console.log('Return ', vecs);
         return vecs;
-    }
+    },
 });
 
 module.exports = Vector;

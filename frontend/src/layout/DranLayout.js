@@ -4,7 +4,7 @@ module.exports = Marionette.View.extend({
     regions: {
         list: {
             el: '.game-list',
-            replaceElement: true
-        }
-    }
+            replaceElement: true,
+        },
+    },
 });

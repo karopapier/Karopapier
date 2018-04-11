@@ -6,6 +6,11 @@
     "ecmaVersion": 6
   },
   "rules": {
+    "indent": [
+      "error",
+      4
+      , { "SwitchCase": 1 }
+    ],
     "padded-blocks": [
       2,
       {
@@ -13,14 +18,15 @@
         "blocks": "never"
       }
     ],
-    "comma-dangle": [
+    "semi": [
       "error",
-      "never"
+      "always"
     ],
     "max-len": [
       "error",
       120
     ],
+    "require-jsdoc": "off",
     "valid-jsdoc": "off"
   }
 }

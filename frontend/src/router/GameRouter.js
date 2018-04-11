@@ -8,7 +8,7 @@ module.exports = Backbone.Router.extend({
         'games/:gid': 'show',
         'spiele/:gid': 'show',
         'games': 'index',
-        'spiele': 'index'
+        'spiele': 'index',
     },
 
     index: function() {
@@ -17,5 +17,5 @@ module.exports = Backbone.Router.extend({
 
     show: function(gid) {
         this.app.show(gid);
-    }
+    },
 });

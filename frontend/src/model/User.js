@@ -5,7 +5,7 @@ module.exports = Backbone.Model.extend({
         login: '',
         activeGames: 0,
         dran: 0,
-        uc: 0
-    }
+        uc: 0,
+    },
 });
 

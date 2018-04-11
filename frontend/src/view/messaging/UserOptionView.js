@@ -4,8 +4,8 @@ module.exports = Marionette.View.extend({
     template: _.template('<%= login %>'),
     attributes: function() {
         return {
-            value: this.model.get('id')
+            value: this.model.get('id'),
         };
-    }
+    },
 });
 

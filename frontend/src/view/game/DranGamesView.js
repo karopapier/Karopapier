@@ -5,6 +5,6 @@ const NichtDranView = require('./NichtDranView');
 module.exports = Marionette.CollectionView.extend({
     tagName: 'tbody',
     childView: DranGameView,
-    emptyView: NichtDranView
+    emptyView: NichtDranView,
 });
 

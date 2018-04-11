@@ -4,7 +4,7 @@ module.exports = Marionette.View.extend({
     tagName: 'li',
     template: _.template('<%= login %>'),
     triggers: {
-        click: 'select'
-    }
+        click: 'select',
+    },
 });
 

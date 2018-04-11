@@ -17,6 +17,6 @@ module.exports = Marionette.View.extend({
             let m = d.getMinutes();
             if (m < 10) m = '0' + m;
             return d.getHours() + ':' + m;
-        }
-    }
+        },
+    },
 });

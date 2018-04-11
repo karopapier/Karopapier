@@ -7,18 +7,18 @@ module.exports = Marionette.View.extend({
     events: {
         'focus input': 'autocomplete',
         'input input': 'autocomplete',
-        'click button': 'select'
+        'click button': 'select',
     },
 
     regions: {
-        auto: '.js-auto'
+        auto: '.js-auto',
     },
 
     initialize: function() {
         let me = this;
         this.filteredUsers = new UserCollection(this.collection.toJSON());
         this.listview = new UserlistView({
-            collection: this.filteredUsers
+            collection: this.filteredUsers,
         });
         this.listenTo(this.listview, 'childview:select', function(e) {
             me.insert(e.model);
@@ -28,7 +28,7 @@ module.exports = Marionette.View.extend({
             maxHeight: 60,
             overflow: 'auto',
             backgroundColor: 'white',
-            border: '1px solid black'
+            border: '1px solid black',
         });
     },
     autocomplete: function(e) {
@@ -50,6 +50,6 @@ module.exports = Marionette.View.extend({
 
     select: function() {
         this.trigger('select', this.$('input').val());
-    }
+    },
 });
 

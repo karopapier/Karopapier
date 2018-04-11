@@ -25,5 +25,5 @@ module.exports = Marionette.CollectionView.extend({
         }
 
         return true;
-    }
+    },
 });

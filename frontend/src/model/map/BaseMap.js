@@ -6,7 +6,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         id: 0,
         cps: [],
         rows: 0,
-        cols: 0
+        cols: 0,
     },
     /**
      * Represents the map and its code
@@ -48,7 +48,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         '6': 'cp6',
         '7': 'cp7',
         '8': 'cp8',
-        '9': 'cp9'
+        '9': 'cp9',
     },
     isValidField: function(c) {
         return this.validFields.indexOf(c.toUpperCase()) >= 0;
@@ -73,7 +73,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
             'starties': starties,
             'rows': rows,
             'cols': cols,
-            'cps': cps
+            'cps': cps,
         });
     },
 
@@ -424,5 +424,5 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
             }
         }
         return remaining;
-    }
+    },
 });

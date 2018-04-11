@@ -6,7 +6,7 @@ module.exports = Marionette.View.extend({
     template: require('../../../templates/newgame/lobbyUser.html'),
 
     events: {
-        'click': 'toggleSelect'
+        'click': 'toggleSelect',
     },
 
     initialize() {
@@ -36,5 +36,5 @@ module.exports = Marionette.View.extend({
         }
 
         this.el.className = classes.join(' ');
-    }
+    },
 });

@@ -4,7 +4,7 @@ const Position = require('./Position');
 module.exports = Backbone.Model.extend(/** @lends Position.prototype */{
     defaults: {
         x: 0,
-        y: 0
+        y: 0,
     },
     /**
      * @construcor Position
@@ -61,5 +61,5 @@ module.exports = Backbone.Model.extend(/** @lends Position.prototype */{
             }
         }
         return positions;
-    }
+    },
 });

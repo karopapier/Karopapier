@@ -8,7 +8,7 @@ module.exports = BaseMap.extend(/** @lends Map.prototype*/{
         cps: [],
         rows: 0,
         cols: 0,
-        rating: 0
+        rating: 0,
     },
 
     url() {
@@ -32,5 +32,5 @@ module.exports = BaseMap.extend(/** @lends Map.prototype*/{
 
         this.id = mapId;
         this.fetch();
-    }
+    },
 });

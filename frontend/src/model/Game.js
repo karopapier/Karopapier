@@ -5,7 +5,7 @@ module.exports = Backbone.Model.extend({
         id: 0,
         name: '-',
         dranName: '-',
-        blocked: 0
+        blocked: 0,
     },
 
     url: function() {
@@ -14,6 +14,6 @@ module.exports = Backbone.Model.extend({
 
     getMap() {
         return new Map(this.map);
-    }
+    },
 
 });

@@ -60,8 +60,8 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
 
         this.layout = new MessagingLayout({
             triggers: {
-                'click .backnav': 'unselect'
-            }
+                'click .backnav': 'unselect',
+            },
         });
 
         this.loadInitialAndStart();
@@ -86,7 +86,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         this.listenTo(this.messages, 'add', this.unreadRecalc);
 
         this.contactsView = new ContactsView({
-            collection: this.contacts
+            collection: this.contacts,
         });
 
         this.layout.getRegion('contacts').show(this.contactsView);
@@ -102,7 +102,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
 
         this.addContactView = new AddContactView({
             viewComparator: 'login',
-            collection: this.users
+            collection: this.users,
         });
         this.layout.getRegion('addcontact').show(this.addContactView);
         this.addContactView.on('select', function(contactName) {
@@ -110,18 +110,18 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         });
 
         this.router = new MessagingRouter({
-            app: this
+            app: this,
         });
     },
 
     selectName: function(contactName) {
         console.info('Select', contactName);
         let c = this.contacts.findWhere({
-            login: contactName
+            login: contactName,
         });
         if (!c) {
             c = this.users.findWhere({
-                login: contactName
+                login: contactName,
             });
 
             if (!c) {
@@ -140,7 +140,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
             c.set('selected', contact.get('id') === c.get('id'));
         });
         let messages = this.messages.where({
-            contact_id: contact.get('id')
+            contact_id: contact.get('id'),
         });
         let prevDate = '';
         let uc = 0;
@@ -155,10 +155,10 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         });
         this.userMessages.reset(messages);
         this.layout.getRegion('messages').show(new MessagesView({
-            collection: this.userMessages
+            collection: this.userMessages,
         }));
         this.sendView = new SendView({
-            model: contact
+            model: contact,
         });
         this.layout.getRegion('send').show(this.sendView);
         this.layout.$el.addClass('js-selected');
@@ -172,12 +172,12 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
                 error: function() {
                     me.sendView.enable();
                     // Fehler beim Versand
-                }
+                },
             });
         });
 
         this.layout.getRegion('contactInfo').show(new ContactDetailsView({
-            model: contact
+            model: contact,
         }));
 
         if (uc > 0) {
@@ -208,7 +208,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
             let uc = me.messages.where({
                 r: 0,
                 contact_id: c.get('id'),
-                rxtx: 'rx'
+                rxtx: 'rx',
             });
             c.set('uc', uc.length);
             total += uc.length;
@@ -218,5 +218,5 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
 
     getSelectedContact: function() {
         return this.contacts.findWhere({selected: true});
-    }
+    },
 });

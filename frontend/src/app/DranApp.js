@@ -22,7 +22,7 @@ module.exports = Marionette.Application.extend({
         console.info('Start Dran App');
 
         this.layout.getRegion('list').show(new DranGamesView({
-            collection: this.dranGames
+            collection: this.dranGames,
         }));
-    }
+    },
 });

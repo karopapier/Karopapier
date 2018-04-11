@@ -6,7 +6,7 @@ const Vector = require('./Vector');
 module.exports = Backbone.Model.extend(/** @lends Motion.prototype*/{
     defaults: {
         position: {x: 0, y: 0},
-        vector: {x: 0, y: 0}
+        vector: {x: 0, y: 0},
     },
     /**
      * @constructor Motion
@@ -37,7 +37,7 @@ module.exports = Backbone.Model.extend(/** @lends Motion.prototype*/{
     clone: function() {
         return new Motion({
             position: this.get('position').clone(),
-            vector: this.get('vector').clone()
+            vector: this.get('vector').clone(),
         });
     },
     toString: function() {
@@ -51,7 +51,7 @@ module.exports = Backbone.Model.extend(/** @lends Motion.prototype*/{
             x: this.get('position').get('x'),
             y: this.get('position').get('y'),
             xv: this.get('vector').get('x'),
-            yv: this.get('vector').get('y')
+            yv: this.get('vector').get('y'),
         };
     },
     /**
@@ -178,7 +178,7 @@ module.exports = Backbone.Model.extend(/** @lends Motion.prototype*/{
         this.get('position').move(v);
         this.set('vector', v);
         return this;
-    }
+    },
 
     /*
      public function getIlluminatedPositions($lightRange=5)

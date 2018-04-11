@@ -10,7 +10,7 @@ module.exports = Marionette.CollectionView.extend({
     childViewOptions(model, index) {
         // do some calculations based on the model
         return {
-            childIndex: 'index'
+            childIndex: 'index',
         };
     },
 
@@ -39,6 +39,6 @@ module.exports = Marionette.CollectionView.extend({
             this.listenTo(this.collection, 'add', this.checkScroll);
             this.scrollDown();
         }, 0);
-    }
+    },
 });
 

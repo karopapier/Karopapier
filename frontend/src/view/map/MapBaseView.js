@@ -24,7 +24,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
             size: 12,
             border: 1,
             cpsActive: true,
-            cpsVisited: []
+            cpsVisited: [],
         },
         /**
          * Represents a MapView's base class, to be extended
@@ -69,7 +69,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
         getRowColFromXY: function(x, y) {
             return {
                 'r': this.getRowFromY(y),
-                'c': this.getColFromX(x)
+                'c': this.getColFromX(x),
             };
         },
         getRowFromY: function(y) {
@@ -90,7 +90,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
         getXYFromRowCol: function(r, c) {
             return {
                 'x': this.getXFromCol(c),
-                'y': this.getYFromRow(r)
+                'y': this.getYFromRow(r),
             };
         },
 
@@ -128,6 +128,6 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
          * */
         setFieldAtRowCol: function(r, c, field) {
             this.model.setFieldAtRowCol(r, c, field);
-        }
+        },
     }
 );
