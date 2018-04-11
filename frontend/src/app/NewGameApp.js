@@ -45,7 +45,8 @@ module.exports = Marionette.Application.extend({
                 return 1;
             };
             this.selectedUsers = new LobbyUserCollection();
-            this.selectToggle(this.authUser.get('id'), true);
+            const u = this.lobbyUsers.get(this.authUser.get('id'));
+            this.select(u);
             this.start();
         });
         this.map = new KaroMap(1);
@@ -83,17 +84,25 @@ module.exports = Marionette.Application.extend({
         }));
     },
 
-    selectToggle(id, force) {
-        if (!force) {
-            // cannot add/deselect myself
-            if (id === this.authUser.get('id')) return;
-        }
+    select(u) {
+        u.set('selected', true);
+        this.selectedUsers.add(u);
+    },
+
+    unselect(u) {
+        u.set('selected', true);
+        this.selectedUsers.remove(u);
+    },
+
+    selectToggle(id) {
+        // cannot add/deselect myself
+        if (id === this.authUser.get('id')) return;
 
         const u = this.lobbyUsers.get(id);
         if (u.get('selected')) {
-            this.selectedUsers.add(u);
+            this.unselect(u);
         } else {
-            this.selectedUsers.remove(u);
+            this.select(u);
         }
     },
 });
