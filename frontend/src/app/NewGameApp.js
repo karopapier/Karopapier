@@ -90,7 +90,7 @@ module.exports = Marionette.Application.extend({
     },
 
     unselect(u) {
-        u.set('selected', true);
+        u.set('selected', false);
         this.selectedUsers.remove(u);
     },
 
