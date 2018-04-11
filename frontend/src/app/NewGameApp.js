@@ -90,8 +90,10 @@ module.exports = Marionette.Application.extend({
         }
 
         const u = this.lobbyUsers.get(id);
-        u.set('selected', !u.get('selected'));
-
-        this.selectedUsers.add(u);
+        if (u.get('selected')) {
+            this.selectedUsers.add(u);
+        } else {
+            this.selectedUsers.remove(u);
+        }
     },
 });
