@@ -14,6 +14,7 @@ const User = require('../model/User');
 // Collection
 const UserCollection = require('../collection/UserCollection');
 const GameCollection = require('../collection/GameCollection');
+const MapCollection = require('../collection/MapCollection');
 
 const KEvIn = require('../model/KEvIn');
 
@@ -29,8 +30,7 @@ const UserInfoBarView = require('../view/UserInfoBarView');
 module.exports = window.KaroApp = Marionette.Application.extend({
     region: '.container',
 
-    initialize: function(config) {
-        const me = this;
+    initialize(config) {
         this.config = config;
         console.info('App init');
         Backbone.emulateHTTP = true;
@@ -57,15 +57,23 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.users.url = '/api/users';
         this.users.fetch();
 
+        this.maps = new MapCollection();
+        // this.maps.url = '/api/map/list.json?nocode=true';
+        this.maps.url = '/api/map/list.json';
+
         this.dranGames = new GameCollection();
 
         this.navigator = Radio.channel('navigator');
-        dataChannel.reply('users', function() {
-            return me.users;
+        dataChannel.reply('users', () => {
+            return this.users;
         });
 
-        dataChannel.reply('user:logged:in', function() {
-            return me.authUser;
+        dataChannel.reply('maps', () => {
+            return this.maps;
+        });
+
+        dataChannel.reply('user:logged:in', () => {
+            return this.authUser;
         });
 
         dataChannel.reply('config', () => {
@@ -117,7 +125,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         // app.start();
     },
 
-    start: function() {
+    start() {
         console.info('Karo App start');
 
         this.dranGames.url = '/api/user/' + this.authUser.get('id') + '/dran';
@@ -144,8 +152,8 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.layout = new PageLayout({
             el: '.container',
         });
-        this.layout.on('navigate', function(href) {
-            me.navigate(href);
+        this.layout.on('navigate', (href) => {
+            this.navigate(href);
         });
 
         this.apps = {};
@@ -157,14 +165,11 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         Backbone.history.start({pushState: true});
     },
 
-    navigate: function(href) {
+    navigate(href) {
         let url = href.replace(window.location.origin, '');
         if (url.substr(0, 1) === '/') {
             url = url.substr(1);
         }
-
-        // reset
-        this.resetNavState();
 
         /**
          * Aktuelle nur URLs mit 1 oder 2 Teilen, also /mitteilungen und /mitteilungen/username
@@ -185,11 +190,5 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         });
 
         this.navigator.trigger(nav, data);
-    },
-
-    resetNavState: function() {
-    },
-
-    register: function() {
     },
 });

@@ -20,11 +20,8 @@ module.exports = BaseMap.extend(/** @lends Map.prototype*/{
      * @constructor Map
      * @class Map
      */
-    initialize(mapId) {
+    initialize() {
         BaseMap.prototype.initialize.apply(this);
-
-        if (!mapId) return;
-        this.setId(mapId);
     },
 
     setId(mapId) {

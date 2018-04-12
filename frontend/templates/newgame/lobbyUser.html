@@ -1,2 +1,2 @@
 <span class="userLabel" name="userLabel<%= id %>"><%= login %></span>
-[<%= signup %>|<%= lastVisit %>] @ <%= activeGames %> / <%= maxGames %>
+[<%= signup %>|<%= lastVisit %>] @ <%= activeGames %> / <% if (maxGames == 0) { %>∞<% } else { %><%= maxGames %><% } %>

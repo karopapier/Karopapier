@@ -10,7 +10,6 @@ const LobbyUserCollection = require('../collection/LobbyUserCollection');
 // Models
 const LobbyUserFilter = require('../model/newgame/LobbyUserFilter');
 const NewGame = require('../model/newgame/NewGame');
-const KaroMap = require('../model/map/KaroMap');
 
 // Views
 const LobbyUserFilterView = require('../view/newgame/LobbyUserFilterView');
@@ -19,7 +18,7 @@ const NewGameLayout = require('../layout/NewGameLayout');
 const SelectedUsersView = require('../view/newgame/SelectedUsersView');
 const MapCanvasView = require('../view/map/MapCanvasView');
 const MapInfoView = require('../view/map/MapInfoView');
-const MapFilterView = require('../view/newgame/MapFilterView');
+const MapSelectionView = require('../view/newgame/MapSelectionView');
 const GameNameView = require('../view/newgame/GameNameView');
 
 module.exports = Marionette.Application.extend({
@@ -39,7 +38,12 @@ module.exports = Marionette.Application.extend({
 
     loadInitialAndStart() {
         this.users = dataChannel.request('users');
-        this.users.getLoadedPromise().then(() => {
+        this.maps = dataChannel.request('maps');
+        this.maps.fetch();
+        Promise.all([
+            this.users.getLoadedPromise(),
+            this.maps.getLoadedPromise(),
+        ]).then(() => {
             this.lobbyUsers = new LobbyUserCollection(this.users.toJSON());
             this.lobbyUsers.comparator = (model1, model2) => {
                 const a = model1.get('login').substr(0, 1).toLowerCase();
@@ -51,9 +55,10 @@ module.exports = Marionette.Application.extend({
             this.selectedUsers = new LobbyUserCollection();
             const u = this.lobbyUsers.get(this.authUser.get('id'));
             this.select(u);
+
+            this.map = this.maps.get(1);
             this.start();
         });
-        this.map = new KaroMap(1);
     },
 
     start() {
@@ -87,11 +92,14 @@ module.exports = Marionette.Application.extend({
         this.layout.getRegion('mapcanvas').show(this.mapView);
 
         this.listenTo(this.layout, 'map:change', (view, e) => {
-            this.map.setId(e.currentTarget.value);
+            const map = this.maps.get(e.currentTarget.value);
+            if (map) {
+                this.map.set(map.toJSON());
+            }
         });
 
         this.listenTo(this.layout, 'map:selection', (view, e) => {
-            layoutChannel.request('region:modal').show(new MapFilterView());
+            layoutChannel.request('region:modal').show(new MapSelectionView());
         });
 
         this.layout.getRegion('mapinfo').show(new MapInfoView({
