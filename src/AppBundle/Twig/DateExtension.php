@@ -19,9 +19,10 @@ class DateExtension extends \Twig_Extension
         );
     }
 
-    public function daysAgo(\DateTime $date)
+    public function daysAgo($date)
     {
         if (!$date) return -1;
+        /** @var \DateTime $date */
         return floor((time() - $date->getTimestamp()) / 86400);
     }
 
