@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DateFixerCommand extends ContainerAwareCommand
+class DBFixerCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -14,7 +14,7 @@ class DateFixerCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('karopapier:datefixer');
+            ->setName('karopapier:fix:db');
     }
 
     /**
@@ -80,5 +80,9 @@ class DateFixerCommand extends ContainerAwareCommand
             $sql = 'UPDATE `karo_user` SET '.$dc.' = NULL WHERE `'.$dc.'` = \'1000-01-01\'';
             $connection->executeQuery($sql);
         }
+
+
+        $sql = 'ALTER TABLE `karo_user` CHANGE `Invited` `Invited` INT(11) UNSIGNED NULL DEFAULT \'0\';';
+        $connection->executeQuery($sql);
     }
 }

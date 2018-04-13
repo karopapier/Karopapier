@@ -188,7 +188,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="Browser", type="string", length=255, nullable=true)
      */
-    private $browser;
+    private $browser = '';
 
     /**
      * @var string
@@ -265,7 +265,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="invited2", type="integer", nullable=true)
      */
-    private $invited2 = null;
+    private $invited2 = 0;
 
     /**
      * @var boolean
