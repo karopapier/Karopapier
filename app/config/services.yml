@@ -26,6 +26,11 @@ services:
         autowire: true
         autoconfigure: true
 
+    AppBundle\Tracker\:
+        resource: '../../src/AppBundle/Tracker'
+        autowire: true
+        autoconfigure: true
+
     AppBundle\Serializer\:
         resource: '../../src/AppBundle/Serializer'
         autowire: true
@@ -94,12 +99,6 @@ services:
         arguments: ['%karoroot%']
         tags:
           - { name: routing.loader }
-
-    visit_log:
-        class: AppBundle\Services\VisitLogService
-        autowire: true
-        tags:
-          - { name: kernel.event_listener, event: security.authentication.success}
 
     karo_query:
         class: AppBundle\Services\KaroQuery
