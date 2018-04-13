@@ -76,77 +76,77 @@ class User implements UserInterface
      *
      * @ORM\Column(name="ICQ", type="string", length=255, nullable=true)
      */
-    private $icq;
+    private $icq = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="AIM", type="string", length=255, nullable=true)
      */
-    private $aim;
+    private $aim = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="MSN", type="string", length=255, nullable=true)
      */
-    private $msn;
+    private $msn = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="Jabber", type="string", length=255, nullable=true)
      */
-    private $jabber;
+    private $jabber = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="twitter", type="string", length=255, nullable=true)
      */
-    private $twitter;
+    private $twitter = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="xing", type="string", length=255, nullable=true)
      */
-    private $xing;
+    private $xing = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="linkedin", type="string", length=255, nullable=true)
      */
-    private $linkedin;
+    private $linkedin = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
      */
-    private $facebook;
+    private $facebook = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="myspace", type="string", length=255, nullable=true)
      */
-    private $myspace;
+    private $myspace = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="Picture", type="string", length=255, nullable=true)
      */
-    private $picture;
+    private $picture = '';
 
     /**
      * @var string
      *
      * @ORM\Column(name="short_info", type="string", length=255, nullable=true)
      */
-    private $shortInfo;
+    private $shortInfo = '';
 
     /**
      * @var \DateTime
