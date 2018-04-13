@@ -14,7 +14,7 @@ use AppBundle\Event\ChatMessageEvent;
 use AppBundle\Services\ConfigService;
 use AppBundle\Services\LegacyChatlineConverter;
 use AppBundle\Services\MessageNormalizer;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use Snc\RedisBundle\Client\Phpredis\Client;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -27,7 +27,7 @@ class ChatService
     /** @var  string $chatRedisKey */
     private $chatRedisKey;
 
-    /** @var Registry $em */
+    /** @var ObjectManager $em */
     private $em;
 
     /** @var  MessageNormalizer */
@@ -48,12 +48,11 @@ class ChatService
     /**
      * ChatService constructor.
      * @param $chatlogpath
-     * @param Registry $registry
      * @param EventDispatcher $dispatcher
      */
     public function __construct(
         ConfigService $config,
-        Registry $registry,
+        ObjectManager $em,
         MessageNormalizer $messageNormalizer,
         LegacyChatlineConverter $legacyChatlineConverter,
         EventDispatcherInterface $dispatcher,
@@ -62,7 +61,7 @@ class ChatService
     ) {
         $this->chatlogpath = $config->get('chat.logpath');
         $this->chatRedisKey = $config->get('chat.redis_key');
-        $this->em = $registry->getManager();
+        $this->em = $em;
         $this->repo = $this->em->getRepository("AppBundle:ChatMessage");
         $this->normalizer = $messageNormalizer;
         $this->legacyChatlineConverter = $legacyChatlineConverter;
