@@ -26,6 +26,11 @@ services:
         autowire: true
         autoconfigure: true
 
+    AppBundle\Security\:
+        resource: '../../src/AppBundle/Security'
+        autowire: true
+        autoconfigure: true
+
     AppBundle\Chat\:
         resource: '../../src/AppBundle/Chat'
         autowire: true
@@ -98,17 +103,6 @@ services:
       arguments:
         $config: "%config%"
 
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    legacy_cookie_authenticator:
-        class: AppBundle\Security\LegacyCookieAuthenticator
-        autowire: true
-
-    legacy_cookie_setter:
-        class: AppBundle\Security\LegacyCookieSetter
-        arguments: ['%host%']
-
     legacy_route_loader:
         class: AppBundle\Services\LegacyRouteLoader
         arguments: ['%karoroot%']
@@ -125,13 +119,6 @@ services:
       arguments:
           - 'AppBundle:User'
 
-    usermap_voter:
-        class: AppBundle\Security\UserMapVoter
-        arguments: ['@security.access.decision_manager']
-        public: false
-        tags:
-               - { name: security.voter }
-
     AppBundle\Formatter\SmileyHolder:
       arguments:
         - '%kernel.cache_dir%'
@@ -141,8 +128,4 @@ services:
         - { name: 'kernel.cache_clearer' }
         - { name: 'kernel.cache_warmer' }
 
-    message_normalizer:
-      class: AppBundle\Services\MessageNormalizer
-      arguments:
-        - '@logger'
-
+    legacy_cookie_authenticator: '@AppBundle\Security\LegacyCookieAuthenticator'

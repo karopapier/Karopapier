@@ -8,11 +8,11 @@
 
 namespace AppBundle\Security;
 
+use AppBundle\Entity\UserMap;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
-use AppBundle\Entity\UserMap;
 
 class UserMapVoter extends Voter
 {
@@ -56,7 +56,9 @@ class UserMapVoter extends Voter
         }
 
         $creator = $userMap->getAuthor();
-        if (!$creator) return false;
+        if (!$creator) {
+            return false;
+        }
 
         if ($user->getId() === $creator->getId()) {
             return true;
