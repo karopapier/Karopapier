@@ -1,4 +1,6 @@
 const Marionette = require('backbone.marionette');
+const Radio = require('backbone.radio');
+const dataChannel = Radio.channel('data');
 
 const MapFilterView = require('./MapFilterView');
 const MapListView = require('./MapListView');
@@ -6,7 +8,7 @@ const MapListView = require('./MapListView');
 module.exports = Marionette.View.extend({
     template: require('../../../templates/newgame/mapSelection.html'),
     initialize() {
-        this.maps = this.getOption('maps');
+        this.maps = dataChannel.request('maps');
         this.filter = this.getOption('filter');
     },
 

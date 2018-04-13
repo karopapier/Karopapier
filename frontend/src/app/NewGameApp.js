@@ -16,7 +16,7 @@ const LobbyUserFilterView = require('../view/newgame/LobbyUserFilterView');
 const LobbyUsersView = require('../view/newgame/LobbyUsersView');
 const NewGameLayout = require('../layout/NewGameLayout');
 const SelectedUsersView = require('../view/newgame/SelectedUsersView');
-const MapCanvasView = require('../view/map/MapCanvasView');
+const MapImageView = require('../view/map/MapImageView');
 const MapInfoView = require('../view/map/MapInfoView');
 const MapSelectionView = require('../view/newgame/MapSelectionView');
 const GameNameView = require('../view/newgame/GameNameView');
@@ -85,10 +85,9 @@ module.exports = Marionette.Application.extend({
             map: this.map,
         }));
 
-        this.mapView = new MapCanvasView({
+        this.mapView = new MapImageView({
             model: this.map,
         });
-        this.mapView.settings.set({size: 1, border: 0});
         this.layout.getRegion('mapcanvas').show(this.mapView);
 
         this.listenTo(this.layout, 'map:change', (view, e) => {

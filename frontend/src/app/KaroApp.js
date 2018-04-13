@@ -58,8 +58,8 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.users.fetch();
 
         this.maps = new MapCollection();
-        // this.maps.url = '/api/map/list.json?nocode=true';
-        this.maps.url = '/api/map/list.json';
+        this.maps.url = '/api/map/list.json?nocode=true';
+        // this.maps.url = '/api/map/list.json';
 
         this.dranGames = new GameCollection();
 
