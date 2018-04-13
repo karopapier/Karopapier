@@ -9,8 +9,7 @@
 namespace AppBundle\Security;
 
 
-use AppBundle\Entity\User;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -22,16 +21,19 @@ use Symfony\Component\Security\Guard\AuthenticatorInterface;
 
 class LegacyCookieAuthenticator extends AbstractGuardAuthenticator implements AuthenticatorInterface
 {
-    /** @var  LoggerInterface $logger */
-    private $logger;
+    /**
+     * @var ObjectManager
+     */
     private $em;
-    /** @var  User */
-    private $user;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
-    public function __construct(EntityManager $em, LoggerInterface $logger)
+    public function __construct(ObjectManager $em, LoggerInterface $logger)
     {
-        $this->logger = $logger;
         $this->em = $em;
+        $this->logger = $logger;
     }
 
     public function getCredentials(Request $request)
