@@ -12,6 +12,7 @@ namespace AppBundle\Services;
 //docu http://symfony.com/doc/current/cookbook/routing/custom_route_loader.html
 
 use Symfony\Component\Config\Loader\Loader;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Routing\Route;

@@ -16,72 +16,11 @@ services:
     # makes classes in src/AppBundle available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
 
-    AppBundle\Twig\:
-        resource: '../../src/AppBundle/Twig'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Calculator\:
-        resource: '../../src/AppBundle/Calculator'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Security\:
-        resource: '../../src/AppBundle/Security'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Chat\:
-        resource: '../../src/AppBundle/Chat'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Game\:
-        resource: '../../src/AppBundle/Game'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Tracker\:
-        resource: '../../src/AppBundle/Tracker'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Serializer\:
-        resource: '../../src/AppBundle/Serializer'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Formatter\:
-        resource: '../../src/AppBundle/Formatter'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Http\:
-        resource: '../../src/AppBundle/Http'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Messaging\:
-        resource: '../../src/AppBundle/Messaging'
-        autowire: true
-        autoconfigure: true
-
-    AppBundle\Realtime\:
-        resource: '../../src/AppBundle/Realtime'
-        autowire: true
-        autoconfigure: true
-
-    #AppBundle\Services\:
-        #resource: '../../src/AppBundle/Services/*'
+    AppBundle\:
+        resource: '../../src/AppBundle/*'
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
-        #exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
-
-    #AppBundle\:
-        #resource: '../../src/AppBundle/*'
-        # you can exclude directories or files
-        # but if a service is unused, it's removed anyway
-        #exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
+        exclude: '../../src/AppBundle/{DTO,Event,Model,Validator,Entity,Repository,Tests}'
 
     # controllers are imported separately to make sure they're public
     # and have a tag that allows actions to type-hint services
@@ -103,15 +42,10 @@ services:
       arguments:
         $config: "%config%"
 
-    legacy_route_loader:
-        class: AppBundle\Services\LegacyRouteLoader
+    AppBundle\Services\LegacyRouteLoader:
         arguments: ['%karoroot%']
         tags:
           - { name: routing.loader }
-
-    karo_query:
-        class: AppBundle\Services\KaroQuery
-        autowire: true
 
     user_repository:
       class: Doctrine\ORM\EntityRepository
@@ -128,4 +62,6 @@ services:
         - { name: 'kernel.cache_clearer' }
         - { name: 'kernel.cache_warmer' }
 
+    karo_query: '@AppBundle\Services\KaroQuery'
     legacy_cookie_authenticator: '@AppBundle\Security\LegacyCookieAuthenticator'
+
