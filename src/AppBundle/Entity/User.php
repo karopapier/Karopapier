@@ -558,6 +558,10 @@ class User implements UserInterface
         #how many days passed since last visit
         $now = new \DateTime('now');
 
+        if (!$this->reallastvisit) {
+            return 9999;
+        }
+
         return $now->diff($this->reallastvisit)->days;
     }
 

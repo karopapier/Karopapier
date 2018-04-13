@@ -129,7 +129,6 @@ class UserController extends AbstractApiController
      */
     public function showDranGames(User $user)
     {
-        $serializer =$this->get('AppBundle\Serializer\GameNormalizer');
         $gameRepository = $this->get('doctrine')->getRepository('AppBundle:Game');
         $games = $gameRepository->getDranGames($user);
 
