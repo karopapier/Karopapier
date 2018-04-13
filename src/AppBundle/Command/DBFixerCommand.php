@@ -25,8 +25,7 @@ class DBFixerCommand extends ContainerAwareCommand
         $container = $this->getContainer();
         $connection = $container->get('doctrine.dbal.default_connection');
 
-        $datecolumns = [
-            'Birthday',
+        $datetimecolumns = [
             'lastvisit',
             'currentvisit',
             'chatvisit',
@@ -35,16 +34,6 @@ class DBFixerCommand extends ContainerAwareCommand
             'Signupdate',
             'reallastvisit',
         ];
-
-        /*
-        //Allow null first
-        foreach ($datecolumns as $dc) {
-            $changes[] = 'CHANGE  `'.$dc.'`  `'.$dc.'` DATETIME NULL';
-
-        }
-        $sql = 'ALTER TABLE  `karo_user` '.implode(', ', $changes);
-        $connection->executeQuery($sql);
-        */
 
         // Fix 0000 birthdays
         $sql = 'UPDATE `karo_user` SET Birthday = \'1000-01-01\' WHERE `Birthday` = 0';
@@ -56,7 +45,7 @@ class DBFixerCommand extends ContainerAwareCommand
         $sql = 'UPDATE `karo_user` SET Birthday = \'1000-01-01\' WHERE month(`Birthday`) = 0';
         $connection->executeQuery($sql);
 
-        foreach ($datecolumns as $dc) {
+        foreach ($datetimecolumns as $dc) {
             echo "Fix ".$dc."\n";
             $sql = 'UPDATE `karo_user` SET '.$dc.' = \'1000-01-01\' WHERE `'.$dc.'` = 0';
             $connection->executeQuery($sql);
@@ -64,18 +53,19 @@ class DBFixerCommand extends ContainerAwareCommand
             $connection->executeQuery($sql);
         }
 
+        $dc = 'Birthday';
+        $sql = 'ALTER TABLE  `karo_user` CHANGE  `'.$dc.'`  `'.$dc.'` DATE NULL DEFAULT NULL';
+        $connection->executeQuery($sql);
 
         $changes = [];
-        foreach ($datecolumns as $dc) {
+        foreach ($datetimecolumns as $dc) {
             $changes[] = 'CHANGE  `'.$dc.'`  `'.$dc.'` DATETIME NULL DEFAULT NULL';
-
         }
+
         $sql = 'ALTER TABLE  `karo_user` '.implode(', ', $changes);
-        $stmt = $connection->prepare($sql);
+        $connection->executeQuery($sql);
 
-        $stmt->execute(['field' => 'lastvisit']);
-
-        foreach ($datecolumns as $dc) {
+        foreach ($datetimecolumns as $dc) {
             echo "Null ".$dc."\n";
             $sql = 'UPDATE `karo_user` SET '.$dc.' = NULL WHERE `'.$dc.'` = \'1000-01-01\'';
             $connection->executeQuery($sql);
