@@ -6,11 +6,12 @@
  * Time: 17:10
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Messaging;
 
 
 use AppBundle\Entity\Message;
 use AppBundle\Entity\User;
+use AppBundle\Services\RealtimePush;
 use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 

@@ -10,7 +10,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Message;
 use AppBundle\Entity\User;
-use AppBundle\Services\MessagingService;
+use AppBundle\Messaging\MessagingService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;

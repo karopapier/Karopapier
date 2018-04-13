@@ -41,6 +41,11 @@ services:
         autowire: true
         autoconfigure: true
 
+    AppBundle\Messaging\:
+        resource: '../../src/AppBundle/Messaging'
+        autowire: true
+        autoconfigure: true
+
     #AppBundle\Services\:
         #resource: '../../src/AppBundle/Services/*'
         # you can exclude directories or files
@@ -64,10 +69,6 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
-
-    messaging_service:
-      class: 'AppBundle\Services\MessagingService'
-      autowire: true
 
     AppBundle\Twig\CachebustExtension:
         arguments:

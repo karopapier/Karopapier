@@ -9,7 +9,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
-use AppBundle\Services\MessagingService;
+use AppBundle\Messaging\MessagingService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

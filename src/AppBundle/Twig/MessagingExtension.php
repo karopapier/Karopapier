@@ -10,7 +10,7 @@ namespace AppBundle\Twig;
 
 
 use AppBundle\Entity\User;
-use AppBundle\Services\MessagingService;
+use AppBundle\Messaging\MessagingService;
 
 class MessagingExtension extends \Twig_Extension
 {

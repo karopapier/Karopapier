@@ -6,7 +6,7 @@
  * Time: 17:10
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Messaging;
 
 
 class MessageNormalizer
