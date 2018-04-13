@@ -12,6 +12,7 @@ namespace AppBundle\Chat;
 use AppBundle\Services\ChatService;
 use AppBundle\Services\LegacyChatlineConverter;
 use AppBundle\Services\Smilifier;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -51,7 +52,7 @@ class ChatlogImporter
 
 
     public function __construct(
-        EntityManager $em,
+        ObjectManager $em,
         ChatService $chatService,
         Smilifier $smilifier,
         LegacyChatlineConverter $chatlineConverter,
