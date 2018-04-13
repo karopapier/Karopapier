@@ -11,7 +11,7 @@ namespace AppBundle\Game;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Move;
 use AppBundle\Entity\Player;
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,13 +27,13 @@ class GameChecker
      */
     private $finisher;
 
-    /** @var EntityManager $em */
+    /** @var ObjectManager $em */
     private $em;
 
     /** @var LoggerInterface $logger */
     private $logger;
 
-    public function __construct(GameFinisher $finisher, EntityManager $em, LoggerInterface $logger)
+    public function __construct(GameFinisher $finisher, ObjectManager $em, LoggerInterface $logger)
     {
         $this->em = $em;
         $this->gr = $em->getRepository('AppBundle:Game');

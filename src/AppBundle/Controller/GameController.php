@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class GameController extends Controller
+
 {
     /**
      * @Route("/game/newnew", name="game_new")

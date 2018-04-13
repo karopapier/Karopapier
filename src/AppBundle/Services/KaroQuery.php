@@ -8,7 +8,7 @@
 
 namespace AppBundle\Services;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use PDOException;
 
 
@@ -17,7 +17,7 @@ class KaroQuery
     /** @var \Doctrine\DBAL\Driver\Connection */
     private $pdo;
 
-    public function __construct(EntityManager $manager)
+    public function __construct(ObjectManager $manager)
     {
         $this->manager = $manager;
         try {
