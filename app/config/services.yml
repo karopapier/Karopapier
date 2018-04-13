@@ -66,3 +66,9 @@ services:
     legacy_cookie_authenticator: '@AppBundle\Security\LegacyCookieAuthenticator'
 
     Snc\RedisBundle\Client\Phpredis\Client: '@snc_redis.phpredis.default'
+
+    AppBundle\DataFixtures\ORM\LoadUserData:
+      public: false
+
+    AppBundle\DataFixtures\ORM\LoadGamePlayerUserData:
+      public: false
