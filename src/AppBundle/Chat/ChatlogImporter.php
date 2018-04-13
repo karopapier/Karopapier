@@ -9,7 +9,6 @@
 namespace AppBundle\Chat;
 
 
-use AppBundle\Services\ChatService;
 use AppBundle\Services\LegacyChatlineConverter;
 use AppBundle\Services\Smilifier;
 use Doctrine\Common\Persistence\ObjectManager;

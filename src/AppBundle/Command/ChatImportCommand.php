@@ -2,21 +2,50 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Chat\ChatlogImporter;
+use AppBundle\Chat\ChatService;
+use AppBundle\Services\ConfigService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class ChatImportCommand extends ContainerAwareCommand
 {
+
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+    /**
+     * @var ChatService
+     */
+    private $chatService;
+    /**
+     * @var ChatlogImporter
+     */
+    private $chatlogImporter;
+
+    public function __construct(
+        $name = null,
+        ConfigService $configService,
+        ChatService $chatService,
+        ChatlogImporter $chatlogImporter
+    ) {
+        $this->configService = $configService;
+        $this->chatService = $chatService;
+        $this->chatlogImporter = $chatlogImporter;
+
+        parent::__construct($name);
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
         $this
-                ->setName('karopapier:chat:import')
-                ->setDescription('Import the chat log into the database');
+            ->setName('karopapier:chat:import')
+            ->setDescription('Import the chat log into the database');
     }
 
     /**
@@ -24,11 +53,7 @@ class ChatImportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
-        $chatService = $container->get("chat_service");
-        $importer = $container->get("chatlog_importer");
-
-        $path = $container->getParameter("chat")['logpath'];
-        $importer->import($path);
+        $path = $this->configService->get('chat.logpath');
+        $this->chatlogImporter->import($path);
     }
 }

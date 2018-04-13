@@ -172,15 +172,6 @@ services:
         - '@snc_redis.default'
         - '@logger'
 
-    chatlog_importer:
-      class: AppBundle\Services\ChatlogImporter
-      arguments:
-        - '@doctrine.orm.default_entity_manager'
-        - '@chat_service'
-        - '@smilifier'
-        - '@legacy_chatline_converter'
-        - '@logger'
-
     realtime_push:
         class: AppBundle\Services\RealtimePush
         autowire: true

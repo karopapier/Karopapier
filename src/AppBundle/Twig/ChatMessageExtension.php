@@ -9,7 +9,7 @@
 namespace AppBundle\Twig;
 
 
-use AppBundle\Services\ChatService;
+use AppBundle\Chat\ChatService;
 
 class ChatMessageExtension extends \Twig_Extension
 {

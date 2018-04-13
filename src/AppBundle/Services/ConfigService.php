@@ -19,9 +19,16 @@ class ConfigService extends \Twig_Extension
 
     public function get($key)
     {
-        if (isset($this->config[$key])) {
-            return $this->config[$key];
+        $a = $this->config;
+        $dots = explode('.', $key);
+        foreach ($dots as $dot) {
+            if (!(isset($a[$dot]))) {
+                throw new \Exception('Config value '.$key.' not found');
+            }
+            $a = $a[$dot];
         }
+
+        return $a;
     }
 
     public function getFunctions()

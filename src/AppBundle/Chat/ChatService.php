@@ -6,11 +6,14 @@
  * Time: 16:41
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Chat;
 
 use AppBundle\Entity\ChatMessage;
 use AppBundle\Entity\User;
 use AppBundle\Event\ChatMessageEvent;
+use AppBundle\Services\ConfigService;
+use AppBundle\Services\LegacyChatlineConverter;
+use AppBundle\Services\MessageNormalizer;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Psr\Log\LoggerInterface;
 use Snc\RedisBundle\Client\Phpredis\Client;
@@ -49,16 +52,16 @@ class ChatService
      * @param EventDispatcher $dispatcher
      */
     public function __construct(
-            $config,
-            Registry $registry,
-            MessageNormalizer $messageNormalizer,
-            LegacyChatlineConverter $legacyChatlineConverter,
-            EventDispatcherInterface $dispatcher,
-            $redis,
-            LoggerInterface $logger
+        ConfigService $config,
+        Registry $registry,
+        MessageNormalizer $messageNormalizer,
+        LegacyChatlineConverter $legacyChatlineConverter,
+        EventDispatcherInterface $dispatcher,
+        Client $redis,
+        LoggerInterface $logger
     ) {
-        $this->chatlogpath = $config["logpath"];
-        $this->chatRedisKey = $config["redis_key"];
+        $this->chatlogpath = $config->get('chat.logpath');
+        $this->chatRedisKey = $config->get('chat.redis_key');
         $this->em = $registry->getManager();
         $this->repo = $this->em->getRepository("AppBundle:ChatMessage");
         $this->normalizer = $messageNormalizer;
@@ -126,9 +129,9 @@ class ChatService
     {
         //Karo2 uses only user (login string), text (actual text) and time (hh:mm string)
         $data = array(
-                "user" => $chatMessage->getLogin(),
-                "time" => $chatMessage->getTime(),
-                "text" => $chatMessage->getText(),
+            "user" => $chatMessage->getLogin(),
+            "time" => $chatMessage->getTime(),
+            "text" => $chatMessage->getText(),
         );
         $this->redis->rpush($this->chatRedisKey, json_encode($data));
     }
