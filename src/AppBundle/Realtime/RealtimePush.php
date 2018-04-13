@@ -6,15 +6,17 @@
  * Time: 20:50.
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Realtime;
 
 use AppBundle\Entity\ChatMessage;
 use AppBundle\Entity\User;
 use AppBundle\Event\ChatMessageEvent;
+use AppBundle\Event\KaroEvents;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Turted\TurtedBundle\Service\TurtedRestPushService;
 
-class RealtimePush
+class RealtimePush implements EventSubscriberInterface
 {
     private $turtedPush;
     private $logger;
@@ -65,5 +67,14 @@ class RealtimePush
     {
         $cm = $chatMessageEvent->getChatmessage();
         $this->notifyChatMessage($cm);
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            KaroEvents::CHAT_MESSAGE => [
+                'onChatMessage',
+            ],
+        ];
     }
 }

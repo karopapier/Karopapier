@@ -11,6 +11,7 @@ namespace AppBundle\Chat;
 use AppBundle\Entity\ChatMessage;
 use AppBundle\Entity\User;
 use AppBundle\Event\ChatMessageEvent;
+use AppBundle\Event\KaroEvents;
 use AppBundle\Messaging\MessageNormalizer;
 use AppBundle\Services\ConfigService;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -85,7 +86,7 @@ class ChatService
         $this->addToLog($cm);
         $this->addToRedis($cm);
         $event = new ChatMessageEvent($cm);
-        $this->dispatcher->dispatch("chat_message", $event);
+        $this->dispatcher->dispatch(KaroEvents::CHAT_MESSAGE, $event);
 
         return $cm;
     }

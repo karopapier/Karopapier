@@ -8,9 +8,10 @@
 
 namespace AppBundle\Event;
 
-
 use AppBundle\Entity\ChatMessage;
 use Symfony\Component\EventDispatcher\Event;
+
+const MESSAGE_SENT = 'chat_message';
 
 class ChatMessageEvent extends Event
 {

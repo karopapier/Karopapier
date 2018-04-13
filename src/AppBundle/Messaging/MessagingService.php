@@ -11,7 +11,7 @@ namespace AppBundle\Messaging;
 
 use AppBundle\Entity\Message;
 use AppBundle\Entity\User;
-use AppBundle\Services\RealtimePush;
+use AppBundle\Realtime\RealtimePush;
 use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 
