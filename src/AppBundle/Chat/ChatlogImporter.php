@@ -6,9 +6,12 @@
  * Time: 23:39
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Chat;
 
 
+use AppBundle\Services\ChatService;
+use AppBundle\Services\LegacyChatlineConverter;
+use AppBundle\Services\Smilifier;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -48,11 +51,11 @@ class ChatlogImporter
 
 
     public function __construct(
-            EntityManager $em,
-            ChatService $chatService,
-            Smilifier $smilifier,
-            LegacyChatlineConverter $chatlineConverter,
-            LoggerInterface $logger
+        EntityManager $em,
+        ChatService $chatService,
+        Smilifier $smilifier,
+        LegacyChatlineConverter $chatlineConverter,
+        LoggerInterface $logger
     ) {
         $this->em = $em;
         $this->chatService = $chatService;
@@ -69,9 +72,9 @@ class ChatlogImporter
 
         //clear chat table
         $this->em->createQueryBuilder("AppBundle:ChatMessage")
-                ->delete('AppBundle:ChatMessage')
-                ->getQuery()
-                ->execute();
+            ->delete('AppBundle:ChatMessage')
+            ->getQuery()
+            ->execute();
 
         //reset auto increment
         $conn = $this->em->getConnection();
@@ -99,8 +102,8 @@ class ChatlogImporter
         die("Note an selbst: Jetzt kommt demaiziere, irgendwo nach 350000");
 
         $confirmedToWorkFor = array(
-                21020,    #Madeleines erste krasse Zeile mit Sonderzeichen
-                351300,
+            21020,    #Madeleines erste krasse Zeile mit Sonderzeichen
+            351300,
         );
         $skip = $confirmedToWorkFor[count($confirmedToWorkFor) - 1];
         $break = $skip + 10000;
@@ -214,7 +217,7 @@ class ChatlogImporter
     private function detectUTF8($string)
     {
         return preg_match(
-                '%(?:
+            '%(?:
             [\xC2-\xDF][\x80-\xBF]        # non-overlong 2-byte
             |\xE0[\xA0-\xBF][\x80-\xBF]               # excluding overlongs
             |[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}      # straight 3-byte
@@ -223,7 +226,7 @@ class ChatlogImporter
             |[\xF1-\xF3][\x80-\xBF]{3}                  # planes 4-15
             |\xF4[\x80-\x8F][\x80-\xBF]{2}    # plane 16
             )+%xs',
-                $string
+            $string
         );
     }
 }
