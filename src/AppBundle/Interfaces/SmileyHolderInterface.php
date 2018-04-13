@@ -6,7 +6,7 @@
  * Time: 23:28
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Interfaces;
 
 
 interface SmileyHolderInterface

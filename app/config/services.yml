@@ -31,6 +31,11 @@ services:
         autowire: true
         autoconfigure: true
 
+    AppBundle\Formatter\:
+        resource: '../../src/AppBundle/Formatter'
+        autowire: true
+        autoconfigure: true
+
     AppBundle\Http\:
         resource: '../../src/AppBundle/Http'
         autowire: true
@@ -92,7 +97,7 @@ services:
     legacy_chatline_converter:
         class: AppBundle\Services\LegacyChatlineConverter
         arguments:
-        - '@smilifier'
+        - '@AppBundle\Formatter\Smilifier'
 
     visit_log:
         class: AppBundle\Services\VisitLogService
@@ -144,15 +149,7 @@ services:
         tags:
                - { name: security.voter }
 
-    smilifier:
-      class: AppBundle\Services\Smilifier
-      arguments:
-        - '@smiley_holder'
-        - '@logger'
-
-    smiley_holder:
-      class: AppBundle\Services\SmileyHolder
-      public: false
+    AppBundle\Formatter\SmileyHolder:
       arguments:
         - '%kernel.cache_dir%'
         - '%smiley_dir%'
@@ -160,17 +157,6 @@ services:
       tags:
         - { name: 'kernel.cache_clearer' }
         - { name: 'kernel.cache_warmer' }
-
-    chat_service:
-      class: AppBundle\Services\ChatService
-      arguments:
-        - '%chat%' #config
-        - '@doctrine'
-        - '@message_normalizer'
-        - '@legacy_chatline_converter'
-        - '@event_dispatcher'
-        - '@snc_redis.default'
-        - '@logger'
 
     realtime_push:
         class: AppBundle\Services\RealtimePush

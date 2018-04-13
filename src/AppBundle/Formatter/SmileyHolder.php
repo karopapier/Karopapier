@@ -6,8 +6,9 @@
  * Time: 22:08
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Formatter;
 
+use AppBundle\Interfaces\SmileyHolderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -45,12 +46,13 @@ class SmileyHolder implements CacheClearerInterface, CacheWarmerInterface, Smile
     public function getSmilies()
     {
         $smilies = array();
-        if (file_exists($this->cacheDir . self::CACHE_FILE)) {
-            $smilies = include($this->cacheDir . self::CACHE_FILE);
+        if (file_exists($this->cacheDir.self::CACHE_FILE)) {
+            $smilies = include($this->cacheDir.self::CACHE_FILE);
         }
         $c = count($smilies);
         if ($c > 0) {
-            $this->logger->debug("Get " . $c . " smilies from cache");
+            $this->logger->debug("Get ".$c." smilies from cache");
+
             return $smilies;
         }
 
@@ -63,20 +65,21 @@ class SmileyHolder implements CacheClearerInterface, CacheWarmerInterface, Smile
         foreach ($finder->in($this->smileyDir) as $file) {
             $smilies[] = $file->getBasename(".gif");
         }
+
         return $smilies;
     }
 
     public function clear($cacheDir)
     {
         $fs = new Filesystem();
-        $fs->remove($cacheDir . self::CACHE_FILE);
+        $fs->remove($cacheDir.self::CACHE_FILE);
     }
 
     public function warmUp($cacheDir)
     {
         $smilies = $this->getSmilies();
         $fs = new Filesystem();
-        $fs->dumpFile($cacheDir . self::CACHE_FILE, '<?php return ' . var_export($smilies, true) . ';');
+        $fs->dumpFile($cacheDir.self::CACHE_FILE, '<?php return '.var_export($smilies, true).';');
     }
 
     public function isOptional()

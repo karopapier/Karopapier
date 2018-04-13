@@ -10,6 +10,7 @@ namespace AppBundle\Services;
 
 
 use AppBundle\Entity\ChatMessage;
+use AppBundle\Formatter\Smilifier;
 
 class LegacyChatlineConverter
 {

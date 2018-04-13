@@ -9,8 +9,8 @@
 namespace AppBundle\Chat;
 
 
+use AppBundle\Formatter\Smilifier;
 use AppBundle\Services\LegacyChatlineConverter;
-use AppBundle\Services\Smilifier;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;

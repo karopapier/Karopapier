@@ -6,8 +6,9 @@
  * Time: 22:08
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Formatter;
 
+use AppBundle\Interfaces\SmileyHolderInterface;
 use Psr\Log\LoggerInterface;
 
 class Smilifier
@@ -24,8 +25,14 @@ class Smilifier
         $this->logger = $logger;
     }
 
-    public function smilify($content, $smileytype = "images", $picType = "quotes", $linkType = "quotes", $escapeAmp = true, $replaceSpaces = true)
-    {
+    public function smilify(
+        $content,
+        $smileytype = "images",
+        $picType = "quotes",
+        $linkType = "quotes",
+        $escapeAmp = true,
+        $replaceSpaces = true
+    ) {
         /*
         $content = str_replace('<', '&lt;', $content);
         $content = str_replace('>', '&gt;', $content);
@@ -42,39 +49,39 @@ class Smilifier
         $raw = preg_replace('/<IMG SRC="bilder\/smilies\/(.*?).gif" alt="(.*?)" title="(.*?)">/', ':\\1:', $raw);
         */
         $smileycode = array(
-                "legacy" => function ($smiley) {
-                    return '<IMG SRC=bilder/smilies/' . $smiley . '.gif title=' . $smiley . '>';
-                },
-                "quotesnoalt" => function ($smiley) {
-                    return '<IMG SRC="bilder/smilies/' . $smiley . '.gif" title=' . $smiley . '>';
-                },
-                "quotes" => function ($smiley) {
-                    return '<IMG SRC="bilder/smilies/' . $smiley . '.gif" alt="' . $smiley . '" title="' . $smiley . '">';
-                },
-                "images" => function ($smiley) {
-                    return '<img src="/images/smilies/' . $smiley . '.gif" alt="' . $smiley . '" title="' . $smiley . '">';
-                },
+            "legacy" => function ($smiley) {
+                return '<IMG SRC=bilder/smilies/'.$smiley.'.gif title='.$smiley.'>';
+            },
+            "quotesnoalt" => function ($smiley) {
+                return '<IMG SRC="bilder/smilies/'.$smiley.'.gif" title='.$smiley.'>';
+            },
+            "quotes" => function ($smiley) {
+                return '<IMG SRC="bilder/smilies/'.$smiley.'.gif" alt="'.$smiley.'" title="'.$smiley.'">';
+            },
+            "images" => function ($smiley) {
+                return '<img src="/images/smilies/'.$smiley.'.gif" alt="'.$smiley.'" title="'.$smiley.'">';
+            },
         );
 
         $piccode = array(
-                "legacy" => function ($src) {
-                    return '<IMG SRC=' . $src . '>';
-                },
-                "quotesnoslash" => function ($src) {
-                    return '<img src="' . $src . '">';
-                },
-                "quotes" => function ($src) {
-                    return '<img src="' . $src . '" />';
-                },
+            "legacy" => function ($src) {
+                return '<IMG SRC='.$src.'>';
+            },
+            "quotesnoslash" => function ($src) {
+                return '<img src="'.$src.'">';
+            },
+            "quotes" => function ($src) {
+                return '<img src="'.$src.'" />';
+            },
         );
 
         $linkcode = array(
-                "quoteless" => function ($url, $text) {
-                    return "<a href=$url>$text</a>";
-                },
-                "quotes" => function ($url, $text) {
-                    return '<a href="' . $url . '">' . $text . '</a>';
-                },
+            "quoteless" => function ($url, $text) {
+                return "<a href=$url>$text</a>";
+            },
+            "quotes" => function ($url, $text) {
+                return '<a href="'.$url.'">'.$text.'</a>';
+            },
         );
 
         //$content = htmlentities($content);
@@ -95,7 +102,7 @@ class Smilifier
             $smilies = $this->smileyHolder->getSmilies();
             foreach ($smilies as $smiley) {
                 $func = $smileycode[$smileytype];
-                $content = str_replace(':' . $smiley . ':', $func($smiley), $content);
+                $content = str_replace(':'.$smiley.':', $func($smiley), $content);
             }
         }
 
@@ -106,7 +113,7 @@ class Smilifier
             $content = "";
             for ($i = 0; $i < count($textparts) - 1; $i++) {
                 $value = $textparts[$i];
-                $value = $value . ":-";
+                $value = $value.":-";
                 #echo "VALUE: $value<BR>";
                 $value = str_replace("-:RED", "<font color=#CC0000>", $value);
                 $value = str_replace("RED:-", "</font>", $value);
@@ -122,17 +129,17 @@ class Smilifier
                 if (preg_match("/-:Link text=(.*?) url=(.*?) Link:-/", $value, $matches)) {
                     $text = $matches[1];
                     $url = $matches[2];
-                    $value = str_ireplace('-:Link text=' . $text . ' url=' . $url . ' Link:-', $linkfunc($url, $text), $value);
+                    $value = str_ireplace('-:Link text='.$text.' url='.$url.' Link:-', $linkfunc($url, $text), $value);
                 }
 
                 if (preg_match("/-:Pic src=(.*) Pic:-/", $value, $matches)) {
                     $src = $matches[1];
-                    $value = str_ireplace('-:Pic src=' . $src . ' Pic:-', $picfunc($src), $value);
+                    $value = str_ireplace('-:Pic src='.$src.' Pic:-', $picfunc($src), $value);
                 }
 
-                $content = $content . $value;
+                $content = $content.$value;
             }
-            $content = $content . array_pop($textparts);
+            $content = $content.array_pop($textparts);
         }
 
         if ($replaceSpaces) {
