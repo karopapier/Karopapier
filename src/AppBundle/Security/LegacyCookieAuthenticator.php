@@ -13,14 +13,14 @@ use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Guard\AuthenticatorInterface;
 
-class LegacyCookieAuthenticator extends AbstractGuardAuthenticator
+class LegacyCookieAuthenticator extends AbstractGuardAuthenticator implements AuthenticatorInterface
 {
     /** @var  LoggerInterface $logger */
     private $logger;
@@ -38,22 +38,28 @@ class LegacyCookieAuthenticator extends AbstractGuardAuthenticator
     {
         $cookie = $request->cookies->get("KaroKeks");
         //$this->logger->debug("KEKS " . $cookie);
-        if (!$cookie) return null;
-        if (!($codestring = base64_decode($cookie))) return null;
+        if (!$cookie) {
+            return null;
+        }
+        if (!($codestring = base64_decode($cookie))) {
+            return null;
+        }
         list($id, $hash) = explode('|--|', $codestring);
         //$this->logger->debug($id . ":" . $hash);
         if ($id) {
             return array(
-                    "id" => $id,
-                    "hash" => $hash
+                "id" => $id,
+                "hash" => $hash,
             );
         }
+
         return null;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $this->user = $this->em->find('AppBundle:User', $credentials['id']);
+
         //$this->logger->debug("Found user " . $this->user);
         return $this->user;
     }
@@ -87,5 +93,9 @@ class LegacyCookieAuthenticator extends AbstractGuardAuthenticator
         // TODO: Implement start() method.
     }
 
+    public function supports(Request $request)
+    {
+        return true;
+    }
 
 }
