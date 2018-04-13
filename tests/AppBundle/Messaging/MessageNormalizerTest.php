@@ -9,7 +9,7 @@
 namespace tests\AppBundle\Services;
 
 
-use AppBundle\Services\MessageNormalizer;
+use AppBundle\Messaging\MessageNormalizer;
 use PHPUnit\Framework\TestCase;
 
 

@@ -6,10 +6,10 @@
  * Time: 22:37
  */
 
-namespace Tests\AppBundle\Services;
+namespace Tests\AppBundle\Formatter;
 
 
-use AppBundle\Services\Smilifier;
+use AppBundle\Formatter\Smilifier;
 use PHPUnit\Framework\TestCase;
 
 
@@ -22,7 +22,7 @@ class SmilifierTest extends TestCase
     protected function setUp()
     {
         $logger = $this->createMock('Psr\Log\LoggerInterface');
-        $smileyHolder = $this->createMock('AppBundle\Services\SmileyHolderInterface');
+        $smileyHolder = $this->createMock('AppBundle\Interfaces\SmileyHolderInterface');
         $smileyHolder->expects($this->any())
             ->method('getSmilies')
             ->willReturn(

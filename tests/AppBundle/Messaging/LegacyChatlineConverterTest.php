@@ -9,12 +9,13 @@
 namespace tests\AppBundle\Services;
 
 
-use AppBundle\Services\LegacyChatlineConverter;
-use AppBundle\Services\Smilifier;
+use AppBundle\Chat\LegacyChatlineConverter;
+use AppBundle\Formatter\Smilifier;
 use PHPUnit\Framework\TestCase;
 
 
 /* Legacy throws warning of Symfony Bridge *shrug* */
+
 class OldChatlineConverterTest extends TestCase
 {
 
