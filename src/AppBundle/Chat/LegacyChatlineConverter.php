@@ -6,7 +6,7 @@
  * Time: 17:22
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Chat;
 
 
 use AppBundle\Entity\ChatMessage;

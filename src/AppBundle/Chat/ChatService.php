@@ -13,7 +13,6 @@ use AppBundle\Entity\User;
 use AppBundle\Event\ChatMessageEvent;
 use AppBundle\Messaging\MessageNormalizer;
 use AppBundle\Services\ConfigService;
-use AppBundle\Services\LegacyChatlineConverter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use Snc\RedisBundle\Client\Phpredis\Client;

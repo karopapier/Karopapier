@@ -95,11 +95,6 @@ services:
         tags:
           - { name: routing.loader }
 
-    legacy_chatline_converter:
-        class: AppBundle\Services\LegacyChatlineConverter
-        arguments:
-        - '@AppBundle\Formatter\Smilifier'
-
     visit_log:
         class: AppBundle\Services\VisitLogService
         autowire: true
