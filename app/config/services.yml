@@ -65,3 +65,4 @@ services:
     karo_query: '@AppBundle\Services\KaroQuery'
     legacy_cookie_authenticator: '@AppBundle\Security\LegacyCookieAuthenticator'
 
+    Snc\RedisBundle\Client\Phpredis\Client: '@snc_redis.phpredis.default'
