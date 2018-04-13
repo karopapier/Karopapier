@@ -12,5 +12,5 @@ namespace AppBundle\Event;
 final class KaroEvents
 {
     const CHAT_MESSAGE = 'chat_message';
-
+    const GAME_FINISHED = 'game_finished';
 }

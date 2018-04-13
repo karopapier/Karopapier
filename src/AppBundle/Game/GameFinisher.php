@@ -6,12 +6,13 @@
  * Time: 08:52
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Game;
 
 
 use AppBundle\Entity\Game;
 use AppBundle\Event\GameEvent;
-use Doctrine\ORM\EntityManager;
+use AppBundle\Event\KaroEvents;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -19,12 +20,12 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * Class GameChecker
  *
  * Verify  game's consistency, state, players status, start/finish, ...
- * @package AppBundle\Services
+ * @package AppBundle\Game
  */
 class GameFinisher
 {
 
-    /** @var EntityManager */
+    /** @var ObjectManager */
     private $em;
 
     /** @var LoggerInterface */
@@ -34,7 +35,7 @@ class GameFinisher
      */
     private $dispatcher;
 
-    public function __construct(EntityManager $em, LoggerInterface $logger, EventDispatcherInterface $dispatcher)
+    public function __construct(ObjectManager $em, LoggerInterface $logger, EventDispatcherInterface $dispatcher)
     {
         $this->em = $em;
         $this->ur = $em->getRepository('AppBundle:User');
@@ -49,7 +50,7 @@ class GameFinisher
      */
     public function finish(Game $game, \DateTimeInterface $fd = null)
     {
-        $this->logger->info("Finishing Game " . $game->getId());
+        $this->logger->info("Finishing Game ".$game->getId());
         if ($fd === null) {
             $this->finisheddate = new \DateTime("now");
         } else {
@@ -57,7 +58,7 @@ class GameFinisher
         }
         $game->finish($fd, $this->em->getReference('AppBundle:User', 26)); //KaroMAMA
         $event = new GameEvent($game);
-        $this->dispatcher->dispatch("game.finished", $event);
+        $this->dispatcher->dispatch(KaroEvents::GAME_FINISHED, $event);
         $this->em->persist($game);
     }
 }

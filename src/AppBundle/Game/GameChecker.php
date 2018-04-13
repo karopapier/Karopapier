@@ -6,7 +6,7 @@
  * Time: 08:52
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Game;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Move;
@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  * Class GameChecker
  *
  * Verify  game's consistency, state, players status, start/finish, ...
- * @package AppBundle\Services
+ * @package AppBundle\Game
  */
 class GameChecker
 {
@@ -45,15 +45,19 @@ class GameChecker
 
     public function validateById($id)
     {
-        $this->logger->debug("Check for Game with id " . $id);
+        $this->logger->debug("Check for Game with id ".$id);
         $game = $this->gr->find($id);
         if (!$game) {
-            $this->logger->warning(sprintf(
+            $this->logger->warning(
+                sprintf(
                     "Game ID %s does not exist",
                     $id
-            ));
+                )
+            );
+
             return null;
         }
+
         return $this->validate($game);
     }
 
@@ -61,7 +65,9 @@ class GameChecker
     {
         $this->logger->info(sprintf("Validate Game |%s - %s|", $game->getId(), $game->getName()));
 
-        $query = $this->em->createQuery('SELECT g,p,u from AppBundle:Game g JOIN g.players p JOIN p.user u WHERE g.id = :gid');
+        $query = $this->em->createQuery(
+            'SELECT g,p,u FROM AppBundle:Game g JOIN g.players p JOIN p.user u WHERE g.id = :gid'
+        );
         $query->setParameter("gid", $game->getId());
         /** @var Game $game */
         $game = $query->getSingleResult();
@@ -72,16 +78,16 @@ class GameChecker
         $players = $game->getPlayers();
         /** @var Player $player */
         foreach ($players as $player) {
-            $this->logger->info("Check Player " . $player);
+            $this->logger->info("Check Player ".$player);
             $f = $player->isFinished();
             $active = $player->isActive();
             $this->logger->info(sprintf("Fin %s Stat %s", $player->getFinished(), $player->getStatus()));
             if ($active) {
-                $this->logger->info($player . " is active");
+                $this->logger->info($player." is active");
                 $oneActive = true;
             }
             if (!$f) {
-                $this->logger->info($player . " not finished " . $player->getFinished());
+                $this->logger->info($player." not finished ".$player->getFinished());
                 $allFinished = false;
             }
         }
@@ -93,6 +99,7 @@ class GameChecker
                 $this->ensureFinished($game);
             }
         }
+
         return $game;
     }
 

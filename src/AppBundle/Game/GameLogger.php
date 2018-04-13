@@ -6,20 +6,22 @@
  * Time: 12:49
  */
 
-namespace AppBundle\Services;
+namespace AppBundle\Game;
+
+use AppBundle\Services\ConfigService;
 
 class GameLogger
 {
     private $logpath;
 
-    public function __construct($logpath)
+    public function __construct(ConfigService $configService)
     {
-        $this->logpath = $logpath;
+        $this->logpath = $configService->get('game_logs_dir');
     }
 
     public function log($gid, $text)
     {
-        $f = fopen($this->logpath . "/" . $gid . ".log", "a");
+        $f = fopen($this->logpath."/".$gid.".log", "a");
         if (!$f) {
             throw new \Exception("GAME_LOGFILE_ERROR");
         }
