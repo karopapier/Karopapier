@@ -13,6 +13,7 @@ use AppBundle\Entity\Move;
 use AppBundle\Model\Motion;
 use AppBundle\Model\Position;
 use AppBundle\Model\Vector;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -28,7 +29,7 @@ class MoveController
      * @Method("POST")
      * @param Game $game
      */
-    public function addAction(Request $request, Game $game)
+    public function addAction(Request $request, Game $game, ObjectManager $em)
     {
         throw  new AccessDeniedHttpException;
         //retrieve request body
@@ -52,9 +53,8 @@ class MoveController
         $move->setUser($user);
         $move->setGame($game);
 
-        $dm = $this->get("doctrine")->getManager();
-        $dm->persist($move);
-        $dm->flush();
+        $em->persist($move);
+        $em->flush();
 
         /*
         CORS

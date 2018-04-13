@@ -10,11 +10,14 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
 use AppBundle\Messaging\MessagingService;
+use AppBundle\Security\LegacyCookieSetter;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class UserController extends AbstractApiController
 {
@@ -37,9 +40,12 @@ class UserController extends AbstractApiController
      * @Route("/user/check.json", name="api_user_check_json")
      * @param User $user
      */
-    public function checkAction(Request $request, MessagingService $messagingService)
-    {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+    public function checkAction(
+        Request $request,
+        MessagingService $messagingService,
+        AuthorizationCheckerInterface $checker
+    ) {
+        if (!$checker->isGranted('IS_AUTHENTICATED_FULLY')) {
             return new JsonResponse(["ERROR" => "LOGIN_REQUIRED"], 401);
         }
 
@@ -75,7 +81,7 @@ class UserController extends AbstractApiController
      * @Route("/login", name="api_user_login")
      * @Method("POST")
      */
-    public function loginAction(Request $request)
+    public function loginAction(Request $request, ObjectManager $em, LegacyCookieSetter $cookieSetter)
     {
         $login = "";
         $password = "";
@@ -88,7 +94,6 @@ class UserController extends AbstractApiController
             throw new AccessDeniedHttpException();
         }
 
-        $em = $this->get("doctrine.orm.default_entity_manager");
         $user = $em->getRepository('AppBundle:User')->findOneBy(
             array(
                 "login" => $login,
@@ -103,7 +108,7 @@ class UserController extends AbstractApiController
         }
 
         $json = new JsonResponse($user->toArray());
-        $json->headers->setCookie($this->get("legacy_cookie_setter")->getCookie($user->getId(), $password));
+        $json->headers->setCookie($cookieSetter->getCookie($user->getId(), $password));
         $json->setCallback($request->get("callback"));
 
         return $json;
@@ -127,9 +132,9 @@ class UserController extends AbstractApiController
      * @Route("/user/{id}/dran", name="api_user_dran")
      * @param User $user
      */
-    public function showDranGames(User $user)
+    public function showDranGames(User $user, ObjectManager $em)
     {
-        $gameRepository = $this->get('doctrine')->getRepository('AppBundle:Game');
+        $gameRepository = $em->getRepository('AppBundle:Game');
         $games = $gameRepository->getDranGames($user);
 
         $json = new JsonResponse($games);

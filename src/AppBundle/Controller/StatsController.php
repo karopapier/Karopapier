@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Services\KaroQuery;
 use PDO;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -15,7 +16,7 @@ class StatsController extends Controller
      * @Route("/addicts", name="addicts")
      * @Template("stats/addicts.html.twig")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, KaroQuery $kq)
     {
         $by = $request->get('by', 'automoves');
         $bys = [
@@ -30,7 +31,6 @@ class StatsController extends Controller
         }
         $by = $bys[$by];
 
-        $kq = $this->get('karo_query');
         $query = "SELECT U_ID,Login,Vorname,Nachname,Email,Color,Active,Invited,currentvisit,to_days(now())-to_days(signupdate) AS seit,to_days(now())-to_days(currentvisit) AS Besuch,Warned,automoves,automoves/(to_days(now())-to_days(signupdate)) AS perday, max_wollust, distance AS km FROM karo_user ORDER BY ".$by." DESC LIMIT 0,35";
         //$res = $kq->doQuery($query, ['by' => 'automoves']);
         $res = $kq->doQuery($query);

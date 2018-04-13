@@ -22,6 +22,7 @@ class GameController extends AbstractApiController
     public function showAction(Game $game, Serializer $serializer)
     {
         $json = $serializer->serialize($game, "json");
+
         return JsonResponse::fromJsonString($json);
     }
 

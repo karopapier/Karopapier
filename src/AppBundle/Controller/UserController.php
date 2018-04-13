@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Snc\RedisBundle\Client\Phpredis\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,10 +14,10 @@ class UserController extends Controller
     /**
      * @Route("/users/{id}", name="user_show")
      */
-    public function showAction(Request $request, User $user)
+    public function showAction(Request $request, User $user, Client $redis)
     {
         $id = $user->getId();
-        $moveStats = $this->get("snc_redis.default")->hGetAll("users:" . $id . ":moves");
+        $moveStats = $redis->hGetAll("users:".$id.":moves");
         $months = array();
         $moveCounts = array();
         foreach ($moveStats as $month => $moveCount) {
@@ -24,12 +25,15 @@ class UserController extends Controller
             $moveCounts[] = (int)$moveCount;
         }
 
-        return $this->render('user/show.html.twig', array(
+        return $this->render(
+            'user/show.html.twig',
+            array(
                 "user" => $user,
                 "distance" => $user->getDistance(),
                 "months" => $months,
-                "moveCounts" => $moveCounts
-        ));
+                "moveCounts" => $moveCounts,
+            )
+        );
     }
 
     /**
@@ -42,9 +46,12 @@ class UserController extends Controller
         $um = $this->get('doctrine')->getRepository('AppBundle:User');
         $users = $um->findBy(array("active" => true), array("login" => 'ASC'));
 
-        return $this->render('user/list.html.twig', array(
+        return $this->render(
+            'user/list.html.twig',
+            array(
                 "users" => $users,
-        ));
+            )
+        );
 
     }
 

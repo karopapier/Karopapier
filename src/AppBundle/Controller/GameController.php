@@ -2,14 +2,13 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\GameType;
-use Doctrine\ORM\EntityManager;
+use AppBundle\Entity\Game;
+use AppBundle\Game\GameLoader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Game;
 
 class GameController extends Controller
 {
@@ -34,7 +33,7 @@ class GameController extends Controller
         }
 
         return array(
-                'form' => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -42,14 +41,13 @@ class GameController extends Controller
      * @Route("/game/{id}", requirements={"id" = "\d+"}, name="game_show")
      * @Template("game/show.html.twig")
      */
-    public function showAction(Request $request, Game $game)
+    public function showAction(Request $request, Game $game, GameLoader $gl)
     {
-        $gl = $this->get("game_loader");
         $gl->load($game);
 
         // replace this example code with whatever you need
         return array(
-                "game" => $game
+            "game" => $game,
         );
     }
 

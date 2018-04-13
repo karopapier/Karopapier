@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Chat\ChatService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -28,7 +29,7 @@ class ChatController extends AbstractApiController
      * @param Request $request
      */
 
-    public function addAction(Request $request)
+    public function addAction(Request $request, ChatService $cs)
     {
         $user = $this->getUser();
         $data = $this->getJson($request);
@@ -38,7 +39,6 @@ class ChatController extends AbstractApiController
         dump($user);
         dump($text);
 
-        $cs = $this->get("chat_service");
         $chatmessage = $cs->add($user, $text);
 
         $res = new JsonResponse();
