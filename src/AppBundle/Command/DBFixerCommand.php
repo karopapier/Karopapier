@@ -74,5 +74,7 @@ class DBFixerCommand extends ContainerAwareCommand
 
         $sql = 'ALTER TABLE `karo_user` CHANGE `Invited` `Invited` INT(11) UNSIGNED NULL DEFAULT \'0\';';
         $connection->executeQuery($sql);
+
+        $sql ='ALTER TABLE `karo_maps` ADD `rows` TINYINT UNSIGNED NOT NULL DEFAULT \'0\' AFTER `Starties`, ADD `cols` TINYINT UNSIGNED NOT NULL DEFAULT \'0\' AFTER `rows`';
     }
 }
