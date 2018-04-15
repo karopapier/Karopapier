@@ -54,6 +54,7 @@ class MapLoaderTest extends TestCase
         $this->assertEquals("Die Erste", $mapData->name, 'Right name for map');
         $this->assertEquals("Didi", $mapData->author, 'Right author for map');
         $this->assertEquals(true, $mapData->active, 'Map is active');
+        $this->assertEquals(5, $mapData->players, 'Number of players is correct');
     }
 
     public function testLoadMap30()
@@ -66,5 +67,6 @@ class MapLoaderTest extends TestCase
         $this->assertEquals("(unbekannt)", $mapData->name, 'Right name for map');
         $this->assertEquals("(unbekannt)", $mapData->author, 'Right author for map');
         $this->assertEquals(false, $mapData->active, 'Map is not active');
+        $this->assertEquals(10, $mapData->players, 'Number of players is correct');
     }
 }

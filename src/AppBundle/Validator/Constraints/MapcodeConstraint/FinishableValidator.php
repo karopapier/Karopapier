@@ -6,7 +6,7 @@
  * Time: 20:20
  */
 
-namespace AppBundle\Validator\Constraints\Mapcode;
+namespace AppBundle\Validator\Constraints\MapcodeConstraint;
 
 
 $COUNT = 0;

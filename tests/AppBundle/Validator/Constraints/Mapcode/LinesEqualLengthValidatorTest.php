@@ -1,6 +1,6 @@
 <?php
 
-use AppBundle\Validator\Constraints\Mapcode\LinesEqualLength;
+use AppBundle\Validator\Constraints\MapcodeConstraint\LinesEqualLength;
 use AppBundle\Validator\Constraints\Mapcode\LinesEqualLengthValidator;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 

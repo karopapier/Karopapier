@@ -6,14 +6,14 @@
  * Time: 20:18
  */
 
-namespace AppBundle\Validator\Constraints\Mapcode;
+namespace AppBundle\Validator\Constraints\MapcodeConstraint;
 
 
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Class LinesEqualLength
- * @package AppBundle\Validator\Mapcode
+ * @package AppBundle\Validator\MapcodeConstraint
  * @Annotation
  */
 class HasBorder extends Constraint

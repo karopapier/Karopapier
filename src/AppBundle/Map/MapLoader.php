@@ -11,6 +11,7 @@ namespace AppBundle\Map;
 
 use AppBundle\DTO\MapData;
 use AppBundle\Exception\UnknownMapException;
+use AppBundle\Model\Mapcode;
 use AppBundle\Services\ConfigService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -42,15 +43,18 @@ class MapLoader
         return $data;
     }
 
-    private function parseMapFile($data, $mapFile)
+    private function parseMapFile(MapData $data, $mapFile)
     {
-        $mapcode = file_get_contents($mapFile);
+        $rawmapcode = file_get_contents($mapFile);
+        $mapcode = new Mapcode($rawmapcode);
         $data->mapcode = $mapcode;
+        $mapcodeArray = $mapcode->toArray();
+        $data->players = $mapcodeArray['players'];
 
         return $data;
     }
 
-    private function parseDescFile($data, $descFile)
+    private function parseDescFile(MapData $data, $descFile)
     {
         $name = '(unbekannt)';
         $author = '(unbekannt)';
@@ -67,11 +71,11 @@ class MapLoader
     }
 
     /**
-     * @param $data
+     * @param MapData $data
      * @param $yamlFile
-     * @return mixed
+     * @return MapData
      */
-    private function parseYamlFile($data, $yamlFile)
+    private function parseYamlFile(MapData $data, $yamlFile)
     {
         if (!file_exists($yamlFile)) {
             return $data;
