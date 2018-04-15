@@ -13,9 +13,12 @@ use AppBundle\DTO\MapData;
 use AppBundle\Exception\UnknownMapException;
 use AppBundle\Services\ConfigService;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class MapLoader
 {
+    private $mapDirectory;
+
     public function __construct(ConfigService $configService, LoggerInterface $logger)
     {
         $this->mapDirectory = $configService->get('map_dir');
@@ -63,11 +66,24 @@ class MapLoader
         return $data;
     }
 
+    /**
+     * @param $data
+     * @param $yamlFile
+     * @return mixed
+     */
     private function parseYamlFile($data, $yamlFile)
     {
+        if (!file_exists($yamlFile)) {
+            return $data;
+        }
+
         // all fields will be added to a custom option section
         // some fields will be used as direct attributes on the entity (like active)
-        return $data;
+        $options = Yaml::parseFile($yamlFile);
+        if (array_key_exists('active', $options)) {
+            $data->active = $options['active'];
+        }
 
+        return $data;
     }
 }
