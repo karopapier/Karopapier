@@ -34,7 +34,7 @@ class MapLoader
         $data = new MapData();
         $this->parseMapFile($data, $mapFile);
         $this->parseDescFile($data, $descFile);
-        $this->parseYamlFile($data, $descFile);
+        $this->parseYamlFile($data, $yamlFile);
 
         return $data;
     }
@@ -49,8 +49,8 @@ class MapLoader
 
     private function parseDescFile($data, $descFile)
     {
-        $name = '(unknown)';
-        $author = '(unknown)';
+        $name = '(unbekannt)';
+        $author = '(unbekannt)';
         if (file_exists($descFile)) {
             $desc = file($descFile);
             $name = trim($desc[0]);
@@ -65,6 +65,9 @@ class MapLoader
 
     private function parseYamlFile($data, $yamlFile)
     {
+        // all fields will be added to a custom option section
+        // some fields will be used as direct attributes on the entity (like active)
         return $data;
+
     }
 }

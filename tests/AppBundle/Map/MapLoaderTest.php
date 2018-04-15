@@ -52,5 +52,17 @@ class MapLoaderTest extends TestCase
         $mapData = $mapLoader->createMapDataFromFiles(1);
 
         $this->assertEquals("Die Erste", $mapData->name, 'Right name for map');
+        $this->assertEquals("Didi", $mapData->author, 'Right author for map');
+    }
+
+    public function testLoadMap30()
+    {
+        $mapLoader = $this->getMapLoader();
+
+        /** @var Map $map */
+        $mapData = $mapLoader->createMapDataFromFiles(30);
+
+        $this->assertEquals("(unbekannt)", $mapData->name, 'Right name for map');
+        $this->assertEquals("(unbekannt)", $mapData->author, 'Right author for map');
     }
 }
