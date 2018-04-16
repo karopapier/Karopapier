@@ -8,6 +8,13 @@
 
 namespace AppBundle\Interfaces;
 
+/**
+ * Interface ApiControllerInterface
+ * @package AppBundle\Interfaces
+ *
+ * Tag Requests with $request->attributes->set('api', true);
+ * For Listener to add Meta Info
+ */
 
 interface ApiControllerInterface
 {

@@ -1,0 +1,130 @@
+{% extends("base.html.twig") %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        #jsonCode {
+            border: 1px solid #000000;
+            background-color: #fff;
+            display: inline-block;
+            overflow: auto;
+        }
+
+        .clearer {
+            float: none;
+            clear: both
+        }
+
+        #url {
+            width: 400px
+        }
+
+        #container {
+            display: flex;
+        }
+
+        .urls {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .result {
+            flex: 1;
+        }
+
+        .apiUrl {
+            font-size: 12px;
+        }
+
+        .APIv2 {
+            font-weight: bold;
+        }
+
+        .LegacyAPI {
+            /* text-decoration: line-through; */
+        }
+
+        .deprecated {
+            text-decoration: line-through;
+        }
+
+        span.apiInfo {
+            font-size: 11px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1 class="karoborder">Karo API Browser</h1>
+    <div id="container">
+        <div class="urls">
+            <form onsubmit="apiCall(); return false;"><label for="jsonp">JSONP</label>
+                <input type="checkbox" name="jsonp"
+                       id="jsonp" checked="checked"><br/>
+                <input type="text" name="url" id="url" value=""><input type="submit" value="Send"/>
+            </form>
+            <ul>
+                {% for url,info in urls %}
+                    {% set classes = info|split(',') %}
+                    <li class="{% for class in classes %}{{ class|replace({' ': ''}) }} {% endfor %}">
+                        <a href="{{ url }}" class="apiUrl">{{ url }}</a>
+                        <span class="apiInfo"> {{ info }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+            <h3>Nich testbare POST calls</h3>
+            <ul>
+                <li>/api/game/add.json -- Legacy API v1, nicht final</li>
+                <li>/api/login -- Man poste ein JSON array {"login":"Didi","password":"Karo4ever"} und erhält entweder error 403
+            oder die API-Daten des User UND ein COOKIE namens KaroKeks (API v2)
+        </li>
+            </ul>
+            <p style="width: 500px">Dies soll zur Dokumentation der bisherigen verfuegbaren API-Calls dienen. Alle Calls sollten
+                sowohl den XMLHttpRequest als auch JSONP unterstuetzen, also mit und ohne callback. Bei einigen fehlt das evtl.
+                noch. Auch sonst, falls gewisse Calls fehlen/sinnvoll waeren, bzw. mehr Daten geliefert werden sollten, bitte PER
+                EMAIL!</p>
+        </div>
+        <div class="result">
+            <pre id="jsonCode">{}</pre>
+        </div>
+    </div>
+    <div class="clearer"></div>
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.apiUrl').click(function(e) {
+                var url = e.currentTarget.href;
+                if ($('#jsonp').prop('checked')) {
+                    if (url.indexOf('?') === -1) {
+                        url += "?";
+                    } else {
+                        url += "&";
+                    }
+                    url = url + 'callback=?';
+                }
+                $('#url').val(url);
+                //execApi(url);
+                apiCall(url);
+                e.preventDefault();
+            })
+        });
+
+        function apiCall() {
+            var url = $('#url').val();
+            if (url) {
+                $('#jsonCode').text('Loading ' + url);
+                execApi(url);
+            }
+        }
+
+        function execApi(url) {
+            var jqxhr = $.getJSON(url, function(data) {
+                var txt = JSON.stringify(data, false, 4).replace(/\\r/g, "");
+                txt = txt.replace(/\\n/g, "\n");
+                $('#jsonCode').text(txt);
+            })
+                .error(function(err) {
+                    $('#jsonCode').html(err.responseText);
+                });
+        }
+    </script>
+{% endblock %}

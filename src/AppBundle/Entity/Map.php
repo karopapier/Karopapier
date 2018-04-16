@@ -140,7 +140,7 @@ class Map extends BaseMap
 
     public function getCode()
     {
-        return str_replace("\r", "", $this->code);
+        return str_replace("\r", "", $this->mapcode);
     }
 
     /**

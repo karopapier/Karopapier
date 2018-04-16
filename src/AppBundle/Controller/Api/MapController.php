@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MapController extends AbstractApiController
 {
     /**
-     * @Route("/map", name="api_map_list")
+     * @Route("/map/", name="api_map_list")
      */
     public function listAction(Request $request, Connection $connection)
     {
