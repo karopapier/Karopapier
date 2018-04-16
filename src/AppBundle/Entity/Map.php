@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\DTO\MapData;
 use AppBundle\Model\BaseMap;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,7 +26,7 @@ class Map extends BaseMap
      *
      * @ORM\Column(name="Code", type="text", length=65535, nullable=false)
      */
-    private $code;
+    private $mapcode;
 
     /**
      * @var string
@@ -106,19 +107,43 @@ class Map extends BaseMap
      */
     private $id;
 
+    private function __construct($id = 0)
+    {
+        if ($id > 0) {
+            $this->id = $id;
+        }
+    }
+
+    public static function createFromData(MapData $data)
+    {
+        $map = new Map($data->getId());
+        $map->active = $data->active;
+        $map->starties = $data->players;
+        $map->author = $data->author;
+        $map->name = $data->name;
+        $map->mapcode = $data->mapcode;
+        $map->cpsList = json_encode($data->cps);
+        $map->nbCps = count($data->cps);
+
+        return $map;
+    }
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function setMapcode($mapcode)
-    {
-        $this->code = $mapcode;
-    }
-
     public function getCode()
     {
         return str_replace("\r", "", $this->code);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getRating()
@@ -134,16 +159,16 @@ class Map extends BaseMap
     public function toArray()
     {
         $m = array(
-                "id" => $this->id,
-                "name" => $this->name,
-                "author" => $this->author,
-                "cols" => $this->getNbCols(),
-                "rows" => $this->getNbRows(),
-                "rating" => $this->rating,
-                "players" => $this->starties,
-                "mapcode" => $this->getCode(),
-                "cps" => $this->getCpArray(),
-                "active" => (bool)$this->active,
+            "id" => $this->id,
+            "name" => $this->name,
+            "author" => $this->author,
+            "cols" => $this->getNbCols(),
+            "rows" => $this->getNbRows(),
+            "rating" => $this->rating,
+            "players" => $this->starties,
+            "mapcode" => $this->getCode(),
+            "cps" => $this->getCpArray(),
+            "active" => (bool)$this->active,
         );
 
         return $m;

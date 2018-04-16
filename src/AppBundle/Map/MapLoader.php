@@ -35,7 +35,7 @@ class MapLoader
             throw new UnknownMapException('No map file for id '.$mapId);
         }
 
-        $data = new MapData();
+        $data = new MapData($mapId);
         $this->parseMapFile($data, $mapFile);
         $this->parseDescFile($data, $descFile);
         $this->parseYamlFile($data, $yamlFile);
@@ -49,6 +49,7 @@ class MapLoader
         $mapcode = new Mapcode($rawmapcode);
         $data->mapcode = $mapcode;
         $mapcodeArray = $mapcode->toArray();
+        $data->cps = $mapcodeArray['cps'];
         $data->players = $mapcodeArray['players'];
 
         return $data;

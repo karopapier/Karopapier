@@ -10,7 +10,7 @@ namespace AppBundle\DTO;
 
 class MapData
 {
-    private $id;
+    private $id = 0;
     public $name;
     public $mapcode;
     public $author;
@@ -18,4 +18,17 @@ class MapData
     public $players = 0;
     public $cps = [];
     public $night = false;
+
+    public function __construct($id = 0)
+    {
+        if ($id > 0) {
+            $this->id = (int)$id;
+        }
+    }
+
+    /** @return int */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

@@ -53,17 +53,20 @@ class Mapcode
     public function parse()
     {
         $mapcode = $this->mapcode;
-        //unique list of chars
+        // unique list of chars
         $lines = explode("\n", $mapcode);
         $chars = count_chars($mapcode, 3);
-        //only ints
+        // only keep ints/cps
         $ints = preg_replace('/[^0-9]+/', '', $chars);
-        //split and sort them
+        // split and sort them
         $cps = array();
         if ($ints != "") {
             $cps = str_split($ints);
+            //cast strings to int and sort
+            $cps = array_map('intval', $cps);
+            sort($cps);
         }
-        sort($cps);
+
         $this->cps = $cps;
         $this->players = substr_count($mapcode, "S");
         $this->rows = count($lines);

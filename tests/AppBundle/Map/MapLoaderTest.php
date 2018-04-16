@@ -51,10 +51,12 @@ class MapLoaderTest extends TestCase
         /** @var Map $map */
         $mapData = $mapLoader->createMapDataFromFiles(1);
 
+        $this->assertEquals(1, $mapData->getId(), 'MapData reflects id');
         $this->assertEquals("Die Erste", $mapData->name, 'Right name for map');
         $this->assertEquals("Didi", $mapData->author, 'Right author for map');
         $this->assertEquals(true, $mapData->active, 'Map is active');
         $this->assertEquals(5, $mapData->players, 'Number of players is correct');
+        $this->assertEquals([1, 2, 3, 4, 5, 6, 7], $mapData->cps, 'All checkpoints listed');
     }
 
     public function testLoadMap30()
@@ -64,6 +66,7 @@ class MapLoaderTest extends TestCase
         /** @var Map $map */
         $mapData = $mapLoader->createMapDataFromFiles(30);
 
+        $this->assertEquals(30, $mapData->getId(), 'MapData reflects id');
         $this->assertEquals("(unbekannt)", $mapData->name, 'Right name for map');
         $this->assertEquals("(unbekannt)", $mapData->author, 'Right author for map');
         $this->assertEquals(false, $mapData->active, 'Map is not active');
