@@ -32,9 +32,7 @@ class ApiController extends Controller
             "/api/chat?start=357194&limit=20" => "APIv2",
             "/api/chat?start=11965&limit=1" => "APIv2",
             "/api/user/773/dran" => "APIv2",
-            "/api/user/773/dran.json" => "Legacy API, deprecated",
             "/api/user/Botrix/dran.json" => "Legacy API",
-            "/api/user/check.json" => "APIv2, deprecated",
             "/api/user/blockerlist.json" => "Legacy API",
             "/api/user/1/blocker.json" => "Legacy API",
             "/api/game/44773/info.json" => "Legacy API",
@@ -60,11 +58,13 @@ class ApiController extends Controller
             "/api/games?limit=2&offset=3000" => "Legacy API",
             "http://volkswurst.de/api/" => "kilis API",
             "/api/users/1" => "APIv2, deprecated",
+            "/api/user/check.json" => "APIv2, deprecated",
             "/api/users/check" => "APIv2, deprecated",
             "/api/user/1/info.json" => "Legacy API, deprecated",
             "/api/user/Botrix" => "APIv2, deprecated",
             "/api/users/Botrix" => "APIv2, deprecated",
             "/api/user/Botrix/info.json" => "Legacy API, deprecated",
+            "/api/user/773/dran.json" => "Legacy API, deprecated",
             "/api/map/1.json" => "Legacy API, deprecated",
         );
 
