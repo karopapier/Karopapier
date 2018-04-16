@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Mapvote
  *
  * @ORM\Table(name="karo_mapvotes")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MapvoteRepository")
  */
 class Mapvote
 {

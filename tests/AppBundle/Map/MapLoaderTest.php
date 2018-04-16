@@ -13,6 +13,7 @@ use AppBundle\Entity\Map;
 use AppBundle\Exception\UnknownMapException;
 use AppBundle\Map\MapLoader;
 use AppBundle\Services\ConfigService;
+use Doctrine\Common\Persistence\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -33,8 +34,9 @@ class MapLoaderTest extends TestCase
             ->willReturn(__DIR__.'/../../../src/AppBundle/DataFixtures/Map');
 
         $logger = $this->createMock(LoggerInterface::class);
+        $em = $this->createMock(ObjectManager::class);
 
-        return new MapLoader($configService, $logger);
+        return new MapLoader($configService, $em, $logger);
     }
 
     public function testLoadUnknownMap()

@@ -10,9 +10,14 @@ namespace AppBundle\Map;
 
 
 use AppBundle\DTO\MapData;
+use AppBundle\Entity\Map;
+use AppBundle\Entity\Mapvote;
 use AppBundle\Exception\UnknownMapException;
 use AppBundle\Model\Mapcode;
+use AppBundle\Repository\MapRepository;
+use AppBundle\Repository\MapvoteRepository;
 use AppBundle\Services\ConfigService;
+use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
@@ -20,17 +25,55 @@ use Symfony\Component\Yaml\Yaml;
 class MapLoader
 {
     private $mapDirectory;
+    /**
+     * @var ConfigService
+     */
+    private $configService;
+    /**
+     * @var ObjectManager
+     */
+    private $em;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
-    public function __construct(ConfigService $configService, LoggerInterface $logger)
+    public function __construct(ConfigService $configService, ObjectManager $em, LoggerInterface $logger)
     {
         $this->mapDirectory = $configService->get('map_dir');
+        $this->configService = $configService;
+        $this->em = $em;
+        $this->logger = $logger;
     }
 
     public function loadMapFolder()
     {
         // check all *.map files
-        // create data and map entity
-        // save
+        $mapIds = $this->getAvailableMapIds();
+
+        /** @var MapvoteRepository $mapvoteRepo */
+        $mapvoteRepo = $this->em->getRepository(Mapvote::class);
+
+        // create data and ensure/update map entity
+        foreach ($mapIds as $mapId) {
+            $this->logger->info('Loading Map '.$mapId);
+            $mapData = $this->createMapDataFromFiles($mapId);
+
+            /** @var MapRepository $repo */
+            $repo = $this->em->getRepository(Map::class);
+            $repo->ensureMapIdExists($mapId);
+            // save
+            /** @var Map $map */
+            $map = $repo->find($mapId);
+            $map->updateFromData($mapData);
+
+            $rating = $mapvoteRepo->getAverage($mapId);
+            $map->updateRating($rating);
+
+            $this->em->persist($map);
+            $this->em->flush();
+        }
+
     }
 
     public function getAvailableMapIds()
@@ -83,8 +126,11 @@ class MapLoader
         $author = '(unbekannt)';
         if (file_exists($descFile)) {
             $desc = file($descFile);
+
             $name = trim($desc[0]);
-            $author = trim($desc[1]);
+            if (isset($desc[1])) {
+                $author = trim($desc[1]);
+            }
         }
 
         $data->name = $name;

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Map
  *
  * @ORM\Table(name="karo_maps")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MapRepository")
  */
 class Map extends BaseMap
 {
@@ -114,16 +114,21 @@ class Map extends BaseMap
         }
     }
 
-    public static function createFromData(MapData $data)
+    public function updateFromData(MapData $mapData)
     {
-        $map = new Map($data->getId());
-        $map->active = $data->active;
-        $map->starties = $data->players;
-        $map->author = $data->author;
-        $map->name = $data->name;
-        $map->mapcode = $data->mapcode;
-        $map->cpsList = json_encode($data->cps);
-        $map->nbCps = count($data->cps);
+        $this->active = $mapData->active;
+        $this->starties = $mapData->players;
+        $this->author = $mapData->author;
+        $this->name = $mapData->name;
+        $this->mapcode = $mapData->mapcode;
+        $this->cpsList = json_encode($mapData->cps);
+        $this->nbCps = count($mapData->cps);
+    }
+
+    public static function createFromData(MapData $mapData)
+    {
+        $map = new Map($mapData->getId());
+        $map->updateFromData($mapData);
 
         return $map;
     }
@@ -144,6 +149,22 @@ class Map extends BaseMap
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return (bool)$this->active;
     }
 
     public function getRating()
@@ -172,5 +193,10 @@ class Map extends BaseMap
         );
 
         return $m;
+    }
+
+    public function updateRating($rating)
+    {
+        $this->rating = $rating;
     }
 }
