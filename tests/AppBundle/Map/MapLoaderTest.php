@@ -72,4 +72,11 @@ class MapLoaderTest extends TestCase
         $this->assertEquals(false, $mapData->active, 'Map is not active');
         $this->assertEquals(10, $mapData->players, 'Number of players is correct');
     }
+
+    public function testGetMapIds()
+    {
+        $mapLoader = $this->getMapLoader();
+        $ids = $mapLoader->getAvailableMapIds();
+        $this->assertEquals([1, 30, 1006], $ids);
+    }
 }

@@ -14,6 +14,7 @@ use AppBundle\Exception\UnknownMapException;
 use AppBundle\Model\Mapcode;
 use AppBundle\Services\ConfigService;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 
 class MapLoader
@@ -23,6 +24,27 @@ class MapLoader
     public function __construct(ConfigService $configService, LoggerInterface $logger)
     {
         $this->mapDirectory = $configService->get('map_dir');
+    }
+
+    public function loadMapFolder()
+    {
+        // check all *.map files
+        // create data and map entity
+        // save
+    }
+
+    public function getAvailableMapIds()
+    {
+        $finder = new Finder();
+        $mapFiles = $finder->in($this->mapDirectory)->name('*.map')->files();
+
+        $ids = [];
+        foreach ($mapFiles as $file) {
+            $ids[] = (int)str_replace('.map', '', $file->getFileName());
+        }
+        sort($ids);
+
+        return $ids;
     }
 
     public function createMapDataFromFiles($mapId)
@@ -82,7 +104,7 @@ class MapLoader
             return $data;
         }
 
-        // all fields will be added to a custom option section
+        // all option fields will be added to a custom option section
         // some fields will be used as direct attributes on the entity (like active)
         $options = Yaml::parseFile($yamlFile);
         if (array_key_exists('active', $options)) {
