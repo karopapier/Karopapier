@@ -9,7 +9,6 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Map;
-use AppBundle\Entity\UserMap;
 use Doctrine\DBAL\Connection;
 use PDO;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,18 +41,6 @@ class MapController extends AbstractApiController
      * @param Map $map
      */
     public function showAction(Request $request, Map $map)
-    {
-        $response = new JsonResponse($map->toArray());
-        $response->setCallback($request->get("callback"));
-
-        return $response;
-    }
-
-    /**
-     * @Route("/map/u{id}", name="api_usermap_show", requirements={"id": "\d+"})
-     * @param UserMap $map
-     */
-    public function showCustomAction(Request $request, UserMap $map)
     {
         $response = new JsonResponse($map->toArray());
         $response->setCallback($request->get("callback"));
