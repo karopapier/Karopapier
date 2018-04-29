@@ -23,7 +23,8 @@ class MapController extends AbstractApiController
     public function listAction(Request $request, Connection $connection)
     {
         $qb = $connection->createQueryBuilder();
-        $qb->select('M_ID as id,name,author,cols,rows,rating,cps_list as cps, Starties as players');
+        // $qb->select('M_ID as id,name,author,cols,rows,rating,cps_list as cps, Starties as players');
+        $qb->select('M_ID as id,name,author,rating,cps_list as cps, Starties as players');
         $qb->from('karo_maps');
         $qb->orderBy('id');
 
@@ -43,6 +44,18 @@ class MapController extends AbstractApiController
     public function showAction(Request $request, Map $map)
     {
         $response = new JsonResponse($map->toArray());
+        $response->setCallback($request->get("callback"));
+
+        return $response;
+    }
+
+    /**
+     * @Route("/mapcode/{id}", name="api_mapcode_show", requirements={"id": "\d+"})
+     * @param Map $map
+     */
+    public function mapcodeAction(Request $request, Map $map)
+    {
+        $response = new JsonResponse($map->getCode());
         $response->setCallback($request->get("callback"));
 
         return $response;

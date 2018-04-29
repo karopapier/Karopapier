@@ -25,7 +25,9 @@ class ApiController extends Controller
         $urls = array(
             "/api/user/1" => "APIv2",
             "/api/user/check" => "APIv2",
+            "/api/map/" => "APIv2",
             "/api/map/1" => "APIv2",
+            "/api/mapcode/1" => "APIv2",
             "/api/chat/last" => "APIv2",
             "/api/contacts" => "APIv2",
             "/api/messages" => "APIv2",
