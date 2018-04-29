@@ -24,8 +24,8 @@ class LinesEqualLengthValidator extends ConstraintValidator
         $c = count(array_unique($lengths));
         if ($c > 1) {
             $this->context->buildViolation($constraint->message)
-                    ->setParameter('%string%', $value)
-                    ->addViolation();
+                ->setParameter('%string%', $value)
+                ->addViolation();
         }
     }
 }
