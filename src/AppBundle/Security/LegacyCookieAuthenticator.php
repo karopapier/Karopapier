@@ -41,10 +41,10 @@ class LegacyCookieAuthenticator extends AbstractGuardAuthenticator implements Au
         $cookie = $request->cookies->get("KaroKeks");
         //$this->logger->debug("KEKS " . $cookie);
         if (!$cookie) {
-            return null;
+            throw new AuthenticationException('No Keks');
         }
         if (!($codestring = base64_decode($cookie))) {
-            return null;
+            throw new AuthenticationException('No base im Keks');
         }
         list($id, $hash) = explode('|--|', $codestring);
         //$this->logger->debug($id . ":" . $hash);
@@ -55,7 +55,7 @@ class LegacyCookieAuthenticator extends AbstractGuardAuthenticator implements Au
             );
         }
 
-        return null;
+        throw new AuthenticationException('Nix good Keks');
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
