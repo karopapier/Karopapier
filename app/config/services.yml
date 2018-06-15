@@ -62,12 +62,13 @@ services:
         - { name: 'kernel.cache_clearer' }
         - { name: 'kernel.cache_warmer' }
 
+    ### OLD PUBLIC SERVICES
     karo_query: '@AppBundle\Services\KaroQuery'
     legacy_cookie_authenticator: '@AppBundle\Security\LegacyCookieAuthenticator'
     legacy_cookie_setter: '@AppBundle\Security\LegacyCookieSetter'
-
     Predis\Client: '@snc_redis.default'
-
+    game_logger: '@AppBundle\Game\GameLogger'
+    messaging_service: '@AppBundle\Messaging\MessagingService'
 
     AppBundle\DataFixtures\ORM\LoadUserData:
       public: false
