@@ -53,14 +53,12 @@ class DBFixerCommand extends ContainerAwareCommand
             $connection->executeQuery($sql);
         }
 
-        $dc = 'Birthday';
-        $sql = 'ALTER TABLE  `karo_user` CHANGE  `'.$dc.'`  `'.$dc.'` DATE NULL DEFAULT NULL';
-        $connection->executeQuery($sql);
-
         $changes = [];
         foreach ($datetimecolumns as $dc) {
             $changes[] = 'CHANGE  `'.$dc.'`  `'.$dc.'` DATETIME NULL DEFAULT NULL';
         }
+        $dc = 'Birthday';
+        $changes[] = 'CHANGE  `'.$dc.'`  `'.$dc.'` DATE NULL DEFAULT NULL';
 
         $sql = 'ALTER TABLE  `karo_user` '.implode(', ', $changes);
         $connection->executeQuery($sql);
