@@ -16,7 +16,7 @@ use AppBundle\Messaging\MessageNormalizer;
 use AppBundle\Services\ConfigService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
-use Snc\RedisBundle\Client\Phpredis\Client;
+use Predis\Client;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

@@ -93,7 +93,7 @@ nelmio_cors:
 snc_redis:
     clients:
         default:
-            type: phpredis
+            type: predis
             alias: default
             dsn: redis://localhost
 
