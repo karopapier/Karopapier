@@ -19,3 +19,8 @@ node_modules
 /web/js
 /web/css
 /web/cachebust.json
+/web/index.html
+/web/dran.html
+/web/chat.html
+/web/editor.html
+/web/game.html
