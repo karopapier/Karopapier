@@ -1,14 +1,10 @@
-var Backbone = require('backbone');
-var moment = require('moment');
-module.exports = Backbone.View.extend({
+var GameInfoView = Backbone.View.extend({
     id: "gameInfo",
     template: window["JST"]["game/gameInfo"],
-    initialize: function(options) {
-        options = options || {};
-        this.map = options.map;
+    initialize: function () {
         _.bindAll(this, "render");
         this.listenTo(this.model, "change", this.render);
-        this.listenTo(this.map, "change", this.render);
+        this.listenTo(this.model.map, "change", this.render);
 
         this.dirTitle = {
             "formula1": "Formula 1",
@@ -27,23 +23,23 @@ module.exports = Backbone.View.extend({
             "allowed": "erlaubt"
         }
     },
-    render: function() {
+    render: function () {
         //console.log("Render infos for ", this.model.get("name"));
         if (!this.model.get("completed")) {
             //console.log("Skip rendering, game not complete");
             return false;
         }
         var data = this.model.toJSON();
-        data.mapId = this.map.get("id");
-        data.mapName = this.map.get("name");
-        data.mapAuthor = this.map.get("author");
+        data.mapId = this.model.map.get("id");
+        data.mapName = this.model.map.get("name");
+        data.mapAuthor = this.model.map.get("author");
         data.dirMeaning = this.dirMeaning[data.dir];
         data.dirTitle = this.dirTitle[data.dir];
         data.createdDate = moment(this.model.get("created"), "YYYY-MM-DD HH:mm").format("DD.MM.YYYY");
         data.createdTime = moment(this.model.get("created"), "YYYY-MM-DD HH:mm").format("HH:mm");
 
         var cpStatus = "aktiviert";
-        if (this.map.get("cps").length === 0) {
+        if (this.model.map.get("cps").length == 0) {
             cpStatus = "deaktiviert, die Karte hat keine";
         } else {
             if (!this.model.get("withCheckpoints")) {
@@ -56,7 +52,7 @@ module.exports = Backbone.View.extend({
 
         this.$el.html(this.template(data));
         /*{
-         mapId: this.map.get("id"),
+         mapId: this.model.map.get("id"),
          gameCreator: this.model.get("creator"),
          gameCreated: this.model.get("created"),
          gameDir: this.model.get("dir"),

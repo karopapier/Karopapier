@@ -4,7 +4,8 @@ module.exports = Backbone.ModelFactory(/** @lends User.prototype */ {
     defaults: {
         id: 0,
         login: "Gast",
-        dran: -1
+        dran: -1,
+        uc: 0
     },
     /**
      * @class User
@@ -12,7 +13,7 @@ module.exports = Backbone.ModelFactory(/** @lends User.prototype */ {
      */
     initialize: function() {
         _.bindAll(this, "increaseDran", "decreaseDran");
-        this.url = "//www.karopapier.de/api/user/" + this.get("id") + "/info.json?callback=?";
+        this.url= APIHOST + "/api/user/"+ this.get("id")+"/info.json?callback=?";
     },
     increaseDran: function() {
         this.set("dran", this.get("dran") + 1);

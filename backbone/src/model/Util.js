@@ -42,6 +42,28 @@ var KaroUtil = {};
             });
 
             if (karoUtil.funny) {
+                //Eier
+                /* Ostern vorbEI
+                karoUtil.replacements.push({
+                    r: "ei",
+                    f: function() {
+                        var i=Math.round(Math.random()*4)+1;
+                        var ei = "ei" + i;
+                        return ' <img src="//2.karopapier.de/images/eier/' + ei + '.png" alt="Ei" title="Ei" />';
+                    },
+                    sw: "i"
+                });
+                */
+
+                //-:Pic
+                karoUtil.replacements.push({
+                    r: "-:Pic src=(.*?) Pic:-",
+                    f: function(text) {
+                        return '<img src="http://daumennagel.de/' + RegExp.$1 + '" />';
+                        //return '<img src="' + RegExp.$1 + '" />';
+                    },
+                });
+
                 //nen
                 karoUtil.replacements.push({
                     r: "(^|\\s)nen(^|\\s|$)",
@@ -62,7 +84,7 @@ var KaroUtil = {};
                 karoUtil.replacements.push({
                     r: "\\banders\\b",
                     f: function() {
-                        return ' <img style="opacity: .3" src="//www.karopapier.de/images/anders.jpg" alt="anders" title="anders" />';
+                        return ' <img style="opacity: .3" src="/images/anders.jpg" alt="anders" title="anders" />';
                     },
                     sw: "i"
                 });
@@ -71,7 +93,7 @@ var KaroUtil = {};
                 karoUtil.replacements.push({
                     r: "\\bhoff\\b",
                     f: function() {
-                        return ' <img style="opacity: .3" src="//www.karopapier.de/images/hoff.jpg"     alt="hoff" title="hoff" />';
+                        return ' <img style="opacity: .3" src="/images/hoff.jpg"     alt="hoff" title="hoff" />';
                     },
                     sw: "i"
                 });
@@ -83,7 +105,7 @@ var KaroUtil = {};
                 f: function(all, gid) {
                     //console.log("All", all);
                     //console.log("GID", gid);
-                    $.getJSON('//www.karopapier.de/api/game/' + gid + '/info.json?callback=?', function(gameInfo) {
+                    $.getJSON(APIHOST + '/api/game/' + gid + '/info.json?callback=?', function(gameInfo) {
                         $('a.GidLink' + gid).text(gid + ' - ' + gameInfo.game.name);
                     });
                     if (karoUtil.oldLink) {
@@ -197,7 +219,13 @@ var KaroUtil = {};
                 var sw = rpl.sw || "";
                 //console.log(r, sw);
 
-                var rx = new RegExp("^(.*?)(" + r + ")(.*?)$", sw);
+                var rx;
+                if ("rx" in rpl) {
+                    rx = rpl.rx;
+                }else {
+                    rx = new RegExp("^(.*?)(" + r + ")(.*?)$", sw);
+                    rpl.rx = rx;
+                }
                 //console.log(rx);
                 var parts = rx.exec(text);
                 if (parts) {

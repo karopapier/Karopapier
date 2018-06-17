@@ -1,10 +1,7 @@
 var _ = require('underscore');
 var Game = require('../src/model/Game');
 var Player = require('../src/model/Player');
-var detaildata = JSON.parse(require('fs').readFileSync(__dirname + '/assets/44773.details.json', 'utf8'))
-
-/*
-exports.Deepdatasetting = function(test) {
+exports.Deepdatasetting = function (test) {
     test.expect(17);
 
     var game = new Game({
@@ -12,7 +9,7 @@ exports.Deepdatasetting = function(test) {
         name: "A game"
     });
     var boundToMap = game.map;
-    var boundToPlayers = game.players;
+    var boundToPlayers = game.get("players");
 
     var expect_mapcode = "XXXXXXX\nXOSOFX1\nXXXXXXX";
     var expect_cps = [1, 2, 3, 4];
@@ -20,7 +17,7 @@ exports.Deepdatasetting = function(test) {
     game.map.setMapcode(expect_mapcode);
     game.map.set({"cpsActive": expect_cps}, {silent: true});
 
-    //game.players.reset(data.players, {parse: true});
+    //game.get("players").reset(data.players, {parse: true});
     game.set("completed", false);
 
     test.equal(game.get("name"), "A game", "verify initial data");
@@ -34,11 +31,11 @@ exports.Deepdatasetting = function(test) {
         name: "Player 1"
     })
     p.moves.reset(expected_moves);
-    game.players.add(p);
+    game.get("players").add(p);
 
     //check players
-    test.equal(game.players.at(0).get("name"), "Player 1", "Initial Player ok")
-    test.equal(game.players.at(0).moves.at(1).getMotion().toString(), "[10|11] (-1|5)", "Initial moves ok")
+    test.equal(game.get("players").at(0).get("name"), "Player 1", "Initial Player ok")
+    test.equal(game.get("players").at(0).moves.at(1).getMotion().toString(), "[10|11] (-1|5)", "Initial moves ok")
 
 
     //now set up other game
@@ -56,7 +53,7 @@ exports.Deepdatasetting = function(test) {
         name: "Other 1"
     });
     other_p.moves.reset(other_moves);
-    othergame.players.add(other_p);
+    othergame.get("players").add(other_p);
 
     //take ALL date from othergame to original game
     game.setFrom(othergame);
@@ -71,10 +68,10 @@ exports.Deepdatasetting = function(test) {
     test.equal(game.map.get("cpsActive"), other_cps, "CPs ok")
 
     //check players
-    test.equal(game.players.at(0).get("name"), "Other 1", "New Player ok")
+    test.equal(game.get("players").at(0).get("name"), "Other 1", "New Player ok")
     //check moves
-    test.equal(game.players.at(0).moves.length, 3, "Move count matches")
-    test.equal(game.players.at(0).moves.at(1).getMotion().toString(), "[7|3] (-5|3)", "New moves ok")
+    test.equal(game.get("players").at(0).moves.length, 3, "Move count matches")
+    test.equal(game.get("players").at(0).moves.at(1).getMotion().toString(), "[7|3] (-5|3)", "New moves ok")
 
     //check movemessages
     //check possibles
@@ -83,18 +80,5 @@ exports.Deepdatasetting = function(test) {
     test.equal(boundToMap.get("mapcode"), other_mapcode, "Bound Mapcode ok")
     test.equal(boundToMap.get("cpsActive"), other_cps, "CPs ok")
     test.equal(boundToPlayers.at(0).moves.at(2).getMotion().toString(), "[1|1] (1|1)", "Binding to player collection intact");
-    test.done();
-};
-*/
-
-exports.parsetest = function(test) {
-    test.expect(3);
-    test.equals(detaildata.game.id, 44773);
-
-    var game = new Game();
-    var parsed = game.parse.call(game,detaildata);
-
-    test.equals(game.players.length, 6, "all players have been captured");
-    test.equals(game.moveMessages.length, 20, "all move messages have been captured");
     test.done();
 };

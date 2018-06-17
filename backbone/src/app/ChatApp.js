@@ -4,7 +4,7 @@ var ChatLayout = require('../layout/ChatLayout');
 var ChatMessageCache = require('../collection/ChatMessageCache');
 var ChatMessageCollection = require('../collection/ChatMessageCollection');
 var ChatAppView = require('../view/chat/ChatAppView');
-var ChatMessagesView = require('../../public/js/src/view/chat/ChatMessagesView');
+var ChatMessagesView = require('../view/chat/ChatMessagesView');
 var ChatInfoView = require('../view/chat/ChatInfoView');
 var ChatControlView = require('../view/chat/ChatControlView');
 var ChatEnterView = require('../view/chat/ChatEnterView');
@@ -189,7 +189,7 @@ module.exports = Marionette.Application.extend({
             //this.chatMessageCollection.fetch();
             this.chatInfoView.updateTopBlocker();
             //keepalive
-            $.getJSON("//www.karopapier.de/api/chat/list.json?limit=2&callback=?");
+            $.getJSON(APIHOST + "/api/chat/list.json?limit=2&callback=?");
         }.bind(this), 59000);
 
         this.app.vent.on('CHAT:MESSAGE', function(data) {

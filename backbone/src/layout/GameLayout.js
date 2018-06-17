@@ -4,15 +4,7 @@ module.exports = Marionette.LayoutView.extend({
     regions: {
         gameQueue: "#gameQueue",
         gameInfo: "#gameInfo",
-        gameTitleContainer: "#gameTitleContainer",
-        gameStatus: "#gameStatus",
-        mapView: ".mapView",
-        playersMovesView: ".playersMovesView",
-        gridView: ".gridView",
-        quickSettingsView: ".quickSettingsView",
-        playerTableView: "#playerTableView",
-        statusView: "#statusView",
-        moveMessagesView: "#moveMessagesView",
-        logLinkView: "#logLinkView"
+        gameTitle: "#gameTitle",
+        gameStatus: "#gameStatus"
     }
 });

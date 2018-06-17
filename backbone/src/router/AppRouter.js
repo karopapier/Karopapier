@@ -20,8 +20,9 @@ module.exports = Backbone.Router.extend({
         "dran.html": "showDran",
         "editor.html": "showEditor",
         "game.html?GID=:gameId": "showGame",
-        "game.html": "showDran",
+        "game.html": "showGame",
         "newshowmap.php?GID=:gameId": "showGame",
+        "game.html": "defaultRoute",
         ":path": "showStatic"
     },
     doDummy: function(info) {
@@ -65,19 +66,14 @@ module.exports = Backbone.Router.extend({
         this.app.layout.content.show(this.app.dranApp.view);
     },
     showGame: function(gameId) {
-        if (!this.app.gameApp) {
-            this.app.gameApp = new GameApp({
-                app: this.app,
-                settings: this.app.Settings
-            });
-            this.app.layout.content.show(this.app.gameApp.view);
-        }
-        this.app.gameApp.display(gameId);
+        this.app.gameApp = new GameApp({
+            app: this.app,
+            settings: this.app.Settings
+        });
+        this.app.layout.content.show(this.app.gameApp.view);
     },
     defaultRoute: function() {
         this.navigate("index.html", {trigger: true});
     }
 });
-
-
 

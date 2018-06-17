@@ -17,8 +17,6 @@ var KaropapierLayout = require('../layout/KaropapierLayout');
 var UserInfoBar = require('../view/UserInfoBar');
 var NaviView = require('../view/NaviView');
 var AppRouter = require('../router/AppRouter')
-var ChatMessage = require('../model/ChatMessage');
-var ChatMessageView = require('../view/chat/ChatMessageView');
 require('../polyfills');
 
 module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
@@ -32,10 +30,14 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         console.log('KAROPAPIER APP INIT');
         var me = this;
 
+        if (!"realtimeHost" in options) {
+            console.error ("Need realtimeHost in options");
+        }
+
         this.User = new User({});
         //make this user refer to "check" for loging in
         this.User.url = function() {
-            return "//www.karopapier.de/api/user/check.json?callback=?";
+            return APIHOST + "/api/user/check.json?callback=?";
         };
         this.User.fetch();
 
@@ -46,6 +48,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         //init Karo Event Interface KEvIn
         this.KEvIn = new KEvIn({
             user: this.User,
+            host: options.realtimeHost,
             vent: this.vent
         });
 
@@ -76,8 +79,9 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         });
 
         this.util = KaroUtil;
+        window.KaroUtil = KaroUtil;
         //lazy css
-        this.util.lazyCss("//www.karopapier.de/css/slidercheckbox/slidercheckbox.css");
+        KaroUtil.lazyCss("/css/slidercheckbox/slidercheckbox.css");
 
         this.listenTo(this, "start", this.bootstrap.bind(this));
     },
@@ -106,13 +110,19 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
             me.UserDranGames.remove(data.gid);
         });
 
+        this.vent.on("message:new", function(msg) {
+            var uc = me.User.get("uc");
+            uc++;
+            me.User.set("uc", uc);
+        });
+
         //hook to events to update dran queue
         //refresh function considering logout
         function loadTheme() {
             if (me.User.get("id") == 0) return false;
             var theme = me.User.get("theme");
-            var themeUrl = "//www.karopapier.de/themes/" + theme + "/css/theme.css";
-            me.util.lazyCss(themeUrl);
+            var themeUrl = "/themes/" + theme + "/css/theme.css";
+            KaroUtil.lazyCss(themeUrl);
         }
 
         loadTheme();
@@ -127,25 +137,8 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         this.titler = new TitleView({
             model: this.User,
             title: "Karopapier - Autofahren wie in der Vorlesung"
-        });
+        })
         this.titler.render();
-
-        $.getJSON("//www.karopapier.de/api/chat/list.json?limit=1&callback=?", function(data) {
-            me.lastChatMessage = new ChatMessage(data[0]);
-            me.layout.lastChatMessage.show(new ChatMessageView({
-                model: me.lastChatMessage,
-                util: me.util
-            }));
-        });
-
-        this.vent.on('CHAT:MESSAGE', function(data) {
-            //console.log(data);
-            me.lastChatMessage = new ChatMessage(data.chatmsg);
-            me.layout.lastChatMessage.show(new ChatMessageView({
-                model: me.lastChatMessage,
-                util: me.util
-            }));
-        });
 
         //genereal page setup
         this.layout = new KaropapierLayout({
@@ -164,7 +157,8 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
             app: this
         });
         Backbone.history.start({
-            pushState: true
+            pushState: true,
+            //root: '/i/'  // not on live branch wegen 2.server/
         });
 
         this.vent.on('GAME:MOVE', function(data) {

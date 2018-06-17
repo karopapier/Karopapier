@@ -7,6 +7,6 @@ module.exports = Backbone.Model.extend({
     },
 
     url: function () {
-        return "//www.karopapier.de/api/game/add.json";
+        return APIHOST + "/api/game/add.json";
     }
 });

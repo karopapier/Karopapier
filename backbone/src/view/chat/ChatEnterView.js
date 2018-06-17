@@ -14,13 +14,13 @@ module.exports = Backbone.View.extend({
         var msg = $('#newchatmessage').val();
         if (msg != "") {
             $.ajax({
-                url: "//www.karopapier.de/api/chat/message.json",
+                url: APIHOST + "/api/chat/message.json",
                 type: "POST",
                 method: "POST",
                 crossDomain: true,
                 //better than data: "msg=" + msg as it works with ???? as well
-                data: {msg: msg},
-                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({msg: msg}),
                 xhrFields: {
                     withCredentials: true
                 },

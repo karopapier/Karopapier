@@ -16,7 +16,6 @@ module.exports = Backbone.Collection.extend(/** @lends MoveMessageCollection.pro
     },
 
     updateFromPlayers: function(players) {
-        console.warn ("updateFromPlayers DEPRECATED");
         var msgs = [];
         players.each(function(p) {
             var withMessage = p.moves.filter(function(m) {

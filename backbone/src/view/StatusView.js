@@ -1,29 +1,14 @@
-var Backbone = require('backbone');
-module.exports = Backbone.View.extend({
+var StatusView = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, "render");
-        options = options || {};
-        if (!options.model) {
-            console.error("No model for StatusView");
-            return false;
-        }
-        if (!options.user) {
-            console.error("No user for StatusView");
-            return false
-        }
-        this.user = options.user;
+        options = options||{};
+        if (!options.model) { console.error("No model for StatusView"); return false;}
         this.listenTo(this.model, "change:completed", this.render);
     },
-    render: function() {
-        var status = "";
-        if (this.model.get("finished")) {
-            status = "Spiel ist beendet";
-        } else {
-            if (this.model.get("dranId") === this.user.get("id")) {
-                status = "<b>Du bist dran</b>, bitte mach Deinen Zug";
-            } else {
-                status = "Du bist nicht dran. " + this.model.get("dran") + " muss ziehen";
-            }
+    render: function()  {
+        var status ="Du bist nicht dran";
+        if (this.model.get("dranId") === Karopapier.User.get("id")) {
+            status = "Du bist dran, bitte mach Deinen Zug bei " + this.model.get("id");
         }
         this.$el.html(status);
     }

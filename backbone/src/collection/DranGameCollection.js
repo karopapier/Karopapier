@@ -3,8 +3,8 @@ var Backbone = require('backbone');
 var Game = require('../model/Game');
 module.exports = Backbone.Collection.extend({
     model: Game,
-    url: function() {
-        return "//www.karopapier.de/api/user/" + this.user.get("id") + "/dran.json?callback=?";
+    url: function () {
+        return APIHOST + "/api/user/" + Karopapier.User.get("id") + "/dran.json?callback=?";
     },
     initialize: function(options) {
         options = options||{};

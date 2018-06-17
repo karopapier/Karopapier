@@ -23,8 +23,8 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
         this.eventEmitter.on('CHAT:MESSAGE', function(data) {
             //console.warn(data.chatmsg);
             var b = new BrowserNotification({
-                title: data.chatmsg.user + " spricht",
-                body: data.chatmsg.text,
+                title: data.user + " spricht",
+                body: data.text,
                 level: "info",
                 group: "global",
                 tag: "chat",
@@ -70,24 +70,24 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
     },
     addGameMoveNotification: function(data) {
         if (data.name.length > 30) data.name = data.name.substring(0, 27) + "...";
-        var text = 'Bei <a href="/game.html?GID=<%= gid %>"><%= name %></a> hat <%= movedLogin %> gerade gezogen. Jetzt ist <%= nextLogin %> dran';
+        var text = 'Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen. Jetzt ist <%= nextLogin %> dran';
         var t = _.template(text);
         var n = new KaroNotification({
             text: t(data),
             level: "info",
             group: "global",
-            imgUrl: "//www.karopapier.de/pre/" + data.gid + ".png"
+            imgUrl: "/pre/" + data.gid + ".png"
         });
         this.add(n);
     },
     addUserDranNotification: function(data) {
-        var text = 'Du bist dran! Bei <a href="/game.html?GID=<%= gid %>"><%= name %></a> hat <%= movedLogin %> gerade gezogen.';
+        var text = 'Du bist dran! Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen.';
         var t = _.template(text);
         var n = new KaroNotification({
             text: t(data),
             level: "ok",
             group: "dran",
-            imgUrl: "//www.karopapier.de/pre/" + data.gid + ".png"
+            imgUrl: "/pre/" + data.gid + ".png"
         });
         this.add(n);
     }

@@ -2,7 +2,7 @@
     &nbsp;<input type="checkbox" checked="checked"> &nbsp;
 </td>';
 <td><%= name %></td>
-<td><img src="images/car.png"/><%= moveCount %>
+<td><img src="images/car.png"/><%= moves.length %>
     <% if (crashCount >0) { %>
     <img src="images/crash.png"/> <%= crashCount %>
     <% } %>
@@ -12,7 +12,7 @@
 <td><span class="<%= statusClass %>"><%= displayStatus %></span></td>
 <td>
     <% for (var i in checkedCps) { %>
-    <img src="/images/mapfields/<%= checkedCps[i] %>.png" style="border: 0px; height: 12px"/>
+    <img class="icon-<%= checkedCps[i] %>" style="border: 0px"/>
     <% } %>
 </td>";
 <td><%= lastmovetime %></td>

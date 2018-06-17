@@ -2,39 +2,10 @@
     text-shadow: 2px 2px 0px rgba(100, 100, 200, 0.5);
 }
 
-#gameInfo {
-    /* float:left; */
-}
-
-#moveMessagesView {
+#moveMessages {
     max-height: 140px;
     overflow-y: scroll;
     display: inline-block;
-}
-
-#mapContainer {
-    position: relative;
-    /*float: left; */
-}
-
-.mapView {
-    /* mapview gives us the size
-     all others will be layered on top of it
-     */
-}
-
-.map-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.map-quickSettings {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border: 2px solid black;
-    background-color: rgba(200, 200, 255, .5);
 }
 
 .possibleMove {
@@ -63,7 +34,7 @@
 }
 
 .possibleMove.isStart {
-    background-color: rgba(200, 255, 200, .3);
+    background-color: rgba(200,255,200,.3);
 }
 
 .possibleMove.highlight {
@@ -71,18 +42,18 @@
 }
 
 .testmode .possibleMove {
-    border: 2px solid green;
-    margin: -1px;
+	border: 2px solid green;
+	margin: -1px;
     background-color: lightgreen;
 }
 
 .playerInfo {
     width: 200px;
     height: 150px;
-    background-color: rgba(200, 200, 200, .9);
+    background-color: rgba(200,200,200,.9);
 }
 
-.stopPosition {
+.stopPosition{
     position: absolute;
     margin: 1px;
     width: 9px;

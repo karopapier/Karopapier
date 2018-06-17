@@ -15,13 +15,19 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
         if (!options.user) {
             throw Error("KEvIn needs a user");
         }
+
+        var host ="//ws01.karopapier.de";
+        if (options.host) {
+            host = options.host;
+        }
+
         if (!options.vent) {
             throw Error("KEvIn needs a vent object to trigger events on");
         }
         this.user = options.user;
         this.vent = options.vent;
         this.listenTo(this.user, "change:id", this.ident);
-        this.turted = new TURTED("//ape.karopapier.de/turted");
+        this.turted = new TURTED(host);
         this.ident();
         this.hook();
     },
@@ -31,7 +37,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
         if (user.get("id") === 0) {
             this.stop();
         } else {
-            this.turted.ident(this.user.get("id"), this.user.get("login"), "KEvInLogsMeIn");
+            this.turted.ident({"username": this.user.get("login")});
             this.start();
         }
     },
@@ -71,10 +77,14 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
             //console.info("GAME:MOVE aus anyOtherMoved");
             me.vent.trigger("GAME:MOVE", data);
         });
-        this.turted.on('newChatMessage', function (data) {
+        this.turted.on('CHAT:MESSAGE', function (data) {
             //console.info("CHAT:MESSAGE");
-            me.vent.trigger("CHAT:MESSAGE", data);
+            me.vent.trigger("CHAT:MESSAGE", data.chatmsg);
         });
+
+        this.turted.on('msg', function(data) {
+            me.vent.trigger('message:new', data);
+        })
     },
     start: function () {
         this.turted.join("karochat");
