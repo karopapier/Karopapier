@@ -28,9 +28,9 @@ parameters:
     config:
         livereload: '//192.168.56.105:20001/livereload.js'
         turted: '//turted.karoworld.de/push/'
-            chat:
-                logpath: /var/wwwroot/karo/karopapier.de/httpdocs/chat.logfile
-                redis_key: chatlog
+        chat:
+            logpath: /var/wwwroot/karo/karopapier.de/httpdocs/chat.logfile
+            redis_key: chatlog
         host: www.panamapapier.de
         karoroot: /var/wwwroot/karo/karopapier.de/httpdocs
         map_dir: /var/wwwroot/karo/karopapier.de/httpdocs/maps
