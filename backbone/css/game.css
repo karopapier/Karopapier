@@ -1,0 +1,113 @@
+#gameTitle {
+    text-shadow: 2px 2px 0px rgba(100, 100, 200, 0.5);
+}
+
+#gameInfo {
+    /* float:left; */
+}
+
+#moveMessagesView {
+    max-height: 140px;
+    overflow-y: scroll;
+    display: inline-block;
+}
+
+#mapContainer {
+    position: relative;
+    /*float: left; */
+}
+
+.mapView {
+    /* mapview gives us the size
+     all others will be layered on top of it
+     */
+}
+
+.map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.map-quickSettings {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 2px solid black;
+    background-color: rgba(200, 200, 255, .5);
+}
+
+.possibleMove {
+    position: absolute;
+    margin: 3px;
+    width: 5px;
+    height: 5px;
+    background-color: white;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.possibleMove.noCrash {
+    background-color: lightgray;
+    width: 9px;
+    height: 9px;
+    margin: 1px;
+}
+
+.possibleMove.willCrash {
+    background-color: red !important;
+    width: 9px;
+    height: 9px;
+    margin: 1px;
+}
+
+.possibleMove.isStart {
+    background-color: rgba(200, 255, 200, .3);
+}
+
+.possibleMove.highlight {
+    border-radius: 0;
+}
+
+.testmode .possibleMove {
+    border: 2px solid green;
+    margin: -1px;
+    background-color: lightgreen;
+}
+
+.playerInfo {
+    width: 200px;
+    height: 150px;
+    background-color: rgba(200, 200, 200, .9);
+}
+
+.stopPosition {
+    position: absolute;
+    margin: 1px;
+    width: 9px;
+    height: 9px;
+    background-color: red;
+    z-index: 10;
+    border: 1px solid orange;
+}
+
+.playerTableRow.highlight {
+    background-color: #CCCCFF;
+}
+
+span.moved {
+    color: red;
+}
+
+span.dran {
+    font-weight: bold;
+}
+
+span.tomove {
+    color: #00CC00;
+}
+
+span.kicked {
+    font-style: italic;
+}

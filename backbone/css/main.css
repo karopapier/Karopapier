@@ -1,0 +1,95 @@
+#header {
+    padding-top: 1px;
+    background-image: url(//www.karopapier.de/images/head.jpg);
+    background-position: -4px 0px;
+    height: 51px;
+}
+
+#userInfoBar {
+    float: right;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.error {
+    border: 1px solid orange;
+    background-color: red;
+    color: #ffffff;
+}
+
+.warn {
+    border: 1px solid orange;
+    background-color: yellow;
+    color: black;
+}
+
+.info {
+    border: 1px solid blue;
+    background-color: lightblue;
+    color: darkblue;
+}
+
+.help {
+    border: 1px solid blue;
+    background-color: lightblue;
+    color: darkblue;
+}
+
+.ok {
+    background-color: lightgreen;
+    border: 1px solid green;
+}
+
+.close {
+    cursor: pointer;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.thumb50 {
+    max-height: 50px;
+    max-width: 50px;
+}
+
+table.thin
+{
+    border-spacing: 0px;
+    border: none;
+    border-collapse:collapse
+}
+
+table.thin th
+{
+    border-right: 1px solid #339;
+    border-bottom: 1px solid #339;
+    padding: 2px;
+}
+
+table.thin th.last
+{
+    border-right: none;
+}
+
+table.thin th:last-child
+{
+    border-right: none;
+}
+
+table.thin tr > td
+{
+    border-right: 1px solid #339;
+    border-top: 1px dotted #339;
+    padding: 2px;
+}
+
+table.thin td.last
+{
+    border-right: none;
+}
+
+table.thin td:last-child
+{
+    border-right: none;
+}

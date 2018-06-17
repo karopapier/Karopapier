@@ -1,0 +1,55 @@
+.editor-map-container {
+    /*float: left;*/
+    /*max-height: 600px;*/
+    /*overflow: auto;*/
+    display: inline-block;
+}
+
+.editor-mapview-container {
+    /* float: left;*/
+    display: inline-block;
+    vertical-align:top;
+}
+
+.editor-mapview-container canvas {
+    cursor: crosshair;
+}
+
+.editor-imagetranslator-preview canvas {
+    max-width: 400px;
+    max-height: 300px;
+}
+
+.editor-codeview-container {
+    /* float: left; */
+    display: inline-block;
+}
+
+.editor-tools-container {
+    width: 300px;
+    height: 500px;
+    float: right;
+    /* background-color: rgba(100, 100, 100, .3); */
+}
+
+.editor-tools-fields-field {
+    width: 20px;
+    height: 20px;
+    margin: 4px;
+}
+
+.editor-tools-fields-field.activeField {
+    width: 20px;
+    height: 20px;
+    border: 4px solid red;
+    margin: 0;
+}
+
+.editor-tools-fields-drawmode {
+    margin: 2px;
+}
+
+.editor-tools-fields-drawmode.activeField {
+    border: 2px solid black;
+    margin: 0;
+}

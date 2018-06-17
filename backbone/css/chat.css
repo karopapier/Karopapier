@@ -1,0 +1,83 @@
+#chatWrapper {
+    /* padding-right: 15em; */
+    z-index: 20;
+}
+
+#chatMessages {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.chatInfoView {
+    padding-left: 20px;
+}
+
+/* mobile mode*/
+#chatInfo {
+    width: 15em;
+    min-width: 15em;
+    overflow: auto;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+	background-image: inherit;
+}
+
+@media all and (min-width: 630px) {
+    #chatWrapper {
+        padding-right: 15em;
+    }
+
+    #chatMessages {
+        float: left;
+        overflow-y: scroll;
+        min-width: 320px;
+        min-height: 400px;
+        max-height: 600px;
+    }
+
+    #chatInfo {
+        margin-right: -15em;
+        position: static;
+        float: right;
+        display: block;
+        z-index: 21;
+    }
+}
+
+.chatUsersView {
+    list-style: none;
+    line-height: 18px;
+    font-size: 10pt;
+    padding-left: 0;
+}
+
+#chatEnter {
+
+}
+
+div.chatMessage {
+    line-height: 18px;
+}
+
+div.chatMessage.botrixGame {
+    font-size: 8pt;
+}
+div.chatMessage.botrixGame span {
+    font-size: 8pt;
+}
+
+small.chatInfo {
+    font-size: .7em;
+}
+
+.spinning {
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }

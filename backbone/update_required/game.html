@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>KaroBackbone</title>
+        <link rel="shortcut icon" href="http://www.karopapier.de/favicon.ico" />
+        <link rel="stylesheet" type="text/css" media="screen" href="http://www.karopapier.de/css/karo.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="http://www.karopapier.de/themes/black/css/theme.css" />
+        <style type="text/css">
+            #gameAppNavigation {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+            }
+            .clickable:hover {
+                cursor: pointer;
+            }
+
+            #gameInfo {
+                font-family: Arial;
+                font-size: 70%;
+                width: 300px;
+                /*position: absolute;
+                right: 0;
+                top: 0;*/
+                float: right;
+                margin-bottom: 10px;
+                z-index: 500;
+            }
+
+            #gameInfo li
+            {
+                font-family: Arial;
+                font-size: 70%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="infoBar">
+                <span class="userLabel" name="userLabel1">Didi</span> Spiele:
+                <a href="/dran"><span id="dranCount">5</span></a>/<span id="gamesCount">105</span> [5/105]
+                <a href="/logout">Logout</a>
+
+                <div id="NotifierContainer"></div>
+            </div>
+        </div>
+        <div class="clearer"></div>
+
+        <div id="container">
+            <div id="sidebar">
+                <ul id="navi">
+                    <li><a href="#game/70321">Spiel</a></li>
+                    <li><a href="#game/70178">Nacht</a></li>
+                    <li><a href="#game/70179">Nacht2</a></li>
+                </ul>
+            </div>
+            <div id="content"></div>
+
+            <center><a href="http://www.karopapier.de">Karopapier.de</a> is brought to you by
+                <script type="text/javascript">document.write(String.fromCharCode(0x44,0x69,0x64,0x69).link(String.fromCharCode(0x6d,0x61,0x69,0x6c,0x74,0x6f,0x3a,0x64,0x69,0x64,0x69,0x40,0x6b,0x61,0x72,0x6f,0x70,0x61,0x70,0x69,0x65,0x72,0x2e,0x64,0x65)));</script></center>
+
+            <!-- <script type="text/javascript" src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+        <script type="text/javascript" src="http://documentcloud.github.com/backbone/backbone-min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+            <script type="text/javascript" src="js/libs/underscore-min.js"></script>
+            <script type="text/javascript" src="js/libs/jquery-1.7.2.min.js"></script>
+            <script type="text/javascript" src="js/libs/backbone-min.js"></script>
+            <script type="text/javascript" src="js/libs/moment.min.js"></script>
+            <script type="text/javascript" src="js/libs/moment-de.js"></script>
+
+            <script type="text/javascript" src="js/model/Game.js"></script>
+            <script type="text/javascript" src="js/model/Map.js"></script>
+            <script type="text/javascript" src="js/model/Move.js"></script>
+            <script type="text/javascript" src="js/model/MoveCollection.js"></script>
+            <script type="text/javascript" src="js/model/MoveMessage.js"></script>
+            <script type="text/javascript" src="js/model/MoveMessageCollection.js"></script>
+            <script type="text/javascript" src="js/model/Player.js"></script>
+            <script type="text/javascript" src="js/model/PlayerCollection.js"></script>
+            <script type="text/javascript" src="js/model/ViewSettings.js"></script>
+
+            <script type="text/javascript" src="js/view/GameAppNavigationView.js"></script>
+            <script type="text/javascript" src="js/view/GameAppView.js"></script>
+            <script type="text/javascript" src="js/view/GameInfoView.js"></script>
+            <script type="text/javascript" src="js/view/GameView.js"></script>
+            <script type="text/javascript" src="js/view/MapImageView.js"></script>
+            <script type="text/javascript" src="js/view/MoveMessageView.js"></script>
+            <script type="text/javascript" src="js/view/PlayerCollectionView.js"></script>
+
+            <script type="text/javascript" src="js/router/GameAppRouter.js"></script>
+
+            <script type="text/javascript">
+                moment().lang("de");
+                var app;
+                var GameAppView;
+                $(document).ready(function() {
+                    app=new AppView();
+                    app.router= new AppRouter();
+                    var g= new Game();
+                    app.gameAppView=new GameAppView({model: g});
+                    $("#content").append(app.gameAppView.$el);
+
+                    //Backbone.history.start({pushState: true});
+                    Backbone.history.start();
+                });
+
+                var AppView = Backbone.View.extend({
+                    initialize: function() {
+                        this.content=$('#content')
+                    },
+                    setTitle: function (title) {
+                        $(document).attr("title",title);
+                        $('#title').text(title);
+                    }
+                });
+
+
+</script>
+
+
+</body>
+</html>
