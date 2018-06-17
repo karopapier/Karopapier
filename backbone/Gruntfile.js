@@ -24,10 +24,6 @@ module.exports = function(grunt) {
             build: {
                 files: {
                     '../web/index.html': ['templates/index.template.html'],
-                    '../web/newgame.html': ['templates/index.template.html'],
-                    '../web/dran.html': ['templates/index.template.html'],
-                    '../web/chat.html': ['templates/index.template.html'],
-                    '../web/editor.html': ['templates/index.template.html'],
                 },
             },
         },
