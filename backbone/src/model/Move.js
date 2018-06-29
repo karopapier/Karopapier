@@ -1,13 +1,14 @@
 var Backbone = require("backbone");
 var Position = require('./Position');
-var Vector  = require('./Vector');
+var Vector = require('./Vector');
 var Motion = require('./Motion');
 module.exports = Backbone.Model.extend({
     defaults: {
         x: 0,
         y: 0,
         xv: 0,
-        yv: 0
+        yv: 0,
+        test: false,
     },
     getMotion: function() {
         var pos = new Position({x: this.get("x"), y: this.get("y")});

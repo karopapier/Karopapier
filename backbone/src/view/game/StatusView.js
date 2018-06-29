@@ -1,4 +1,4 @@
-module.exports = StatusView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this, "render");
         options = options || {};

@@ -31,7 +31,7 @@ module.exports = Backbone.View.extend({
             this.$el.append(" ");
             var uc = this.model.get("uc");
             if (uc > 0) {
-                this.$el.append('<a href="//karopapier.de/zettel"><span class="unread">'+uc+'</span></a>');
+                this.$el.append('<a href="//karopapier.de/zettel"><span class="unread">' + uc + '</span></a>');
             }
             this.$el.append(this.template());
             return this;

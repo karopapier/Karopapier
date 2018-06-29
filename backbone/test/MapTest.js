@@ -1,6 +1,8 @@
 var Map = require('../src/model/map/Map');
 var Position = require('../src/model/Position');
 var Motion = require('../src/model/Motion');
+const Vector = require('../src/model/Vector');
+
 exports.MapPosCalculations = function(test) {
     test.expect(9);
     var map = new Map();
@@ -69,7 +71,7 @@ exports.Mapmatrixhelpers = function(test) {
     test.done();
 };
 
-exports.MapgetStartPositions  =  function(test) {
+exports.MapgetStartPositions = function(test) {
     test.expect(1);
 
     var map = new Map();
@@ -104,7 +106,7 @@ exports.isPossible = function(test) {
     test.done();
 }
 
-exports.getPassedFields =  function(test) {
+exports.getPassedFields = function(test) {
     test.expect(1);
 
     //getPassedFields
@@ -146,7 +148,7 @@ exports.MapgetCpPositions = function(test) {
     test.done();
 };
 
-exports.RowColoperations = function(test) {
+exports.RowColOperations = function(test) {
     //ADD ROWS
     test.expect(13);
     var map = new Map();
@@ -207,7 +209,7 @@ exports.RowColoperations = function(test) {
     test.done();
 };
 
-exports.Floodfill =  function(test) {
+exports.Floodfill = function(test) {
 
     test.expect(2);
     var map = new Map();

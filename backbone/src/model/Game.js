@@ -5,6 +5,7 @@ var Map = require('./map/Map');
 var PlayerCollection = require('../collection/PlayerCollection');
 var MotionCollection = require('../collection/MotionCollection');
 var Motion = require('./Motion');
+var Vector = require('./Vector');
 
 module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
     defaults: {
@@ -42,7 +43,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         });
     },
 
-    url: function () {
+    url: function() {
         return APIHOST + "/api/game/" + this.get("id") + "/details.json?callback=?";
     },
 

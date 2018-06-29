@@ -9,7 +9,7 @@ module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
     defaults: {
         id: 0
     },
-    initialize: function () {
+    initialize: function() {
         _.bindAll(this, "parse", "getLastMove");
         if (!this.moves) {
             this.moves = new MoveCollection();
@@ -17,7 +17,7 @@ module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
         //this.listenTo(this.moves, "add remove change", this.trigger.bind(this,"movechange"));
         //this.listenTo(this.moves, "reset", this.trigger.bind(this,"movereset"));
     },
-    parse: function (data) {
+    parse: function(data) {
         if (!this.moves) {
             this.moves = new MoveCollection();
         }
@@ -25,19 +25,19 @@ module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
         delete data.moves;
         return data;
     },
-    getLastMove: function () {
+    getLastMove: function() {
         if (this.moves.length > 0) {
             return this.moves.at(this.moves.length - 1);
         } else {
             return false;
         }
     },
-    toJSON: function () {
+    toJSON: function() {
         var modelJSON = Backbone.Model.prototype.toJSON.call(this);
         modelJSON.moves = this.moves.toJSON();
         return modelJSON;
     },
-    getStatus: function () {
+    getStatus: function() {
         var means = {
             "kicked": "rausgeworfen",
             "left": "ausgestiegen",

@@ -1,6 +1,6 @@
 const Marionette = require('backbone.marionette');
 const MapPlayerMoves = require('./MapPlayerMoves');
-module.exports = MapPlayersMoves = Marionette.CollectionView.extend({
+module.exports = Marionette.CollectionView.extend({
     tag: "div",
     className: "Dings",
     optionDefaults: {

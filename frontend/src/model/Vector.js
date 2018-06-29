@@ -72,7 +72,7 @@ const Vector = Backbone.Model.extend({
         let dy = this.get('y');
 
         // Vorzeichen des Inkrements bestimmen
-        const incx = (dx > 0) ? 1 : ( (dx < 0) ? -1 : 0);
+        const incx = (dx > 0) ? 1 : ((dx < 0) ? -1 : 0);
         const incy = (dy > 0) ? 1 : ((dy < 0) ? -1 : 0);
 
         // console.log('Starte mit', dx, dy, incx, incy);

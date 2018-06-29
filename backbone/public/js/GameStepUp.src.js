@@ -1,15 +1,16 @@
+require("babel-polyfill");
 const User = require('../../src/model/User');
 const Game = require('../../src/model/Game');
 const MapViewSettings = require('../../src/model/map/MapViewSettings');
-const MoveMessageView = require('../../src/view/MoveMessageView');
-const LastMoveMessageView = require('../../src/view/LastMoveMessageView');
+const MoveMessageView = require('../../src/view/game/MoveMessageView');
+const LastMoveMessageView = require('../../src/view/game/LastMoveMessageView');
 const GameInfoView = require('../../src/view/game/GameInfoView');
 const GameTitleView = require('../../src/view/game/GameTitleView');
 const MapRenderView = require('../../src/view/map/MapRenderView');
-const StatusView = require('../../src/view/StatusView');
+const StatusView = require('../../src/view/game/StatusView');
 const PlayerTableView = require('../../src/view/game/PlayerTableView');
 const MapPlayersMoves = require('../../src/view/map/MapPlayersMoves');
-const PossiblesView = require('../../src/view/PossiblesView');
+const PossiblesView = require('../../src/view/game/PossiblesView');
 const DranGameCollection = require('../../src/collection/DranGameCollection');
 const GameAppRouter = require('../../src/router/GameAppRouter');
 const Move = require('../../src/model/Move');
@@ -211,18 +212,20 @@ function myTextGet(url, cb, errcb) {
 var checkTestmode = function() {
     if ($('#testmode').prop("checked")) {
         $('#mapImage').addClass("testmode");
-    } else {
-        $('#mapImage').removeClass("testmode");
-        var dranId = game.get("dranId");
-        var dranPlayer = game.get("players").get(dranId);
-        //var dranMoves = myPlayer.get("moves"); #FIXME
-        var dranMoves = dranPlayer.moves;
-
-        var noTestMoves = dranMoves.where({"test": undefined});
-        dranPlayer.moves.set(noTestMoves);
-        mpm.render();
-        game.updatePossibles();
+        return;
     }
+
+    $('#mapImage').removeClass("testmode");
+    var dranId = game.get("dranId");
+    var dranPlayer = game.get("players").get(dranId);
+    console.log(game.get('players'));
+    //var dranMoves = myPlayer.get("moves"); #FIXME
+    var dranMoves = dranPlayer.moves;
+
+    var noTestMoves = dranMoves.where({'test': false});
+    dranPlayer.moves.set(noTestMoves);
+    mpm.render();
+    game.updatePossibles();
 };
 
 $('#testmode').click(checkTestmode);
@@ -326,6 +329,7 @@ var checkPreload = function() {
     }
 };
 
+var gar = new GameAppRouter();
 var checkNextGame = function() {
     //console.log("checking next game:");
     //console.log("Game moved:", game.get("moved"));
@@ -350,7 +354,6 @@ var checkNextGame = function() {
     }
 };
 
-gar = new GameAppRouter();
 
 Backbone.history.start({
     pushState: true

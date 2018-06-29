@@ -1,4 +1,6 @@
-module.exports = LastMoveMessageView = Backbone.View.extend({
+var moment = require('moment');
+const KaroUtil = require('../../model/Util');
+module.exports = Backbone.View.extend({
     initialize: function(options) {
         options = options || {};
 
@@ -15,7 +17,7 @@ module.exports = LastMoveMessageView = Backbone.View.extend({
 
         if ((this.collection.length > 0) && ts) {
             var filter = function(m) {
-                d = moment(m.get("t"), "YYYY-MM-DD hh:mm:ss");
+                var d = moment(m.get("t"), "YYYY-MM-DD hh:mm:ss");
                 return (d.unix() > (ts.getTime() / 1000));
             };
 

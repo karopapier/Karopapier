@@ -1,7 +1,7 @@
 const Backbone = require('backbone');
-const KRACHZ = require('../model/KRACHZ');
+const KRACHZ = require('../../model/KRACHZ');
 const PossibleView = require('./PossibleView');
-module.exports = PossiblesView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
     events: {
         "clicked": "clickMove"
     },

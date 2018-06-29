@@ -1,4 +1,4 @@
-module.exports = GameAppRouter = Backbone.Router.extend({
+module.exports = Backbone.Router.extend({
     routes: {
         "game.html?GID=:gameId": "showGame",
         "newshowmap.php?GID=:gameId": "showGame",

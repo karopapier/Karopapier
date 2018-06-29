@@ -39,6 +39,11 @@ module.exports = function(grunt) {
                     'web/js/<%= pkg.name %>.src.js': ['frontend/src/app/KaroApp.js'],
                 },
             },
+            gamestepup: {
+                files: {
+                    'backbone/public/js/GameStepUp.js': ['backbone/public/js/GameStepUp.src.js'],
+                },
+            }
         },
         uglify: {
             dev: {
@@ -85,6 +90,14 @@ module.exports = function(grunt) {
                     livereload: livereloadConfig,
                 },
             },
+            gamestepup: {
+                files: ['backbone/src/**/*.js', 'backbone/public/js/GameStepUp.src.js'],
+                tasks: ['build:dev', 'bust'],
+                options: {
+                    interrupt: true,
+                    livereload: livereloadConfig,
+                },
+            }
         },
         less: {
             app: {
@@ -120,6 +133,9 @@ module.exports = function(grunt) {
                 command: 'php ./cachebust.php',
             },
         },
+        nodeunit: {
+            all: ['backbone/test/test.js'],
+        },
     });
 
     // Load the plugins
@@ -127,15 +143,16 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-shell');
 
     // Default task(s).
     grunt.registerTask('build', ['build:prod', 'less', 'bust']);
-    grunt.registerTask('build:dev', ['browserify:dev', 'style']);
-    grunt.registerTask('build:prod', ['browserify:dist', 'uglify', 'style']);
+    grunt.registerTask('build:dev', ['browserify:dev', 'browserify:gamestepup', 'style', 'test']);
+    grunt.registerTask('build:prod', ['browserify:dist', 'browserify:gamestepup', 'uglify', 'style']);
     grunt.registerTask('style', ['eslint']);
     grunt.registerTask('bust', ['shell:bust']);
     grunt.registerTask('default', ['build:dev', 'less', 'watch']);
-
+    grunt.registerTask('test', 'nodeunit');
 };

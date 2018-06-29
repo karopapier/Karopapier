@@ -1,13 +1,12 @@
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Position = require('../Position');
-karofill = require('../../polyfills');
+const Backbone = require('backbone');
+const Position = require('../Position');
+const TextHelper = require('../../util/TextHelper');
 module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     defaults: {
         id: 0,
         cps: [],
         rows: 0,
-        cols: 0
+        cols: 0,
     },
     /**
      * Represents the map and its code
@@ -15,67 +14,76 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
      * @class Map
      */
     initialize: function() {
-        _.bindAll(this, "updateMapcode", "getCpList", "setFieldAtRowCol", "getFieldAtRowCol", "getPosFromRowCol", "isPossible", "floodfill", "floodFill4");
         this.validFields = Object.keys(this.FIELDS);
-        this.offroadRegEx = new RegExp("(X|P|L|G|N|V|T|W|Y|Z|_)");
+        this.offroadRegEx = new RegExp('(X|P|L|G|N|V|T|W|Y|Z|_)');
 
-        //sanitization binding
-        this.bind("change:mapcode", this.updateMapcode);
+        // sanitization binding
+        this.bind('change:mapcode', this.updateMapcode);
     },
     FIELDS: {
-        "F": "finish",
-        "O": "road",
-        "P": "parc",
-        "S": "start",
-        "G": "gold",
-        "L": "lava",
-        "N": "snow",
-        "T": "tar",
-        "V": "mountain",
-        "W": "water",
-        "X": "grass",
-        "Y": "sand",
-        "Z": "mud",
-        ".": "night",
-        "1": "cp1",
-        "2": "cp2",
-        "3": "cp3",
-        "4": "cp4",
-        "5": "cp5",
-        "6": "cp6",
-        "7": "cp7",
-        "8": "cp8",
-        "9": "cp9"
+        'F': 'finish',
+        'O': 'road',
+        'P': 'parc',
+        'S': 'start',
+        'G': 'gold',
+        'L': 'lava',
+        'N': 'snow',
+        'T': 'tar',
+        'V': 'mountain',
+        'W': 'water',
+        'X': 'grass',
+        'Y': 'sand',
+        'Z': 'mud',
+        '.': 'night',
+        '1': 'cp1',
+        '2': 'cp2',
+        '3': 'cp3',
+        '4': 'cp4',
+        '5': 'cp5',
+        '6': 'cp6',
+        '7': 'cp7',
+        '8': 'cp8',
+        '9': 'cp9',
     },
     isValidField: function(c) {
         return this.validFields.indexOf(c.toUpperCase()) >= 0;
     },
     setMapcode: function(mapcode) {
-        //make sure we don't have CR in there and make it all UPPERCASE
-        var trimcode = mapcode.toUpperCase();
-        trimcode = trimcode.replace(/\r/g, "");
 
-        //nb of start positions ("S")
-        var starties = (trimcode.match(/S/g) || []).length;
+        // make sure we don't have CR in there and make it all UPPERCASE
+        if (typeof  mapcode === 'undefined') {
+            console.error('No mapcode in setMapcode', mapcode);
+            return;
+        }
+        if (typeof mapcode !== 'string') {
+            console.error('Mapcode kein String', mapcode);
+            return
+        }
 
-        //calc rows and cols
-        var lines = trimcode.split('\n');
-        var rows = lines.length;
-        var line = lines[0].trim();
-        var cols = line.length;
-        var cps = this.getCpList(trimcode);
+        let trimcode = mapcode.toUpperCase();
+        trimcode = trimcode.replace(/\r/g, '');
+
+        // nb of start positions ('S')
+        const starties = (trimcode.match(/S/g) || []).length;
+
+        // calc rows and cols
+        const lines = trimcode.split('\n');
+        const rows = lines.length;
+        const line = lines[0].trim();
+        const cols = line.length;
+        const cps = this.getCpList(trimcode);
 
         this.set({
-            "mapcode": trimcode,
-            "starties": starties,
-            "rows": rows,
-            "cols": cols,
-            "cps": cps
+            'mapcode': trimcode,
+            'starties': starties,
+            'rows': rows,
+            'cols': cols,
+            'cps': cps,
         });
     },
 
     getMapcodeAsArray: function() {
-        return this.get("mapcode").split('\n');
+        return this.get('mapcode').split('\n');
     },
 
     setMapcodeFromArray: function(a) {
@@ -83,9 +91,9 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     },
 
     floodfill: function(row, col, color) {
-        var oldColor = this.getFieldAtRowCol(row, col);
+        const oldColor = this.getFieldAtRowCol(row, col);
         this.fillstack = [];
-        //console.log("Start fill", row, col, color);
+        // console.log('Start fill', row, col, color);
         if (oldColor === color) return false;
         this.floodFill4(row, col, oldColor, color);
     },
@@ -93,11 +101,11 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     floodFill4: function(row, col, oldColor, color) {
         this.fillstack.push({row: row, col: col});
         while (this.fillstack.length > 0) {
-            var rc = this.fillstack.pop();
-            var r = rc.row;
-            var c = rc.col;
+            const rc = this.fillstack.pop();
+            const r = rc.row;
+            const c = rc.col;
             if (this.withinBounds({row: r, col: c})) {
-                var field = this.getFieldAtRowCol(r, c);
+                const field = this.getFieldAtRowCol(r, c);
                 if (field === oldColor) {
                     this.setFieldAtRowCol(r, c, color);
 
@@ -113,27 +121,27 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
     addRow: function(count, index) {
         /**
          * @param counter number of rows to insert
-         * @param index   "before where to add". 0 is at front; undefined or negative at end
+         * @param index   'before where to add'. 0 is at front; undefined or negative at end
          */
 
-        var codeRows = this.getMapcodeAsArray();
-        var l = codeRows.length;
+        const codeRows = this.getMapcodeAsArray();
+        const l = codeRows.length;
         if (l == 0) return false;
         if (count == 0) return false;
-        var src = "";
+        let src = '';
 
-        //normalize undefined index to negative
-        if (typeof index === "undefined") index = -1;
+        // normalize undefined index to negative
+        if (typeof index === 'undefined') index = -1;
 
-        //find row to add
+        // find row to add
         if (index === 0) {
             src = codeRows[0];
         } else {
             src = codeRows[l - 1];
         }
 
-        //modifying operation
-        var op = function() {
+        // modifying operation
+        let op = function() {
         };
         if (index === 0) {
             op = Array.prototype.unshift;
@@ -141,7 +149,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
             op = Array.prototype.push;
         }
 
-        for (var i = 1; i <= count; i++) {
+        for (let i = 1; i <= count; i++) {
             op.call(codeRows, src);
         }
 
@@ -153,50 +161,49 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
          * @param index   "before where to add". 0 is at front; undefined or negative at end
          */
 
-        var codeRows = this.getMapcodeAsArray();
-        var l = codeRows.length;
+        const codeRows = this.getMapcodeAsArray();
+        const l = codeRows.length;
         if (l == 0) return false;
         if (count == 0) return false;
-        var src = "";
 
-        //normalize undefined index to negative
-        if (typeof index === "undefined") index = -1;
+        // normalize undefined index to negative
+        if (typeof index === 'undefined') index = -1;
 
-        var f;
+        let f;
         if (index === 0) {
             f = function(row) {
-                var first = row[0];
-                var pad = first.repeat(count);
+                const first = row[0];
+                const pad = TextHelper.repeat(first, count);
                 return pad + row;
-            }
+            };
         } else {
             f = function(row) {
-                var last = row.slice(-1);
-                var pad = last.repeat(count);
+                const last = row.slice(-1);
+                const pad = TextHelper.repeat(last, count);
                 return row + pad;
-            }
+            };
         }
 
-        var newCodeRows = codeRows.map(f, count);
+        const newCodeRows = codeRows.map(f, count);
         this.setMapcodeFromArray(newCodeRows);
     },
 
     delRow: function(count, index) {
         /**
          * @param counter number of cols to delete
-         * @param index   "before where to delete". 0 is at front; undefined or negative at end
+         * @param index   'before where to delete'. 0 is at front; undefined or negative at end
          */
 
-        var codeRows = this.getMapcodeAsArray();
-        var l = codeRows.length;
+        const codeRows = this.getMapcodeAsArray();
+        const l = codeRows.length;
         if (l == 0) return false;
         if (count == 0) return false;
         if (count > l) return false;
 
-        //calc slice params
-        //they define "what remains"
-        var sliceStart = 0;
-        var sliceEnd = l;
+        // calc slice params
+        // they define 'what remains'
+        let sliceStart = 0;
+        let sliceEnd = l;
         if (index == 0) {
             sliceStart = count;
             sliceEnd = l;
@@ -205,28 +212,28 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
             sliceEnd = -count;
         }
 
-        var newCodeRows = codeRows.slice(sliceStart, sliceEnd)
+        const newCodeRows = codeRows.slice(sliceStart, sliceEnd);
         this.setMapcodeFromArray(newCodeRows);
     },
 
     delCol: function(count, index) {
         /**
          * @param counter number of cols to delete
-         * @param index   "before where to delete". 0 is at front; undefined or negative at end
+         * @param index   'before where to delete'. 0 is at front; undefined or negative at end
          */
 
-        var codeRows = this.getMapcodeAsArray();
-        var l = codeRows.length;
+        const codeRows = this.getMapcodeAsArray();
+        const l = codeRows.length;
         if (l < 1) return false;
-        var cols = codeRows[0].length;
+        const cols = codeRows[0].length;
         if (cols == 0) return false;
         if (count == 0) return false;
         if (count > cols) return false;
 
-        //calc slice params
-        //they define "what remains"
-        var sliceStart = 0;
-        var sliceEnd = 0;
+        // calc slice params
+        // they define 'what remains'
+        let sliceStart = 0;
+        let sliceEnd = 0;
         if (index == 0) {
             sliceStart = count;
             sliceEnd = cols;
@@ -235,12 +242,12 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
             sliceEnd = -count;
         }
 
-        //define function that is apply to every row
-        var f = function(row) {
+        // define function that is apply to every row
+        let f = function(row) {
             return row.slice(sliceStart, sliceEnd);
         };
 
-        var newCodeRows = codeRows.map(f, count);
+        const newCodeRows = codeRows.map(f, count);
         this.setMapcodeFromArray(newCodeRows);
     },
 
@@ -248,110 +255,109 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         this.setMapcode(mapcode);
     },
     sanitize: function() {
-        //console.log("sanitize and set correct code");
+        // console.log('sanitize and set correct code');
 
-        var dirtyCode = this.get("mapcode").toUpperCase().trim();
-        var starties = (dirtyCode.match(/S/g) || []).length;
+        const dirtyCode = TextHelper.trim(this.get('mapcode').toUpperCase());
+        const starties = (dirtyCode.match(/S/g) || []).length;
 
-        //find longest line
-        var rows = dirtyCode.split("\n");
-        var rowlength = 0;
+        // find longest line
+        const rows = dirtyCode.split('\n');
+        let rowlength = 0;
         rows.forEach(function(row) {
             if (row.length > rowlength) {
                 rowlength = row.length;
             }
         });
 
-        //pad lines to match longest and replace invalid Characters
-        var cleanRows = [];
-        var parcs = 0;
-        var me = this;
+        // pad lines to match longest and replace invalid Characters
+        const cleanRows = [];
+        let parcs = 0;
+        const me = this;
         rows.forEach(function(row) {
             if (row.length < rowlength) {
-                var padXXX = Array(rowlength - row.length + 1).join("X");
-                row += padXXX;
+                row += Array(rowlength - row.length + 1).join('X');
             }
 
-            var cleanRow = "";
+            let cleanRow = '';
 
-            for (var i = 0; i < rowlength; i++) {
-                var c = row[i];
+            for (let i = 0; i < rowlength; i++) {
+                const c = row[i];
                 if (me.isValidField(c)) {
                     cleanRow += row[i];
                 } else {
-                    cleanRow += "X";
+                    cleanRow += 'X';
                 }
             }
 
-            //set as many parcs as we have starties
+            // set as many parcs as we have starties
             if (parcs < starties) {
-                cleanRow = "P" + cleanRow.substr(1);
+                cleanRow = 'P' + cleanRow.substr(1);
                 parcs++;
             }
             cleanRows.push(cleanRow);
         });
 
-        cleanCode = cleanRows.join("\n");
-        //console.info(cleanCode);
-        this.set("mapcode", cleanCode);
+        cleanCode = cleanRows.join('\n');
+        // console.info(cleanCode);
+        this.set('mapcode', cleanCode);
 
-        //Make sure to remove \n at last line
+        // Make sure to remove \n at last line
     },
     getStartPositions: function() {
-        return this.getFieldPositions("S");
+        return this.getFieldPositions('S');
     },
     getCpPositions: function(mapcode) {
         return this.getFieldPositions('\\d', mapcode);
     },
     getFieldPositions: function(field, mapcode) {
-        var positions = [];
-        var re = new RegExp(field, "g");
-        mapcode = mapcode || this.get("mapcode");
-        var hit;
+        let positions = [];
+        let re = new RegExp(field, 'g');
+        mapcode = mapcode || this.get('mapcode');
+        let hit;
         while (hit = re.exec(mapcode)) {
-            var pos = hit.index;
+            const pos = hit.index;
             positions.push(new Position(this.getRowColFromPos(pos)));
         }
         return positions;
     },
     getCpList: function(mapcode) {
-        mapcode = mapcode || this.get("mapcode");
+        mapcode = mapcode || this.get('mapcode');
         return (mapcode.match(/\d/g) || []).sort().filter(function(el, i, a) {
-            if (i == a.indexOf(el))return 1;
+            if (i == a.indexOf(el)) return 1;
             return 0;
         });
     },
     withinBounds: function(opt) {
-        var x;
-        var y;
-        if ((opt.hasOwnProperty("row")) && opt.hasOwnProperty("col")) {
+        let x;
+        let y;
+        if ((opt.hasOwnProperty('row')) && opt.hasOwnProperty('col')) {
             x = opt.col;
             y = opt.row;
-        } else if ((opt.hasOwnProperty("x")) && (opt.hasOwnProperty("y"))) {
+        } else if ((opt.hasOwnProperty('x')) && (opt.hasOwnProperty('y'))) {
             x = opt.x;
             y = opt.y;
         } else {
             console.error(opt);
-            throw "param for withinBounds unclear";
+            throw new Error('param for withinBounds unclear');
         }
         if (x < 0) return false;
         if (y < 0) return false;
-        if (x > this.get("cols") - 1) return false;
-        if (y > this.get("rows") - 1) return false;
+        if (x > this.get('cols') - 1) return false;
+        if (y > this.get('rows') - 1) return false;
         return true;
     },
     setFieldAtRowCol: function(r, c, field) {
-        var pos = this.getPosFromRowCol(r, c);
-        var oldcode = this.get("mapcode");
-        //console.log("Mapcodecheck");
-        //only if different
-        var oldfield = oldcode[pos];
+        const pos = this.getPosFromRowCol(r, c);
+        const oldcode = this.get('mapcode');
+        // console.log('Mapcodecheck');
+        // only if different
+        const oldfield = oldcode[pos];
         if (oldfield !== field) {
             mapcode = oldcode.substr(0, pos) + field + oldcode.substr(pos + 1);
-            this.set("mapcode", mapcode, {silent: true});
-            //trigger field change instead
-            this.trigger("change:field", {r: r, c: c, field: field, oldfield: oldfield, oldcode: oldcode});
-            //console.log("Change triggered");
+            this.set('mapcode', mapcode, {silent: true});
+            // trigger field change instead
+            this.trigger('change:field', {r: r, c: c, field: field, oldfield: oldfield, oldcode: oldcode});
+            // console.log('Change triggered');
         }
     },
     /**
@@ -361,63 +367,67 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
      * @returns {String}
      */
     getFieldAtRowCol: function(r, c) {
-        //console.log(r, c);
+        // console.log(r, c);
         if (!this.withinBounds({row: r, col: c})) {
             console.error(r, c);
-            throw  "Row " + r + ", Col " + c + " not within bounds";
+            throw new Error('Row ' + r + ', Col ' + c + ' not within bounds');
         }
-        var pos = this.getPosFromRowCol(r, c);
-        //console.log("Ich sag",pos);
-        return this.get("mapcode").charAt(pos);
+        const pos = this.getPosFromRowCol(r, c);
+        // console.log('Ich sag',pos);
+        return this.get('mapcode').charAt(pos);
     },
+
     getPosFromRowCol: function(r, c) {
-        var pos = ( r * (this.get("cols") + 1)) + c;
-        return pos;
+        return (r * (this.get('cols') + 1)) + c;
     },
+
     getRowColFromPos: function(pos) {
-        var cols = this.get("cols") + 1;
-        var c = pos % cols;
-        var r = Math.floor(pos / cols);
+        const cols = this.get('cols') + 1;
+        const c = pos % cols;
+        const r = Math.floor(pos / cols);
         return {row: r, col: c, x: c, y: r};
     },
+
     getPassedFields: function(mo) {
-        if (!mo) console.error("No motion given");
-        var positions = mo.getPassedPositions();
-        //console.log(positions);
-        var fields = [];
-        for (var posKey in positions) {
-            var pos = positions[posKey];
-            var x = pos.get("x");
-            var y = pos.get("y");
-            if (this.withinBounds({x: x, y: y})) {
-                fields.push(this.getFieldAtRowCol(y, x));
-            } else {
-                fields.push("_");
+        if (!mo) console.error('No motion given');
+        const positions = mo.getPassedPositions();
+        // console.log(positions);
+        const fields = [];
+        for (const posKey in positions) {
+            if (positions.hasOwnProperty(posKey)) {
+                const pos = positions[posKey];
+                const x = pos.get('x');
+                const y = pos.get('y');
+                if (this.withinBounds({x: x, y: y})) {
+                    fields.push(this.getFieldAtRowCol(y, x));
+                } else {
+                    fields.push('_');
+                }
             }
         }
         return fields;
     },
     isPossible: function(mo) {
-        var fields = this.getPassedFields(mo);
+        const fields = this.getPassedFields(mo);
 
-        //if undefined in fields, not possible
+        // if undefined in fields, not possible
         if (fields.indexOf(undefined) >= 0) return false;
 
-        //concat fields and test against offroad regexp
-        return (!fields.join("").match(this.offroadRegEx));
+        // concat fields and test against offroad regexp
+        return (!fields.join('').match(this.offroadRegEx));
     },
     /**
      * @param motions
      * @returns {Array} Motions
      */
     verifiedMotions: function(motions) {
-        var remaining = [];
-        for (var p = 0; p < motions.length; p++) {
-            var mo = motions[p];
+        const remaining = [];
+        for (let p = 0; p < motions.length; p++) {
+            const mo = motions[p];
             if (this.isPossible(mo)) {
                 remaining.push(mo);
             }
         }
         return remaining;
-    }
+    },
 });

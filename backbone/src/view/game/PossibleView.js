@@ -1,5 +1,5 @@
 const Backbone = require('backbone');
-module.exports = PossibleView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
     tagName: "div",
     className: "possibleMove",
     events: {

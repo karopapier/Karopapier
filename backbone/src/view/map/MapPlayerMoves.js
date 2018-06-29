@@ -1,6 +1,6 @@
 const KaroUtil = require('../../model/Util');
 
-module.exports = MapPlayerMoves = Backbone.View.extend({
+module.exports = Backbone.View.extend({
     optionDefaults: {
         visible: true
     },

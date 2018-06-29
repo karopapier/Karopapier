@@ -29,6 +29,12 @@ module.exports = function(grunt) {
         },
         browserify: {
             options: {
+                transform: [
+                    [
+                        'babelify', {'presets': ['env']},
+                    ],
+                    ['jstify'] //html -> underscore templates
+                ],
                 browserifyOptions: {
                     debug: true,
                 },

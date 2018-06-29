@@ -1,6 +1,7 @@
-module.exports = GameInfoView = Backbone.View.extend({
+var moment = require('moment');
+module.exports = Backbone.View.extend({
     id: "gameInfo",
-    template: window["JST"]["game/gameInfo"],
+    template: require('../../../templates/game/gameInfo.html'),
     initialize: function() {
         _.bindAll(this, "render");
         this.listenTo(this.model, "change", this.render);

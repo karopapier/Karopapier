@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Karopapier 2.1</title>
+        <title>Karopapier 2.2</title>
         <script type="text/javascript">
             window.APIHOST = "//" + window.location.host.replace("2", "www");
             if (window.location.hash == "#debug") {
@@ -31,7 +31,7 @@
         <script type="text/javascript" src="js/libs/backbone-min-1.2.3.js"></script>
         <script type="text/javascript" src="js/libs/backbone.marionette.min.js"></script>
         <script type="text/javascript" src="js/libs/backbone-model-factory-min.js"></script>
-        <script type="text/javascript" src="js/libs/moment.min.js"></script>
+        <!--<script type="text/javascript" src="js/libs/moment.min.js"></script>-->
         <!--<script type="text/javascript" src="js/libs/hammer.min.js"></script> -->
         <!--<script type="text/javascript" src="js/libs/Sideslide.js"></script> -->
         <!--<script type="text/javascript" src="js/libs/touch-emulator.js"></script>
@@ -226,7 +226,7 @@
             <b>Bordfunk</b><br/>
 
             <div id="moveMessages">
-                <small>KaroMAMA (31.12.2099): &quot;<i>Noch nix geladenIch bin ausgestiegen</i>&quot;</small>
+                <small>KaroMAMA (31.12.2099): &quot;<i>Noch nix geladen</i>&quot;</small>
             </div>
         </div>
         <br/>
@@ -331,40 +331,12 @@
         Letzter Satz im <a href="index.html">Chat</a>:<br/>
         <B>KaroMAMA</B> (25:37): Das ist noch nicht dynamisch - aber das hast Du bestimmt gerade auch gemerkt <BR><br/>
 
-        <script src="/js/GameStepUp.js?v=201512161416"></script>
+        <script src="/js/GameStepUp.js?v=201812161416"></script>
 
         <script>
             if (!/karopapier/.test(window.location.hostname)) {
                 document.write('<scr' + 'ipt src="http://www.panamapapier.de:20012/livereload.js"></scr' + 'ipt>');
             }
-            /*
-             var styleEl = document.createElement("style");
-             styleEl.appendChild(document.createTextNode(""));
-             document.head.appendChild(styleEl);
-             styleSheet = styleEl.sheet;
-             styleSheet.insertRule(".road {fill: rgb(128, 128, 128)}",0);
-             styleSheet.insertRule(".start {fill: url(#startPattern)}",1);
-             //styleSheet.insertRule(".grass {fill: url(#startPattern) !important}",1);
-             */
-
         </script>
-        <!-- Piwik -->
-        <script type="text/javascript">
-            var pkBaseURL = "//stats.karopapier.de/";
-            pkBaseURL = "//www.karopapier.de/piwik/";
-            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-        </script>
-        <script type="text/javascript">
-            piwik_action_name = '';
-            piwik_idsite = 1;
-            piwik_url = pkBaseURL + "piwik.php";
-            piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-        </script>
-        <object>
-            <noscript><p>Web analytics <img src="//stats.karopapier.de/piwik.php?idsite=1" style="border:0" alt=""/></p>
-            </noscript>
-        </object>
-        </a>
-        <!-- End Piwik Tag -->
     </BODY>
 </HTML>

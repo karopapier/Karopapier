@@ -1,4 +1,4 @@
-module.exports = GameTitleView = Backbone.View.extend({
+module.exports = Backbone.View.extend({
     template: window.JST["game/gameTitle"],
     initialize: function() {
         this.listenTo(this.model, "change:name", this.render)

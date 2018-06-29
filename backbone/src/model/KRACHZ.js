@@ -39,7 +39,7 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
     //map
     //motion
     //calc with depth
-    initialize: function (options) {
+    initialize: function(options) {
         _.bindAll(this, "willCrash");
         if (!options.hasOwnProperty("map") || (typeof options.map === "undefined")) {
             console.error("No map provided to KRACHZ");
@@ -48,8 +48,8 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
         this.cache = {};
     },
 
-    willCrash: function (mo, depth) {
-        //console.warn("starting", mo.toString(), depth);
+    willCrash: function(mo, depth) {
+        // console.warn("starting", mo.toString(), depth);
         var map = this.get("map");
         if (!depth) depth = 8;
         //crazyHelperFunction(mo, depth);
@@ -67,7 +67,7 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
         }
 
         var stop = mo.getStopPosition();
-        if (!(map.withinBounds({ x:stop.get("x"), y: stop.get("y")}))) {
+        if (!(map.withinBounds({x: stop.get("x"), y: stop.get("y")}))) {
             this.cache[mo.toString()] = true;
             return true;
         }
