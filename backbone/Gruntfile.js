@@ -38,6 +38,11 @@ module.exports = function(grunt) {
                     'public/js/<%= pkg.name %>.browserified.js': ['src/start.js'],
                 },
             },
+            gamestepup: {
+                files: {
+                    'public/js/GameStepUp.js': ['public/js/GameStepUp.src.js'],
+                },
+            }
         },
         uglify: {
             min: {
@@ -105,7 +110,7 @@ module.exports = function(grunt) {
         },
         watch: {
             scripts: {
-                files: ['src/**/*.js', '!src/<%= pkg.name %>*.js', 'test/**/*.js'],
+                files: ['src/**/*.js', '!src/<%= pkg.name %>*.js', 'test/**/*.js', 'public/js/GameStepUp.src.js'],
                 tasks: ['build', 'publish', 'test'],
                 options: {
                     interrupt: true,

@@ -1,10 +1,13 @@
-var PossiblesView = Backbone.View.extend({
+const Backbone = require('backbone');
+const KRACHZ = require('../model/KRACHZ');
+const PossibleView = require('./PossibleView');
+module.exports = PossiblesView = Backbone.View.extend({
     events: {
         "clicked": "clickMove"
     },
-    initialize: function (options) {
+    initialize: function(options) {
         //console.warn("I AM THE POSSIBLES VIEW");
-        _.bindAll(this, "clearPossibles", "checkWillCrash", "render" );
+        _.bindAll(this, "clearPossibles", "checkWillCrash", "render");
         if (!options.hasOwnProperty("game")) {
             console.error("No game for PossiblesView");
         }
@@ -19,13 +22,13 @@ var PossiblesView = Backbone.View.extend({
         this.listenTo(this, "changeHighlight", this.checkHighlight);
         this.highlight = false;
     },
-    clearPossibles: function () {
+    clearPossibles: function() {
         //console.info("Clear possibles");
         _.each(this.views, function(v) {
             //console.log("Ich entferne nen alten possible");
             v.cleanup().remove();
         });
-        this.views=[];
+        this.views = [];
         //this.$('.possibleMove').remove();
     },
     clickMove: function(mo) {
@@ -40,10 +43,10 @@ var PossiblesView = Backbone.View.extend({
         if (this.highlight) {
             this.highlight.model.set("highlight", false);
         }
-        e.model.set("highlight",true);
+        e.model.set("highlight", true);
         this.highlight = e;
     },
-    render: function () {
+    render: function() {
         //console.info("Rendering possibles for",this.game.get("id"));
         this.clearPossibles();
         var possibles = this.game.possibles;
@@ -53,13 +56,13 @@ var PossiblesView = Backbone.View.extend({
             map: this.game.map
         });
 
-        this.game.possibles.each(function (possible) {
+        this.game.possibles.each(function(possible) {
             var posView = new PossibleView({
                 mapView: this.mapView,
                 model: possible,
                 parent: this
             }).render();
-            setTimeout(this.checkWillCrash.bind(this, k, possible),0);
+            setTimeout(this.checkWillCrash.bind(this, k, possible), 0);
             //console.log(posView.el);
             //console.log(this.$el);
             this.$el.append(posView.el);

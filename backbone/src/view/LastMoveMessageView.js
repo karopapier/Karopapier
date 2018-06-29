@@ -1,5 +1,5 @@
-var LastMoveMessageView = Backbone.View.extend({
-    initialize: function (options) {
+module.exports = LastMoveMessageView = Backbone.View.extend({
+    initialize: function(options) {
         options = options || {};
 
         this.listenTo(this.collection, "reset change", this.render);
@@ -9,18 +9,18 @@ var LastMoveMessageView = Backbone.View.extend({
         this.settings.set("timestamp", false);
         this.listenTo(this.settings, "change:timestamp", this.render);
     },
-    render: function () {
+    render: function() {
         var html = '';
         var ts = this.settings.get("timestamp");
 
         if ((this.collection.length > 0) && ts) {
-            var filter = function (m) {
+            var filter = function(m) {
                 d = moment(m.get("t"), "YYYY-MM-DD hh:mm:ss");
                 return (d.unix() > (ts.getTime() / 1000));
             };
 
             var filtered = this.collection.filter(filter);
-            _.each(filtered, function (e) {
+            _.each(filtered, function(e) {
                 var txt = e.get("msg");
                 var tpl = this.template;
                 //if (!txt.startsWith("-:K")) {  //do we want to see status messages since last move or not?

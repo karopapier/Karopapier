@@ -16,12 +16,5 @@
     <% } %>
 </td>";
 <td><%= lastmovetime %></td>
-<td><%
-    var d = Math.floor(blocktime/86400);
-    var b =blocktime-d*86400;
-    var h = Math.floor(b/3600);
-    b = b-(h*3600);
-    var m = Math.floor(b/60);
-    b = b-(m*60); %>
-    <%= d %> Tage, <%= h %>:<%= m %>:<%= b %>
-</td>
+<td>--</td>
+

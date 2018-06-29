@@ -3,10 +3,10 @@
     <head>
         <title>Karopapier 2.1</title>
         <script type="text/javascript">
-            window.APIHOST = "//" + window.location.host.replace("2","www");
+            window.APIHOST = "//" + window.location.host.replace("2", "www");
             if (window.location.hash == "#debug") {
                 alert("Debug mode! Wenn jetzt im Javascript ein Fehler auftaucht, siehst Du es hier");
-                window.onerror = function (msg, url, line, col, error) {
+                window.onerror = function(msg, url, line, col, error) {
                     // Note that col & error are new to the HTML 5 spec and may not be
                     // supported in every browser.  It worked for me in Chrome.
                     var extra = !col ? '' : '\ncolumn: ' + col;
@@ -44,8 +44,8 @@
             var Karopapier = new Marionette.Application(); // currently only for Util.js to not throw an error
         </script>
 
-        <script type="text/javascript" src="/js/libs/JST.js?v=1"></script>
-        <script type="text/javascript" src="/js/libs/KaroBackbone.js?v=2"></script>
+        <script type="text/javascript" src="/js/JST.js?v=1"></script>
+        <!--<script type="text/javascript" src="/js/libs/KaroBackbone.js?v=2"></script>-->
 
         <link id="favicon" rel="shortcut icon" href="favicon.ico"/>
 
@@ -116,10 +116,10 @@
         </div>
 
         <!--<div id="mapImageContainer" style="position: relative; width: 400px; height:400px; overflow: hidden"> -->
-            <div id="mapImage" style="position: relative;">
-                <canvas id="mapRenderView"></canvas>
-                <svg id="mapPlayerMoves" style="position: absolute; top:0; left:0; z-index: 5"></svg>
-            </div>
+        <div id="mapImage" style="position: relative;">
+            <canvas id="mapRenderView"></canvas>
+            <svg id="mapPlayerMoves" style="position: absolute; top:0; left:0; z-index: 5"></svg>
+        </div>
         <!--</div> -->
         <div class="clearer"></div>
         <script>
@@ -193,10 +193,10 @@
         <script>
             $('.drawMoveLimit').click(function(e) {
                 var l = $(e.currentTarget).data("limit");
-                mvs.set("drawLimit",l);
+                mvs.set("drawLimit", l);
             });
         </script>
-        <br />
+        <br/>
         <span id="statusinfo">Status wird völlig überbewertet</span>
 
         <form id="moveMsgForm">
@@ -207,7 +207,7 @@
         </form>
 
         <script type="text/javascript">
-            $('#moveMsgForm').submit(function (e) {
+            $('#moveMsgForm').submit(function(e) {
                 var moveMsg = $('#movemessage').val();
                 var w = $('#movemessage').width();
                 if (moveMsg !== "") {
@@ -216,7 +216,7 @@
                 }
                 e.preventDefault();
             });
-            $('#movemessage').click(function () {
+            $('#movemessage').click(function() {
             });
         </script>
 
@@ -257,7 +257,7 @@
                 '11': 'c'
             }
 
-            $('area').each(function (i, e) {
+            $('area').each(function(i, e) {
                 var rel = $(e).attr('rel');
                 if (rel) {
                     //console.log(rel);
@@ -282,16 +282,17 @@
             var MapId = 96;
 
             var voteurl = "/api/map/" + MapId + "/vote.json";
+
             function initStarvote() {
-                $.getJSON(voteurl + "?callback=?", function (data) {
+                $.getJSON(voteurl + "?callback=?", function(data) {
                     $('#mapvote').trigger("newdata", data);
                 });
             }
             ;
 
-            $(document).ready(function () {
+            $(document).ready(function() {
 
-                $('#mapvote').bind("newdata", function (e, data) {
+                $('#mapvote').bind("newdata", function(e, data) {
                     //console.log(data);
                     var mv = new StarVote($('#mapvote'), {
                         "picPath": "//www.karopapier.de/images/starvote"
@@ -300,7 +301,7 @@
                     mv.setGlobalValue(data.avg);
                 });
 
-                $('#mapvote').bind("voted", function (e, vote) {
+                $('#mapvote').bind("voted", function(e, vote) {
                     //console.log(vote);
                     $.ajax({
                         url: voteurl,
@@ -309,11 +310,11 @@
                         xhrFields: {
                             withCredentials: true
                         },
-                        success: function (data) {
+                        success: function(data) {
                             //console.log("gut",data);
                             $('#mapvote').trigger("newdata", data);
                         },
-                        error: function (data) {
+                        error: function(data) {
                             //console.log("bad",data);
                         },
                         dataType: "json"
@@ -334,7 +335,7 @@
 
         <script>
             if (!/karopapier/.test(window.location.hostname)) {
-                document.write('<scr' + 'ipt src="http://localhost:20000/livereload.js"></scr' + 'ipt>');
+                document.write('<scr' + 'ipt src="http://www.panamapapier.de:20012/livereload.js"></scr' + 'ipt>');
             }
             /*
              var styleEl = document.createElement("style");
@@ -348,17 +349,22 @@
 
         </script>
         <!-- Piwik -->
-          <script type="text/javascript">
-          var pkBaseURL = "//stats.karopapier.de/";
-          pkBaseURL = "//www.karopapier.de/piwik/";
-          document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-          </script><script type="text/javascript">
-          piwik_action_name = '';
-          piwik_idsite = 1;
-          piwik_url = pkBaseURL + "piwik.php";
-          piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-          </script>
-          <object><noscript><p>Web analytics <img src="//stats.karopapier.de/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript></object></a>
+        <script type="text/javascript">
+            var pkBaseURL = "//stats.karopapier.de/";
+            pkBaseURL = "//www.karopapier.de/piwik/";
+            document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            piwik_action_name = '';
+            piwik_idsite = 1;
+            piwik_url = pkBaseURL + "piwik.php";
+            piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+        </script>
+        <object>
+            <noscript><p>Web analytics <img src="//stats.karopapier.de/piwik.php?idsite=1" style="border:0" alt=""/></p>
+            </noscript>
+        </object>
+        </a>
         <!-- End Piwik Tag -->
     </BODY>
 </HTML>

@@ -1,7 +1,7 @@
-var GameInfoView = Backbone.View.extend({
+module.exports = GameInfoView = Backbone.View.extend({
     id: "gameInfo",
     template: window["JST"]["game/gameInfo"],
-    initialize: function () {
+    initialize: function() {
         _.bindAll(this, "render");
         this.listenTo(this.model, "change", this.render);
         this.listenTo(this.model.map, "change", this.render);
@@ -23,7 +23,7 @@ var GameInfoView = Backbone.View.extend({
             "allowed": "erlaubt"
         }
     },
-    render: function () {
+    render: function() {
         //console.log("Render infos for ", this.model.get("name"));
         if (!this.model.get("completed")) {
             //console.log("Skip rendering, game not complete");

@@ -1,4 +1,6 @@
-var MapPlayersMoves = Marionette.CollectionView.extend({
+const Marionette = require('backbone.marionette');
+const MapPlayerMoves = require('./MapPlayerMoves');
+module.exports = MapPlayersMoves = Marionette.CollectionView.extend({
     tag: "div",
     className: "Dings",
     optionDefaults: {
@@ -9,13 +11,13 @@ var MapPlayersMoves = Marionette.CollectionView.extend({
     },
     childView: MapPlayerMoves,
 
-    childViewOptions: function () {
+    childViewOptions: function() {
         return {
             settings: this.settings
         };
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         if (!this.collection) {
             console.error("Missing Collection");
             return false;
@@ -35,12 +37,12 @@ var MapPlayersMoves = Marionette.CollectionView.extend({
         this.listenTo(this.model, "change:completed", this.check);
         this.listenTo(this.settings, "change:drawLimit", this.drawLimit);
     },
-    check: function () {
+    check: function() {
         if (!this.model.get("completed")) return false;
         this.resize();
 
         //initialise visibility & drawLimits
-        this.collection.each(function (m) {
+        this.collection.each(function(m) {
             //defaults
             var drawLimit = 5;
             var visible = true;
@@ -63,16 +65,16 @@ var MapPlayersMoves = Marionette.CollectionView.extend({
         this.render();
     },
 
-    drawLimit: function () {
+    drawLimit: function() {
         var newLimit = this.settings.get("drawLimit");
-        this.collection.each(function (m) {
+        this.collection.each(function(m) {
             m.set("drawLimit", newLimit);
         });
     },
 
-    resize: function () {
+    resize: function() {
         var w = this.model.map.get("cols") * (this.settings.get("size") + this.settings.get("border"));
-        var h = this.model.map.get("rows") * (this.settings.get("size") + this.settings.get("border") );
+        var h = this.model.map.get("rows") * (this.settings.get("size") + this.settings.get("border"));
         this.$el.css({
             width: w,
             height: h

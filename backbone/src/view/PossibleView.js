@@ -1,4 +1,5 @@
-var PossibleView = Backbone.View.extend({
+const Backbone = require('backbone');
+module.exports = PossibleView = Backbone.View.extend({
     tagName: "div",
     className: "possibleMove",
     events: {
@@ -11,7 +12,7 @@ var PossibleView = Backbone.View.extend({
     NOWAY: function() {
         alert("YES");
     },
-    initialize: function (options) {
+    initialize: function(options) {
         this.mouseOrTouch = "mouse";
         _.bindAll(this, "checkMove", "hoverMove", "unhoverMove", "render", "cleanup");
         if (!options.hasOwnProperty("mapView")) {
@@ -28,25 +29,25 @@ var PossibleView = Backbone.View.extend({
 
     },
     wasTouch: function() {
-        this.mouseOrTouch="touch";
+        this.mouseOrTouch = "touch";
     },
-    confirmMove: function (e) {
+    confirmMove: function(e) {
         this.trigger("clicked", this.model);
-        this.mouseOrTouch="mouse";
+        this.mouseOrTouch = "mouse";
         e.stopPropagation();
     },
-    checkMove: function (e) {
+    checkMove: function(e) {
         console.log("Click by ", this.mouseOrTouch);
-        if (this.mouseOrTouch=="touch") {
+        if (this.mouseOrTouch == "touch") {
             this.model.set("highlight", true);
             this.parent.trigger("changeHighlight", this);
         } else {
             //console.log("trigger", this.model);
             this.trigger("clicked", this.model);
         }
-        this.mouseOrTouch="mouse";
+        this.mouseOrTouch = "mouse";
     },
-    hoverMove: function (e, a, b) {
+    hoverMove: function(e, a, b) {
         var mo = this.model;
         if (mo.get("vector").getLength() > 2.8) {
             //console.log(mo);
@@ -55,14 +56,14 @@ var PossibleView = Backbone.View.extend({
             this.$el.parent().append(this.stopDiv);
         }
     },
-    unhoverMove: function () {
+    unhoverMove: function() {
         if (this.stopDiv) this.stopDiv.remove();
     },
     cleanup: function() {
         this.unhoverMove();
         return this;
     },
-    render: function () {
+    render: function() {
         var v = this.model.get("vector");
         var p = this.model.get("position");
         this.$el.css({
@@ -90,7 +91,7 @@ var PossibleView = Backbone.View.extend({
                 this.$el.addClass("noCrash");
             }
         }
-        if (v.toString()==="(0|0)") {
+        if (v.toString() === "(0|0)") {
             this.$el.attr("title", "Start: " + this.model.toKeyString());
             this.$el.addClass("isStart");
         }

@@ -1,7 +1,8 @@
-var MoveMessageView = Backbone.View.extend({
+const KaroUtil = require('../model/Util');
+module.exports = MoveMessageView = Backbone.View.extend({
     template: _.template('<%= name %> (<%= date %>): &quot;<%= text %>&quot;<br />\n'),
     statusTemplate: _.template('<small><%= name %> (<%= date %>): &quot;<%= text %>&quot;<br /></small>\n'),
-    initialize: function (options) {
+    initialize: function(options) {
         options = options || {};
 
         this.listenTo(this.collection, "reset change", this.render);
@@ -14,7 +15,7 @@ var MoveMessageView = Backbone.View.extend({
             this.filter = options.filter;
         }
     },
-    render: function () {
+    render: function() {
         //console.log("Rendere Movemessages, derer", this.collection.length);
         var html = '';
         var filtered = this.collection.models;
@@ -22,7 +23,7 @@ var MoveMessageView = Backbone.View.extend({
             filtered = this.collection.filter(this.filter);
         }
 
-        _.each(filtered, function (e) {
+        _.each(filtered, function(e) {
             var txt = e.get("msg");
             var tpl = this.template;
             if (txt.startsWith("-:K")) {
