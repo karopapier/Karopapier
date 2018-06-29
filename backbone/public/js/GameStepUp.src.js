@@ -12,6 +12,7 @@ const MapPlayersMoves = require('../../src/view/map/MapPlayersMoves');
 const PossiblesView = require('../../src/view/PossiblesView');
 const DranGameCollection = require('../../src/collection/DranGameCollection');
 const GameAppRouter = require('../../src/router/GameAppRouter');
+const Move = require('../../src/model/Move');
 
 Karopapier.User = new User({});
 //make this user refer to "check" for loging in

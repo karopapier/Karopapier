@@ -20,3 +20,5 @@ node_modules
 /web/css
 /web/cachebust.json
 /web/index.html
+
+/backbone/public/js/GameStepUp.js
