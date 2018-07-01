@@ -1,7 +1,7 @@
 const Marionette = require('backbone.marionette');
+
 module.exports = Marionette.ItemView.extend({
-    template() {
-    },
+    template: false, // 2.4.7
     className: 'dranAppView',
     render: function() {
         this.model.layout.render();

@@ -51,7 +51,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
         if (myId == 0) return;
         let html;
         $.getJSON(APIHOST + '/api/user/blockerlist.json?callback=?', function(bl) {
-            blockerlist = bl;
+            const blockerlist = bl;
             let dran = this.model.get('dran');
             if (dran == 0) {
                 html = 'Du bist ein <a href="/karowiki/index.php/Nixblocker">Nixblocker</a>';

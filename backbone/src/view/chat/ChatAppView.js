@@ -1,4 +1,6 @@
 const Marionette = require('backbone.marionette');
+const $ = require('jquery');
+
 module.exports = Marionette.ItemView.extend({
     className: 'chatAppView',
     render: function() {
