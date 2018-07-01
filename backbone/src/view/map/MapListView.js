@@ -1,17 +1,18 @@
-var Marionette = require('backbone.marionette');
-var MapListItemView = require('./MapListItemView');
+const Marionette = require('backbone.marionette');
+const MapListItemView = require('./MapListItemView');
+
 module.exports = Marionette.CollectionView.extend({
-    tagName: "select",
+    tagName: 'select',
     childView: MapListItemView,
-    childViewContainer: "select",
-    template: window.JST["map/listView"],
+    childViewContainer: 'select',
+    template: window.JST['map/listView'],
     events: {
-        "change select": "selected"
+        'change select': 'selected',
     },
     selected: function(e) {
-        var $select = $(e.currentTarget)
-        var id = $select.val();
-        var m = this.collection.get(id);
-        this.trigger("selected", m);
-    }
+        let $select = $(e.currentTarget);
+        let id = $select.val();
+        let m = this.collection.get(id);
+        this.trigger('selected', m);
+    },
 });

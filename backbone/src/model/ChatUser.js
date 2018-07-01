@@ -1,3 +1,1 @@
-var ChatUser = Backbone.Model.extend({
-
-});
+module.exports = Backbone.Model.extend({});

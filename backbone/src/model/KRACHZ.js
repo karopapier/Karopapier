@@ -1,5 +1,5 @@
-var _ = require('underscore');
-var Backbone = require('backbone');
+const _ = require('underscore');
+const Backbone = require('backbone');
 /*
  var crazyHelperFunction = function (mo, depth) {
  var pos1 = mo.getSourcePosition();
@@ -36,13 +36,13 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
      * aka "Crash Detection"
      */
 
-    //map
-    //motion
-    //calc with depth
+    // map
+    // motion
+    // calc with depth
     initialize: function(options) {
-        _.bindAll(this, "willCrash");
-        if (!options.hasOwnProperty("map") || (typeof options.map === "undefined")) {
-            console.error("No map provided to KRACHZ");
+        _.bindAll(this, 'willCrash');
+        if (!options.hasOwnProperty('map') || (typeof options.map === 'undefined')) {
+            console.error('No map provided to KRACHZ');
             return false;
         }
         this.cache = {};
@@ -50,50 +50,50 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
 
     willCrash: function(mo, depth) {
         // console.warn("starting", mo.toString(), depth);
-        var map = this.get("map");
+        let map = this.get('map');
         if (!depth) depth = 8;
-        //crazyHelperFunction(mo, depth);
-        //TAKES++;
+        // crazyHelperFunction(mo, depth);
+        // TAKES++;
 
         if (depth === 0) return false;
         if (depth === 1) {
-            //console.warn("TIEF 1", mo);
-            //crazyHelperFunction(mo, 0);
+            // console.warn("TIEF 1", mo);
+            // crazyHelperFunction(mo, 0);
             return !map.isPossible(mo);
         }
-        if (mo.get("vector").toString() == "(0|0)") {
-            //console.log("NULLER");
+        if (mo.get('vector').toString() == '(0|0)') {
+            // console.log("NULLER");
             return false;
         }
 
-        var stop = mo.getStopPosition();
-        if (!(map.withinBounds({x: stop.get("x"), y: stop.get("y")}))) {
+        let stop = mo.getStopPosition();
+        if (!(map.withinBounds({x: stop.get('x'), y: stop.get('y')}))) {
             this.cache[mo.toString()] = true;
             return true;
         }
-        var possibles = mo.getPossiblesByLength();
+        let possibles = mo.getPossiblesByLength();
         possibles = map.verifiedMotions(possibles);
         if (possibles.length == 0) {
-            //console.warn("Nothin left");
+            // console.warn("Nothin left");
             return true;
         }
 
-        //I think I could turn around
-        if ((mo.get("vector").getLength() == 1) && (possibles.length == 8)) return false;
+        // I think I could turn around
+        if ((mo.get('vector').getLength() == 1) && (possibles.length == 8)) return false;
 
-        var crashes = 0;
-        var plen = possibles.length;
-        for (var p = 0; p < plen; p++) {
-            //console.info(possibles[p],"now")
-            var possible = possibles[p];
-            var moString = possible.toString();
-            //console.log(moString, "Depth:", depth, p + "/" + crashes);
+        let crashes = 0;
+        let plen = possibles.length;
+        for (let p = 0; p < plen; p++) {
+            // console.info(possibles[p],"now")
+            let possible = possibles[p];
+            let moString = possible.toString();
+            // console.log(moString, "Depth:", depth, p + "/" + crashes);
             if (depth >= 1) {
                 if (moString in this.cache) {
-                    //console.info("Cached",moString);
+                    // console.info("Cached",moString);
                     return this.cache[moString];
                 }
-                var wc = this.willCrash(possible, depth - 1);
+                let wc = this.willCrash(possible, depth - 1);
                 this.cache[moString] = wc;
                 if (wc) {
                     crashes++;
@@ -102,7 +102,7 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
                 }
             }
         }
-        //console.info(crashes, possibles.length);
+        // console.info(crashes, possibles.length);
         return crashes == possibles.length;
-    }
+    },
 });

@@ -1,13 +1,14 @@
-var Backbone = require('backbone');
+const Backbone = require('backbone');
+
 module.exports = Backbone.Model.extend(/** @lends Notification.prototype*/{
     defaults: {
-        level: "info",
-        text: "Notification",
+        level: 'info',
+        text: 'Notification',
         screen: true,
-        group: "general",
+        group: 'general',
         timeout: 8000,
-        imageUrl: "",
-        clickUrl: ""
+        imageUrl: '',
+        clickUrl: '',
     },
     /**
      * @constructor Notification
@@ -15,13 +16,13 @@ module.exports = Backbone.Model.extend(/** @lends Notification.prototype*/{
      * A Notification to be shown on screen or as browser notification
      *
      */
-    initialize: function (options) {
-        if (typeof options === "string") {
-            this.set("text", options);
+    initialize: function(options) {
+        if (typeof options === 'string') {
+            this.set('text', options);
         } else {
             _.defaults(options, this.defaults);
         }
         this.set(options);
         return this;
-    }
+    },
 });

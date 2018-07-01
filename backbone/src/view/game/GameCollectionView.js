@@ -1,6 +1,6 @@
-//container for rendered map and players
-var Marionette = require('backbone.marionette');
+// container for rendered map and players
+const Marionette = require('backbone.marionette');
 module.exports = Marionette.CompositeView.extend({
-    childViewContainer: "tbody",
-    template: window["JST"]["dran/dranGames"]
+    childViewContainer: 'tbody',
+    template: window['JST']['dran/dranGames'],
 });

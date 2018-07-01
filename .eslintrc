@@ -8,8 +8,10 @@
   "rules": {
     "indent": [
       "error",
-      4
-      , { "SwitchCase": 1 }
+      4,
+      {
+        "SwitchCase": 1
+      }
     ],
     "padded-blocks": [
       2,
@@ -27,6 +29,8 @@
       120
     ],
     "require-jsdoc": "off",
-    "valid-jsdoc": "off"
+    "valid-jsdoc": "off",
+    "guard-for-in": "off",
+    "prefer-rest-params": "off"
   }
 }

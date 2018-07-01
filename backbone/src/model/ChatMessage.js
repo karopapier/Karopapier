@@ -1,4 +1,5 @@
-var Backbone = require('backbone');
+const Backbone = require('backbone');
+
 module.exports = Backbone.Model.extend({
-    idAttribute: "lineId"
+    idAttribute: 'lineId',
 });

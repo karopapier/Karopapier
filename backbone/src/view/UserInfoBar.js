@@ -1,35 +1,36 @@
-var _ = require('underscore');
-var Backbone = require('backbone');
-var UserView = require('./UserView');
+const _ = require('underscore');
+const Backbone = require('backbone');
+const UserView = require('./UserView');
+
 module.exports = Backbone.View.extend({
-    id: "userInfoBar",
-    tagName: "div",
-    template: window.JST["main/userInfoBar"],
+    id: 'userInfoBar',
+    tagName: 'div',
+    template: require('../../templates/main/userInfoBar.html'),
     events: {
-        "click .login": "login"
+        'click .login': 'login',
     },
     login: function(e) {
         e.preventDefault();
-        console.log("Login now");
+        console.log('Login now');
         return false;
     },
     initialize: function(options) {
-        _.bindAll(this, "render");
+        _.bindAll(this, 'render');
         this.userView = new UserView({
             model: this.model,
             withGames: true,
             withAnniversary: true,
             withDesperation: false,
-            withGamesLink: true
+            withGamesLink: true,
         });
-        this.listenTo(this.model, "change", this.render);
+        this.listenTo(this.model, 'change', this.render);
     },
     render: function() {
-        var uid = this.model.get("id");
+        let uid = this.model.get('id');
         if (uid > 0) {
             this.$el.html(this.userView.$el);
-            this.$el.append(" ");
-            var uc = this.model.get("uc");
+            this.$el.append(' ');
+            let uc = this.model.get('uc');
             if (uc > 0) {
                 this.$el.append('<a href="//karopapier.de/zettel"><span class="unread">' + uc + '</span></a>');
             }
@@ -37,11 +38,11 @@ module.exports = Backbone.View.extend({
             return this;
         }
 
-        var html = "Moment, kenn ich Dich?";
+        let html = 'Moment, kenn ich Dich?';
         if (uid === 0) {
             html = '<a class="login" href="/login">Nicht angemeldet</a>';
         }
         this.$el.html(html);
         return this;
-    }
+    },
 });

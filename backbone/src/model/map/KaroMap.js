@@ -1,25 +1,26 @@
-var Backbone = require('backbone');
+const Backbone = require('backbone');
+
 module.exports = Backbone.Model.extend({
     defaults: {
         id: 0,
-        name: "o(-.-)o",
-        mapcode: "1",
-        loaded: false
+        name: 'o(-.-)o',
+        mapcode: '1',
+        loaded: false,
     },
-    initialize: function(options) {
-        //init Maps model
-        this.constructor.__super__.initialize.apply(this, arguments);
+    initialize: function(...args) {
+        // init Maps model
+        this.constructor.__super__.initialize.apply(this, args);
     },
     loading: function() {
-        //fill mapcode with growing Xs while waiting
+        // fill mapcode with growing Xs while waiting
 
     },
     retrieve: function() {
-        //standard map
-        var me = this;
-        $.getJSON(APIHOST + "/api/map/" + this.get("id") + ".json?callback=?", function(data) {
+        // standard map
+        let me = this;
+        $.getJSON(APIHOST + '/api/map/' + this.get('id') + '.json?callback=?', function(data) {
             data.loaded = true;
             me.set(data);
         });
-    }
+    },
 });

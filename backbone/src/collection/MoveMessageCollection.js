@@ -1,6 +1,7 @@
-var _ = require('underscore');
-var Backbone = require('backbone');
-var Move = require('../model/Move');
+const _ = require('underscore');
+const Backbone = require('backbone');
+const Move = require('../model/Move');
+
 module.exports = Backbone.Collection.extend(/** @lends MoveMessageCollection.prototype */{
     /**
      * @constructor MoveMessageCollection
@@ -8,24 +9,24 @@ module.exports = Backbone.Collection.extend(/** @lends MoveMessageCollection.pro
      */
     model: Move,
     initialize: function() {
-        _.bindAll(this, "updateFromPlayers");
+        _.bindAll(this, 'updateFromPlayers');
     },
 
     comparator: function(mm) {
-        return mm.get("t");
+        return mm.get('t');
     },
 
     updateFromPlayers: function(players) {
-        var msgs = [];
+        let msgs = [];
         players.each(function(p) {
-            var withMessage = p.moves.filter(function(m) {
-                return m.get("msg");
+            let withMessage = p.moves.filter(function(m) {
+                return m.get('msg');
             });
             _.each(withMessage, function(m) {
-                m.set("player", p);
+                m.set('player', p);
             });
             msgs = msgs.concat(withMessage);
         });
         this.reset(msgs);
-    }
+    },
 });

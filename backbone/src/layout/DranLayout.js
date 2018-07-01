@@ -1,8 +1,9 @@
-var Backbone = require('backbone');
+const Backbone = require('backbone');
+
 module.exports = Backbone.Marionette.LayoutView.extend({
-    template: window["JST"]["dran/dranLayout"],
+    template: require('../../templates/dran/dranLayout.html'),
     regions: {
-        dranInfo: "#dranInfo",
-        dranGames: "#dranGames"
-    }
+        dranInfo: '#dranInfo',
+        dranGames: '#dranGames',
+    },
 });

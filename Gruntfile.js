@@ -39,9 +39,14 @@ module.exports = function(grunt) {
                     'web/js/<%= pkg.name %>.src.js': ['frontend/src/app/KaroApp.js'],
                 },
             },
+            bbapp: {
+                files: {
+                    'backbone/public/js/Karopapier.browserified.js': ['backbone/src/start.js'],
+                },
+            },
             gamestepup: {
                 files: {
-                    'backbone/public/js/GameStepUp.js': ['backbone/public/js/GameStepUp.src.js'],
+                    'backbone/public/js/GameStepUp.js': ['backbone/src/GameStepUp.src.js'],
                 },
             }
         },
@@ -91,13 +96,31 @@ module.exports = function(grunt) {
                 },
             },
             gamestepup: {
-                files: ['backbone/src/**/*.js', 'backbone/public/js/GameStepUp.src.js'],
+                files: ['backbone/src/**/*.js', 'backbone/src/GameStepUp.src.js'],
                 tasks: ['build:dev', 'bust'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig,
                 },
             }
+        },
+        jst: {
+            options: {
+                prettify: true,
+                processName: function(filepath) {
+                    let p = filepath;
+                    p = p.replace('templates/', '');
+                    p = p.replace(/\.html$/, '');
+                    p = p.replace(/\.tpl$/, '');
+                    return p;
+                },
+            },
+            compile: {
+                files: {
+                    'backbone/public/js/JST.js': ['backbone/templates/**/*.html', 'backbone/templates/**/*.tpl'],
+                },
+            },
+
         },
         less: {
             app: {
@@ -141,6 +164,7 @@ module.exports = function(grunt) {
     // Load the plugins
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
@@ -148,9 +172,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     // Default task(s).
-    grunt.registerTask('build', ['build:prod', 'less', 'bust']);
-    grunt.registerTask('build:dev', ['browserify:dev', 'browserify:gamestepup', 'style', 'test']);
-    grunt.registerTask('build:prod', ['browserify:dist', 'browserify:gamestepup', 'uglify', 'style']);
+    grunt.registerTask('build', ['build:prod', 'less', 'jst', 'bust']);
+    grunt.registerTask('build:dev', ['browserify:dev', 'browserify:gamestepup', 'browserify:bbapp', 'style', 'test', 'jst']);
+    grunt.registerTask('build:prod', ['browserify', 'uglify', 'style']);
     grunt.registerTask('style', ['eslint']);
     grunt.registerTask('bust', ['shell:bust']);
     grunt.registerTask('default', ['build:dev', 'less', 'watch']);

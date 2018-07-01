@@ -1,6 +1,7 @@
-var Backbone = require('backbone');
-var KaroMap = require('../model/map/KaroMap');
+const Backbone = require('backbone');
+const KaroMap = require('../model/map/KaroMap');
+
 module.exports = Backbone.Collection.extend({
     model: KaroMap,
-    url: APIHOST + "/api/map/list.json?callback=?",
+    url: APIHOST + '/api/map/list.json?callback=?',
 });

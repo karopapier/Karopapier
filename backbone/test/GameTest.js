@@ -1,4 +1,4 @@
-var _ = require('underscore');
+const _ = require('underscore');
 var Game = require('../src/model/Game');
 var Player = require('../src/model/Player');
 exports.Deepdatasetting = function(test) {

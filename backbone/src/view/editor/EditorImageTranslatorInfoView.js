@@ -1,7 +1,7 @@
-var Marionette = require('backbone.marionette');
+const Marionette = require('backbone.marionette');
 module.exports = Marionette.ItemView.extend({
-    template: window.JST["editor/imagetranslatorinfo"],
+    template: window.JST['editor/imagetranslatorinfo'],
     initialize: function() {
-        this.listenTo(this.model, "change", this.render);
-    }
+        this.listenTo(this.model, 'change', this.render);
+    },
 });

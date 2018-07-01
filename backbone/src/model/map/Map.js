@@ -49,15 +49,14 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         return this.validFields.indexOf(c.toUpperCase()) >= 0;
     },
     setMapcode: function(mapcode) {
-
         // make sure we don't have CR in there and make it all UPPERCASE
-        if (typeof  mapcode === 'undefined') {
+        if (typeof mapcode === 'undefined') {
             console.error('No mapcode in setMapcode', mapcode);
             return;
         }
         if (typeof mapcode !== 'string') {
             console.error('Mapcode kein String', mapcode);
-            return
+            return;
         }
 
         let trimcode = mapcode.toUpperCase();

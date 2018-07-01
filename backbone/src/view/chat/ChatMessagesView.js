@@ -1,74 +1,72 @@
-var Backbone = require('backbone');
-var ChatMessageView = require('./ChatMessageView');
+const _ = require('underscore');
+const Backbone = require('backbone');
+const ChatMessageView = require('./ChatMessageView');
+
 module.exports = Backbone.View.extend({
-    tagName: "div",
-    id: "chatMessagesContainer",
+    tagName: 'div',
+    id: 'chatMessagesContainer',
     initialize: function(options) {
         options = options || {};
         if (!options.util) {
-            console.error("No util in ChatMessagesView");
+            console.error('No util in ChatMessagesView');
             return false;
         }
         this.util = options.util;
-        _.bindAll(this, "addItem", "scrollCheck");
-        this.collection.on("add", this.addItem);
+        _.bindAll(this, 'addItem', 'scrollCheck');
+        this.collection.on('add', this.addItem);
         this.currentStart = 0;
         this.currentEnd = 0;
     },
     scrollcheck: function() {
-        console.log("I scroll");
-        var $parent = this.$el.parent();
-        var toScrollDown = $parent.prop("scrollHeight") - $parent.prop("clientHeight") - $parent.prop("scrollTop");
-        var $c = $('#chatMessages');
-        var topf = $c.prop("scrollTop");
-        var hoch = $c.prop("scrollHeight");
+        console.log('I scroll');
+        let $c = $('#chatMessages');
+        let topf = $c.prop('scrollTop');
+        let hoch = $c.prop('scrollHeight');
         console.log(topf, hoch);
     },
     addItem: function(chatMessage, animated) {
-        var chatMessageView = new ChatMessageView({
+        let chatMessageView = new ChatMessageView({
             model: chatMessage,
-            util: this.util
+            util: this.util,
         });
-        var lineId = parseInt(chatMessage.get("lineId"));
+        let lineId = parseInt(chatMessage.get('lineId'));
 
-        //find out where to insert the template
-        var previousMessage = this.$el.find("#cm" + (lineId - 1));
+        // find out where to insert the template
+        let previousMessage = this.$el.find('#cm' + (lineId - 1));
 
-        //chatMessageView.$el.find("img").on("load", this.scrollDown.bind(this));
+        // chatMessageView.$el.find("img").on("load", this.scrollDown.bind(this));
 
-        //keep track of scroll
-        var $parent = this.$el.parent();
-        var sh = $parent.prop("scrollHeight");
-        var st = $parent.scrollTop();
+        // keep track of scroll
+        let $parent = this.$el.parent();
+        let sh = $parent.prop('scrollHeight');
+        let st = $parent.scrollTop();
 
-        //add message at right place, either at beginning or after previous one
+        // add message at right place, either at beginning or after previous one
         if (previousMessage[0]) {
-            previousMessage.after(chatMessageView.$el)
+            previousMessage.after(chatMessageView.$el);
         } else {
             this.$el.prepend(chatMessageView.$el);
         }
-        var newSh = $parent.prop("scrollHeight");
+        let newSh = $parent.prop('scrollHeight');
 
-        //find how much the height changed and scroll to original position
+        // find how much the height changed and scroll to original position
         $parent.scrollTop(st + newSh - sh);
     },
     removeItem: function(cm) {
-        console.log(cm.get("lineId"), "removed");
+        console.log(cm.get('lineId'), 'removed');
     },
     scrollDown: function(options) {
-        var $parent = this.$el.parent();
-        options = _.defaults(options || {}, {forced: false, animated: true})
-        //console.log(options);
-        //check if scrolled down
-        var $parent = this.$el.parent();
-        var toScrollDown = $parent.prop("scrollHeight") - $parent.prop("clientHeight") - $parent.prop("scrollTop");
-        //user is scrolled up, don't follow new line
+        options = _.defaults(options || {}, {forced: false, animated: true});
+        // check if scrolled down
+        const $parent = this.$el.parent();
+        let toScrollDown = $parent.prop('scrollHeight') - $parent.prop('clientHeight') - $parent.prop('scrollTop');
+        // user is scrolled up, don't follow new line
         if ((toScrollDown > 40) && !(options.forced)) {
-            //console.log("Skip scroll");
+            // console.log("Skip scroll");
             return false;
         }
-        //console.log("Ich scrolle",$parent.prop('scrollHeight') );
-        //setTimeout(function() {
+        // console.log("Ich scrolle",$parent.prop('scrollHeight') );
+        // setTimeout(function() {
 
         /*
          options.animated=false;
@@ -81,21 +79,17 @@ module.exports = Backbone.View.extend({
          //},100);
          */
         setTimeout(function() {
-            $parent.stop().animate({scrollTop: $parent.prop("scrollHeight")}, 100);
+            $parent.stop().animate({scrollTop: $parent.prop('scrollHeight')}, 100);
         }, 10);
     },
     scrollCheck: function() {
-        var $parent = this.$el.parent();
-        var contentHeight = $parent.prop("scrollHeight");
-        var top = $parent.prop("scrollTop"); //how much space until you reach the top
-        var viewport = $parent.prop("clientHeight");
-        var bottom = contentHeight - top - viewport; //how much space until you reach the bottom
-        //console.log("We scrolled to top", top, "and bottom", bottom);
+        let $parent = this.$el.parent();
+        let top = $parent.prop('scrollTop'); // how much space until you reach the top
         if (top <= 100) {
-            this.trigger("CHAT:MESSAGES:TOP");
+            this.trigger('CHAT:MESSAGES:TOP');
         }
-    }
-})
+    },
+});
 
 /*
  #var toScrollDown = $parent.prop("scrollHeight") - $parent.prop("clientHeight") - $parent.prop("scrollTop");

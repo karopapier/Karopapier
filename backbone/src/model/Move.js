@@ -1,7 +1,8 @@
-var Backbone = require("backbone");
-var Position = require('./Position');
-var Vector = require('./Vector');
-var Motion = require('./Motion');
+const Backbone = require('backbone');
+const Position = require('./Position');
+const Vector = require('./Vector');
+const Motion = require('./Motion');
+
 module.exports = Backbone.Model.extend({
     defaults: {
         x: 0,
@@ -11,11 +12,11 @@ module.exports = Backbone.Model.extend({
         test: false,
     },
     getMotion: function() {
-        var pos = new Position({x: this.get("x"), y: this.get("y")});
-        var vec = new Vector({x: this.get("xv"), y: this.get("yv")});
+        let pos = new Position({x: this.get('x'), y: this.get('y')});
+        let vec = new Vector({x: this.get('xv'), y: this.get('yv')});
         return new Motion({
             position: pos,
-            vector: vec
+            vector: vec,
         });
-    }
+    },
 });

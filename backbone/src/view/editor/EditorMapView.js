@@ -1,77 +1,69 @@
-var Backbone = require('backbone');
-var MapRenderView = require('../map/MapRenderView');
+const _ = require('underscore');
+const Backbone = require('backbone');
+const MapRenderView = require('../map/MapRenderView');
+
 module.exports = Backbone.View.extend({
     initialize: function(options) {
         options = options || {};
         if (!options.viewsettings) {
-            console.error("No viewsettings passed to EditorMapView");
+            console.error('No viewsettings passed to EditorMapView');
             return;
         }
         if (!options.editorsettings) {
-            console.error("No editorsettings passed to EditorMapView");
+            console.error('No editorsettings passed to EditorMapView');
             return;
         }
 
-        _.bindAll(this, "render", "draw", "mousedown", "mouseup", "mousemove", "mouseleave", "recalcDimensions");
+        _.bindAll(this, 'render', 'draw', 'mousedown', 'mouseup', 'mousemove', 'mouseleave', 'recalcDimensions');
         this.viewsettings = options.viewsettings;
         this.editorsettings = options.editorsettings;
         this.resizeHandleWidth = 15;
-        this.listenTo(this.model, "change:mapcode", this.recalcDimensions);
+        this.listenTo(this.model, 'change:mapcode', this.recalcDimensions);
 
-        //this.$el.css({"display": "inline-block"});
-        /**
-         this.$el.resizable({
-								resize: function(e,ui) {
-									var r=(ui.size.height/($this.settings.get("size")+$this.settings.get("border")));
-									//console.log(r,$this.map.get("rows"));
-								}
-							});
-         */
         this.buttonDown = [false, false, false, false];
         this.drawing = false;
         this.resizing = false;
-
     },
     render: function() {
         this.mapRenderView = new MapRenderView({
             settings: this.viewsettings,
-            model: this.model
+            model: this.model,
         });
-        this.listenTo(this.mapRenderView, "render", this.recalcDimensions);
+        this.listenTo(this.mapRenderView, 'render', this.recalcDimensions);
         this.setElement(this.mapRenderView.el);
-        this.$el.css("border", this.resizeHandleWidth + "px solid lightgrey");
+        this.$el.css('border', this.resizeHandleWidth + 'px solid lightgrey');
         this.mapRenderView.render();
     },
 
     events: {
         'mouseleave': 'mouseleave',
-        'mouseenter': "mouseenter",
+        'mouseenter': 'mouseenter',
         'mousedown': 'mousedown',
         'mouseup': 'mouseup',
-        "mousemove": "mousemove",
-        "contextmenu": "rightclick"
+        'mousemove': 'mousemove',
+        'contextmenu': 'rightclick',
     },
 
     rightclick: function(e) {
-        if (this.editorsettings.get("rightclick")) {
+        if (this.editorsettings.get('rightclick')) {
             e.preventDefault();
             return false;
         }
     },
 
     xyFromE: function(e) {
-        var x = (e.pageX - this.offLeft);
-        var y = (e.pageY - this.offTop);
+        let x = (e.pageX - this.offLeft);
+        let y = (e.pageY - this.offTop);
         return {x: x, y: y};
     },
 
     draw: function(e) {
-        var xy = this.xyFromE(e);
-        var x = xy.x - this.resizeHandleWidth;
-        var y = xy.y - this.resizeHandleWidth;
-        var buttons = this.editorsettings.get("buttons");
-        //console.log("Draw ", x, y);
-        for (var i = 1; i <= 3; i++) {
+        let xy = this.xyFromE(e);
+        let x = xy.x - this.resizeHandleWidth;
+        let y = xy.y - this.resizeHandleWidth;
+        let buttons = this.editorsettings.get('buttons');
+        // console.log("Draw ", x, y);
+        for (let i = 1; i <= 3; i++) {
             if (this.buttonDown[i]) {
                 this.mapRenderView.setFieldAtXY(x, y, buttons[i]);
             }
@@ -80,14 +72,13 @@ module.exports = Backbone.View.extend({
 
     resize: function(e) {
         if (!this.resize) return false;
-        var target = e.target;
-        var xy = this.xyFromE(e);
+        let xy = this.xyFromE(e);
 
-        //check for W-E resize
+        // check for W-E resize
         if (this.currentDirections.we) {
-            var x = xy.x - this.resizeHandleWidth;
-            var right = Math.floor((x - this.startX ) / this.fieldsize) > 0;
-            var left = Math.ceil((x - this.startX ) / this.fieldsize) < 0;
+            let x = xy.x - this.resizeHandleWidth;
+            let right = Math.floor((x - this.startX) / this.fieldsize) > 0;
+            let left = Math.ceil((x - this.startX) / this.fieldsize) < 0;
 
             if (this.currentDirections.e) {
                 if (right) {
@@ -110,21 +101,19 @@ module.exports = Backbone.View.extend({
                 if (right) {
                     this.model.delCol(1, 0);
                     this.startX += this.fieldsize;
-                    //this.el.style.webkitTransform = this.el.style.transform = 'translate(' + this.fieldsize + 'px,' + 0 + 'px)';
                 }
             }
         } else {
-            //console.log("Skip WE");
+            // console.log("Skip WE");
         }
 
-        //check for N-S resize
+        // check for N-S resize
         if (this.currentDirections.ns) {
-            var y = xy.y - this.resizeHandleWidth;
-            var down = Math.floor((y - this.startY ) / this.fieldsize) > 0;
-            var up = Math.ceil((y - this.startY ) / this.fieldsize) < 0;
+            let y = xy.y - this.resizeHandleWidth;
+            let down = Math.floor((y - this.startY) / this.fieldsize) > 0;
+            let up = Math.ceil((y - this.startY) / this.fieldsize) < 0;
 
             if (this.currentDirections.s) {
-
                 if (down) {
                     this.model.addRow(1);
                     this.startY += this.fieldsize;
@@ -148,51 +137,50 @@ module.exports = Backbone.View.extend({
                 }
             }
         }
-
     },
 
     recalcDimensions: function(e) {
         this.w = this.$el.width();
         this.h = this.$el.height();
-        var off = this.$el.offset();
+        let off = this.$el.offset();
         this.offLeft = Math.round(off.left);
         this.offTop = Math.round(off.top);
         this.outW = this.$el.outerWidth();
         this.outH = this.$el.outerHeight();
-        //console.log("Now", this.w, this.h, this.outW, this.outH, this.offLeft, this.offTop);
+        // console.log("Now", this.w, this.h, this.outW, this.outH, this.offLeft, this.offTop);
     },
 
     resizeDirections: function(e) {
-        var d = {
-            we: "",
-            ns: "",
+        let d = {
+            we: '',
+            ns: '',
             n: false,
             s: false,
             w: false,
-            e: false
+            e: false,
         };
-        var xy = this.xyFromE(e);
-        var x = xy.x;
-        var y = xy.y;
-        var rhw = this.resizeHandleWidth;
-        var w = this.w;
-        var h = this.h;
+        let xy = this.xyFromE(e);
+        let x = xy.x;
+        let y = xy.y;
+        let rhw = this.resizeHandleWidth;
+        let w = this.w;
+        let h = this.h;
 
         if (x < rhw) {
-            d.we = "w";
+            d.we = 'w';
             d.w = true;
         }
         if (x > (w + rhw)) {
-            d.we = "e";
+            d.we = 'e';
             d.e = true;
         }
 
         if (y < rhw) {
-            d.ns = "n";
+            d.ns = 'n';
             d.n = true;
         }
         if (y > (h + rhw)) {
-            d.ns = "s";
+            d.ns = 's';
             d.s = true;
         }
 
@@ -201,72 +189,72 @@ module.exports = Backbone.View.extend({
     },
 
     mousedown: function(e) {
-        var button = e.which;
-        //console.log("Button", button, "right", this.editorsettings.get("rightclick"));
-        if ((button == 3) && (!this.editorsettings.get("rightclick"))) {
-            //leave default rightclick menu intact
+        let button = e.which;
+        // console.log("Button", button, "right", this.editorsettings.get("rightclick"));
+        if ((button == 3) && (!this.editorsettings.get('rightclick'))) {
+            // leave default rightclick menu intact
             return true;
         }
 
         this.currentDirections = this.resizeDirections(e);
-        this.fieldsize = this.viewsettings.get("size") + this.viewsettings.get("border");
-        //console.log(this.fieldsize);
+        this.fieldsize = this.viewsettings.get('size') + this.viewsettings.get('border');
+        // console.log(this.fieldsize);
 
-        this.editorsettings.set("undo", false);
+        this.editorsettings.set('undo', false);
 
         this.buttonDown[e.which] = true;
-        var xy = this.xyFromE(e);
-        //check if we are resizing
-        if (this.currentDirections.direction !== "") {
+        let xy = this.xyFromE(e);
+        // check if we are resizing
+        if (this.currentDirections.direction !== '') {
             this.startX = xy.x - this.resizeHandleWidth;
             this.startY = xy.y - this.resizeHandleWidth;
             this.resizing = true;
             e.preventDefault();
 
-            $(document).bind("mousemove", _.bind(this.mousemove, this));
-            $(document).bind("mouseup", _.bind(this.mouseup, this));
+            $(document).bind('mousemove', _.bind(this.mousemove, this));
+            $(document).bind('mouseup', _.bind(this.mouseup, this));
 
             return false;
         }
 
-        //no resize, start drawing
+        // no resize, start drawing
 
-        //check draw mode
-        if (this.editorsettings.get("drawmode") == "floodfill") {
-            //console.log("FLOODFILL");
-            var x = xy.x - this.resizeHandleWidth;
-            var y = xy.y - this.resizeHandleWidth;
-            var buttons = this.editorsettings.get("buttons");
-            //console.log(this.buttonDown)
+        // check draw mode
+        if (this.editorsettings.get('drawmode') == 'floodfill') {
+            // console.log("FLOODFILL");
+            let x = xy.x - this.resizeHandleWidth;
+            let y = xy.y - this.resizeHandleWidth;
+            let buttons = this.editorsettings.get('buttons');
+            // console.log(this.buttonDown)
 
-            for (var i = 1; i <= 3; i++) {
-                //console.log(this.buttonDown)
+            for (let i = 1; i <= 3; i++) {
+                // console.log(this.buttonDown)
                 if (this.buttonDown[i]) {
-                    //console.log("Floodfill", x, y, buttons[i]);
+                    // console.log("Floodfill", x, y, buttons[i]);
                     this.mapRenderView.floodfill(x, y, buttons[i]);
                 }
             }
             return true;
         }
 
-        //default draw mode
+        // default draw mode
         this.drawing = true;
-        //this.render();
+        // this.render();
         this.draw(e);
         return true;
     },
 
     mouseup: function(e) {
-        this.editorsettings.set("undo", true);
+        this.editorsettings.set('undo', true);
         this.drawing = false;
         this.resizing = false;
         this.buttonDown[e.which] = false;
-        $(document).unbind("mousemove");
-        $(document).unbind("mouseup");
+        $(document).unbind('mousemove');
+        $(document).unbind('mouseup');
     },
 
     mouseenter: function(e) {
-        //If it's not correctly updated, do this!
+        // If it's not correctly updated, do this!
         if (this.offTop == 0) this.recalcDimensions();
     },
 
@@ -281,23 +269,23 @@ module.exports = Backbone.View.extend({
             return true;
         }
 
-        if (e.target.tagName.toUpperCase() !== "CANVAS") return false;
-        //console.log(e.target);
+        if (e.target.tagName.toUpperCase() !== 'CANVAS') return false;
+        // console.log(e.target);
 
-        //simple mouse move
-        var d = this.resizeDirections(e);
+        // simple mouse move
+        let d = this.resizeDirections(e);
         if (d.direction) {
-            this.el.style.cursor = d.direction + "-resize";
+            this.el.style.cursor = d.direction + '-resize';
         } else {
-            this.el.style.cursor = "crosshair";
+            this.el.style.cursor = 'crosshair';
         }
     },
 
     mouseleave: function(e) {
-        //console.log("LEAVE");
+        // console.log("LEAVE");
         this.drawing = false;
-        //this.resizing = false;
-        for (var i = 1; i <= 3; i++) {
+        // this.resizing = false;
+        for (let i = 1; i <= 3; i++) {
             this.buttonDown[e.which] = false;
         }
     },

@@ -1,15 +1,16 @@
-var Marionette = require('backbone.marionette');
-var EditorToolsFieldsView = require('../view/editor/EditorToolsFieldsView');
-var EditorToolsToolboxView = require('../view/editor/EditorToolsToolboxView');
-var EditorToolsButtonsView = require('../view/editor/EditorToolsButtonsView');
-var EditorToolsSettingsView = require('../view/editor/EditorToolsSettingsView');
-var EditorToolsMaploadView = require('../view/editor/EditorToolsMaploadView');
+const Marionette = require('backbone.marionette');
+const EditorToolsFieldsView = require('../view/editor/EditorToolsFieldsView');
+const EditorToolsToolboxView = require('../view/editor/EditorToolsToolboxView');
+const EditorToolsButtonsView = require('../view/editor/EditorToolsButtonsView');
+const EditorToolsSettingsView = require('../view/editor/EditorToolsSettingsView');
+const EditorToolsMaploadView = require('../view/editor/EditorToolsMaploadView');
+
 module.exports = Marionette.LayoutView.extend({
-    template: window.JST["editor/tools"],
+    template: require('../../templates/editor/tools.html'),
     initialize: function(options) {
         options = options || {};
         if (!options.editorApp) {
-            console.error("No editorApp passed to EditorToolsView");
+            console.error('No editorApp passed to EditorToolsView');
             return;
         }
         this.editorApp = options.editorApp;
@@ -17,29 +18,29 @@ module.exports = Marionette.LayoutView.extend({
         this.editorsettings = this.editorApp.editorsettings;
     },
     regions: {
-        "fields": ".editor-tools-fields",
-        "buttons": ".editor-tools-mousebuttons",
-        "toolbox": ".editor-tools-toolbox",
-        "settings": ".editor-tools-viewsettings",
-        "mapload": ".editor-tools-mapload"
+        'fields': '.editor-tools-fields',
+        'buttons': '.editor-tools-mousebuttons',
+        'toolbox': '.editor-tools-toolbox',
+        'settings': '.editor-tools-viewsettings',
+        'mapload': '.editor-tools-mapload',
     },
     onShow: function() {
         this.fields.show(new EditorToolsFieldsView({
-            editorsettings: this.editorsettings
+            editorsettings: this.editorsettings,
         }));
         this.toolbox.show(new EditorToolsToolboxView({
             editorsettings: this.editorApp.editorsettings,
-            editorUndo: this.editorApp.editorUndo
+            editorUndo: this.editorApp.editorUndo,
         }));
         this.buttons.show(new EditorToolsButtonsView({
-            editorsettings: this.editorsettings
+            editorsettings: this.editorsettings,
         }));
         this.settings.show(new EditorToolsSettingsView({
-            viewsettings: this.viewsettings
+            viewsettings: this.viewsettings,
         }));
         this.mapload.show(new EditorToolsMaploadView({
-            editorApp: this.editorApp
+            editorApp: this.editorApp,
         }));
-    }
+    },
 });
 

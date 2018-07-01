@@ -1,12 +1,12 @@
-var Backbone = require('backbone');
+const Backbone = require('backbone');
 module.exports = Backbone.Model.extend({
     defaults: {
-        id: 0
+        id: 0,
     },
-    initialize: function () {
+    initialize: function() {
     },
 
-    url: function () {
-        return APIHOST + "/api/game/add.json";
-    }
+    url: function() {
+        return APIHOST + '/api/game/add.json';
+    },
 });

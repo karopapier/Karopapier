@@ -3,19 +3,23 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Backbone Routing</title>
-        <link rel="shortcut icon" href="http://www.karopapier.de/favicon.ico" />
-        <link rel="stylesheet" type="text/css" media="screen" href="http://www.karopapier.de/css/karo.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="http://www.karopapier.de/themes/black/css/theme.css" />
+        <link rel="shortcut icon" href="http://www.karopapier.de/favicon.ico"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="http://www.karopapier.de/css/karo.css"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="http://www.karopapier.de/themes/black/css/theme.css"/>
         <style type="text/css">
-            header,footer,nav,section { display: block; }
+            header, footer, nav, section {
+                display: block;
+            }
         </style>
     </head>
 
     <body>
         <div id="header">
             <div id="infoBar">
-            <span class="userLabel" name="userLabel1">Didi</span> Spiele: <a href="/dran"><span id="dranCount">5</span></a>/<span id="gamesCount">105</span> [5/105]
-            <a href="/logout">Logout</a>                <div id="NotifierContainer"></div>
+                <span class="userLabel" name="userLabel1">Didi</span> Spiele:
+                <a href="/dran"><span id="dranCount">5</span></a>/<span id="gamesCount">105</span> [5/105]
+                <a href="/logout">Logout</a>
+                <div id="NotifierContainer"></div>
             </div>
         </div>
         <div class="clearer"></div>
@@ -36,7 +40,7 @@
             <div id="content"></div>
         </div>
         <footer style="text-align: center"><a href="http://www.karopapier.de">Karopapier.de</a> is brought to you by
-            <script type="text/javascript">document.write(String.fromCharCode(0x44,0x69,0x64,0x69).link(String.fromCharCode(0x6d,0x61,0x69,0x6c,0x74,0x6f,0x3a,0x64,0x69,0x64,0x69,0x40,0x6b,0x61,0x72,0x6f,0x70,0x61,0x70,0x69,0x65,0x72,0x2e,0x64,0x65)));</script>
+            <script type="text/javascript">document.write(String.fromCharCode(0x44, 0x69, 0x64, 0x69).link(String.fromCharCode(0x6d, 0x61, 0x69, 0x6c, 0x74, 0x6f, 0x3a, 0x64, 0x69, 0x64, 0x69, 0x40, 0x6b, 0x61, 0x72, 0x6f, 0x70, 0x61, 0x70, 0x69, 0x65, 0x72, 0x2e, 0x64, 0x65)));</script>
         </footer>
 
         <script id="game-layout-template" type="text/template">
@@ -88,104 +92,104 @@
 
             var Karopapier; //global for easier console debug access;
 
-            $(document).ready(function () {
+            $(document).ready(function() {
                 //var Karopapier = new Backbone.Marionette.Application(); //the main app
                 Karopapier = new Backbone.Marionette.Application(); //the main app
 
                 Karopapier.addRegions({
                     content: "#content"
                 })
-                Karopapier.activeApp=false;
+                Karopapier.activeApp = false;
 
-                Karopapier.setTitle=function (title) {
-                    title+=" - Karopapier: Autofahren wie in der Vorlesung";
-                    document.title=title;
+                Karopapier.setTitle = function(title) {
+                    title += " - Karopapier: Autofahren wie in der Vorlesung";
+                    document.title = title;
                     $('#title').text(title);
                 }
 
-                Karopapier.module("StaticApp", function (StaticApp, Karopapier, Backbone, Marionette, $, _) {
+                Karopapier.module("StaticApp", function(StaticApp, Karopapier, Backbone, Marionette, $, _) {
                     var StaticView = Backbone.Marionette.ItemView.extend({
                         tagName: "div",
                         id: "staticContent",
                         content: "welcome",
                         template: '#static-welcome-template',
                         render: function() {
-                            this.$el.html(Backbone.Marionette.TemplateCache.get('#static-'+this.content+'-template'));
+                            this.$el.html(Backbone.Marionette.TemplateCache.get('#static-' + this.content + '-template'));
                             Karopapier.setTitle(this.content.charAt(0).toUpperCase() + this.content.slice(1));
                         },
                     });
 
                     StaticApp.layout = new StaticView();
 
-                    StaticApp.showContent= function(content) {
+                    StaticApp.showContent = function(content) {
                         if (!(content)) {
-                            content="welcome";
+                            content = "welcome";
                         }
                         Karopapier.vent.trigger("app:change", StaticApp);
                         console.info("Showing static " + content);
-                        this.layout.content=content;
+                        this.layout.content = content;
                         this.layout.render();
                     }
 
 
-                    var StaticRouter= Backbone.Marionette.AppRouter.extend({
+                    var StaticRouter = Backbone.Marionette.AppRouter.extend({
                         appRoutes: {
                             "": "showContent",
                             "static/:content": "showContent"
                         }
                     });
 
-                    StaticApp.router=new StaticRouter({ controller: StaticApp});
+                    StaticApp.router = new StaticRouter({controller: StaticApp});
                 });
 
-                Karopapier.module("GameApp", function (GameApp, Karopapier, Backbone, Marionette, $, _) {
+                Karopapier.module("GameApp", function(GameApp, Karopapier, Backbone, Marionette, $, _) {
                     var GameLayout = Backbone.Marionette.Layout.extend({
                         id: "gameLayout",
-                        template:"#game-layout-template",
+                        template: "#game-layout-template",
 
-                        regions:{
-                            gameMap:"#gameMap",
-                            gameInfo:"#gameInfo",
+                        regions: {
+                            gameMap: "#gameMap",
+                            gameInfo: "#gameInfo",
                             gameNavi: "#gameNavi"
                         }
                     });
-                    GameApp.gameId=0;
+                    GameApp.gameId = 0;
                     GameApp.model = new Game();
-                    GameApp.game=GameApp.model;
+                    GameApp.game = GameApp.model;
 
                     GameApp.showGame = function(id) {
                         console.info("Showing game " + id);
                         Karopapier.vent.trigger("app:change", GameApp);
-                        if (id!=this.gameId) {
-                            this.gameId=id;
-                            this.game.set("id",this.gameId);
+                        if (id != this.gameId) {
+                            this.gameId = id;
+                            this.game.set("id", this.gameId);
                             Karopapier.vent.trigger("game:change", this.gameId);
                         }
                         GameApp.layout.gameNavi.show(GameApp.gameAppNavi);
                         GameApp.layout.gameInfo.show(GameApp.gameInfo);
                     };
 
-                    GameApp.Router= Backbone.Marionette.AppRouter.extend({
+                    GameApp.Router = Backbone.Marionette.AppRouter.extend({
                         appRoutes: {
                             "game/:id": "showGame"
                         },
                         controller: GameApp
                     });
 
-                    GameApp.router=new GameApp.Router();
-                    GameApp.layout=new GameLayout();
+                    GameApp.router = new GameApp.Router();
+                    GameApp.layout = new GameLayout();
                     GameApp.gameAppNavi = new GameAppNavigationView();
                     GameApp.gameInfo = new GameInfoView();
                 });
 
-                Karopapier.module("EditorApp", function (EditorApp, Karopapier, Backbone, Marionette, $, _) {
+                Karopapier.module("EditorApp", function(EditorApp, Karopapier, Backbone, Marionette, $, _) {
                 });
 
-                Karopapier.vent.bind("app:change",function (app) {
-                    if (Karopapier.activeApp!=app) {
-                        console.warn("App switch: "+ app.moduleName);
+                Karopapier.vent.bind("app:change", function(app) {
+                    if (Karopapier.activeApp != app) {
+                        console.warn("App switch: " + app.moduleName);
                         Karopapier.content.show(app.layout);
-                        Karopapier.activeApp=app;
+                        Karopapier.activeApp = app;
                     }
                 });
                 Karopapier.addInitializer(function() {

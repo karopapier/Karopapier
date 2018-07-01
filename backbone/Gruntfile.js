@@ -21,11 +21,6 @@ module.exports = function(grunt) {
                 ignore: [],
                 htmlExtension: 'html',
             },
-            build: {
-                files: {
-                    '../web/index.html': ['templates/index.template.html'],
-                },
-            },
         },
         browserify: {
             options: {
@@ -33,7 +28,6 @@ module.exports = function(grunt) {
                     [
                         'babelify', {'presets': ['env']},
                     ],
-                    ['jstify'] //html -> underscore templates
                 ],
                 browserifyOptions: {
                     debug: true,
@@ -86,24 +80,6 @@ module.exports = function(grunt) {
                 },
             },
         },
-        jst: {
-            options: {
-                prettify: true,
-                processName: function(filepath) {
-                    let p = filepath;
-                    p = p.replace('templates/', '');
-                    p = p.replace(/\.html$/, '');
-                    p = p.replace(/\.tpl$/, '');
-                    return p;
-                },
-            },
-            compile: {
-                files: {
-                    'public/js/JST.js': ['templates/**/*.html', 'templates/**/*.tpl'],
-                },
-            },
-
-        },
         cssmin: {
             options: {
                 rebase: false,
@@ -125,7 +101,6 @@ module.exports = function(grunt) {
             },
             templates: {
                 files: ['templates/**/*.html', 'templates/**/*.tpl', 'index.template.html'],
-                tasks: ['jst', 'asset_cachebuster'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig,
@@ -195,7 +170,6 @@ module.exports = function(grunt) {
 
     // Load the plugins
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -205,9 +179,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
 
     // Default task(s).
-    grunt.registerTask('build', ['copy', 'browserify', 'uglify', 'jst', 'cssmin', 'asset_cachebuster']);
+    grunt.registerTask('build', ['copy', 'browserify', 'uglify', 'cssmin', 'asset_cachebuster']);
     grunt.registerTask('default', ['build', 'watch']);
-    grunt.registerTask('build', ['browserify', 'uglify', 'jst', 'cssmin', 'asset_cachebuster']);
+    grunt.registerTask('build', ['browserify', 'uglify', 'cssmin', 'asset_cachebuster']);
     grunt.registerTask('spielwiese', ['spielwiese']);
     grunt.registerTask('publish', ['copy']);
     grunt.registerTask('test', 'nodeunit');

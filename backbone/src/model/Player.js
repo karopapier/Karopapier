@@ -1,6 +1,7 @@
-var _ = require('underscore');
-var Backbone = require('backbone');
-var MoveCollection = require('../collection/MoveCollection');
+const _ = require('underscore');
+const Backbone = require('backbone');
+const MoveCollection = require('../collection/MoveCollection');
+
 module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
     /**
      * @construcor Player
@@ -11,12 +12,12 @@ module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
         blocktime: -1,
     },
     initialize: function() {
-        _.bindAll(this, "parse", "getLastMove");
+        _.bindAll(this, 'parse', 'getLastMove');
         if (!this.moves) {
             this.moves = new MoveCollection();
         }
-        //this.listenTo(this.moves, "add remove change", this.trigger.bind(this,"movechange"));
-        //this.listenTo(this.moves, "reset", this.trigger.bind(this,"movereset"));
+        // this.listenTo(this.moves, "add remove change", this.trigger.bind(this,"movechange"));
+        // this.listenTo(this.moves, "reset", this.trigger.bind(this,"movereset"));
     },
     parse: function(data) {
         if (!this.moves) {
@@ -34,18 +35,18 @@ module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
         }
     },
     toJSON: function() {
-        var modelJSON = Backbone.Model.prototype.toJSON.call(this);
+        let modelJSON = Backbone.Model.prototype.toJSON.call(this);
         modelJSON.moves = this.moves.toJSON();
         return modelJSON;
     },
     getStatus: function() {
-        var means = {
-            "kicked": "rausgeworfen",
-            "left": "ausgestiegen",
-            "invited": "eingeladen"
-        }
-        var s = this.get("status");
+        let means = {
+            'kicked': 'rausgeworfen',
+            'left': 'ausgestiegen',
+            'invited': 'eingeladen',
+        };
+        let s = this.get('status');
         if (s in means) return means[s];
         return s;
-    }
+    },
 });

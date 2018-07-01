@@ -1,51 +1,52 @@
-var _ = require('underscore');
-var Backbone = require('backbone');
+const _ = require('underscore');
+const Backbone = require('backbone');
+
 module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype */ {
     defaults: {
         supported: undefined,
         granted: false,
         denied: false,
         final: false,
-        enabled: false
+        enabled: false,
     },
     /**
      * @constructor NotificationControl
      * @class NotificationControl
      */
-    initialize: function () {
-        _.bindAll(this, "granted", "unsupported", "denied", "finaldenied", "check", "request");
-        //console.log("INIT WEB NOT");
-        this.listenTo(this, "change", this.status);
-        this.listenTo(this, "change:enabled", this.request);
+    initialize: function() {
+        _.bindAll(this, 'granted', 'unsupported', 'denied', 'finaldenied', 'check', 'request');
+        // console.log("INIT WEB NOT");
+        this.listenTo(this, 'change', this.status);
+        this.listenTo(this, 'change:enabled', this.request);
         this.check();
     },
-    unsupported: function () {
-        //console.log("Browser kann nicht");
+    unsupported: function() {
+        // console.log("Browser kann nicht");
         this.set({
-            "supported": false,
-            "final": true,
-            "enabled": false
+            'supported': false,
+            'final': true,
+            'enabled': false,
         });
     },
-    finaldenied: function () {
+    finaldenied: function() {
         this.set({
             granted: false,
             denied: true,
             final: true,
-            enabled: false
-        })
+            enabled: false,
+        });
     },
-    granted: function () {
+    granted: function() {
         this.set({granted: true, denied: false, final: true});
     },
-    denied: function () {
+    denied: function() {
         this.set({granted: false, denied: true, final: true, enabled: false});
     },
-    request: function () {
-        if (this.get("enabled")) {
-            var me = this;
-            Notification.requestPermission(function (result) {
-                //console.log(result);
+    request: function() {
+        if (this.get('enabled')) {
+            let me = this;
+            Notification.requestPermission(function(result) {
+                // console.log(result);
                 if (result === 'denied') {
                     me.denied();
                     return;
@@ -57,23 +58,23 @@ module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype 
             });
         }
     },
-    status: function () {
+    status: function() {
         return true;
-        console.log("-------------------------------");
-        for (var k in this.attributes) {
+        console.log('-------------------------------');
+        for (let k in this.attributes) {
             console.log(k, this.attributes[k]);
         }
     },
-    check: function () {
-        if (!("Notification" in window)) {
+    check: function() {
+        if (!('Notification' in window)) {
             this.unsupported();
         } else {
-            this.set("supported", true);
-            if (Notification.permission === "denied") {
+            this.set('supported', true);
+            if (Notification.permission === 'denied') {
                 this.finaldenied();
             } else {
                 this.request();
             }
         }
-    }
+    },
 });

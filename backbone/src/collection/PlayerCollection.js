@@ -1,6 +1,7 @@
-var Backbone = require('backbone');
-var Player = require('../model/Player');
-var Position = require('../model/Position');
+const Backbone = require('backbone');
+const Player = require('../model/Player');
+const Position = require('../model/Position');
+
 module.exports = Backbone.Collection.extend({
     model: Player,
 
@@ -9,7 +10,7 @@ module.exports = Backbone.Collection.extend({
     },
 
     toJSON: function() {
-        var modelJSON = [];
+        let modelJSON = [];
         this.each(function(e, i) {
             modelJSON.push(e.toJSON());
         });
@@ -21,26 +22,26 @@ module.exports = Backbone.Collection.extend({
      * can be limited to those that already moved this round (according to change of rules for GID>75000)
      */
     getOccupiedPositions: function(onlyMoved) {
-        var queryParams = {
+        let queryParams = {
             position: 0,
-            status: "ok"
+            status: 'ok',
         };
         if (onlyMoved) {
             queryParams.moved = true;
         }
-        var blockers = this.where(queryParams);
+        let blockers = this.where(queryParams);
 
-        var positions = [];
-        for (var i = 0, l = blockers.length; i < l; i++) {
-            var mos = blockers[i].moves;
+        let positions = [];
+        for (let i = 0, l = blockers.length; i < l; i++) {
+            let mos = blockers[i].moves;
             if (mos.length > 0) {
-                var mo = mos.at(mos.length - 1);
+                let mo = mos.at(mos.length - 1);
                 positions.push(new Position({
                     x: mo.attributes.x,
-                    y: mo.attributes.y
+                    y: mo.attributes.y,
                 }));
             }
         }
         return positions;
-    }
+    },
 });

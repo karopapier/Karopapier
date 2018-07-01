@@ -1,4 +1,4 @@
-var Backbone = require('backbone');
+const Backbone = require('backbone');
 module.exports = Backbone.Model.extend({
     defaults: {
         size: 11,
@@ -8,7 +8,7 @@ module.exports = Backbone.Model.extend({
         drawLimit: 2,
         hidePassedCPs: true,
         cpsActive: true,
-        cpsVisited: []
-    }
+        cpsVisited: [],
+    },
 });
 

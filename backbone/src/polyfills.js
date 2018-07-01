@@ -1,8 +1,9 @@
-//Polyfills
+/* eslint-disable */
+// Polyfills
 if (!String.prototype.trim) {
     (function() {
         // Make sure we trim BOM and NBSP
-        var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+        let rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
         String.prototype.trim = function() {
             return this.replace(rtrim, '');
         };
@@ -18,7 +19,7 @@ if (!String.prototype.startsWith) {
 
 if (typeof String.prototype.truncate != 'function') {
     String.prototype.truncate = function(str, c) {
-        return str.substring(0, c) + "...";
+        return str.substring(0, c) + '...';
     };
 }
 

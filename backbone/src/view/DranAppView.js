@@ -1,10 +1,12 @@
-var Marionette = require('backbone.marionette');
+const Marionette = require('backbone.marionette');
 module.exports = Marionette.ItemView.extend({
-    className: "dranAppView",
+    template() {
+    },
+    className: 'dranAppView',
     render: function() {
         this.model.layout.render();
-        //insert views
+        // insert views
         this.model.layout.dranGames.show(this.model.gamesView);
         this.$el.html(this.model.layout.$el);
-    }
+    },
 });
