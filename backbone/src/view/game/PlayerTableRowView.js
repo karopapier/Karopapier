@@ -2,7 +2,7 @@ var Backbone = require('backbone');
 module.exports = Backbone.View.extend({
     tagName: "tr",
     className: "playerTableRow",
-    template: window["JST"]["game/playerTableRow"],
+    template: require('../../../templates/game/playerTableRow.html'),
     initialize: function(options) {
         _.bindAll(this, "render");
         //this.listenTo(this.collection, "change", this.render);

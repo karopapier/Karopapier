@@ -7,7 +7,8 @@ module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
      * @class Player
      */
     defaults: {
-        id: 0
+        id: 0,
+        blocktime: -1,
     },
     initialize: function() {
         _.bindAll(this, "parse", "getLastMove");

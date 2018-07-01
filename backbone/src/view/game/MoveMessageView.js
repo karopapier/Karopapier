@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var Backbone = require('backbone');
 var moment = require('moment');
-var KaroUtil = require('../../util/TextHelper');
+var KaroUtil = require('../../model/Util');
 
 module.exports = Backbone.View.extend({
     template: _.template('<%= name %> (<%= date %>): &quot;<%= text %>&quot;<br />\n'),
@@ -15,7 +15,7 @@ module.exports = Backbone.View.extend({
             tpl = this.statusTemplate;
         }
         html += tpl({
-            name: this.model.get("player"),
+            name: this.model.get("player").get('name'),
             text: KaroUtil.linkify(this.model.get("msg")),
             date: moment(this.model.get("t"), "YYYY-MM-DD hh:mm:ss").format("YYYY-MM-DD")
         });

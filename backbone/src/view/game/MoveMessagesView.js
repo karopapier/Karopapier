@@ -8,6 +8,7 @@ module.exports = Marionette.CollectionView.extend({
     emptyViewOptions: {
         text: "--------- Keiner spricht, hier herrscht höchste Konzentration --------"
     },
+
     onRender: function() {
         var el = this.el;
         var parent = el.parentNode;

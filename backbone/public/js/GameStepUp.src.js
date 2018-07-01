@@ -2,7 +2,7 @@ require("babel-polyfill");
 const User = require('../../src/model/User');
 const Game = require('../../src/model/Game');
 const MapViewSettings = require('../../src/model/map/MapViewSettings');
-const MoveMessageView = require('../../src/view/game/MoveMessageView');
+const MoveMessagesView = require('../../src/view/game/MoveMessagesView');
 const LastMoveMessageView = require('../../src/view/game/LastMoveMessageView');
 const GameInfoView = require('../../src/view/game/GameInfoView');
 const GameTitleView = require('../../src/view/game/GameTitleView');
@@ -29,10 +29,11 @@ Karopapier.User.on("change:id", function() {
 window.game = new Game();
 window.mvs = new MapViewSettings();
 
-var mmv = new MoveMessageView({
+var mmv = new MoveMessagesView({
     el: '#moveMessages',
     collection: game.get("moveMessages")
 });
+mmv.render();
 
 var lmmv = new LastMoveMessageView({
     el: '#lastMoveMessages',
