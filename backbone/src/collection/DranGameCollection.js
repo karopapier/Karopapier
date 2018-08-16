@@ -5,7 +5,7 @@ const Game = require('../model/Game');
 module.exports = Backbone.Collection.extend({
     model: Game,
     url: function() {
-        return APIHOST + '/api/user/' + Karopapier.User.get('id') + '/dran.json?callback=?';
+        return APIHOST + '/api/user/' + Karopapier.User.get('id') + '/dran';
     },
     initialize: function() {
         _.bindAll(this, 'addId', 'url');

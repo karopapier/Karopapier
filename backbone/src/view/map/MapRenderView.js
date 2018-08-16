@@ -7,7 +7,6 @@ module.exports = MapBaseView.extend({
     tagName: 'canvas',
     initialize: function(...args) {
         // init MapBaseView with creation of a settings model
-        console.log('NU was?, this', this);
         this.constructor.__super__.initialize.apply(this, args);
         _.bindAll(this, 'drawField', 'render', 'addBorder', 'addFlags', 'addStartGrid', 'addSpecles', 'renderCheckpoints', 'prepareCache'); // eslint-disable-line max-len
         this.listenTo(this.model, 'change:mapcode', this.render);

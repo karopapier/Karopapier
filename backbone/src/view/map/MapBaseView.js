@@ -35,7 +35,6 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
          */
         initialize: function(options) {
             options = options || {};
-            console.log('THIS', this);
             _.bindAll(this, 'updateFieldSize', 'getRowColFromXY', 'getRowFromY', 'getColFromX', 'getXYFromRowCol', 'getXFromCol', 'getYFromRow', 'getFieldAtXY', 'setFieldAtXY', 'setFieldAtRowCol'); // eslint-disable-line max-len
             _.defaults(options, this.optionDefaults);
             if (options.settings) {

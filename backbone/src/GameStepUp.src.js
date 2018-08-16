@@ -21,7 +21,7 @@ window.Karopapier = require('./app/KaropapierApp');
 Karopapier.User = new User({});
 // make this user refer to "check" for loging in
 Karopapier.User.url = function() {
-    return APIHOST + '/api/user/check.json?callback=?';
+    return APIHOST + '/api/user/check';
 };
 Karopapier.User.fetch();
 
