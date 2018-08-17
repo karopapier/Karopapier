@@ -62,13 +62,17 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
             data.related = true;
             // console.info("GAME:MOVE aus otherMoved");
             me.vent.trigger('GAME:MOVE', data);
-            if (me.user.get('id') == data.nextId) {
-                // console.info("USER:DRAN aus otherMoved");
-                me.vent.trigger('USER:DRAN', data);
-            }
+
+            // bei wieder dran, erst runter dann hoch zaehlen
+            // daher erst "moved" triggern, dann dran
             if (me.user.get('id') == data.movedId) {
                 // console.info("USER:MOVED aus otherMoved");
                 me.vent.trigger('USER:MOVED', data);
+
+            }
+            if (me.user.get('id') == data.nextId) {
+                // console.info("USER:DRAN aus otherMoved");
+                me.vent.trigger('USER:DRAN', data);
             }
         });
 
