@@ -73,6 +73,30 @@ class DBFixerCommand extends ContainerAwareCommand
         $sql = 'ALTER TABLE `karo_user` CHANGE `Invited` `Invited` INT(11) UNSIGNED NULL DEFAULT \'0\';';
         $connection->executeQuery($sql);
 
+        // Game,
+        $datetimecolumns = [
+            'datemailsent',
+            'starteddate',
+            'finisheddate',
+        ];
+
+        $changes = [];
+        foreach ($datetimecolumns as $dc) {
+            $changes[] = 'CHANGE  `'.$dc.'`  `'.$dc.'` DATETIME NULL DEFAULT NULL';
+        }
+        $sql = 'ALTER TABLE  `karo_games` '.implode(', ', $changes);
+        $connection->executeQuery($sql);
+
+        $sqls = [
+            'ALTER TABLE `karo_games` CHANGE `UM_ID` `UM_ID` INT(11) UNSIGNED NOT NULL DEFAULT \'0\' COMMENT \'user map id\';',
+            'ALTER TABLE `karo_games` CHANGE `freeslots` `freeslots` INT(3) NOT NULL DEFAULT \'0\';',
+        ];
+        foreach ($sqls as $sql) {
+            $connection->executeQuery($sql);
+        }
+
+
+        // Hier das fuer die Usermaps
         $sql = 'ALTER TABLE `karo_maps` ADD `rows` TINYINT UNSIGNED NOT NULL DEFAULT \'0\' AFTER `Starties`, ADD `cols` TINYINT UNSIGNED NOT NULL DEFAULT \'0\' AFTER `rows`';
         $sql = 'alter table `karo_maps` AUTO_INCREMENT=10000';
     }
