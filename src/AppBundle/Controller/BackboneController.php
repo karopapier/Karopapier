@@ -16,7 +16,6 @@ class BackboneController extends Controller
      * @Route("/editor.html", name="backbone_editor")
      * @Route("/newgame.html", name="backbone_newgame")
      * @Route("/index.html", name="backbone_index")
-     * @Route("/game.html", name="backbone_game")
      * @Security("has_role('ROLE_USER')")
      */
     public function htmlAction()
