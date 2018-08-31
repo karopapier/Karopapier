@@ -247,7 +247,9 @@ class Game
      */
     public function getFinishedDate()
     {
-        return $this->finisheddate;
+        if ($this->finisheddate->format('Y') > 0) {
+            return $this->finisheddate;
+        }
     }
 
     public function getCheckpointsEnabled()

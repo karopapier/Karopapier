@@ -2,8 +2,6 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Entity\ChatMessage;
-use AppBundle\Entity\User;
 use AppBundle\Services\GameInconsistencyFinder;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,8 +15,8 @@ class GameCheckCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-                ->setName('karopapier:game:check')
-                ->setDescription('Check a game for consistency');
+            ->setName('karopapier:game:check')
+            ->setDescription('Check a game for consistency');
     }
 
     /**
@@ -32,5 +30,6 @@ class GameCheckCommand extends ContainerAwareCommand
         $finder->checkStartedWithoutPlayers();
         $finder->checkFinishedWithoutKaroMAMA();
         $finder->checkDranNotActive();
+        $finder->checkMamaDranButNotFinished();
     }
 }

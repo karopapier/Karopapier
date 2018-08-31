@@ -124,6 +124,4 @@ class GameChecker
         $this->em->persist($game);
         $this->em->flush();
     }
-
-
 }

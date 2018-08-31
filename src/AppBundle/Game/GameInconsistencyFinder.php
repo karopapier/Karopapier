@@ -43,6 +43,25 @@ class GameInconsistencyFinder
     }
 
 
+    public function checkMamaDranButNotFinished()
+    {
+        $query = $this->em->createQuery(
+            'SELECT g FROM AppBundle:Game g WHERE g.finished = FALSE AND g.dranUser = :uid ORDER BY g.id DESC'
+        );
+        $query->setParameter("uid", 26);
+        /** @var Game $game */
+        $games = $query->execute();
+        foreach ($games as $game) {
+            $this->logger->warning(
+                sprintf(
+                    "Game %s shows KaroMAMA dran but is not finished",
+                    $game->getId()." - ".$game->getName()
+                )
+            );
+            $this->checker->ensureFinished($game);
+        }
+    }
+
     public function checkFinishedWithoutKaroMAMA()
     {
         $query = $this->em->createQuery(
