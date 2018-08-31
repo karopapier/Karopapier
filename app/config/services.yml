@@ -69,6 +69,7 @@ services:
     Predis\Client: '@snc_redis.default'
     game_logger: '@AppBundle\Game\GameLogger'
     messaging_service: '@AppBundle\Messaging\MessagingService'
+    game_inconsistency_finder: '@AppBundle\Game\GameInconsistencyFinder'
 
     AppBundle\DataFixtures\ORM\LoadUserData:
       public: false
