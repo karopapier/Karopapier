@@ -13,6 +13,19 @@ use Doctrine\ORM\EntityRepository;
 
 class MapRepository extends EntityRepository
 {
+    /**
+     * @return Map[]
+     */
+    public function getActiveMaps()
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->where('m.active=true')
+            ->orderBy('m.id');
+        $maps = $qb->getQuery()->execute();
+
+        return $maps;
+    }
+
     public function ensureMapIdExists($mapId)
     {
         $connection = $this->getEntityManager()->getConnection();
