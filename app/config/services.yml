@@ -53,6 +53,12 @@ services:
       arguments:
           - 'AppBundle:User'
 
+    map_repository:
+      class: Doctrine\ORM\EntityRepository
+      factory: ['@doctrine.orm.default_entity_manager', getRepository]
+      arguments:
+          - 'AppBundle:Map'
+
     AppBundle\Formatter\SmileyHolder:
       arguments:
         - '%kernel.cache_dir%'
