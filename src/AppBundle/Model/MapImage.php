@@ -48,25 +48,6 @@ class MapImage
         return $filename;
     }
 
-    public function getFilePath()
-    {
-        $imgdir = '/home/pdietrich/karopapier.de/wrapper/web/images/maps/';
-
-        return $imgdir.$this->getFilename();
-    }
-
-    public function getUrl()
-    {
-
-    }
-
-    public function isCached()
-    {
-        $fn = $this->getFilename();
-
-        return (file_exists($fn));
-    }
-
     public function getImageWidth()
     {
         $fieldsize = $this->getFieldsize();
@@ -84,5 +65,20 @@ class MapImage
     private function getFieldsize()
     {
         return $this->options->size + $this->options->border;
+    }
+
+    public function setSizeByWidthOrHeight($width, $height)
+    {
+        if ($width > 0) {
+            $this->options->setSize(ceil($width / $this->map->getNbCols()));
+
+            return;
+        }
+
+        if ($height > 0) {
+            $this->options->setSize(ceil($height / $this->map->getNbRows()));
+
+            return;
+        }
     }
 }

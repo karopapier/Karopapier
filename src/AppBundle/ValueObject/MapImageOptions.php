@@ -50,4 +50,9 @@ class MapImageOptions
         $border = min($border, 5);
         $this->border = $border;
     }
+
+    public function setCps($cps)
+    {
+        $this->cps = (bool)$cps;
+    }
 }

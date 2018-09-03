@@ -34,6 +34,8 @@ parameters:
         host: www.panamapapier.de
         karoroot: /var/wwwroot/karo/karopapier.de/httpdocs
         map_dir: /var/wwwroot/karo/karopapier.de/httpdocs/maps
+        map_image_cache_dir: /var/wwwroot/karo/karopapier.de/wrapper/web/images/maps
+        map_image_web_dir: /images/maps
         game_logs_dir: /var/wwwroot/karo/karopapier.de/httpdocs/logs
         game_thumbs_cache_dir: /var/wwwroot/karo/karopapier.de/wrapper/web/images/previews
         game_thumbs_web_dir: /images/previews

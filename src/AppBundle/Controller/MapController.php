@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Map;
+use AppBundle\Map\MapImageCache;
 use AppBundle\Map\MapImageRenderer;
 use AppBundle\Model\MapImage;
 use AppBundle\ValueObject\MapImageOptions;
@@ -10,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MapController
@@ -21,48 +21,38 @@ class MapController
      * @param Map $map
      * @param $filetype
      * @param MapImageRenderer $mapImageRender
-     * @return Response
+     * @return RedirectResponse
      * @throws \Exception
      */
-    public function showImageAction(Request $request, Map $map, $filetype, MapImageRenderer $mapImageRender)
+    public function showImageAction(Request $request, Map $map, $filetype, MapImageCache $mapCache)
     {
+        /** @var MapImageOptions $options */
         $options = new MapImageOptions();
-        $options->setFileType($filetype);
-        $options->setSize($request->get('size', 12));
-        $options->setBorder($request->get('border', 1));
+        $thumbnail = (bool)$request->get('thumb', false);
 
-        $mapImage = new MapImage($map, $options);
-
-        if ($mapImage->isCached()) {
-            return new RedirectResponse($mapImage->getUrl());
+        // Thumbnail or size?
+        if ($thumbnail) {
+            $options->setSize(1);
+            $options->setBorder(0);
+        } else {
+            $options->setSize($request->query->getInt('size', 12));
+            $options->setBorder($request->query->getInt('border', 1));
         }
 
-        $binary = $mapImageRender->getImageString($mapImage);
+        $options->setFileType($filetype);
+        $options->setCps($request->query->getInt('cps', 1));
+        $mapImage = new MapImage($map, $options);
 
-        //create Image
-        // $mi->setBorder($border);
-        // $mi->setFiletype($ftype);
-        // if ($cps == 0) {
-        // $mi->setSkipCheckpoints(true);
-        // }
+        // Height/Width
+        $height = $request->query->getInt('height', 0);
+        $width = $request->query->getInt('width', 0);
+        if ($width > 0 || $height > 0) {
+            $mapImage->setSizeByWidthOrHeight($width, $height);
+        }
 
-        //size from size or width/height?
-        // if (isset($size)) {
-        // $mi->setSize($size);
-        // }
+        $url = $mapCache->getUrl($mapImage);
 
-        // if (isset($height) || isset($width)) {
-        // $mi->setSizeFromWidthAndHeight($width, $height);
-        // }
-
-        $headers = array(
-            'Content-type' => 'image/'.$filetype,
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'no-cache',
-            'Lala' => (new \DateTime())->format('H:m:s'),
-        );
-
-        return new Response($binary, 200, $headers);
+        return new RedirectResponse($url);
     }
 
     /**
