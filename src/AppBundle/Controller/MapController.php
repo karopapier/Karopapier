@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Map;
+use AppBundle\Map\MapImageRenderer;
 use AppBundle\Model\MapImage;
+use AppBundle\ValueObject\MapImageOptions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,13 +16,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class MapController
 {
     /**
-     * @Route("/map/{id}.{imgType}", name="map_img", requirements={"id": "\d+"})
+     * @Route("/map/{id}.{filetype}", name="map_img", requirements={"id": "\d+"})
+     * @param Request $request
      * @param Map $map
+     * @param $filetype
+     * @param MapImageRenderer $mapImageRender
+     * @return Response
+     * @throws \Exception
      */
-    public function showImageAction(Request $request, Map $map)
+    public function showImageAction(Request $request, Map $map, $filetype, MapImageRenderer $mapImageRender)
     {
+        $options = new MapImageOptions();
+        $options->setFileType($filetype);
+
+        $mapImage = new MapImage($map, $options);
+        $binary = $mapImageRender->getImageString($mapImage);
+
+        if ($mapImage->isCached()) {
+            return new RedirectResponse($mapImage->getUrl());
+        }
+
         //create Image
-        $mi = new MapImage($map);
         // $mi->setBorder($border);
         // $mi->setFiletype($ftype);
         // if ($cps == 0) {
@@ -35,18 +52,14 @@ class MapController
         // $mi->setSizeFromWidthAndHeight($width, $height);
         // }
 
-        ob_start();
-        $mi->render();
-        $imageString = ob_get_clean();
-
         $headers = array(
-            'Content-type' => 'image/png',
+            'Content-type' => 'image/'.$filetype,
             'Pragma' => 'no-cache',
             'Cache-Control' => 'no-cache',
+            'Lala' => (new \DateTime())->format('H:m:s'),
         );
 
-
-        return new Response($imageString, 200, $headers);
+        return new Response($binary, 200, $headers);
     }
 
     /**

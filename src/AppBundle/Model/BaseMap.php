@@ -9,22 +9,29 @@
 namespace AppBundle\Model;
 
 
+/**
+ * Functions around the entity
+ * Class BaseMap
+ * @package AppBundle\Model
+ */
 abstract class BaseMap
 {
     private $fields = array(
         "X" => "gras",
-        "O" => "road"
+        "O" => "road",
     );
 
     public function getNbCols()
     {
         $matrix = $this->getMatrix();
+
         return strlen($matrix[0]);
     }
 
     public function getNbRows()
     {
         $matrix = $this->getMatrix();
+
         return count($matrix);
     }
 
@@ -41,6 +48,7 @@ abstract class BaseMap
             $matrix[] = $line;
         }
         $this->matrix = $matrix;
+
         return $matrix;
     }
 
