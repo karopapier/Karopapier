@@ -9,6 +9,7 @@
 namespace AppBundle\Repository;
 
 
+use AppBundle\Entity\Map;
 use Doctrine\ORM\EntityRepository;
 
 class MapRepository extends EntityRepository

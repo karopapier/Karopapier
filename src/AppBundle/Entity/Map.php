@@ -195,6 +195,11 @@ class Map extends BaseMap
         return $m;
     }
 
+    public function getPlayers()
+    {
+        return $this->starties;
+    }
+
     public function updateRating($rating)
     {
         $this->rating = $rating;
