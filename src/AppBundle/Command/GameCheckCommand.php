@@ -31,5 +31,6 @@ class GameCheckCommand extends ContainerAwareCommand
         $finder->checkFinishedWithoutKaroMAMA();
         $finder->checkDranNotActive();
         $finder->checkMamaDranButNotFinished();
+        $finder->checkDranIs0();
     }
 }

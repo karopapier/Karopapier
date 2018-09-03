@@ -43,6 +43,24 @@ class GameInconsistencyFinder
     }
 
 
+    public function checkDranIs0()
+    {
+        $query = $this->em->createQuery(
+            'SELECT g FROM AppBundle:Game g WHERE g.dranUser = 0'
+        );
+        $games = $query->execute();
+        foreach ($games as $game) {
+            $this->logger->warning(
+                sprintf(
+                    "Game %s shows NULL dran",
+                    $game->getId()." - ".$game->getName()
+                )
+            );
+            $this->checker->ensureFinished($game);
+        }
+
+    }
+
     public function checkMamaDranButNotFinished()
     {
         $query = $this->em->createQuery(
