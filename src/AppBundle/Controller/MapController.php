@@ -28,13 +28,16 @@ class MapController
     {
         $options = new MapImageOptions();
         $options->setFileType($filetype);
+        $options->setSize($request->get('size', 12));
+        $options->setBorder($request->get('border', 12));
 
         $mapImage = new MapImage($map, $options);
-        $binary = $mapImageRender->getImageString($mapImage);
 
         if ($mapImage->isCached()) {
             return new RedirectResponse($mapImage->getUrl());
         }
+
+        $binary = $mapImageRender->getImageString($mapImage);
 
         //create Image
         // $mi->setBorder($border);

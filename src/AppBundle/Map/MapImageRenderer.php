@@ -195,9 +195,9 @@ class MapImageRenderer
     private function drawBorder($x, $y, $c)
     {
         //bottom
-        imagefilledrectangle($this->image, $x, $y + $this->size, $x + $this->fieldsize, $y + $this->fieldsize, $c);
+        imageline($this->image, $x, $y + $this->size, $x + $this->size, $y + $this->size, $c);
         //right
-        imagefilledrectangle($this->image, $x + $this->size, $y, $x + $this->fieldsize, $y + $this->fieldsize, $c);
+        imageline($this->image, $x + $this->size, $y, $x + $this->size, $y + $this->size, $c);
     }
 
 

@@ -33,13 +33,21 @@ class MapImageOptions
 
     public function setSize($size)
     {
-        if (($size) && ($size >= 1)) {
-            $this->size = $size;
-        }
+        $size = (int)$size;
+        $size = max(1, $size);
+        $size = min(20, $size);
+        $this->size = $size;
 
         if ($size < 8) {
-            $this->specle = false;
+            $this->specles = false;
         }
     }
 
+    public function setBorder($border)
+    {
+        $border = (int)$border;
+        $border = max(0, $border);
+        $border = min($border, 5);
+        $this->border = $border;
+    }
 }
