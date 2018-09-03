@@ -39,18 +39,19 @@ class MapImage
 
     public function getFilename()
     {
+        // check for thumbnail
         $id = $this->map->getId();
-        $cpString = (int)$this->options->cps;
-        $filename = sprintf(
-            "%s_%s_%s_%s.%s",
-            $id,
-            $this->options->size,
-            $this->options->border,
-            $cpString,
-            $this->options->filetype
-        );
+        $size = $this->options->size;
+        $border = $this->options->border;
+        $filetype = $this->options->filetype;
 
-        return $filename;
+        if ($size === 1 && $border === 0) {
+            return 'thumbnails/'.$id.'.'.$filetype;
+        }
+
+        $cpString = (int)$this->options->cps;
+
+        return sprintf("%s_%s_%s_%s.%s", $id, $size, $border, $cpString, $filetype);
     }
 
     public function getImageWidth()

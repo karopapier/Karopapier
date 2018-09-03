@@ -2,8 +2,11 @@
 
 {% block body %}
     <h1>Karte {{ id }}: {{ name }}</h1>
-
+    Erstellt von {{ author }}<br>
+    Größe: {{ cols }} x {{ rows }}<br>
+    Startplätze: {{ players }}<br>
+    <br>
     <div>
-        <img src="/map/{{ id }}.png">
+        <img src="/map/{{ id }}.png?width=600">
     </div>
 {% endblock %}

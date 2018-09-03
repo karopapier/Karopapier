@@ -32,7 +32,6 @@ class MapImageCache
 
     public function getUrl(MapImage $mapImage)
     {
-        $name = $mapImage->getFilename();
         $path = $this->getFilePath($mapImage);
 
         if (!$this->isCached($mapImage)) {
