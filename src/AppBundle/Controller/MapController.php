@@ -29,7 +29,7 @@ class MapController
         $options = new MapImageOptions();
         $options->setFileType($filetype);
         $options->setSize($request->get('size', 12));
-        $options->setBorder($request->get('border', 12));
+        $options->setBorder($request->get('border', 1));
 
         $mapImage = new MapImage($map, $options);
 
