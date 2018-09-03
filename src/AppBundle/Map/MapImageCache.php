@@ -37,12 +37,17 @@ class MapImageCache
 
         if (!$this->isCached($mapImage)) {
             // create image and save it
-            $binary = $this->mapImageRenderer->getImageString($mapImage);
+            $binary = $this->getBinary($mapImage);
             file_put_contents($path, $binary);
         }
 
         return $this->getWebPath($mapImage);
 
+    }
+
+    public function getBinary($mapImage)
+    {
+        return $this->mapImageRenderer->getImageString($mapImage);
     }
 
     private function getWebPath(MapImage $mapImage)

@@ -190,6 +190,7 @@ class Map extends BaseMap
             // "mapcode" => $this->getCode(),
             "cps" => $this->getCpArray(),
             "active" => (bool)$this->active,
+            "night" => $this->night,
         );
 
         return $m;
@@ -198,6 +199,11 @@ class Map extends BaseMap
     public function getPlayers()
     {
         return $this->starties;
+    }
+
+    public function isNight()
+    {
+        return (bool)$this->night;
     }
 
     public function updateRating($rating)

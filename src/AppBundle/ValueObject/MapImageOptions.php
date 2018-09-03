@@ -16,6 +16,7 @@ class MapImageOptions
     public $cps = true;
     public $specles = true;
     public $filetype = 'png';
+    public $night = false;
 
     public function __construct()
     {

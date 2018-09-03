@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MapController
@@ -21,7 +22,7 @@ class MapController
      * @param Map $map
      * @param $filetype
      * @param MapImageRenderer $mapImageRender
-     * @return RedirectResponse
+     * @return RedirectResponse|Response
      * @throws \Exception
      */
     public function showImageAction(Request $request, Map $map, $filetype, MapImageCache $mapCache)
@@ -41,6 +42,7 @@ class MapController
 
         $options->setFileType($filetype);
         $options->setCps($request->query->getInt('cps', 1));
+        $options->night = $request->query->getBoolean('night', false);
         $mapImage = new MapImage($map, $options);
 
         // Height/Width
@@ -48,6 +50,16 @@ class MapController
         $width = $request->query->getInt('width', 0);
         if ($width > 0 || $height > 0) {
             $mapImage->setSizeByWidthOrHeight($width, $height);
+        }
+
+        if ($request->query->getBoolean('raw', false)) {
+            $binary = $mapCache->getBinary($mapImage);
+
+            return new Response(
+                $binary, 200, [
+                    'content-type' => 'image/'.$filetype,
+                ]
+            );
         }
 
         $url = $mapCache->getUrl($mapImage);

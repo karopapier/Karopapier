@@ -78,7 +78,7 @@ class MapImageRenderer
         $this->colors = $this->allocateColors();
 
         //set bg
-        imagefilledrectangle($this->image, 0, 0, $w, $h, $this->colors['offroadspecle']);
+        // imagefilledrectangle($this->image, 0, 0, $w, $h, $this->colors['offroadspecle']);
     }
 
     private function allocateColors()
@@ -109,6 +109,12 @@ class MapImageRenderer
 
     private function drawCodeField($r, $c, $char)
     {
+        $nightFields = ['S', 'F', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $night = $this->options->night;
+        if ($night && (!in_array($char, $nightFields))) {
+            return;
+        }
+
         $x = $c * ($this->fieldsize);
         $y = $r * ($this->fieldsize);
 

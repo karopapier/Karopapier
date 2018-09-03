@@ -20,6 +20,11 @@ class MapImage
     {
         $this->map = $map;
         $this->options = $options;
+
+        // check night maps
+        if ($map->isNight()) {
+            $options->night = true;
+        }
     }
 
     public function getMap()
