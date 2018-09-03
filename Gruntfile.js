@@ -89,7 +89,7 @@ module.exports = function(grunt) {
                 },
             },
             web: {
-                files: ['web/**/*.php', 'src/**/*'],
+                files: ['web/**/*.php', 'src/**/*', 'app/Resources/**/*'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig,
