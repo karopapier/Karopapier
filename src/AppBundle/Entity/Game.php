@@ -113,11 +113,12 @@ class Game
     private $starteddate;
 
     /**
-     * @var integer
+     * @var \AppBundle\Entity\User
      *
-     * @ORM\Column(name="startedby", type="integer", nullable=false)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User",fetch="EAGER")
+     * @ORM\JoinColumn(name="startedby", referencedColumnName="U_ID")
      */
-    private $startedby;
+    private $startedBy;
 
     /**
      * @var boolean
@@ -217,6 +218,33 @@ class Game
         return $this->map;
     }
 
+    public function getDetailsArray()
+    {
+        $data = [
+            'started' => (bool)$this->started,
+            'starteddate' => $this->starteddate->format('Y-m-d H:i:s'),
+            'creator' => $this->startedBy->getName(),
+            'finished' => (bool)$this->finished,
+        ];
+
+        if ($data['finished']) {
+            $data['finisheddate'] = $this->getFinishedDate()->format('Y-m-d H:i:s');
+        } else {
+            // dran
+            $data['next'] = [
+                'id' => $this->dranUser->getId(),
+                'name' => $this->dranUser->getName(),
+            ];
+            // blocked
+            $diff = (time() - $this->datemailsent->format('U'));
+            $data['blocked'] = floor($diff / 86400);
+        }
+
+        // time since last move
+
+        return $data;
+    }
+
     /**
      * Mark the game as finished, with optional timestamp and final user (KaroMAMA id 26)
      * @param int $ts
@@ -258,5 +286,28 @@ class Game
         }
 
         return $this->checkpoints;
+    }
+
+    public function getCrashAllowed()
+    {
+        $meanings = [
+            'free',
+            'allowed',
+            'forbidden',
+        ];
+
+        return $meanings[$this->crashallowed];
+    }
+
+    public function getStartDirection()
+    {
+        $meanings = [
+            'free',
+            'classic',
+            'formula1',
+        ];
+
+        return $meanings[$this->startdirection];
+
     }
 }

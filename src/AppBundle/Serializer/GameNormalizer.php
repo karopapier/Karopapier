@@ -40,6 +40,7 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
         /** @var Map $map */
         $map = $game->getMap();
 
+        /** @var Game $game */
         $data = [
             'id' => $game->getId(),
             'name' => $game->getName(),
@@ -47,7 +48,13 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
                 'id' => $map->getId(),
                 'name' => $map->getName(),
             ],
+            'cps' => (bool)$game->getCheckpointsEnabled(),
+            'zzz' => $game->getZzz(),
+            'crashallowed' => $game->getCrashAllowed(),
+            'startdirection' => $game->getStartDirection(),
         ];
+
+        $data = array_merge($data, $game->getDetailsArray());
 
         if ($options['mapcode']) {
             $data['map']['code'] = $map->getCode();
