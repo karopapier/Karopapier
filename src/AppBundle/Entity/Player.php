@@ -42,9 +42,9 @@ class Player
     private $moved;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="finished", type="boolean", nullable=false)
+     * @ORM\Column(name="finished", type="integer", nullable=false)
      */
     private $finished;
 
@@ -63,6 +63,14 @@ class Player
      * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      */
     private $user;
+
+    /**
+     * @var integer
+     * @ORM\Id
+     * @ORM\OneToOne(targetEntity="User", fetch="EAGER")
+     * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
+     */
+    private $checkpoints;
 
     /**
      * @return int
@@ -120,5 +128,13 @@ class Player
     public function isActive()
     {
         return (bool)$this->status == 1;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMoved()
+    {
+        return $this->moved;
     }
 }

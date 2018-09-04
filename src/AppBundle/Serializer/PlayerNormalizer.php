@@ -35,6 +35,15 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'id' => $user->getId(),
             'name' => $user->getName(),
             'color' => $user->getColor(),
+            'moved' => $player->hasMoved(),
+            'position' => $player->getFinished(),
+
+//            "position" => 4,
+//            "status" => "ok",
+//            "moveCount" => 157,
+//            "crashCount" => 1,
+//            "checkedCps" => [1, 2, 3, 4],
+//            "missingCps" => [],
         ];
 
         if ($withMoves) {
