@@ -29,7 +29,7 @@ class GameController extends AbstractApiController
     }
 
     /**
-     * @Route("/game/{id}", name="api_game")
+     * @Route("/games/{id}", name="api_game")
      * @param Game $game
      */
     public function showAction(Request $request, $id, SerializerInterface $serializer)
