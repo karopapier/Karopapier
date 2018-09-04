@@ -9,8 +9,10 @@
 namespace AppBundle\Map;
 
 
+use AppBundle\Entity\Map;
 use AppBundle\Model\MapImage;
 use AppBundle\Services\ConfigService;
+use AppBundle\ValueObject\MapImageOptions;
 
 class MapImageCache
 {
@@ -49,12 +51,21 @@ class MapImageCache
         return $this->mapImageRenderer->getImageString($mapImage);
     }
 
+    public function getThumbnail(Map $map)
+    {
+        $options = new MapImageOptions();
+        $options->setSize(1);
+        $options->setBorder(0);
+
+        return new MapImage($map, $options);
+    }
+
     private function getWebPath(MapImage $mapImage)
     {
         return $this->webDir.'/'.$mapImage->getFilename();
     }
 
-    private function getFilePath(MapImage $mapImage)
+    public function getFilePath(MapImage $mapImage)
     {
         return $this->cacheDir.'/'.$mapImage->getFilename();
     }

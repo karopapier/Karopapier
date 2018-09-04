@@ -15,18 +15,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class GameNormalizer implements NormalizerInterface
 {
-    public function normalize($object, $format = null, array $context = array())
+    public function normalize($game, $format = null, array $context = array())
     {
-        if (!$this->supportsNormalization($object)) {
+        if (!$this->supportsNormalization($game)) {
             throw new InvalidArgumentException('Not supported');
         }
 
         /** @var Map $map */
-        $map = $object->getMap();
+        $map = $game->getMap();
 
         return [
-            'id' => $object->getId(),
-            'name' => $object->getName(),
+            'id' => $game->getId(),
+            'name' => $game->getName(),
             'map' => [
                 'id' => $map->getId(),
                 'code' => $map->getCode(),

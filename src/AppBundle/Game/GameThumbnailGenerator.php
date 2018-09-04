@@ -12,7 +12,6 @@ namespace AppBundle\Game;
 use AppBundle\Entity\Game;
 use AppBundle\Map\MapImageCache;
 use AppBundle\Services\ConfigService;
-use Karopapier\Karo\Model\Map;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -57,43 +56,10 @@ class GameThumbnailGenerator
         }
 
         $data = json_decode(file_get_contents("http://www.karopapier.de/api/game/".$gid."/details.json"), true);
-        $checkpoints = $game->getCheckpointsEnabled();
         $map = $game->getMap();
-        $cols = $map->getNbCols();
-        $rows = $map->getNbRows();
-        $mapcode = $map->getCode();
 
-        $map = new Map();
-
-        //allocated all colors
-        $img = imagecreate($cols, $rows);
-        $colors = array();
-        foreach (array_keys($map::$FIELDS) as $f) {
-            //allocate road for checkpoints if not enabled
-            if (is_numeric($f) && (!$checkpoints)) {
-                $colors[$f] = $colors['O'];
-            } else {
-                list($r, $g, $b) = explode(',', $map->getColor($f));
-                $colors[$f] = imagecolorallocate($img, $r, $g, $b);
-            }
-        }
-
-        $row = 0;
-        $col = 0;
-        $l = strlen($mapcode);
-        for ($i = 0; $i < $l; $i++) {
-            $f = $mapcode[$i];
-            if ($f == "\r") {
-                continue;
-            }
-            if ($f == "\n") {
-                $row++;
-                $col = 0;
-                continue;
-            }
-            imagesetpixel($img, $col, $row, $colors[$f]);
-            $col++;
-        }
+        $thumbnail = $this->mapImageCache->getThumbnail($map);
+        $img = imagecreatefrompng($this->mapImageCache->getFilepath($thumbnail));
 
         //now players and moves
         $playerdata = $data['players'];
