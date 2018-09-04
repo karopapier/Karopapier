@@ -12,7 +12,7 @@ namespace AppBundle\Repository;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\QueryBuilder;
 use PDO;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -78,6 +78,44 @@ class GameRepository extends ServiceEntityRepository
     public function isNotFinished(QueryBuilder $qb)
     {
         $qb->andWhere('finished=0');
+
+        return $qb;
+    }
+
+
+    public function findGameWithPlayers($gid)
+    {
+        $qb = $this->getPlayerQueryBuilder();
+        $qb->setParameter('gid', $gid);
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
+    public function findGameWithPlayersAndMoves($gid)
+    {
+        $qb = $this->getPlayerQueryBuilder();
+        $this->addMoves($qb);
+        $qb->setParameter('gid', $gid);
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
+    private function getPlayerQueryBuilder()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb
+            ->select('g', 'p')
+            ->from(Game::class, 'g')
+            ->leftJoin('g.players', 'p')
+            ->where('g.id = :gid');
+
+        return $qb;
+    }
+
+    private function addMoves(QueryBuilder $qb)
+    {
+        $qb->addSelect('m');
+        $qb->leftJoin('p.moves', 'm');
 
         return $qb;
     }

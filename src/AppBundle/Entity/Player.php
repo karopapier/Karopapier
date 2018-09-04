@@ -59,7 +59,7 @@ class Player
     /**
      * @var User
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="User", fetch="EAGER")
      * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      */
     private $user;

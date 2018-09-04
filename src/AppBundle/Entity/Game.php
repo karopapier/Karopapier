@@ -27,7 +27,7 @@ class Game
     /**
      * @var \AppBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User",fetch="EAGER")
      * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
      */
     private $dranUser;
@@ -35,7 +35,7 @@ class Game
 
     /**
      * @var \AppBundle\Entity\Player
-     * @ORM\OneToMany(targetEntity="Player", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="game", fetch="EAGER")
      */
     private $players;
 
@@ -46,7 +46,6 @@ class Game
     {
         return $this->players;
     }
-
 
     /**
      * @var string
@@ -66,7 +65,7 @@ class Game
     /**
      * @var \AppBundle\Entity\Map
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Map")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Map", fetch="EAGER")
      * @ORM\JoinColumn(name="M_ID", referencedColumnName="M_ID", nullable=false)
      */
     private $map;

@@ -11,13 +11,11 @@ namespace AppBundle\Command;
 use AppBundle\Entity\Game;
 use AppBundle\Game\GameThumbnailGenerator;
 use AppBundle\Repository\GameRepository;
-use Karopapier\Karo\Model\Map;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 
 class GameThumbnailCommand extends ContainerAwareCommand
@@ -63,7 +61,8 @@ class GameThumbnailCommand extends ContainerAwareCommand
     {
         $gid = $input->getArgument('gid');
         /** @var Game $game */
-        $game = $this->gameRepository->find($gid);
+        $game = $this->gameRepository->findGameWithPlayersAndMoves($gid);
+
 
         if (!$game) {
             $this->logger->error(sprintf('Game ID %s not found', $gid));

@@ -71,7 +71,14 @@ class GameThumbnailGenerator
         $thumbnail = $this->mapImageCache->getThumbnail($map);
         $img = imagecreatefrompng($this->mapImageCache->getFilepath($thumbnail));
 
-        $gameDate = $this->serializer->normalize($game, 'array', ['players' => true]);
+        $gameDate = $this->serializer->normalize(
+            $game,
+            'array',
+            [
+                'players' => true,
+                'moves' => true,
+            ]
+        );
         var_dump($gameDate);
 
         //now players and moves

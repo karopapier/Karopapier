@@ -11,10 +11,12 @@ namespace AppBundle\Serializer;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Map;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class GameNormalizer implements NormalizerInterface
+class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
+
     public function normalize($game, $format = null, array $context = array())
     {
         if (!$this->supportsNormalization($game)) {
@@ -49,11 +51,34 @@ class GameNormalizer implements NormalizerInterface
             $data['map']['code'] = $map->getCode();
         }
 
+        $playersData = [];
+        if ($options['players']) {
+            $players = $game->getPlayers();
+            /** @var Player $player */
+            foreach ($players as $player) {
+                $playersData[] = $this->normalizer->normalize($player);
+            }
+
+            $data['players'] = $playersData;
+        }
+
+        // dump($p);
+
         return $data;
     }
 
     public function supportsNormalization($data, $format = null)
     {
         return $data instanceof Game;
+    }
+
+    /**
+     * Sets the owning Normalizer object.
+     *
+     * @param NormalizerInterface $normalizer
+     */
+    public function setNormalizer(NormalizerInterface $normalizer)
+    {
+        $this->normalizer = $normalizer;
     }
 }
