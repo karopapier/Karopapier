@@ -1,46 +1,48 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: pdietrich
- * Date: 09.03.2016
- * Time: 23:08
+ * User: monti
+ * Date: 04.09.2018
+ * Time: 12:44
  */
 
-namespace Karopapier\Command;
+namespace AppBundle\Game;
 
+
+use AppBundle\Entity\Game;
+use AppBundle\Map\MapImageCache;
+use AppBundle\Services\ConfigService;
 use Karopapier\Karo\Model\Map;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-
-class GamePreviewCommand extends ContainerAwareCommand
+class GameThumbnailGenerator
 {
-    protected function configure()
+    /**
+     * @var MapImageCache
+     */
+    private $mapImageCache;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+    private $folder;
+
+    public function __construct(ConfigService $config, MapImageCache $mapImageCache, LoggerInterface $logger)
     {
-        $this
-            ->setName('karopapier:game:tumbnail')
-            ->setDescription('Create a game\'s preview image')
-            ->addArgument(
-                'gid',
-                InputArgument::REQUIRED,
-                'What is the GameId?'
-            )
-            ->addArgument(
-                'folder',
-                InputArgument::REQUIRED,
-                'What is the target folder of the preview image'
-            );
+        $this->mapImageCache = $mapImageCache;
+        $this->logger = $logger;
+        $this->folder = $config->get('game_thumbs_cache_dir');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    public function generate(Game $game)
     {
+        $this->logger->debug('Ich mach mal ein Thumbnail für Game '.$game->getName());
+
+        $gid = $game->getId();
         $fs = new Filesystem();
-        $gid = $input->getArgument('gid');
-        $folder = $input->getArgument('folder');
-        $logger = $this->getContainer()->get("logger");
+        $folder = $this->folder;
+        $logger = $this->logger;
 
 
         if (!$fs->isAbsolutePath($folder)) {
@@ -55,12 +57,11 @@ class GamePreviewCommand extends ContainerAwareCommand
         }
 
         $data = json_decode(file_get_contents("http://www.karopapier.de/api/game/".$gid."/details.json"), true);
-        $gamedata = $data['game'];
-        $checkpoints = $gamedata['cps'];
-        $mapdata = $data['map'];
-        $cols = $mapdata['cols'];
-        $rows = $mapdata['rows'];
-        $mapcode = $mapdata['mapcode'];
+        $checkpoints = $game->getCheckpointsEnabled();
+        $map = $game->getMap();
+        $cols = $map->getNbCols();
+        $rows = $map->getNbRows();
+        $mapcode = $map->getCode();
 
         $map = new Map();
 

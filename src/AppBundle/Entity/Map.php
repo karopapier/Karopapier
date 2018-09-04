@@ -199,4 +199,25 @@ class Map extends BaseMap
     {
         $this->rating = $rating;
     }
+
+    public function getSizeForWidthAndHeight($width, $height)
+    {
+        if ($width) {
+            return ceil($width / $this->getNbCols());
+        }
+
+        if ($height) {
+            return ceil($height / $this->getNbRows());
+        }
+
+        return 12;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasCheckpoints()
+    {
+        return (count($this->getCpArray()) > 0);
+    }
 }

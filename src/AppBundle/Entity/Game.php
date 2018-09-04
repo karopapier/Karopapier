@@ -249,4 +249,13 @@ class Game
     {
         return $this->finisheddate;
     }
+
+    public function getCheckpointsEnabled()
+    {
+        if (!$this->map->getHasCheckpoints()) {
+            return false;
+        }
+
+        return $this->checkpoints;
+    }
 }
