@@ -9,11 +9,17 @@
 namespace AppBundle\Repository;
 
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use PDO;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class MapvoteRepository extends EntityRepository
+class MapvoteRepository extends ServiceEntityRepository
 {
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Mapvote::class);
+    }
+
     public function getAverage($mapId)
     {
         $connection = $this->getEntityManager()->getConnection();

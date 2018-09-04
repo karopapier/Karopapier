@@ -10,10 +10,16 @@ namespace AppBundle\Repository;
 
 
 use AppBundle\Entity\Map;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class MapRepository extends EntityRepository
+class MapRepository extends ServiceEntityRepository
 {
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Map::class);
+    }
+
     /**
      * @return Map[]
      */

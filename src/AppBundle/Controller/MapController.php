@@ -6,6 +6,7 @@ use AppBundle\Entity\Map;
 use AppBundle\Map\MapImageCache;
 use AppBundle\Map\MapImageRenderer;
 use AppBundle\Model\MapImage;
+use AppBundle\Repository\MapRepository;
 use AppBundle\ValueObject\MapImageOptions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -80,9 +81,8 @@ class MapController
     /**
      * @Route("/map/", name="map_list")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, MapRepository $repo)
     {
-        $repo = $this->getDoctrine()->getRepository('AppBundle:Map');
         /** @var Map[] $maps */
         $maps = $repo->getActiveMaps();
         $data = [];

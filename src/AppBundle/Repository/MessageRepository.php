@@ -10,11 +10,17 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Message;
 use AppBundle\Entity\User;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use PDO;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class MessageRepository extends EntityRepository
+class MessageRepository extends ServiceEntityRepository
 {
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Message::class);
+    }
+
     /**
      * @param string $login
      * @return Message[]

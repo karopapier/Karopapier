@@ -11,12 +11,18 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\ORM\EntityRepository;
 use PDO;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class GameRepository extends EntityRepository
+class GameRepository extends ServiceEntityRepository
 {
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Game::class);
+    }
+
     public function findAllOrderedByName()
     {
         return $this->getEntityManager()
@@ -30,7 +36,10 @@ class GameRepository extends EntityRepository
     {
         $connection = $this->getEntityManager()->getConnection();
         $qb = $connection->createQueryBuilder();
-        $qb->select('G_ID as id, name, "' . $user->getUsername() . '" as dranName, datediff(now(),datemailsent) blocked FROM karo_games');
+        $qb->select(
+            'G_ID as id, name, "'.$user->getUsername(
+            ).'" as dranName, datediff(now(),datemailsent) blocked FROM karo_games'
+        );
         $qb->where('U_ID='.$user->getId());
         $qb->orderBy('datemailsent', 'desc');
         $this->isActive($qb);
