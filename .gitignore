@@ -22,3 +22,4 @@ node_modules
 /web/index.html
 /backbone/public/js/GameStepUp.js
 /web/images/maps/*
+/web/images/previews/*
