@@ -40,6 +40,11 @@ class GameController extends AbstractApiController
             'mapcode' => $request->query->getBoolean('mapcode', false),
         ];
 
+        // wenn Moves brauchen wir natuerlich auch players
+        if ($options['moves']) {
+            $options['players'] = true;
+        }
+
         $game = $this->getGameFromOptions($id, $options);
 
         $json = $serializer->serialize($game, "json", $options);
@@ -52,6 +57,7 @@ class GameController extends AbstractApiController
         if ($options['moves']) {
             return $this->gameRepository->findGameWithPlayersAndMoves($id);
         }
+
         if ($options['players']) {
             return $this->gameRepository->findGameWithPlayers($id);
         }

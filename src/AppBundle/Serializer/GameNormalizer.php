@@ -17,6 +17,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
 
+    private $normalizer;
+
     public function normalize($game, $format = null, array $context = array())
     {
         if (!$this->supportsNormalization($game)) {
@@ -56,7 +58,7 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
             $players = $game->getPlayers();
             /** @var Player $player */
             foreach ($players as $player) {
-                $playersData[] = $this->normalizer->normalize($player);
+                $playersData[] = $this->normalizer->normalize($player, null, $context);
             }
 
             $data['players'] = $playersData;

@@ -65,13 +65,12 @@ class GameThumbnailGenerator
             return false;
         }
 
-        $data = json_decode(file_get_contents("http://www.karopapier.de/api/game/".$gid."/details.json"), true);
         $map = $game->getMap();
 
         $thumbnail = $this->mapImageCache->getThumbnail($map);
         $img = imagecreatefrompng($this->mapImageCache->getFilepath($thumbnail));
 
-        $gameDate = $this->serializer->normalize(
+        $gameData = $this->serializer->normalize(
             $game,
             'array',
             [
@@ -79,10 +78,9 @@ class GameThumbnailGenerator
                 'moves' => true,
             ]
         );
-        var_dump($gameDate);
 
         //now players and moves
-        $playerdata = $data['players'];
+        $playerdata = $gameData['players'];
         $pcount = count($playerdata);
 
         for ($p = 0; $p < $pcount; $p++) {
