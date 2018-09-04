@@ -9,7 +9,6 @@ use AppBundle\Model\MapImage;
 use AppBundle\Repository\MapRepository;
 use AppBundle\ValueObject\MapImageOptions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,6 +79,7 @@ class MapController
 
     /**
      * @Route("/map/", name="map_list")
+     * @Template("map/maplist.html.twig")
      */
     public function listAction(Request $request, MapRepository $repo)
     {
@@ -90,10 +90,8 @@ class MapController
             $data[] = $map->toArray();
         }
 
-        $response = new JsonResponse($data);
-        $response->setCallback($request->get("callback"));
-
-        return $response;
+        return [
+            'maps' => $data,
+        ];
     }
-
 }

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Alle aktuellen Karten</h1>
+    {% for map in maps %}
+        {#{{ map.id }}: {{ map.name }}#}
+        <a href="/map/{{ map.id }}"><img src="/images/maps/thumbnails/{{ map.id }}.png" width="60" border="0"></a>
+    {% endfor %}
+{% endblock %}
