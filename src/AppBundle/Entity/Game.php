@@ -15,11 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Game
 {
-    public function __construct()
-    {
-        $this->players = new ArrayCollection();
-    }
-
     /**
      * @var integer
      *
@@ -173,6 +168,11 @@ class Game
      * @ORM\Column(name="is_archived", type="boolean", nullable=false)
      */
     private $isArchived;
+
+    public function __construct()
+    {
+        $this->players = new ArrayCollection();
+    }
 
     /**
      * @return int

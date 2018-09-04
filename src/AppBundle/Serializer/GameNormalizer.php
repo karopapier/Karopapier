@@ -21,17 +21,35 @@ class GameNormalizer implements NormalizerInterface
             throw new InvalidArgumentException('Not supported');
         }
 
+        $options = [
+            'mapcode' => false,
+            'players' => false,
+            'moves' => false,
+        ];
+
+        foreach ($options as $option => $value) {
+            if (array_key_exists($option, $context)) {
+                $options[$option] = (bool)$context[$option];
+            }
+        }
+
         /** @var Map $map */
         $map = $game->getMap();
 
-        return [
+        $data = [
             'id' => $game->getId(),
             'name' => $game->getName(),
             'map' => [
                 'id' => $map->getId(),
-                'code' => $map->getCode(),
+                'name' => $map->getName(),
             ],
         ];
+
+        if ($options['mapcode']) {
+            $data['map']['code'] = $map->getCode();
+        }
+
+        return $data;
     }
 
     public function supportsNormalization($data, $format = null)

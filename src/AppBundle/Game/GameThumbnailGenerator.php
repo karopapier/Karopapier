@@ -14,6 +14,7 @@ use AppBundle\Map\MapImageCache;
 use AppBundle\Services\ConfigService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class GameThumbnailGenerator
 {
@@ -26,12 +27,21 @@ class GameThumbnailGenerator
      */
     private $logger;
     private $folder;
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
 
-    public function __construct(ConfigService $config, MapImageCache $mapImageCache, LoggerInterface $logger)
-    {
+    public function __construct(
+        ConfigService $config,
+        SerializerInterface $serializer,
+        MapImageCache $mapImageCache,
+        LoggerInterface $logger
+    ) {
         $this->mapImageCache = $mapImageCache;
         $this->logger = $logger;
         $this->folder = $config->get('game_thumbs_cache_dir');
+        $this->serializer = $serializer;
     }
 
     public function generate(Game $game)
@@ -60,6 +70,9 @@ class GameThumbnailGenerator
 
         $thumbnail = $this->mapImageCache->getThumbnail($map);
         $img = imagecreatefrompng($this->mapImageCache->getFilepath($thumbnail));
+
+        $gameDate = $this->serializer->normalize($game, 'array', ['players' => true]);
+        var_dump($gameDate);
 
         //now players and moves
         $playerdata = $data['players'];
