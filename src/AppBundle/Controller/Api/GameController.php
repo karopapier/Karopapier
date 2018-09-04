@@ -49,7 +49,10 @@ class GameController extends AbstractApiController
 
         $json = $serializer->serialize($game, "json", $options);
 
-        return JsonResponse::fromJsonString($json);
+        $response = JsonResponse::fromJsonString($json);
+        $response->setCallback($request->get("callback"));
+
+        return $response;
     }
 
     private function getGameFromOptions($id, $options)
