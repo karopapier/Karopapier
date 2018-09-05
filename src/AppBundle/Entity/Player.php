@@ -15,6 +15,7 @@ class Player
 {
     public function __construct()
     {
+        $this->checkpoints = new ArrayCollection();
         $this->moves = new ArrayCollection();
     }
 
@@ -27,7 +28,7 @@ class Player
 
 
     /**
-     * var \AppBundle\Entity\Move
+     * @var Move[]
      * @ORM\OneToMany(targetEntity="Move", mappedBy="player")
      * @ORM\OrderBy({"date" = "ASC"})
      */
@@ -65,10 +66,9 @@ class Player
     private $user;
 
     /**
-     * @var integer
-     * @ORM\Id
-     * @ORM\OneToOne(targetEntity="User", fetch="EAGER")
-     * @ORM\JoinColumn(name="U_ID", referencedColumnName="U_ID")
+     * @var Checkpoint[]
+     * @ORM\OneToMany(targetEntity="Checkpoint", mappedBy="player")
+     * // DONT USE EAGER!
      */
     private $checkpoints;
 
@@ -112,6 +112,9 @@ class Player
         return $this->user->getLogin();
     }
 
+    /**
+     * @return Move[]|ArrayCollection
+     */
     public function getMoves()
     {
         return $this->moves;
@@ -136,5 +139,19 @@ class Player
     public function hasMoved()
     {
         return $this->moved;
+    }
+
+    /**
+     * @return Checkpoint[]|ArrayCollection
+     */
+    public function getCheckpoints()
+    {
+        $plain = [];
+        /** @var Checkpoint $checkpoint */
+        foreach ($this->checkpoints as $checkpoint) {
+            $plain[] = $checkpoint->getCheckpoint();
+        }
+
+        return $plain;
     }
 }

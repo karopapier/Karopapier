@@ -30,6 +30,8 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
         }
 
         /** @var Player $player */
+        $cps = $player->getCheckpoints();
+
         $user = $player->getUser();
         $data = [
             'id' => $user->getId(),
@@ -37,21 +39,22 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'color' => $user->getColor(),
             'moved' => $player->hasMoved(),
             'position' => $player->getFinished(),
-
-//            "position" => 4,
-//            "status" => "ok",
-//            "moveCount" => 157,
-//            "crashCount" => 1,
-//            "checkedCps" => [1, 2, 3, 4],
-//            "missingCps" => [],
+            "checkedCps" => $cps,
+//            "status" => "ok", @TODO Add
+//            "missingCps" => [], @TODO add
         ];
 
         if ($withMoves) {
             $movesData = [];
+            $crashCount = 0;
             foreach ($player->getMoves() as $move) {
-
                 $movesData[] = $this->normalizer->normalize($move);
+                if ($move->isCrash()) {
+                    $crashCount++;
+                }
             }
+            $data['moveCount'] = count($movesData);
+            $data['crashCount'] = $crashCount;
             $data['moves'] = $movesData;
 
             $lastmove = end($data['moves']);

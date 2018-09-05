@@ -2,9 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Model\Motion;
 use AppBundle\Model\Position;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Move
@@ -113,11 +113,6 @@ class Move
     }
 
 
-
-
-
-
-
     /**
      * @return int
      */
@@ -176,7 +171,7 @@ class Move
 
     public function __toString()
     {
-        return $this->getXPos() . "|" . $this->getYPos() . " (" . $this->getXVec() . "|" . $this->getYVec() . ")";
+        return $this->getXPos()."|".$this->getYPos()." (".$this->getXVec()."|".$this->getYVec().")";
     }
 
     public function setMotion(Motion $m)
@@ -185,6 +180,7 @@ class Move
         $this->yPos = $m->getPosition()->getY();
         $this->xVec = $m->getVector()->getX();
         $this->yVec = $m->getVector()->getY();
+
         return $this;
     }
 
@@ -229,13 +225,12 @@ class Move
         if ($this->getMovemessage() != "") {
             $m["msg"] = $this->getMovemessage();
         }
+
         return $m;
     }
 
-
     public function isCrash()
     {
-        return $this->getCrash();
+        return $this->crash;
     }
-
 }

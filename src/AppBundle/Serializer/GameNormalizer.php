@@ -39,6 +39,7 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
         /** @var Map $map */
         $map = $game->getMap();
+        $mapCps = $map->getCpArray();
 
         /** @var Game $game */
         $data = [
@@ -47,6 +48,7 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'map' => [
                 'id' => $map->getId(),
                 'name' => $map->getName(),
+                'cps' => $mapCps,
             ],
             'cps' => (bool)$game->getCheckpointsEnabled(),
             'zzz' => $game->getZzz(),
@@ -65,7 +67,15 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
             $players = $game->getPlayers();
             /** @var Player $player */
             foreach ($players as $player) {
-                $playersData[] = $this->normalizer->normalize($player, null, $context);
+                $playerData = $this->normalizer->normalize($player, null, $context);
+
+                // add missing cps
+                $checked = $playerData['checkedCps'];
+                $diff = array_diff($mapCps, $checked);
+                sort($diff);
+                $playerData['missingCps'] = $diff;
+
+                $playersData[] = $playerData;
             }
 
             $data['players'] = $playersData;
