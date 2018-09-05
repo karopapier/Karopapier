@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MapController extends AbstractApiController
 {
     /**
-     * @Route("/map/", name="api_map_list")
+     * @Route("/maps/", name="api_map_list")
      */
     public function listAction(Request $request)
     {
@@ -35,7 +35,7 @@ class MapController extends AbstractApiController
     }
 
     /**
-     * @Route("/map/{id}", name="api_map_show", requirements={"id": "\d+"})
+     * @Route("/maps/{id}", name="api_map_show", requirements={"id": "\d+"})
      * @param Map $map
      */
     public function showAction(Request $request, Map $map)
