@@ -34,6 +34,7 @@ class Player
      */
     private $moves;
 
+    private $movesArray = [];
 
     /**
      * @var boolean
@@ -121,6 +122,16 @@ class Player
     public function getMoves()
     {
         return $this->moves;
+    }
+
+    public function getMovesArray()
+    {
+        return $this->movesArray;
+    }
+
+    public function setMovesArray($data)
+    {
+        return $this->movesArray = $data;
     }
 
     /**

@@ -46,6 +46,9 @@ class GameController extends AbstractApiController
         }
 
         $game = $this->getGameFromOptions($id, $options);
+        if ($options['moves']) {
+            $this->gameRepository->addMovesData($game);
+        }
 
         $json = $serializer->serialize($game, "json", $options);
 
@@ -57,10 +60,6 @@ class GameController extends AbstractApiController
 
     private function getGameFromOptions($id, $options)
     {
-        if ($options['moves']) {
-            return $this->gameRepository->findGameWithPlayersAndMoves($id);
-        }
-
         if ($options['players']) {
             return $this->gameRepository->findGameWithPlayers($id);
         }

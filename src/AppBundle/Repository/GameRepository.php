@@ -10,6 +10,7 @@ namespace AppBundle\Repository;
 
 
 use AppBundle\Entity\Game;
+use AppBundle\Entity\Player;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -85,23 +86,6 @@ class GameRepository extends ServiceEntityRepository
 
     public function findGameWithPlayers($gid)
     {
-        $qb = $this->getPlayerQueryBuilder();
-        $qb->setParameter('gid', $gid);
-
-        return $qb->getQuery()->getSingleResult();
-    }
-
-    public function findGameWithPlayersAndMoves($gid)
-    {
-        $qb = $this->getPlayerQueryBuilder();
-        $this->addMoves($qb);
-        $qb->setParameter('gid', $gid);
-
-        return $qb->getQuery()->getSingleResult();
-    }
-
-    private function getPlayerQueryBuilder()
-    {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb
             ->select('g', 'p')
@@ -109,7 +93,60 @@ class GameRepository extends ServiceEntityRepository
             ->leftJoin('g.players', 'p')
             ->where('g.id = :gid');
 
-        return $qb;
+        $qb->setParameter('gid', $gid);
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
+    public function addMovesData(Game $game)
+    {
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $qb
+            ->select('*')
+            ->from('karo_moves')
+            ->where('G_ID=:gid')
+            ->orderBy('date');
+        $qb->setParameter('gid', $game->getId());
+        $stmt = $qb->execute();
+
+        $allMoves = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Init empty move array per player
+        $players = $game->getPlayers();
+        $playersMoves = [];
+        /** @var Player $player */
+        foreach ($players as $player) {
+            $playersMoves[$player->getUser()->getId()] = [];
+        }
+
+        foreach ($allMoves as $move) {
+            $uid = $move['U_ID'];
+            $data = [
+                'x' => $move['x_pos'],
+                'y' => $move['y_pos'],
+                'xv' => $move['x_vec'],
+                'yv' => $move['y_vec'],
+                't' => $move['date'],
+            ];
+
+            if ($move['movemessage'] !== '') {
+                $data['msg'] = $move['movemessage'];
+            }
+
+            if ($move['crash'] !== '0') {
+                $data['crash'] = 1;
+            }
+            $playersMoves[$uid][] = $data;
+        }
+
+        foreach ($players as $player) {
+            $player->setMovesArray($playersMoves[$player->getUser()->getId()]);
+        }
+    }
+
+    public function addCheckpointData(Game $game)
+    {
+
     }
 
     private function addMoves(QueryBuilder $qb)

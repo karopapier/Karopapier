@@ -44,17 +44,17 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
         ];
 
         if ($withMoves) {
-            $movesData = [];
-            $crashCount = 0;
-            foreach ($player->getMoves() as $move) {
-                $movesData[] = $this->normalizer->normalize($move);
-                if ($move->isCrash()) {
-                    $crashCount++;
-                }
-            }
-            $data['moveCount'] = count($movesData);
-            $data['crashCount'] = $crashCount;
-            $data['moves'] = $movesData;
+            // $crashCount = 0;
+//            foreach ($player->getMoves() as $move) {
+//                $movesData[] = $this->normalizer->normalize($move);
+//                if ($move->isCrash()) {
+//                    $crashCount++;
+//                }
+//            }
+            $moves = $player->getMovesArray();
+            $data['moveCount'] = count($moves);
+            // $data['crashCount'] = $crashCount;
+            $data['moves'] = $moves;
 
             $lastmove = end($data['moves']);
             $data['position'] = $lastmove;
