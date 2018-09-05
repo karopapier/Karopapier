@@ -132,12 +132,13 @@ class UserController extends AbstractApiController
      * @Route("/user/{id}/dran", name="api_user_dran")
      * @param User $user
      */
-    public function showDranGames(User $user, ObjectManager $em)
+    public function showDranGames(Request $request, User $user, ObjectManager $em)
     {
         $gameRepository = $em->getRepository('AppBundle:Game');
         $games = $gameRepository->getDranGames($user);
 
         $json = new JsonResponse($games);
+        $json->setCallback($request->get("callback"));
 
         return $json;
     }
