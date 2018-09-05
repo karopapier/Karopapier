@@ -60,18 +60,6 @@ class GameThumbnailCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $gid = $input->getArgument('gid');
-        /** @var Game $game */
-        $game = $this->gameRepository->findGameWithPlayers($gid);
-        $this->gameRepository->addMovesData($game);
-        // $this->gameRepository->addCheckpointData($game); // not needed
-
-        if (!$game) {
-            $this->logger->error(sprintf('Game ID %s not found', $gid));
-
-            return;
-        }
-
-        $this->thumbnailGenerator->generate($game);
         $this->logger->info('Thumbnail genertated for '.$game->getName());
     }
 

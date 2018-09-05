@@ -11,6 +11,7 @@ namespace AppBundle\Game;
 
 use AppBundle\Entity\Game;
 use AppBundle\Map\MapImageCache;
+use AppBundle\Repository\GameRepository;
 use AppBundle\Services\ConfigService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -18,30 +19,78 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class GameThumbnailGenerator
 {
-    /**
-     * @var MapImageCache
-     */
-    private $mapImageCache;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
     private $folder;
+
     /**
      * @var SerializerInterface
      */
     private $serializer;
+    /**
+     * @var MapImageCache
+     */
+    private $mapImageCache;
+
+    /**
+     * @var GameRepository
+     */
+    private $gameRepository;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     public function __construct(
         ConfigService $config,
         SerializerInterface $serializer,
         MapImageCache $mapImageCache,
+        GameRepository $gameRepository,
         LoggerInterface $logger
     ) {
         $this->mapImageCache = $mapImageCache;
         $this->logger = $logger;
         $this->folder = $config->get('game_thumbs_cache_dir');
         $this->serializer = $serializer;
+        $this->gameRepository = $gameRepository;
+    }
+
+    /**
+     * Make sure that a thumbnail exists
+     * If not, generate one
+     *
+     * @param Game $game
+     * @return bool
+     */
+    public function ensureByGameId($gid)
+    {
+        $gid = (int)$gid;
+        $filepath = $this->folder.'/'.$gid.'.png';
+        if (file_exists($filepath)) {
+            return true;
+        }
+
+        $this->generateByGameId($gid);
+    }
+
+    /**
+     * @param $gid
+     * @throws \Exception
+     */
+    public function generateByGameId($gid)
+    {
+        $gid = (int)$gid;
+        /** @var Game $game */
+        $game = $this->gameRepository->findGameWithPlayers($gid);
+
+        if (!$game) {
+            throw new \Exception(sprintf('Game ID %s not found', $gid));
+        }
+
+        $this->gameRepository->addMovesData($game);
+        // not needed
+        // $this->gameRepository->addCheckpointData($game);
+
+        return $this->generate($game);
     }
 
     public function generate(Game $game)
@@ -52,7 +101,6 @@ class GameThumbnailGenerator
         $fs = new Filesystem();
         $folder = $this->folder;
         $logger = $this->logger;
-
 
         if (!$fs->isAbsolutePath($folder)) {
             $folder = getcwd()."/".$folder;

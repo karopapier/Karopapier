@@ -47,9 +47,6 @@ services:
         tags:
           - { name: routing.loader }
 
-    user_repository: '@AppBundle\Repository\UserRepository'
-    map_repository: '@AppBundle\Repository\MapRepository'
-
     AppBundle\Formatter\SmileyHolder:
       arguments:
         - '%kernel.cache_dir%'
@@ -67,6 +64,9 @@ services:
     game_logger: '@AppBundle\Game\GameLogger'
     messaging_service: '@AppBundle\Messaging\MessagingService'
     game_inconsistency_finder: '@AppBundle\Game\GameInconsistencyFinder'
+    user_repository: '@AppBundle\Repository\UserRepository'
+    map_repository: '@AppBundle\Repository\MapRepository'
+    thumbnail_generator: '@AppBundle\Game\GameThumbnailGenerator'
 
     AppBundle\DataFixtures\ORM\LoadUserData:
       public: false
