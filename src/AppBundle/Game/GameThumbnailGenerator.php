@@ -127,7 +127,6 @@ class GameThumbnailGenerator
                 break;
             }
         }
-        $this->logger->critical($uid.":".$colorHtml);
 
         $img = imagecreatefrompng($this->getFilepath($gid));
         $r = hexdec(substr($colorHtml, 0, 2));
