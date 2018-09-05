@@ -84,6 +84,12 @@ class GameRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * @param $gid
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findGameWithPlayers($gid)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

@@ -13,6 +13,7 @@ use AppBundle\Entity\Game;
 use AppBundle\Map\MapImageCache;
 use AppBundle\Repository\GameRepository;
 use AppBundle\Services\ConfigService;
+use Doctrine\ORM\NoResultException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -80,9 +81,9 @@ class GameThumbnailGenerator
     {
         $gid = (int)$gid;
         /** @var Game $game */
-        $game = $this->gameRepository->findGameWithPlayers($gid);
-
-        if (!$game) {
+        try {
+            $game = $this->gameRepository->findGameWithPlayers($gid);
+        } catch (NoResultException $exception) {
             throw new \Exception(sprintf('Game ID %s not found', $gid));
         }
 

@@ -8,7 +8,6 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Entity\Game;
 use AppBundle\Game\GameThumbnailGenerator;
 use AppBundle\Repository\GameRepository;
 use Psr\Log\LoggerInterface;
@@ -60,7 +59,11 @@ class GameThumbnailCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $gid = $input->getArgument('gid');
-        $this->logger->info('Thumbnail genertated for '.$game->getName());
+        try {
+            $this->thumbnailGenerator->generateByGameId($gid);
+        } catch (\Exception $exception) {
+            return $this->logger->error($exception->getMessage());
+        }
+        $this->logger->info('Thumbnail genertated for '.$gid);
     }
-
 }
