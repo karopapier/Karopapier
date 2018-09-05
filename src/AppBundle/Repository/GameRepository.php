@@ -13,7 +13,7 @@ use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
+use Doctrine\DBAL\Query\QueryBuilder;
 use PDO;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
