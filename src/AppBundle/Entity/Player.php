@@ -73,11 +73,14 @@ class Player
     private $checkpoints;
 
     /**
-     * @return int
+     * Verbose version of internal values, for api
+     * @return string
      */
     public function getStatus()
     {
-        return $this->status;
+        $meanings = [-2 => 'kicked', -1 => 'left', 0 => 'invited', 1 => 'ok'];
+
+        return $meanings[$this->status];
     }
 
     public function isFinished()

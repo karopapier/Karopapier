@@ -40,8 +40,7 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'moved' => $player->hasMoved(),
             'position' => $player->getFinished(),
             "checkedCps" => $cps,
-//            "status" => "ok", @TODO Add
-//            "missingCps" => [], @TODO add
+            "status" => $player->getStatus(),
         ];
 
         if ($withMoves) {
