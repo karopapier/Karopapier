@@ -6,20 +6,10 @@ use AppBundle\Model\Motion;
 use AppBundle\Model\Position;
 use AppBundle\Model\PositionCollection;
 use AppBundle\Model\Vector;
-use PHPUnit\Framework\TestCase;
+use Tests\AppBundle\LimeWrapperTestCase;
 
-class MotionTest extends TestCase
+class MotionTest extends LimeWrapperTestCase
 {
-    private function is($a, $b, $c)
-    {
-        $this->assertEquals($a, $b, $c);
-    }
-
-    private function ok($a, $b)
-    {
-        $this->assertTrue($a, $b);
-    }
-
     public function testAdd()
     {
         $t = $this;

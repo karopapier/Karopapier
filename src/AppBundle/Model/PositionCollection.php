@@ -1,7 +1,8 @@
 <?php
+
 namespace AppBundle\Model;
 
-class PositionCollection
+class PositionCollection implements \Countable
 {
     private $positions = array();
 
@@ -37,25 +38,29 @@ class PositionCollection
     public function current()
     {
         $pos = current($this->positions);
+
         return $pos;
     }
 
     public function key()
     {
         $pos = key($this->positions);
+
         return $pos;
     }
 
     public function next()
     {
         $pos = next($this->positions);
+
         return $pos;
     }
 
     public function valid()
     {
         $key = key($this->positions);
-        $pos = ($key !== NULL && $key !== FALSE);
+        $pos = ($key !== null && $key !== false);
+
         return $pos;
     }
 
@@ -107,9 +112,10 @@ class PositionCollection
         foreach ($this->positions as $pos) {
             $positions[] = array(
                 'x' => $pos->getX(),
-                'y' => $pos->getY()
+                'y' => $pos->getY(),
             );
         }
+
         return $positions;
     }
 }
