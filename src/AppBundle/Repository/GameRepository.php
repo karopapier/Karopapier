@@ -86,7 +86,7 @@ class GameRepository extends ServiceEntityRepository
 
     /**
      * @param $gid
-     * @return mixed
+     * @return Game
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

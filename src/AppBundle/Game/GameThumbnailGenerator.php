@@ -65,12 +65,23 @@ class GameThumbnailGenerator
     public function ensureByGameId($gid)
     {
         $gid = (int)$gid;
-        $filepath = $this->folder.'/'.$gid.'.png';
-        if (file_exists($filepath)) {
-            return true;
+        if ($this->exists($gid)) {
+            return;
         }
 
         $this->generateByGameId($gid);
+
+        return false;
+    }
+
+    private function getFilepath($gid)
+    {
+        return $this->folder.'/'.$gid.'.png';
+    }
+
+    private function exists($gid)
+    {
+        return file_exists($this->getFilepath($gid));
     }
 
     /**
@@ -92,6 +103,50 @@ class GameThumbnailGenerator
         // $this->gameRepository->addCheckpointData($game);
 
         return $this->generate($game);
+    }
+
+    public function addMove($gid, $uid, $x, $y, $xv, $yv)
+    {
+        // wenn nicht da, komplett neu machen
+        if (!$this->exists($gid)) {
+            return $this->generateByGameId($gid);
+        }
+
+        // wenn da, zum Bild eine line hinzu
+        $game = $this->gameRepository->findGameWithPlayers($gid);
+        if (!$game) {
+            return;
+        }
+
+        $players = $game->getPlayers();
+
+        $colorHtml = '000000';
+        foreach ($players as $player) {
+            if ($player->getUser()->getId() === $uid) {
+                $colorHtml = $player->getUser()->getColor();
+                break;
+            }
+        }
+        $this->logger->critical($uid.":".$colorHtml);
+
+        $img = imagecreatefrompng($this->getFilepath($gid));
+        $r = hexdec(substr($colorHtml, 0, 2));
+        $g = hexdec(substr($colorHtml, 2, 2));
+        $b = hexdec(substr($colorHtml, 4, 2));
+        $paint = imagecolorallocate($img, $r, $g, $b);
+        $prevX = $x - $xv;
+        $prevY = $y - $yv;
+        imageline($img, $prevX, $prevY, $x, $y, $paint);
+        imagepng($img, $this->folder."/".$gid.".png");
+    }
+
+    public function initWithMap($gid)
+    {
+        /** @var Game $game */
+        $game = $this->gameRepository->find($gid);
+        $map = $game->getMap();
+        $thumbnail = $this->mapImageCache->getThumbnail($map);
+        copy($this->mapImageCache->getFilepath($thumbnail), $this->getFilepath($gid));
     }
 
     public function generate(Game $game)

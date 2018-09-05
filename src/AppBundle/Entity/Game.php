@@ -34,13 +34,13 @@ class Game
 
 
     /**
-     * @var \AppBundle\Entity\Player
+     * @var \AppBundle\Entity\Player[]
      * @ORM\OneToMany(targetEntity="Player", mappedBy="game", fetch="EAGER")
      */
     private $players;
 
     /**
-     * @return Player
+     * @return Player[]
      */
     public function getPlayers()
     {
