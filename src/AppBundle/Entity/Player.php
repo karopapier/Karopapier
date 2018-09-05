@@ -73,6 +73,8 @@ class Player
      */
     private $checkpoints;
 
+    private $checkpointsArray = [];
+
     /**
      * Verbose version of internal values, for api
      * @return string
@@ -132,6 +134,19 @@ class Player
     public function setMovesArray($data)
     {
         return $this->movesArray = $data;
+    }
+
+    public function setCheckpointsArray($data)
+    {
+        return $this->checkpointsArray = $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCheckpointsArray()
+    {
+        return $this->checkpointsArray;
     }
 
     /**

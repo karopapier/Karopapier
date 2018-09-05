@@ -49,6 +49,9 @@ class GameController extends AbstractApiController
         if ($options['moves']) {
             $this->gameRepository->addMovesData($game);
         }
+        if ($options['players']) {
+            $this->gameRepository->addCheckpointData($game);
+        }
 
         $json = $serializer->serialize($game, "json", $options);
 

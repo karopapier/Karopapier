@@ -30,7 +30,7 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
         }
 
         /** @var Player $player */
-        $cps = $player->getCheckpoints();
+        $cps = $player->getCheckpointsArray();
 
         $user = $player->getUser();
         $data = [

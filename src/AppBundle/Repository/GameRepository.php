@@ -146,14 +146,32 @@ class GameRepository extends ServiceEntityRepository
 
     public function addCheckpointData(Game $game)
     {
+        $qb = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $qb
+            ->select('U_ID as uid,Checkpoint as cp')
+            ->from('karo_checkpoints')
+            ->where('G_ID=:gid')
+            ->orderBy('checkpoint');
+        $qb->setParameter('gid', $game->getId());
+        $stmt = $qb->execute();
 
-    }
+        $allCheckpoints = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        header('content-type: text/plain');
 
-    private function addMoves(QueryBuilder $qb)
-    {
-        $qb->addSelect('m');
-        $qb->leftJoin('p.moves', 'm');
+        // Init empty move array per player
+        $players = $game->getPlayers();
+        $playersCps = [];
+        /** @var Player $player */
+        foreach ($players as $player) {
+            $playersCps[$player->getUser()->getId()] = [];
+        }
 
-        return $qb;
+        foreach ($allCheckpoints as $cp) {
+            $playersCps[$cp['uid']][] = (int)$cp['cp'];
+        }
+
+        foreach ($players as $player) {
+            $player->setCheckpointsArray($playersCps[$player->getUser()->getId()]);
+        }
     }
 }
