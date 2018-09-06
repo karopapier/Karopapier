@@ -35,7 +35,7 @@ class Position
 
     public function __toString()
     {
-        return '[' . $this->x . '|' . $this->y . ']';
+        return '['.$this->x.'|'.$this->y.']';
     }
 
     public function getXY()
@@ -58,6 +58,7 @@ class Position
     {
         $vx = $p->getX() - $this->getX();
         $vy = $p->getY() - $this->getY();
+
         return new Vector($vx, $vy);
     }
 
@@ -71,6 +72,7 @@ class Position
             $pos->move($v);
             $positions[$pos->__toString()] = $pos;
         }
+
         return $positions;
     }
 }

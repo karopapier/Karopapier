@@ -18,16 +18,18 @@ class GameCheckerTest extends WebTestCase
 
     }
 
-    public function testFinishedGame()
-    {
-        //load fixtures
-        $this->fixtures = $this->loadFixtures(array(
-                'AppBundle\DataFixtures\ORM\LoadGamePlayerUserData',
-        ))->getReferenceRepository();
-
-        //find id for Didi
-        $id = $this->fixtures->getReference("didi")->getId();
-
-        #$this->assertEquals("asdf", "qwer", "asdfqwer");
-    }
+//    public function testFinishedGame()
+//    {
+//load fixtures
+//        $this->fixtures = $this->loadFixtures(
+//            array(
+//                'AppBundle\DataFixtures\ORM\LoadGamePlayerUserData',
+//            )
+//        )->getReferenceRepository();
+//
+//find id for Didi
+//        $id = $this->fixtures->getReference("didi")->getId();
+//
+//        #$this->assertEquals("asdf", "qwer", "asdfqwer");
+//    }
 }

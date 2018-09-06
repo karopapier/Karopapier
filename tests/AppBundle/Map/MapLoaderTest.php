@@ -11,32 +11,15 @@ namespace tests\AppBundle\Map;
 
 use AppBundle\Entity\Map;
 use AppBundle\Exception\UnknownMapException;
-use AppBundle\Map\MapLoader;
-use AppBundle\Services\ConfigService;
-use Doctrine\Common\Persistence\ObjectManager;
-use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
+use Tests\AppBundle\MapTestCase;
 
 
-class MapLoaderTest extends TestCase
+class MapLoaderTest extends MapTestCase
 {
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-    }
-
-    private function getMapLoader()
-    {
-        $configService = $this->createMock(ConfigService::class);
-        $configService->expects($this->once())
-            ->method('get')
-            ->willReturn(__DIR__.'/../../../src/AppBundle/DataFixtures/Map');
-
-        $logger = $this->createMock(LoggerInterface::class);
-        $em = $this->createMock(ObjectManager::class);
-
-        return new MapLoader($configService, $em, $logger);
     }
 
     public function testLoadUnknownMap()
@@ -79,6 +62,6 @@ class MapLoaderTest extends TestCase
     {
         $mapLoader = $this->getMapLoader();
         $ids = $mapLoader->getAvailableMapIds();
-        $this->assertEquals([1, 30, 1006], $ids);
+        $this->assertEquals([1, 30, 200, 1006], $ids);
     }
 }

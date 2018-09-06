@@ -52,4 +52,14 @@ abstract class BaseMap
         return $matrix;
     }
 
+    public function getFieldAtPosition(Position $position)
+    {
+        $x = $position->getX();
+        $y = $position->getY();
+
+        $matrix = $this->getMatrix();
+        $row = $matrix[$y];
+
+        return $row[$x];
+    }
 }

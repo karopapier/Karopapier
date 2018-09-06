@@ -15,9 +15,17 @@ class Motion
     public $pos;
     public $vec;
 
+    public static function createFromXY($x, $y, $xv, $yv)
+    {
+        $pos = new Position($x, $y);
+        $vec = new Vector($xv, $yv);
+
+        return new Motion($pos, $vec);
+    }
+
     public function __toString()
     {
-        return $this->getPosition()->__toString() . ' ' . $this->getVector()->__toString();
+        return $this->getPosition()->__toString().' '.$this->getVector()->__toString();
     }
 
     public function __toKeyString()
@@ -27,8 +35,8 @@ class Motion
 
     public function __construct(Position $pos, Vector $vec)
     {
-        $this->setPosition($pos);
-        $this->setVector($vec);
+        $this->pos = $pos;
+        $this->vec = $vec;
     }
 
     public function __clone()
@@ -36,7 +44,7 @@ class Motion
         $this->pos = clone $this->pos;
         $this->vec = clone $this->vec;
     }
-    
+
     /**
      * @return Position
      */
@@ -79,6 +87,7 @@ class Motion
             $pos->move($vec);
             $vec->decelerate();
         }
+
         return $pos;
     }
 
@@ -90,6 +99,7 @@ class Motion
         $p = clone $this->getPosition();
         $p->setX($p->getX() - $this->getVector()->getX());
         $p->setY($p->getY() - $this->getVector()->getY());
+
         return $p;
     }
 
@@ -119,6 +129,7 @@ class Motion
                 $nm[$m->__toKeyString()] = $m;
             }
         }
+
         return $nm;
     }
 
@@ -141,6 +152,7 @@ class Motion
                 $tcount++;
             }
         }
+
         return $nm;
     }
 
@@ -157,6 +169,7 @@ class Motion
         while (list($key, $l) = each($nml)) {
             $nmbl[$key] = $nm[$key];
         }
+
         return $nmbl;
     }
 
@@ -207,6 +220,7 @@ class Motion
             }
         }
         $illuminated->sort();
+
         return $illuminated;
     }
 
@@ -217,6 +231,7 @@ class Motion
         $m->y = $this->getPosition()->getY();
         $m->xv = $this->getVector()->getX();
         $m->yv = $this->getVector()->getY();
+
         return $m;
     }
 }

@@ -29,5 +29,4 @@ class LinesEqualLengthValidatorTest extends ConstraintValidatorTestCase
 
         return true;
     }
-
 }
