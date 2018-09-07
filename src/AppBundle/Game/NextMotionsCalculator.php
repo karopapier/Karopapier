@@ -34,13 +34,20 @@ class NextMotionsCalculator
             return new PositionCollection();
         }
         $motion = $nextPlayer->getCurrentMotion();
-        $all = $motion->getNextMotions();
-        $valid = [];
 
-        // filter valid positions by map
-        foreach ($all as $motion) {
-            if ($this->mapMotionValidator->isValidMotion($map, $motion)) {
-                $valid[] = $motion;
+        if (!$motion) {
+            // START?
+            $valid = $map->getStartPositions();
+        } else {
+            // check next motions and filter by map
+            $all = $motion->getNextMotions();
+
+            // filter valid positions by map
+            $valid = [];
+            foreach ($all as $motion) {
+                if ($this->mapMotionValidator->isValidMotion($map, $motion)) {
+                    $valid[] = $motion;
+                }
             }
         }
 

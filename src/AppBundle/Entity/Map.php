@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AppBundle\DTO\MapData;
 use AppBundle\Model\Motion;
 use AppBundle\Model\Position;
+use AppBundle\Model\PositionCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -301,4 +302,37 @@ class Map
         return $fields;
     }
 
+    /**
+     * returns all fields of given codes as Positions
+     * @return PositionCollection
+     */
+    public function getCodePositions($codes)
+    {
+        $positions = new PositionCollection();
+        foreach ($this->getMatrix() as $y => $xs) {
+            $startXs = array_keys(
+                array_filter(
+                    $xs,
+                    function ($x) use (&$codes) {
+                        return in_array($x, $codes);
+                    }
+                )
+            );
+            foreach ($startXs as $x) {
+                $positions->addXY($x, $y);
+            }
+        }
+        $positions->sort();
+
+        return $positions;
+    }
+
+    /**
+     * returns all Start fields of the map as Positions
+     * @return array of Postition
+     */
+    public function getStartPositions()
+    {
+        return $this->getCodePositions(array("S"));
+    }
 }
