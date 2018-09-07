@@ -32,8 +32,8 @@ class MapMotionValidator
     }
 
     /**
+     * @param Map $map
      * @param Motion $mo
-     * @param Game optional to check for rules
      * @return bool
      */
     public function isValidMotion(Map $map, Motion $mo)
