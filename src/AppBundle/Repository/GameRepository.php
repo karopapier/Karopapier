@@ -38,8 +38,7 @@ class GameRepository extends ServiceEntityRepository
         $connection = $this->getEntityManager()->getConnection();
         $qb = $connection->createQueryBuilder();
         $qb->select(
-            'G_ID as id, name, "'.$user->getUsername(
-            ).'" as dranName, datediff(now(),datemailsent) blocked FROM karo_games'
+            'G_ID as id, M_ID as mapId, name, datediff(now(),datemailsent) as blocked FROM karo_games'
         );
         $qb->where('U_ID='.$user->getId());
         $qb->orderBy('datemailsent', 'desc');
