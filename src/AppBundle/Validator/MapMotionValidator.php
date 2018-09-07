@@ -15,6 +15,22 @@ use AppBundle\Model\Motion;
 class MapMotionValidator
 {
 
+    public function __construct()
+    {
+        $this->invalidFields = [
+            'X',
+            'Y',
+            'Z',
+            'T',
+            'V',
+            'W',
+            'L',
+            'G',
+            'N',
+            'P',
+        ];
+    }
+
     /**
      * @param Motion $mo
      * @param Game optional to check for rules
@@ -23,39 +39,10 @@ class MapMotionValidator
     public function isValidMotion(Map $map, Motion $mo)
     {
         $fields = $map->getPassedFields($mo);
+        // intersect passed with bad ones
+        $bads = array_intersect($fields, $this->invalidFields);
 
-        if (in_array('X', $fields)) {
-            return false;
-        }
-        if (in_array('Y', $fields)) {
-            return false;
-        }
-        if (in_array('Z', $fields)) {
-            return false;
-        }
-        if (in_array('T', $fields)) {
-            return false;
-        }
-        if (in_array('V', $fields)) {
-            return false;
-        }
-        if (in_array('W', $fields)) {
-            return false;
-        }
-        if (in_array('L', $fields)) {
-            return false;
-        }
-        if (in_array('G', $fields)) {
-            return false;
-        }
-        if (in_array('N', $fields)) {
-            return false;
-        }
-        if (in_array('P', $fields)) {
-            return false;
-        }
-
-        return true;
+        // if there are bad fields passes (in array), it is invalid
+        return (count($bads) === 0);
     }
-
 }

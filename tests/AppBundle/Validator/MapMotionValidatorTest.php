@@ -45,7 +45,6 @@ class MapMotionValidatorTest extends MapTestCase
 
             /** @var Motion $motion */
             $motion = $combo[0];
-            var_dump($motion->getSourcePosition()->__toString());
             $tf = $combo[1];
             $this->assertEquals(
                 $validator->isValidMotion($map, $motion),
