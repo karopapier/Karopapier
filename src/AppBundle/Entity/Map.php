@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\DTO\MapData;
+use AppBundle\Model\Motion;
 use AppBundle\Model\Position;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -273,4 +274,31 @@ class Map
 
         return $row[$x];
     }
+
+    public function getPassedFields(Motion $motion)
+    {
+        $srcPos = $motion->getSourcePosition();
+
+        return $this->getPassedFieldTypes($srcPos, $motion->getPosition());
+    }
+
+    /**
+     * returns a sorted array of all field types that are passed on a vector from Pos1 to Pos2
+     * order must be kept to be able to check what is passed first
+     * @param Position $pos1
+     * @param Position $pos2
+     * @return array
+     */
+    public function getPassedFieldTypes(Position $pos1, Position $pos2)
+    {
+        $v = $pos1->getVectorTo($pos2);
+        $passedPositions = $pos1->getPassedPositionsTo($pos2);
+        $fields = array();
+        foreach ($passedPositions as $pos) {
+            $fields[] = $this->getFieldAtPosition($pos);
+        }
+
+        return $fields;
+    }
+
 }

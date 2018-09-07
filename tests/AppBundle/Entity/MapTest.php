@@ -11,6 +11,7 @@ namespace tests\AppBundle\Map;
 
 use AppBundle\DTO\MapData;
 use AppBundle\Entity\Map;
+use AppBundle\Model\Motion;
 use AppBundle\Model\Position;
 use Tests\AppBundle\MapTestCase;
 
@@ -64,6 +65,24 @@ class MapTest extends MapTestCase
             '7',
             $map->getFieldAtPosition(new Position(12, 7)),
             'Get correct field from map at position 12 7'
+        );
+    }
+
+    public function testPassedFields()
+    {
+        $mapLoader = $this->getMapLoader();
+        $mapData = $mapLoader->createMapDataFromFiles(200);
+
+        $map = Map::createFromData($mapData);
+
+        $mo = Motion::createFromXYV(12, 9, 0, 2);
+        $this->assertEquals([7, 7, 7], $map->getPassedFields($mo), sprintf('Motion %s returns passed fields', $mo));
+
+        $mo = Motion::createFromXYV(6, 8, 6, 6);
+        $this->assertEquals(
+            ['P', 'X', 'X', 'Z', 'Y', 'O', 'O'],
+            $map->getPassedFields($mo),
+            sprintf('Motion %s returns passed fields', $mo)
         );
     }
 }

@@ -8,6 +8,8 @@
 
 namespace Tests\AppBundle\Map;
 
+use AppBundle\Entity\Map;
+use AppBundle\Map\MapMotionValidator;
 use Tests\AppBundle\MapTestCase;
 
 class MapMotionValidatorTest extends MapTestCase
@@ -16,5 +18,15 @@ class MapMotionValidatorTest extends MapTestCase
     {
         $loader = $this->getMapLoader();
         $this->assertEquals(1, 1);
+
+
+        $mapData = $loader->createMapDataFromFiles(200);
+        $map = Map::createFromData($mapData);
+
+
+        $validator =  new MapMotionValidator();
+
+
+
     }
 }

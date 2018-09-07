@@ -15,7 +15,7 @@ class Motion
     public $pos;
     public $vec;
 
-    public static function createFromXY($x, $y, $xv, $yv)
+    public static function createFromXYV($x, $y, $xv, $yv)
     {
         $pos = new Position($x, $y);
         $vec = new Vector($xv, $yv);
@@ -96,11 +96,11 @@ class Motion
      */
     public function getSourcePosition()
     {
-        $p = clone $this->getPosition();
-        $p->setX($p->getX() - $this->getVector()->getX());
-        $p->setY($p->getY() - $this->getVector()->getY());
+        $p = $this->getPosition();
+        $x = $p->getX() - $this->getVector()->getX();
+        $y = $p->getY() - $this->getVector()->getY();
 
-        return $p;
+        return new Position($x, $y);
     }
 
     public function getStopMovesCount()
