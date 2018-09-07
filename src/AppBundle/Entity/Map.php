@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\DTO\MapData;
-use AppBundle\Model\BaseMap;
+use AppBundle\Model\Position;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="karo_maps")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MapRepository")
  */
-class Map extends BaseMap
+class Map
 {
     /**
      * @var string
@@ -230,5 +230,47 @@ class Map extends BaseMap
     public function getHasCheckpoints()
     {
         return (count($this->getCpArray()) > 0);
+    }
+
+    public function getNbCols()
+    {
+        $matrix = $this->getMatrix();
+
+        return strlen($matrix[0]);
+    }
+
+    public function getNbRows()
+    {
+        $matrix = $this->getMatrix();
+
+        return count($matrix);
+    }
+
+    public function getMatrix()
+    {
+        if (isset($this->matrix)) {
+            return $this->matrix;
+        }
+
+        $matrix = array();
+        $code = $this->getCode();
+        $lines = explode("\n", $code);
+        foreach ($lines as $line) {
+            $matrix[] = $line;
+        }
+        $this->matrix = $matrix;
+
+        return $matrix;
+    }
+
+    public function getFieldAtPosition(Position $position)
+    {
+        $x = $position->getX();
+        $y = $position->getY();
+
+        $matrix = $this->getMatrix();
+        $row = $matrix[$y];
+
+        return $row[$x];
     }
 }
