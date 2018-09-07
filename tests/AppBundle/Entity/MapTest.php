@@ -76,7 +76,11 @@ class MapTest extends MapTestCase
         $map = Map::createFromData($mapData);
 
         $mo = Motion::createFromXYV(12, 9, 0, 2);
-        $this->assertEquals([7, 7, 7], $map->getPassedFields($mo), sprintf('Motion %s returns passed fields', $mo));
+        $this->assertEquals(
+            [7, 7, 7],
+            $map->getPassedFields($mo),
+            sprintf('Motion %s returns passed fields', $mo)
+        );
 
         $mo = Motion::createFromXYV(6, 8, 6, 6);
         $this->assertEquals(

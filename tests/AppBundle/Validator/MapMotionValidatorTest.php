@@ -9,7 +9,8 @@
 namespace Tests\AppBundle\Map;
 
 use AppBundle\Entity\Map;
-use AppBundle\Map\MapMotionValidator;
+use AppBundle\Model\Motion;
+use AppBundle\Validator\MapMotionValidator;
 use Tests\AppBundle\MapTestCase;
 
 class MapMotionValidatorTest extends MapTestCase
@@ -23,10 +24,34 @@ class MapMotionValidatorTest extends MapTestCase
         $mapData = $loader->createMapDataFromFiles(200);
         $map = Map::createFromData($mapData);
 
+        $expectations = [
+            [
+                Motion::createFromXYV(18, 18, -6, 3),
+                true,
+            ],
+            [
+                Motion::createFromXYV(20, 20, 1, 1),
+                false,
+            ],
+            [
+                Motion::createFromXYV(17, 25, -1, 7),
+                true,
+            ],
+        ];
 
-        $validator =  new MapMotionValidator();
+        $validator = new MapMotionValidator();
 
+        foreach ($expectations as $motionString => $combo) {
 
-
+            /** @var Motion $motion */
+            $motion = $combo[0];
+            var_dump($motion->getSourcePosition()->__toString());
+            $tf = $combo[1];
+            $this->assertEquals(
+                $validator->isValidMotion($map, $motion),
+                $tf,
+                sprintf('Motion %s valitiy %s', $motion, $tf)
+            );
+        }
     }
 }
