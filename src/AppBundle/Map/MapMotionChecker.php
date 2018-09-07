@@ -6,14 +6,15 @@
  * Time: 02:00
  */
 
-namespace AppBundle\Validator;
+namespace AppBundle\Map;
 
 
 use AppBundle\Entity\Map;
 use AppBundle\Model\Motion;
 
-class MapMotionValidator
+class MapMotionChecker
 {
+    private $invalidFields;
 
     public function __construct()
     {

@@ -134,21 +134,26 @@ class Motion
     }
 
     /**
-     * @return array Motions
+     * @return array
      */
     public function getNextMotions()
     {
-        $nm = Array();
+        $nm = [];
         #walk the 9 possibilities to have them arranged like
         # 1 2 3
         # 4 5 6
         # 7 8 9
         $tcount = 1;
+        $baseX = $this->getPosition()->getX();
+        $baseY = $this->getPosition()->getY();
+        $baseXV = $this->getVector()->getX();
+        $baseYV = $this->getVector()->getY();
+
         for ($tY = -1; $tY <= 1; $tY++) {
             for ($tX = -1; $tX <= 1; $tX++) {
-                $nm[$tcount] = clone $this;
-                $nm[$tcount]->getVector()->setX($nm[$tcount]->getVector()->getX() + $tX);
-                $nm[$tcount]->getVector()->setY($nm[$tcount]->getVector()->getY() + $tY);
+                $xv = $baseXV + $tX;
+                $yv = $baseYV + $tY;
+                $nm[$tcount] = Motion::createFromXYV($baseX + $xv, $baseY + $yv, $xv, $yv);
                 $tcount++;
             }
         }

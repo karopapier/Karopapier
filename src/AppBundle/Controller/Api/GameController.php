@@ -9,10 +9,12 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Game;
+use AppBundle\Game\NextMotionsCalculator;
 use AppBundle\Repository\GameRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class GameController extends AbstractApiController
@@ -22,10 +24,15 @@ class GameController extends AbstractApiController
      * @var GameRepository
      */
     private $gameRepository;
+    /**
+     * @var NextMotionsCalculator
+     */
+    private $motionsCalculator;
 
-    public function __construct(GameRepository $gameRepository)
+    public function __construct(GameRepository $gameRepository, NextMotionsCalculator $motionsCalculator)
     {
         $this->gameRepository = $gameRepository;
+        $this->motionsCalculator = $motionsCalculator;
     }
 
     /**
@@ -46,12 +53,18 @@ class GameController extends AbstractApiController
         }
 
         $game = $this->getGameFromOptions($id, $options);
+        if (!$game) {
+            return new NotFoundHttpException();
+        }
+
         if ($options['moves']) {
             $this->gameRepository->addMovesData($game);
         }
         if ($options['players']) {
             $this->gameRepository->addCheckpointData($game);
+            $this->motionsCalculator->getNextMotions($game);
         }
+
 
         $json = $serializer->serialize($game, "json", $options);
 

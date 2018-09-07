@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\PositionCollection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -309,5 +310,34 @@ class Game
 
         return $meanings[$this->startdirection];
 
+    }
+
+    public function getBlockedPlayersPositions()
+    {
+        $players = $this->getPlayers();
+        $positions = new PositionCollection();
+        foreach ($players as $player) {
+            // skip those that have NOT moved yet (game 75000 rule change)
+            if ($player->hasMoved()) {
+                $motion = $player->getCurrentMotion();
+                $positions->add($motion->getPosition());
+            }
+        }
+
+        return $positions;
+    }
+
+    public function getNextUser()
+    {
+        return $this->dranUser;
+    }
+
+    public function getNextPlayer()
+    {
+        foreach ($this->players as $player) {
+            if ($player->getUser()->getId() === $this->dranUser->getId()) {
+                return $player;
+            }
+        }
     }
 }

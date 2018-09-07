@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\Motion;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Player
 {
+    /** @var Motion */
+    private $motion;
+    /** @var int */
+    private $crashCount = 0;
+
     public function __construct()
     {
         $this->checkpoints = new ArrayCollection();
@@ -182,5 +188,31 @@ class Player
         }
 
         return $plain;
+    }
+
+    public function setCurrentMotion(Motion $motion)
+    {
+        $this->motion = $motion;
+    }
+
+    /**
+     * @return Motion
+     */
+    public function getCurrentMotion()
+    {
+        return $this->motion;
+    }
+
+    public function setCrashCount($crashCount)
+    {
+        $this->crashCount = $crashCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCrashCount()
+    {
+        return $this->crashCount;
     }
 }

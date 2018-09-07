@@ -37,27 +37,23 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
             'id' => $user->getId(),
             'name' => $user->getName(),
             'color' => $user->getColor(),
-            "status" => $player->getStatus(),
+            'status' => $player->getStatus(),
             'moved' => $player->hasMoved(),
-            'position' => $player->getFinished(),
-            "checkedCps" => $cps,
+            'rank' => $player->getFinished(),
+            'checkedCps' => $cps,
         ];
 
         if ($withMoves) {
-            // $crashCount = 0;
-//            foreach ($player->getMoves() as $move) {
-//                $movesData[] = $this->normalizer->normalize($move);
-//                if ($move->isCrash()) {
-//                    $crashCount++;
-//                }
-//            }
             $moves = $player->getMovesArray();
-            $data['moveCount'] = count($moves);
-            // $data['crashCount'] = $crashCount;
+            $moveCount = count($moves);
+            $data['moveCount'] = $moveCount;
+            $data['crashCount'] = $player->getCrashCount();
             $data['moves'] = $moves;
 
-            $lastmove = end($data['moves']);
-            $data['position'] = $lastmove;
+            if ($moveCount > 0) {
+                $lastmove = end($data['moves']);
+                $data['motion'] = $lastmove;
+            }
         }
 
         return $data;

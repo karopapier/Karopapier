@@ -12,6 +12,9 @@ namespace AppBundle\Repository;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\User;
+use AppBundle\Model\Motion;
+use AppBundle\Model\Position;
+use AppBundle\Model\Vector;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
 use PDO;
@@ -124,6 +127,7 @@ class GameRepository extends ServiceEntityRepository
             $playersMoves[$player->getUser()->getId()] = [];
         }
 
+        $crashCount = 0;
         foreach ($allMoves as $move) {
             $uid = $move['U_ID'];
             $data = [
@@ -140,12 +144,23 @@ class GameRepository extends ServiceEntityRepository
 
             if ($move['crash'] !== '0') {
                 $data['crash'] = 1;
+                $crashCount++;
             }
             $playersMoves[$uid][] = $data;
         }
 
         foreach ($players as $player) {
-            $player->setMovesArray($playersMoves[$player->getUser()->getId()]);
+            $movesArray = $playersMoves[$player->getUser()->getId()];
+            $player->setMovesArray($movesArray);
+            $player->setCrashCount($crashCount);
+
+            if (count($movesArray) > 0) {
+                $lastmove = end($movesArray);
+                $pos = new Position($lastmove['x'], $lastmove['y']);
+                $vec = new Vector($lastmove['xv'], $lastmove['yv']);
+                $motion = new Motion($pos, $vec);
+                $player->setCurrentMotion($motion);
+            }
         }
     }
 

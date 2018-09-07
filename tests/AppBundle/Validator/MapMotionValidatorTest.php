@@ -10,7 +10,7 @@ namespace Tests\AppBundle\Map;
 
 use AppBundle\Entity\Map;
 use AppBundle\Model\Motion;
-use AppBundle\Validator\MapMotionValidator;
+use AppBundle\Validator\MapMotionChecker;
 use Tests\AppBundle\MapTestCase;
 
 class MapMotionValidatorTest extends MapTestCase
@@ -39,7 +39,7 @@ class MapMotionValidatorTest extends MapTestCase
             ],
         ];
 
-        $validator = new MapMotionValidator();
+        $validator = new MapMotionChecker();
 
         foreach ($expectations as $motionString => $combo) {
 
