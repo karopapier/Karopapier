@@ -118,5 +118,15 @@ class PositionCollection implements \Countable
 
         return $positions;
     }
+
+    public function asStringArray()
+    {
+        return array_map(
+            function ($pos) {
+                return $pos->__toString();
+            },
+            $this->positions
+        );
+    }
 }
 

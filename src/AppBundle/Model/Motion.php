@@ -229,14 +229,13 @@ class Motion
         return $illuminated;
     }
 
-    public function getApiObject()
+    public function asArray()
     {
-        $m = new stdClass();
-        $m->x = $this->getPosition()->getX();
-        $m->y = $this->getPosition()->getY();
-        $m->xv = $this->getVector()->getX();
-        $m->yv = $this->getVector()->getY();
-
-        return $m;
+        return [
+            'x' => $this->getPosition()->getX(),
+            'y' => $this->getPosition()->getY(),
+            'xv' => $this->getVector()->getX(),
+            'yv' => $this->getVector()->getY(),
+        ];
     }
 }

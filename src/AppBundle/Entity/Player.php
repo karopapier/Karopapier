@@ -19,6 +19,9 @@ class Player
     /** @var int */
     private $crashCount = 0;
 
+    /** @var Motion[] */
+    private $possibleMotions;
+
     public function __construct()
     {
         $this->checkpoints = new ArrayCollection();
@@ -214,5 +217,18 @@ class Player
     public function getCrashCount()
     {
         return $this->crashCount;
+    }
+
+    public function setPossibleMotions($motions)
+    {
+        $this->possibleMotions = $motions;
+    }
+
+    /**
+     * @return Motion[]
+     */
+    public function getPossibleMotions()
+    {
+        return $this->possibleMotions;
     }
 }

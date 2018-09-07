@@ -9,6 +9,7 @@
 namespace AppBundle\Serializer;
 
 use AppBundle\Entity\Player;
+use AppBundle\Model\Motion;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -53,6 +54,15 @@ class PlayerNormalizer implements NormalizerInterface, NormalizerAwareInterface
             if ($moveCount > 0) {
                 $lastmove = end($data['moves']);
                 $data['motion'] = $lastmove;
+            }
+
+            $possibles = $player->getPossibleMotions();
+            if (count($possibles) > 0) {
+                $data['possibles'] = [];
+                /** @var Motion $possible */
+                foreach ($possibles as $possible) {
+                    $data['possibles'][] = $possible->asArray();
+                }
             }
         }
 

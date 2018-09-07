@@ -332,6 +332,9 @@ class Game
         return $this->dranUser;
     }
 
+    /**
+     * @return Player
+     */
     public function getNextPlayer()
     {
         foreach ($this->players as $player) {

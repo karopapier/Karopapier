@@ -62,7 +62,11 @@ class GameController extends AbstractApiController
         }
         if ($options['players']) {
             $this->gameRepository->addCheckpointData($game);
-            $this->motionsCalculator->getNextMotions($game);
+            $motions = $this->motionsCalculator->getNextMotions($game);
+            $next = $game->getNextPlayer();
+            if ($next) {
+                $next->setPossibleMotions($motions);
+            }
         }
 
 

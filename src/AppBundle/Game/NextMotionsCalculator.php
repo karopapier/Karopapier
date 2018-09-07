@@ -11,6 +11,7 @@ namespace AppBundle\Game;
 
 use AppBundle\Entity\Game;
 use AppBundle\Map\MapMotionChecker;
+use AppBundle\Model\Motion;
 use AppBundle\Model\PositionCollection;
 
 class NextMotionsCalculator
@@ -32,27 +33,31 @@ class NextMotionsCalculator
         if (!$nextPlayer) {
             return new PositionCollection();
         }
-        var_dump($nextPlayer->getUser()->getName());
         $motion = $nextPlayer->getCurrentMotion();
         $all = $motion->getNextMotions();
         $valid = [];
 
+        // filter valid positions by map
         foreach ($all as $motion) {
             if ($this->mapMotionValidator->isValidMotion($map, $motion)) {
                 $valid[] = $motion;
             }
         }
 
-        array_map(
-            function ($mo) {
-                var_dump($mo->__toString());
-            },
-            $valid
-        );
-        die();
+        // filter current player positions
         $blocked = $game->getBlockedPlayersPositions();
-        var_dump($blocked);
+        $blockPositionStrings = $blocked->asStringArray();
+        $final = [];
+        /** @var Motion $motion */
+        foreach ($valid as $motion) {
+            // if the end position (string) is in the array of blocked position(strings), dont add to final
+            $posString = $motion->getPosition()->__toString();
+            if (in_array($posString, $blockPositionStrings, true)) {
+                continue;
+            }
+            $final[] = $motion;
+        }
 
-        return $valid;
+        return $final;
     }
 }
