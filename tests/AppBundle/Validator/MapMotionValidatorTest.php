@@ -9,8 +9,8 @@
 namespace Tests\AppBundle\Map;
 
 use AppBundle\Entity\Map;
+use AppBundle\Map\MapMotionChecker;
 use AppBundle\Model\Motion;
-use AppBundle\Validator\MapMotionChecker;
 use Tests\AppBundle\MapTestCase;
 
 class MapMotionValidatorTest extends MapTestCase
