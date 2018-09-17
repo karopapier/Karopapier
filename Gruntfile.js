@@ -125,6 +125,7 @@ module.exports = function(grunt) {
         less: {
             app: {
                 options: {
+                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
                     expand: true,
                     plugins: [
                         new (require('less-plugin-autoprefix')),

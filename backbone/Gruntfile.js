@@ -59,7 +59,7 @@ module.exports = function(grunt) {
                 options: {
                     sourceMap: true,
                     sourceMapIncludeSources: true,
-                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                    banner: '/*! <%= pkg.name %> backbone <%= grunt.template.today("yyyy-mm-dd") %> */\n',
                 },
             },
             dev: {
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
                 options: {
                     sourceMapIncludeSources: true,
                     sourceMap: true,
-                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                    banner: '/*! <%= pkg.name %> backbone dev <%= grunt.template.today("yyyy-mm-dd") %> */\n',
                     beautify: true,
                 },
             },
@@ -83,6 +83,7 @@ module.exports = function(grunt) {
         cssmin: {
             options: {
                 rebase: false,
+                banner: '/*! <%= pkg.name %> cssmin <%= grunt.template.today("yyyy-mm-dd") %> */\n',
             },
             target: {
                 files: {
