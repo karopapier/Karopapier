@@ -320,7 +320,9 @@ class Game
             // skip those that have NOT moved yet (game 75000 rule change)
             if ($player->hasMoved()) {
                 $motion = $player->getCurrentMotion();
-                $positions->add($motion->getPosition());
+                if ($motion) {
+                    $positions->add($motion->getPosition());
+                }
             }
         }
 
