@@ -9,6 +9,7 @@
 namespace AppBundle\Repository;
 
 
+use AppBundle\Entity\Mapvote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use PDO;
 use Symfony\Bridge\Doctrine\RegistryInterface;
