@@ -11,7 +11,6 @@ namespace AppBundle\Map;
 
 use AppBundle\DTO\MapData;
 use AppBundle\Entity\Map;
-use AppBundle\Entity\Mapvote;
 use AppBundle\Exception\UnknownMapException;
 use AppBundle\Model\Mapcode;
 use AppBundle\Repository\MapRepository;
@@ -52,7 +51,7 @@ class MapLoader
         $mapIds = $this->getAvailableMapIds();
 
         /** @var MapvoteRepository $mapvoteRepo */
-        $mapvoteRepo = $this->em->getRepository(Mapvote::class);
+        $mapvoteRepo = $this->em->getRepository(MapvoteRepository::class);
 
         // create data and ensure/update map entity
         foreach ($mapIds as $mapId) {
