@@ -312,7 +312,7 @@ class Map
         foreach ($this->getMatrix() as $y => $xs) {
             $startXs = array_keys(
                 array_filter(
-                    $xs,
+                    str_split($xs),
                     function ($x) use (&$codes) {
                         return in_array($x, $codes);
                     }
