@@ -1,4 +1,6 @@
+const $ = require('jquery');
 const Backbone = require('backbone');
+
 module.exports = Backbone.View.extend({
     tagName: 'div',
     template: window['JST']['chat/chatEnter'],
