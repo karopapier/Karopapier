@@ -106,7 +106,7 @@ possView.on('game:player:move', function(playerId, mo) {
         mpm.render();
     } else {
         // build move url
-        let moveUrl = window.APIHOST + '/move.php?GID=' + game.get('id');
+        let moveUrl = '/move.php?GID=' + game.get('id');
         let m = mo.toMove();
         if (mo.get('vector').getLength() === 0) {
             // http://www.karopapier.de/move.php?GID=84078&startx=8&starty=29
