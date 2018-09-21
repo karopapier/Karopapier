@@ -1,7 +1,6 @@
 const $ = require('jquery');
 const Backbone = require('backbone');
 require('babel-polyfill');
-const User = require('./model/User');
 const Game = require('./model/Game');
 const MapViewSettings = require('./model/map/MapViewSettings');
 const MoveMessagesView = require('./view/game/MoveMessagesView');
@@ -16,14 +15,17 @@ const PossiblesView = require('./view/game/PossiblesView');
 const DranGameCollection = require('./collection/DranGameCollection');
 const GameAppRouter = require('./router/GameAppRouter');
 const Move = require('./model/Move');
-window.Karopapier = require('./app/KaropapierApp');
 
-Karopapier.User = new User({});
-// make this user refer to "check" for loging in
-Karopapier.User.url = function() {
-    return APIHOST + '/api/user/check';
-};
-Karopapier.User.fetch();
+const KaropapierApp = require('./app/KaropapierApp');
+window.Karopapier = new KaropapierApp({
+    realtimeHost: 'turted.karopapier.de',
+});
+
+$(document).ready(function() {
+    console.log('Doc ready, start Karopapier app');
+    Karopapier.start();
+    console.log('App started');
+});
 
 Karopapier.User.on('change:id', function() {
     $('#username').text(Karopapier.User.get('login'));
@@ -232,6 +234,21 @@ $('#testmode').click(checkTestmode);
 // Make sure to start with testmode - Looking at YOU, Firefox!!!
 $('#testmode').prop('checked', true);
 checkTestmode();
+
+$('.drawMoveLimit').click(function(e) {
+    const l = $(e.currentTarget).data("limit");
+    mvs.set("drawLimit", l);
+});
+
+$('#moveMsgForm').submit(function(e) {
+    const moveMsg = $('#movemessage').val();
+    const w = $('#movemessage').width();
+    if (moveMsg !== "") {
+        $('#movemessageDisplay').text(moveMsg).css({"display": "inline-block", "width": w});
+        $('#movemessage').hide();
+    }
+    e.preventDefault();
+});
 
 const dranQueue = new DranGameCollection();
 
