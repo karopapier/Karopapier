@@ -236,15 +236,15 @@ $('#testmode').prop('checked', true);
 checkTestmode();
 
 $('.drawMoveLimit').click(function(e) {
-    const l = $(e.currentTarget).data("limit");
-    mvs.set("drawLimit", l);
+    const l = $(e.currentTarget).data('limit');
+    mvs.set('drawLimit', l);
 });
 
 $('#moveMsgForm').submit(function(e) {
     const moveMsg = $('#movemessage').val();
     const w = $('#movemessage').width();
-    if (moveMsg !== "") {
-        $('#movemessageDisplay').text(moveMsg).css({"display": "inline-block", "width": w});
+    if (moveMsg !== '') {
+        $('#movemessageDisplay').text(moveMsg).css({'display': 'inline-block', 'width': w});
         $('#movemessage').hide();
     }
     e.preventDefault();

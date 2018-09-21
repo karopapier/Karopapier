@@ -68,7 +68,6 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
             if (me.user.get('id') == data.movedId) {
                 // console.info("USER:MOVED aus otherMoved");
                 me.vent.trigger('USER:MOVED', data);
-
             }
             if (me.user.get('id') == data.nextId) {
                 // console.info("USER:DRAN aus otherMoved");

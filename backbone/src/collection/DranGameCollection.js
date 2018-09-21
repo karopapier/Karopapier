@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Backbone = require('backbone');
 const Game = require('../model/Game');
 const Radio = require('backbone.radio');
