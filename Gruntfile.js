@@ -174,7 +174,10 @@ module.exports = function(grunt) {
             }
         },
         eslint: {
-            target: ['frontend/src/**/*.js'],
+            target: [
+                'frontend/src/**/*.js',
+                'backbone/src/**/*.js',
+            ],
         },
         shell: {
             bust: {

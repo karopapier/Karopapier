@@ -1,3 +1,4 @@
+const $ = require('jquery');
 const _ = require('underscore');
 const Backbone = require('backbone');
 
@@ -25,7 +26,7 @@ module.exports = Backbone.View.extend({
     },
 
     setVisibility: function(e) {
-        $e = $(e.currentTarget);
+        const $e = $(e.currentTarget);
         this.model.set('visible', $e.prop('checked'));
     },
 

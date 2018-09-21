@@ -1,3 +1,4 @@
+const $ = require('jquery');
 const _ = require('underscore');
 const Marionette = require('backbone.marionette');
 const PlayerTableRowView = require('./PlayerTableRowView');
