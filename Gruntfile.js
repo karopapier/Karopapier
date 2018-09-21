@@ -104,7 +104,11 @@ module.exports = function(grunt) {
                 },
             },
             gamestepup: {
-                files: ['backbone/src/**/*.js', 'backbone/src/GameStepUp.src.js'],
+                files: [
+                    'backbone/src/**/*.js',
+                    'backbone/templates/**/*',
+                    'backbone/src/GameStepUp.src.js'
+                ],
                 tasks: ['build:dev', 'bust'],
                 options: {
                     interrupt: true,
@@ -165,7 +169,7 @@ module.exports = function(grunt) {
                     ],
                 },
                 files: {
-                    'web/css/Karopapier.min.css': 'backbone/css/**/*'
+                    'web/css/Karopapier.min.css': 'backbone/css/karopapier.less'
                 },
             }
         },
