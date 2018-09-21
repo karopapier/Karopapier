@@ -44,7 +44,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
     },
 
     url: function() {
-        return APIHOST + '/api/game/' + this.get('id') + '/details.json?callback=?';
+        return '/api/game/' + this.get('id') + '/details.json';
     },
 
     parse: function(data) {

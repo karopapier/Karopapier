@@ -14,7 +14,7 @@ module.exports = Backbone.ModelFactory(/** @lends User.prototype */ { // eslint-
      */
     initialize: function() {
         _.bindAll(this, 'increaseDran', 'decreaseDran');
-        this.url = APIHOST + '/api/user/' + this.get('id') + '/info.json?callback=?';
+        this.url = '/api/user/' + this.get('id') + '/info.json';
     },
     increaseDran: function() {
         this.set('dran', this.get('dran') + 1);

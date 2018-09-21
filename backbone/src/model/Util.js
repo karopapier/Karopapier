@@ -108,7 +108,7 @@ const $ = require('jquery');
                 f: function(all, gid) {
                     // console.log("All", all);
                     // console.log("GID", gid);
-                    $.getJSON(APIHOST + '/api/game/' + gid + '/info.json?callback=?', function(gameInfo) {
+                    $.getJSON('/api/game/' + gid + '/info.json', function(gameInfo) {
                         $('a.GidLink' + gid).text(gid + ' - ' + gameInfo.game.name);
                     });
                     if (karoUtil.oldLink) {

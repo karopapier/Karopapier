@@ -3,9 +3,9 @@ const Backbone = require('backbone');
 const ChatMessage = require('../model/ChatMessage');
 
 module.exports = Backbone.Collection.extend({
-    url: APIHOST + '/api/chat?limit=100&callback=?',
+    url: '/api/chat?limit=100',
     // baseUrl: APIHOST + "/api/chat",
-    baseUrl: APIHOST + '/api/chat/list.json',
+    baseUrl: '/api/chat/list.json',
     model: ChatMessage,
     comparator: 'lineId',
     lastLineId: 0,

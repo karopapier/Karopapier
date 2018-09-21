@@ -21,6 +21,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         browserify: {
             options: {
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
                 transform: [
                     ['babelify', {presets: ['es2015']}],
                     ['jstify'] //html -> underscore templates
@@ -35,16 +36,25 @@ module.exports = function(grunt) {
                 },
             },
             dist: {
+                options: {
+                    banner: '/*! frontend App <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
+                },
                 files: {
                     'web/js/<%= pkg.name %>.src.js': ['frontend/src/app/KaroApp.js'],
                 },
             },
             bbapp: {
+                options: {
+                    banner: '/*! bb browserified <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
+                },
                 files: {
                     'backbone/public/js/Karopapier.browserified.js': ['backbone/src/start.js'],
                 },
             },
             gamestepup: {
+                options: {
+                    banner: '/*! bb browseriefied <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
+                },
                 files: {
                     'backbone/public/js/GameStepUp.js': ['backbone/src/GameStepUp.src.js'],
                 },

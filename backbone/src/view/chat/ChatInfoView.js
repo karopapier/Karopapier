@@ -50,7 +50,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
         let myId = this.model.get('id');
         if (myId == 0) return;
         let html;
-        $.getJSON(APIHOST + '/api/user/blockerlist.json?callback=?', function(bl) {
+        $.getJSON('/api/user/blockerlist.json', function(bl) {
             const blockerlist = bl;
             let dran = this.model.get('dran');
             if (dran == 0) {
@@ -105,7 +105,7 @@ module.exports = Backbone.Marionette.ItemView.extend({
     updateTopBlocker: function() {
         if (this.model.get('id') == 0) return;
         let html;
-        $.getJSON(APIHOST + '/api/user/' + this.model.get('id') + '/blocker.json?callback=?', function(data) {
+        $.getJSON('/api/user/' + this.model.get('id') + '/blocker.json', function(data) {
             if (data.length > 0) {
                 let blocker = data[0];
                 html = 'Dein Top-Blocker: ' + blocker.login + ' (' + blocker.blocked + ')';

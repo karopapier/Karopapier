@@ -45,7 +45,7 @@ module.exports = Backbone.Model.extend({
                 path = false;
                 amifinished();
             });
-            $.getJSON(APIHOST + '/api/map/' + mapid + '.json?callback=?', function(data) {
+            $.getJSON('/api/map/' + mapid + '.json', function(data) {
                 // console.log(data);
                 rows = data.rows;
                 cols = data.cols;
