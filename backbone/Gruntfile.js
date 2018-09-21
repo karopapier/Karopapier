@@ -80,17 +80,6 @@ module.exports = function(grunt) {
                 },
             },
         },
-        cssmin: {
-            options: {
-                rebase: false,
-                banner: '/*! <%= pkg.name %> cssmin <%= grunt.template.today("yyyy-mm-dd") %> */\n',
-            },
-            target: {
-                files: {
-                    'public/css/Karopapier.min.css': ['css/*.css', '!css/*.min.css'],
-                },
-            },
-        },
         watch: {
             scripts: {
                 files: ['src/**/*.js', '!src/<%= pkg.name %>*.js', 'test/**/*.js', 'public/js/GameStepUp.src.js'],
@@ -109,14 +98,6 @@ module.exports = function(grunt) {
             },
             statics: {
                 files: ['images/**/*', '!docs'],
-                options: {
-                    interrupt: true,
-                    livereload: livereloadConfig,
-                },
-            },
-            css: {
-                files: ['css/**/*', '!css/**/*.min.css'],
-                tasks: ['cssmin', 'asset_cachebuster'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig,
@@ -172,7 +153,6 @@ module.exports = function(grunt) {
     // Load the plugins
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-asset-cachebuster');
@@ -180,9 +160,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
 
     // Default task(s).
-    grunt.registerTask('build', ['copy', 'browserify', 'uglify', 'cssmin', 'asset_cachebuster']);
+    grunt.registerTask('build', ['copy', 'browserify', 'uglify', 'asset_cachebuster']);
     grunt.registerTask('default', ['build', 'watch']);
-    grunt.registerTask('build', ['browserify', 'uglify', 'cssmin', 'asset_cachebuster']);
+    grunt.registerTask('build', ['browserify', 'uglify', 'asset_cachebuster']);
     grunt.registerTask('spielwiese', ['spielwiese']);
     grunt.registerTask('publish', ['copy']);
     grunt.registerTask('test', 'nodeunit');

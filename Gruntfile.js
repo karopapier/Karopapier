@@ -88,6 +88,14 @@ module.exports = function(grunt) {
                     livereload: livereloadConfig,
                 },
             },
+            bbcss: {
+                files: ['backbone/css/**/*'],
+                tasks: ['less:bbcss'],
+                options: {
+                    interrupt: true,
+                    livereload: livereloadConfig,
+                },
+            },
             web: {
                 files: ['web/**/*.php', 'src/**/*', 'app/Resources/**/*'],
                 options: {
@@ -148,6 +156,18 @@ module.exports = function(grunt) {
                     'web/css/theme.css': 'frontend/css/theme.css',
                 },
             },
+            bbcss: {
+                options: {
+                    banner: '/*! <%= pkg.name %> bbcss <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                    plugins: [
+                        new (require('less-plugin-autoprefix')),
+                        new (require('less-plugin-clean-css'))(cleanCssOptions),
+                    ],
+                },
+                files: {
+                    'web/css/Karopapier.min.css': 'backbone/css/**/*'
+                },
+            }
         },
         eslint: {
             target: ['frontend/src/**/*.js'],
