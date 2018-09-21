@@ -171,7 +171,8 @@ class GameThumbnailGenerator
         $map = $game->getMap();
 
         $thumbnail = $this->mapImageCache->getThumbnail($map);
-        $img = imagecreatefrompng($this->mapImageCache->getFilepath($thumbnail));
+        $src = $this->mapImageCache->getCachedFilePath($thumbnail);
+        $img = imagecreatefrompng($src);
 
         $gameData = $this->serializer->normalize(
             $game,

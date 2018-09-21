@@ -18,6 +18,9 @@ const NaviView = require('../view/NaviView');
 const AppRouter = require('../router/AppRouter');
 require('../polyfills');
 
+const Radio = require('backbone.radio');
+const dataChannel = Radio.channel('data');
+
 module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
     // global layout with regions for nav, sidebar, header and user info...
     /**
@@ -26,7 +29,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
      * @param options
      */
     initialize: function(options) {
-        console.log('KAROPAPIER APP INIT');
+        console.log('KAROPAPIER BBAPP INIT');
 
         if (!'realtimeHost' in options) {
             console.error('Need realtimeHost in options');
@@ -34,14 +37,16 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
 
         this.User = new User({});
         // make this user refer to "check" for loging in
-        this.User.url = function() {
-            return APIHOST + '/api/user/check.json?callback=?';
-        };
+        this.User.url = '/api/user/check';
         this.User.fetch();
+
+        dataChannel.reply('logged:in:user', () => this.User);
 
         this.UserDranGames = new DranGameCollection({
             user: this.User,
         });
+
+        dataChannel.reply('games:dran', () => this.UserDranGames);
 
         // init Karo Event Interface KEvIn
         this.KEvIn = new KEvIn({

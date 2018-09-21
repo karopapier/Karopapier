@@ -1,23 +1,25 @@
 const _ = require('underscore');
 const Backbone = require('backbone');
 const Game = require('../model/Game');
+const Radio = require('backbone.radio');
+const dataChannel = Radio.channel('data');
 
 module.exports = Backbone.Collection.extend({
     model: Game,
-    url: function() {
-        return APIHOST + '/api/user/' + Karopapier.User.get('id') + '/dran';
+
+    url() {
+        return '/api/user/' + this.user.get('id') + '/dran';
     },
-    initialize: function() {
-        _.bindAll(this, 'addId', 'url');
+
+    initialize() {
+        this.user = dataChannel.request('logged:in:user');
     },
-    addId: function(id, name) {
+
+    addId(id, name) {
         const g = new Game({id: id});
         if (name) {
             g.set('name', name);
         }
         this.add(g);
-    },
-    parse: function(data) {
-        return data.games;
     },
 });

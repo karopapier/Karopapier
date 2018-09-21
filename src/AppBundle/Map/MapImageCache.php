@@ -65,7 +65,20 @@ class MapImageCache
         return $this->webDir.'/'.$mapImage->getFilename();
     }
 
-    public function getFilePath(MapImage $mapImage)
+    public function getCachedFilePath(MapImage $mapImage)
+    {
+        $path = $this->getFilePath($mapImage);
+
+        if (!$this->isCached($mapImage)) {
+            // create image and save it
+            $binary = $this->getBinary($mapImage);
+            file_put_contents($path, $binary);
+        }
+
+        return $path;
+    }
+
+    private function getFilePath(MapImage $mapImage)
     {
         return $this->cacheDir.'/'.$mapImage->getFilename();
     }
