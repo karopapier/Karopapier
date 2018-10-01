@@ -275,6 +275,9 @@ class Game
      */
     public function getFinishedDate()
     {
+        if (!$this->finisheddate) {
+            return null;
+        }
         if ($this->finisheddate->format('Y') > 0) {
             return $this->finisheddate;
         }
