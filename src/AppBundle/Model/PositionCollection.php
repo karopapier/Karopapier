@@ -2,7 +2,7 @@
 
 namespace AppBundle\Model;
 
-class PositionCollection implements \Countable
+class PositionCollection implements \Countable, \Iterator
 {
     private $positions = array();
 

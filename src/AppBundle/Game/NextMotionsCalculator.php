@@ -12,6 +12,7 @@ namespace AppBundle\Game;
 use AppBundle\Entity\Game;
 use AppBundle\Map\MapMotionChecker;
 use AppBundle\Model\Motion;
+use AppBundle\Model\Position;
 use AppBundle\Model\PositionCollection;
 
 class NextMotionsCalculator
@@ -35,9 +36,17 @@ class NextMotionsCalculator
         }
         $motion = $nextPlayer->getCurrentMotion();
 
+        $valid = [];
         if (!$motion) {
-            // START?
-            $valid = $map->getStartPositions();
+            // START? Dann hol alle Startfelder
+            /** @var PositionCollection $startPositions */
+            $startPositions = $map->getStartPositions();
+
+            // Turn into Motions wit 0|0 vector
+            /** @var Position $position */
+            foreach ($startPositions as $position) {
+                $valid[] = Motion::createFromXYV($position->getX(), $position->getY(), 0, 0);
+            }
         } else {
             // check next motions and filter by map
             $all = $motion->getNextMotions();
