@@ -13,6 +13,7 @@
   "private": true,
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
     "backbone": "^1.3.3",
@@ -42,8 +43,5 @@
   "browserlist": [
     "> 5% in DE",
     "last 4 version 2"
-  ],
-  "dependencies": {
-    "babel-polyfill": "^6.26.0"
-  }
+  ]
 }

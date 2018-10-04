@@ -76,7 +76,7 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
             text: t(data),
             level: 'info',
             group: 'global',
-            imgUrl: '/pre/' + data.gid + '.png',
+            imgUrl: '/images/preview/' + data.gid + '.png',
         });
         this.add(n);
     },

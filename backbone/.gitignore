@@ -1,7 +1,7 @@
 .idea
 *.php
 node_modules
-src/*.browserified.*
+src/*.src.*
 public/js/Karopapier.*
 public/js/JST.js
 *.min.css

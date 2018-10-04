@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const Backbone = require('backbone');
 const $ = require('jquery');
+const emojione = require('emojione');
 
 module.exports = Backbone.View.extend({
     tagName: 'div',

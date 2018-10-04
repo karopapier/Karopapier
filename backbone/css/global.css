@@ -19,6 +19,7 @@ body, td, ul, caption, center, form, div, span {
 a {
     text-decoration: none;
 }
+
 a:hover {
     text-decoration: underline;
 }
@@ -65,14 +66,10 @@ div.clearer {
 }
 
 @media all and (min-width: 250px) {
-	.karoborder {
+    .karoborder {
         border-color: transparent;
-		border-style: solid;
-		border-width: 26px 30px;
-		-moz-border-image: url("/css/images/borderImage.png") 26 30 repeat;
-		-webkit-border-image: url("/css/images/borderImage.png") 26 30 repeat;
-		-o-border-image: url("/css/images/borderImage.png") 26 30 repeat;
-		border-image: url("/css/images/borderImage.png") 26 30 repeat;
-		behavior: url(/js/libs/PIE-1.0.0/PIE.htc);
-	}
+        border-style: solid;
+        border-width: 26px 30px;
+        border-image: url("/images/css/borderImage.png") 26 30 repeat;
+    }
 }

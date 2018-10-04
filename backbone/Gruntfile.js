@@ -35,7 +35,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'public/js/<%= pkg.name %>.browserified.js': ['src/start.js'],
+                    'public/js/<%= pkg.name %>.src.js': ['src/start.js'],
                 },
             },
             gamestepup: {

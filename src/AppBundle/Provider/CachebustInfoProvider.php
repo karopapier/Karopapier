@@ -2,17 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: pdietrich
- * Date: 18.07.2016
- * Time: 23:57
+ * Date: 19.07.2018
+ * Time: 15:28
  */
 
-namespace AppBundle\Twig;
+namespace AppBundle\Provider;
 
 
-class CachebustExtension extends \Twig_Extension implements \Twig_ExtensionInterface
+class CachebustInfoProvider
 {
-    private $manifest;
-
     public function __construct($manifest, $env)
     {
         $this->manifest = $manifest;
@@ -20,14 +18,7 @@ class CachebustExtension extends \Twig_Extension implements \Twig_ExtensionInter
         $this->refreshed = false;
     }
 
-    public function getFunctions()
-    {
-        return array(
-            'getCachebustPath' => new \Twig_SimpleFunction("cachebust", [$this, 'getCachebustPath']),
-        );
-    }
-
-    public function getCachebustPath($key)
+    public function get($key)
     {
         // Da symfony aenderungen nicht mitbekommt, machen wir in allen Nicht-Prod-Environments hier ein refresh
         if ($this->env !== 'prod') {
@@ -40,12 +31,12 @@ class CachebustExtension extends \Twig_Extension implements \Twig_ExtensionInter
             return $this->manifest[$key];
         }
 
-        return $key;
+        return '';
     }
 
     public function refresh()
     {
-        $manifestpath = __DIR__.'/../../../web/cachebust.json';
+        $manifestpath = __DIR__.'/../../../public/spa/cachebust.json';
         $this->manifest = json_decode(file_get_contents($manifestpath), true);
         $this->refreshed = true;
     }

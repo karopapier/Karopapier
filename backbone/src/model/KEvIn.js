@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const Backbone = require('backbone');
+const TURTED = require('turted-client');
 
 module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
     defaults: {},

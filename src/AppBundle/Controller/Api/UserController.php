@@ -10,6 +10,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\User;
 use AppBundle\Messaging\MessagingService;
+use AppBundle\Repository\UserRepository;
 use AppBundle\Security\LegacyCookieSetter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -141,5 +142,30 @@ class UserController extends AbstractApiController
         $json->setCallback($request->get("callback"));
 
         return $json;
+    }
+
+    /**
+     * @Route("/blockers", name="api_blockers")
+     * @param Request $request
+     * @param UserRepository $repository
+     */
+    public function blockerlist(Request $request, UserRepository $repository)
+    {
+        $data = [];
+        $users = $repository->getBlockerList();
+        foreach ($users as $user) {
+            $u = array(
+                'id' => $user->getId(),
+                'login' => $user->getLogin(),
+                'dran' => $user->getNbDran(),
+                'activeGames' => $user->getNbGames(),
+            );
+            $data[] = $u;
+        }
+
+        $response = new JsonResponse($data);
+        $response->setCallback($request->get('callback'));
+
+        return $response;
     }
 }

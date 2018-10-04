@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const $ = require('jquery');
 const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
 const ChatLayout = require('../layout/ChatLayout');

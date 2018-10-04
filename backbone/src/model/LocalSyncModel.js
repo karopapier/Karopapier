@@ -1,6 +1,7 @@
 const $ = require('jquery');
 const _ = require('underscore');
 const Backbone = require('backbone');
+const store = require('store');
 
 module.exports = Backbone.Model.extend(/** @lends LocalSyncModel */ {
     defaults: {

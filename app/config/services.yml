@@ -36,7 +36,8 @@ services:
 
     AppBundle\Twig\CachebustExtension:
         arguments:
-          $webpath: '%kernel.project_dir%/web'
+          - '%app.cachebust%'
+          - '%kernel.environment%'
 
     AppBundle\Services\ConfigService:
       arguments:
@@ -73,3 +74,10 @@ services:
 
     AppBundle\DataFixtures\ORM\LoadGamePlayerUserData:
       public: false
+
+    AppBundle\Provider\CachebustInfoProvider:
+      class: AppBundle\Provider\CachebustInfoProvider
+      public: true
+      arguments:
+        - %app.cachebust%
+        - %kernel.environment%

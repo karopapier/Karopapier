@@ -19,7 +19,6 @@ node_modules
 /web/js
 /web/css
 /web/cachebust.json
-/web/index.html
 /backbone/public/js/GameStepUp.js
 /web/images/maps/*
 /web/images/previews/*

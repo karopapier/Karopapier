@@ -14,6 +14,7 @@ $publicfiles = [
     '/js/KaroApp.src.js',
     '/js/KaroApp.min.js',
     '/js/KaroApp.dev.js',
+    '/js/Karopapier.src.js',
     '/css/app.css',
     '/css/previous.css',
     '/css/theme.css',

@@ -62,4 +62,17 @@ class UserRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    /**
+     * GLobal blocker list
+     * @return User[]
+     */
+    public function getBlockerList()
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->where("u.active=true")
+            ->orderBy('u.nbDran', 'desc');
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
 }

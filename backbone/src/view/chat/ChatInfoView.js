@@ -1,21 +1,21 @@
 const _ = require('underscore');
 const $ = require('jquery');
-const Backbone = require('backbone');
+const Marionette = require('backbone.marionette');
 const ChatUserCollection = require('../../collection/ChatUserCollection');
 const ChatUsersView = require('./ChatUsersView');
 
-module.exports = Backbone.Marionette.ItemView.extend({
+module.exports = Marionette.ItemView.extend({
     tagName: 'div',
     className: 'chatInfoView',
     template: require('../../../templates/chat/chatInfo.html'),
-    initialize: function(options) {
+
+    initialize(options) {
         options = options || {};
         if (!options.app) {
             console.error('No app in ChatInfoView');
             return false;
         }
         this.app = options.app;
-        _.bindAll(this, 'updateInfos', 'updateTopBlocker', 'updateHabdich', 'updateDranInfo', 'updateChatUser', 'render'); // eslint-disable-line max-len
         this.$el.html(this.template);
         // console.log("Init civ");
 
@@ -25,32 +25,45 @@ module.exports = Backbone.Marionette.ItemView.extend({
             el: this.$('#chatUsers'),
         }).render();
         this.listenTo(this.chatUserCollection, 'add remove reset change', this.updateHabdich);
-        this.model.on('change:id', this.updateInfos);
-        this.model.on('change:dran', this.updateInfos);
+        this.listenTo(this.model, 'change:id', this.updateInfos);
+        this.listenTo(this.model, 'change:dran', this.updateInfos);
 
-        this.dranInterval = setInterval(this.updateDranInfo, 60000);
-        this.blockerInterval = setInterval(this.updateTopBlocker, 60000);
-        this.userInterval = setInterval(this.updateChatUser, 60000);
-        setTimeout(_.bind(this.updateChatUser), 1000);
+        this.dranInterval = setInterval(() => {
+            this.updateDranInfo();
+        }, 60000);
+        this.blockerInterval = setInterval(() => {
+            this.updateTopBlocker();
+        }, 60000);
+        this.userInterval = setInterval(() => {
+            this.updateChatUser();
+        }, 60000);
+        setTimeout(() => {
+            this.updateChatUser();
+        }, 1000);
 
         this.updateInfos();
     },
-    onClose: function() {
+
+    onClose() {
         clearInterval(this.blockerInterval);
     },
-    updateChatUser: function() {
+
+    updateChatUser() {
         this.chatUserCollection.fetch();
     },
-    updateInfos: function() {
+
+    updateInfos() {
+        console.log('Update Chat Infos');
         this.updateDranInfo();
         this.updateHabdich();
         this.updateTopBlocker();
     },
-    updateDranInfo: function() {
-        let myId = this.model.get('id');
+
+    updateDranInfo() {
+        const myId = this.model.get('id');
         if (myId == 0) return;
         let html;
-        $.getJSON('/api/user/blockerlist.json', function(bl) {
+        $.getJSON('/api/blockers', (bl) => {
             const blockerlist = bl;
             let dran = this.model.get('dran');
             if (dran == 0) {
@@ -94,18 +107,20 @@ module.exports = Backbone.Marionette.ItemView.extend({
 
             // Check blocker list rank
             $('#chatInfoBlockerRank').html(html);
-        }.bind(this));
+        });
     },
-    updateHabdich: function() {
-        let habdich = _.reduce(this.chatUserCollection.pluck('dran'), function(sum, el) {
+
+    updateHabdich() {
+        let habdich = _.reduce(this.chatUserCollection.pluck('dran'), (sum, el) => {
             return sum + el;
         }, 0);
         this.$('#chatHabdich').text(habdich);
     },
-    updateTopBlocker: function() {
+
+    updateTopBlocker() {
         if (this.model.get('id') == 0) return;
         let html;
-        $.getJSON('/api/user/' + this.model.get('id') + '/blocker.json', function(data) {
+        $.getJSON('/api/user/' + this.model.get('id') + '/blocker.json', (data) => {
             if (data.length > 0) {
                 let blocker = data[0];
                 html = 'Dein Top-Blocker: ' + blocker.login + ' (' + blocker.blocked + ')';
@@ -114,8 +129,5 @@ module.exports = Backbone.Marionette.ItemView.extend({
             }
             $('#chatInfoTopBlocker').html(html);
         });
-    },
-    render: function() {
-        return this;
     },
 });

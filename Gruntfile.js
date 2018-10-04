@@ -48,7 +48,7 @@ module.exports = function(grunt) {
                     banner: '/*! bb browserified <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
                 },
                 files: {
-                    'backbone/public/js/Karopapier.browserified.js': ['backbone/src/start.js'],
+                    'web/js/Karopapier.src.js': ['backbone/src/start.js'],
                 },
             },
             gamestepup: {
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
                     banner: '/*! bb browseriefied <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
                 },
                 files: {
-                    'backbone/public/js/GameStepUp.js': ['backbone/src/GameStepUp.src.js'],
+                    'web/js/GameStepUp.js': ['backbone/src/GameStepUp.src.js'],
                 },
             }
         },
@@ -139,7 +139,7 @@ module.exports = function(grunt) {
             },
             compile: {
                 files: {
-                    'backbone/public/js/JST.js': ['backbone/templates/**/*.html', 'backbone/templates/**/*.tpl'],
+                    'web/js/JST.js': ['backbone/templates/**/*.html', 'backbone/templates/**/*.tpl'],
                 },
             },
 
@@ -215,6 +215,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build:prod', ['browserify', 'uglify', 'style']);
     grunt.registerTask('style', ['eslint']);
     grunt.registerTask('bust', ['shell:bust']);
-    grunt.registerTask('default', ['build:dev', 'less', 'watch']);
+    grunt.registerTask('default', ['build:dev', 'less', 'bust', 'watch']);
     grunt.registerTask('test', 'nodeunit');
 };
