@@ -25,23 +25,25 @@ module.exports = Marionette.ItemView.extend({
             el: this.$('#chatUsers'),
         }).render();
         this.listenTo(this.chatUserCollection, 'add remove reset change', this.updateHabdich);
-        this.listenTo(this.model, 'change:id', this.updateInfos);
-        this.listenTo(this.model, 'change:dran', this.updateInfos);
 
         this.dranInterval = setInterval(() => {
             this.updateDranInfo();
         }, 60000);
+
         this.blockerInterval = setInterval(() => {
             this.updateTopBlocker();
         }, 60000);
+
         this.userInterval = setInterval(() => {
             this.updateChatUser();
         }, 60000);
+
         setTimeout(() => {
             this.updateChatUser();
-        }, 1000);
-
-        this.updateInfos();
+            this.updateInfos();
+            this.listenTo(this.model, 'change:id', this.updateInfos);
+            this.listenTo(this.model, 'change:dran', this.updateInfos);
+        }, 2000);
     },
 
     onClose() {
@@ -120,7 +122,7 @@ module.exports = Marionette.ItemView.extend({
     updateTopBlocker() {
         if (this.model.get('id') == 0) return;
         let html;
-        $.getJSON('/api/user/' + this.model.get('id') + '/blocker.json', (data) => {
+        $.getJSON('/api/users/' + this.model.get('id') + '/blockers', (data) => {
             if (data.length > 0) {
                 let blocker = data[0];
                 html = 'Dein Top-Blocker: ' + blocker.login + ' (' + blocker.blocked + ')';

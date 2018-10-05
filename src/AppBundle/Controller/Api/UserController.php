@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -162,6 +163,26 @@ class UserController extends AbstractApiController
             );
             $data[] = $u;
         }
+
+        $response = new JsonResponse($data);
+        $response->setCallback($request->get('callback'));
+
+        return $response;
+    }
+
+    /**
+     * @Route("/users/{uid}/blockers", name="api_user_blockers")
+     * @param Request $request
+     * @param UserRepository $repository
+     */
+    public function userBlockerlist(Request $request, $uid, UserRepository $userRepository)
+    {
+        $user = $userRepository->find($uid);
+        if (!$user) {
+            throw new NotFoundHttpException();
+        }
+
+        $data = $userRepository->getUserBlockerData($user);
 
         $response = new JsonResponse($data);
         $response->setCallback($request->get('callback'));
