@@ -2,8 +2,10 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Entity\ChatMessage;
-use AppBundle\Entity\User;
+use AppBundle\Exception\InvalidUsernameException;
+use AppBundle\ValueObject\Username;
+use Doctrine\DBAL\Connection;
+use PDO;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,13 +13,24 @@ use Symfony\Component\Console\Output\OutputInterface;
 class TestCommand extends ContainerAwareCommand
 {
     /**
+     * @var Connection
+     */
+    private $connection;
+
+    public function __construct($name = null, Connection $connection)
+    {
+        parent::__construct($name);
+        $this->connection = $connection;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
     {
         $this
-                ->setName('karopapier:test')
-                ->setDescription('Hello PhpStorm');
+            ->setName('karopapier:test')
+            ->setDescription('Hello PhpStorm');
     }
 
     /**
@@ -25,8 +38,22 @@ class TestCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->getContainer();
-        $chatService = $container->get("chat_service");
-        $chatService->doof();
+        $sql = "SELECT * FROM karo_user";
+        $stmt = $this->connection->executeQuery($sql);
+        $userData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($userData as $data) {
+            $login = $data['Login'];
+            if (!$login) {
+                continue;
+            }
+
+            try {
+                $username = new Username($login);
+                // $output->writeln('Gut '.$login);
+            } catch (InvalidUsernameException $ex) {
+                $output->writeln('Nix gut '.$login.': '.$data["reallastvisit"]);
+            }
+        }
     }
 }
