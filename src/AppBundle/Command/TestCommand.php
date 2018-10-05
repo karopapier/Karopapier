@@ -2,8 +2,8 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Exception\InvalidUsernameException;
-use AppBundle\ValueObject\Username;
+use AppBundle\Exception\InvalidLoginException;
+use AppBundle\ValueObject\Login;
 use Doctrine\DBAL\Connection;
 use PDO;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -49,9 +49,9 @@ class TestCommand extends ContainerAwareCommand
             }
 
             try {
-                $username = new Username($login);
+                $username = new Login($login);
                 // $output->writeln('Gut '.$login);
-            } catch (InvalidUsernameException $ex) {
+            } catch (InvalidLoginException $ex) {
                 $output->writeln('Nix gut '.$login.': '.$data["reallastvisit"]);
             }
         }

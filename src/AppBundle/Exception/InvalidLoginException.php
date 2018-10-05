@@ -9,7 +9,7 @@
 namespace AppBundle\Exception;
 
 
-class InvalidUsernameException extends \Exception
+class InvalidLoginException extends \Exception
 {
 
 }
