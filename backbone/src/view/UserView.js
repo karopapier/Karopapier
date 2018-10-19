@@ -37,6 +37,6 @@ module.exports = Backbone.View.extend({
     },
     dranChange: function(user) {
         // @TODO Flacker wieder einbauen
-        console.log('Dran change kaputt gemacht');
+        console.log('Dran change Animation kaputt gemacht');
     },
 });
