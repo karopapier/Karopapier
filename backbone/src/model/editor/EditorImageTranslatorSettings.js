@@ -15,13 +15,13 @@ module.exports = Backbone.Model.extend({
         fieldtime: 0,
     },
 
-    initialize: function() {
+    initialize() {
         // _.bindAll(this, "recalcFromTarget", "recalcFromScale");
         // bindings
         this.listenTo(this, 'change:sourceWidth change:sourceHeight', this.recalcFromSource);
     },
 
-    setScale: function(sc) {
+    setScale(sc) {
         if (sc == 0) return false;
         if (sc < 1) return false;
         let tc = Math.floor(this.get('sourceWidth') / sc);
@@ -34,7 +34,7 @@ module.exports = Backbone.Model.extend({
         });
     },
 
-    setTargetRowCol: function(r, c) {
+    setTargetRowCol(r, c) {
         let scw = this.get('sourceWidth') / c;
         let sch = Math.floor(this.get('sourceHeight') / r);
         this.set({
@@ -45,7 +45,7 @@ module.exports = Backbone.Model.extend({
         });
     },
 
-    recalcFromSource: function() {
+    recalcFromSource() {
         // console.log("Calc from source");
         // assume default target cols of 60
         // calc scale to match that

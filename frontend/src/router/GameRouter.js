@@ -11,11 +11,11 @@ module.exports = Backbone.Router.extend({
         'spiele': 'index',
     },
 
-    index: function() {
+    index() {
         this.app.unselect();
     },
 
-    show: function(gid) {
+    show(gid) {
         this.app.show(gid);
     },
 });

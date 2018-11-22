@@ -4,7 +4,7 @@ const Vector = Backbone.Model.extend({
         x: 0,
         y: 0,
     },
-    initialize: function(x, y) {
+    initialize(x, y) {
         // check if first arg is an object with x and y or if we have two numeric args
         if (typeof x === 'object') {
             // we have an object, so we assume default map with x and y
@@ -24,27 +24,27 @@ const Vector = Backbone.Model.extend({
         // console.log('X', this.get('x'));
         // console.log('Y', this.get('y'));
     },
-    clone: function() {
+    clone() {
         return new Vector(this.attributes);
     },
-    toString: function() {
+    toString() {
         return '(' + this.get('x') + '|' + this.get('y') + ')';
     },
-    getDirection: function(xy) {
+    getDirection(xy) {
         const d = this.get(xy);
         if (d == 0) return 0;
         return d / Math.abs(d);
     },
-    getXDirection: function() {
+    getXDirection() {
         return this.getDirection('x');
     },
-    getYDirection: function() {
+    getYDirection() {
         return this.getDirection('y');
     },
-    getLength: function() {
+    getLength() {
         return Math.sqrt(Math.pow(this.get('x'), 2) + Math.pow(this.get('y'), 2));
     },
-    decelerate: function(xy) {
+    decelerate(xy) {
         if (xy) {
             const xy = this.get(xy);
             if (xy == 0) return true;
@@ -67,7 +67,7 @@ const Vector = Backbone.Model.extend({
      * und dann von Didi in Javascript verwandel
      * ---------------------------------------------------------------
      */
-    getPassedVectors: function() {
+    getPassedVectors() {
         let dx = this.get('x');
         let dy = this.get('y');
 
@@ -156,7 +156,7 @@ const Vector = Backbone.Model.extend({
                 y += ddy;
             }
             // console.log('putting ', x, ' ', y, 'at $err');
-            v = new Vector({x: x, y: y});
+            v = new Vector({x, y});
             vecs[v.toString()] = v;
         } while (((Math.abs(x) != dx) || (Math.abs(y) != dy)));
         // console.log('Return ', vecs);

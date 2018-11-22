@@ -156,7 +156,7 @@ const Vector = Backbone.Model.extend({
                 y += ddy;
             }
             // console.log('putting ', x, ' ', y, 'at $err');
-            v = new Vector({x: x, y: y});
+            v = new Vector({x, y});
             vecs[v.toString()] = v;
         } while (((Math.abs(x) != dx) || (Math.abs(y) != dy)));
         // console.log('Return ', vecs);

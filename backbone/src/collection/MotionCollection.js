@@ -3,9 +3,9 @@ const Motion = require('../model/Motion');
 
 module.exports = Backbone.Collection.extend(/** @lends MotionCollection.prototype */ {
     model: Motion,
-    getByMotionString: function(moString) {
+    getByMotionString(moString) {
         let motion = false;
-        this.each(function(mo) {
+        this.each((mo) => {
             if (mo.toString() === moString) {
                 motion = mo;
             }

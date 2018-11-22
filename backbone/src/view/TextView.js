@@ -1,9 +1,9 @@
 const Backbone = require('backbone');
 module.exports = Backbone.View.extend({
-    initialize: function(options) {
+    initialize(options) {
         this.text = options.text || '-';
     },
-    render: function() {
+    render() {
         this.$el.html(this.text);
         return this;
     },

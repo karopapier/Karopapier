@@ -4,7 +4,7 @@ module.exports = Backbone.View.extend(/** lends NotificationControl */ {
      * @constructor NotificationControl
      * @class NotificationControl
      */
-    initialize: function() {
+    initialize() {
         console.log('INIT WEB NOT VIEW');
         this.listenTo(this.model, 'change:supported', this.updateSupported);
         this.listenTo(this.model, 'change:denied', this.updateDenied);
@@ -14,7 +14,7 @@ module.exports = Backbone.View.extend(/** lends NotificationControl */ {
     events: {
         'change #notificationEnabled': 'checkEnabled',
     },
-    updateSupported: function() {
+    updateSupported() {
         if (this.model.get('supported')) {
             this.$('#statusinfo').attr('data-quicktip', 'Dein Browser kann das!');
             this.$('#statusinfo').removeClass().addClass('quicktip quicktip-box quicktip-ok');
@@ -24,17 +24,17 @@ module.exports = Backbone.View.extend(/** lends NotificationControl */ {
             this.$('#statusinfo').removeClass().addClass('quicktip quicktip-box quicktip-error');
         }
     },
-    updateEnabled: function() {
+    updateEnabled() {
         this.$('#notificationEnabled').prop('checked', this.model.get('enabled'));
     },
-    updateFinal: function() {
+    updateFinal() {
         if (this.model.get('denied') && this.model.get('final')) {
             this.$('#notificationEnabled').prop('disabled', true);
         } else {
             this.$('#notificationEnabled').prop('disabled', false);
         }
     },
-    updateDenied: function() {
+    updateDenied() {
         if (this.model.get('denied')) {
             console.log('DENIED');
             this.$('#statusinfo').attr('data-quicktip', 'Du hast nicht erlaubt, Benachrichtigungen anzuzeigen.');
@@ -43,11 +43,11 @@ module.exports = Backbone.View.extend(/** lends NotificationControl */ {
             this.$('#statusinfo').removeClass().addClass('quicktip quicktip-box quicktip-warn');
         }
     },
-    checkEnabled: function() {
+    checkEnabled() {
         let on = this.$('#notificationEnabled').prop('checked');
         this.model.set('enabled', on);
     },
-    render: function() {
+    render() {
         let t = '';
         t += '<label for="notificationEnabled"> Desktop-Benachrichtigung?';
         t += '<span id="statusinfo" class="quicktip quicktip-box quicktip-info" data-quicktip="Mal gucken, ob Dein Browser das kann..."> &nbsp;</span>'; // eslint-disable-line max-len

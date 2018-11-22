@@ -4,14 +4,14 @@ const Backbone = require('backbone');
 module.exports = Backbone.View.extend({
     tagName: 'div',
     template: window['JST']['chat/chatEnter'],
-    initialize: function(options) {
+    initialize(options) {
         this.listenTo(this.model, 'change:id', this.render);
         return this;
     },
     events: {
         'submit': 'sendMessage',
     },
-    sendMessage: function(e) {
+    sendMessage(e) {
         e.preventDefault();
         let msg = $('#newchatmessage').val();
         if (msg != '') {
@@ -22,7 +22,7 @@ module.exports = Backbone.View.extend({
                 crossDomain: true,
                 // better than data: "msg=" + msg as it works with ???? as well
                 contentType: 'application/json',
-                data: JSON.stringify({msg: msg}),
+                data: JSON.stringify({msg}),
                 xhrFields: {
                     withCredentials: true,
                 },
@@ -30,7 +30,7 @@ module.exports = Backbone.View.extend({
                     $('#newchatmessage').val('');
                     $('#newchatmessagesubmit').prop('disabled', false).stop().animate({opacity: 1});
                 },
-                error: function(xhr, status) {
+                error(xhr, status) {
                     console.error(status, xhr);
                     $('#newchatmessagesubmit').prop('disabled', false).stop().animate({opacity: 1});
                 },
@@ -38,7 +38,7 @@ module.exports = Backbone.View.extend({
             $('#newchatmessagesubmit').prop('disabled', true).stop().animate({opacity: 0});
         }
     },
-    render: function() {
+    render() {
         let uid = this.model.get('id');
         let html = '';
         if (uid < 0) {

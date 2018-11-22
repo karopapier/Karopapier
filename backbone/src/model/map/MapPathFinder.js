@@ -2,7 +2,7 @@ const _ = require('underscore');
 const Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
-    initialize: function(map) {
+    initialize(map) {
         if (typeof map === 'undefined') {
             throw new Error('MAP_MISSING');
         }
@@ -45,10 +45,10 @@ module.exports = Backbone.Model.extend({
         };
         // console.log("INit Pathfinder DONE");
     },
-    reset: function() {
+    reset() {
         this.outlines = {};
     },
-    getMainField: function() {
+    getMainField() {
         function occurrences(string, subString, allowOverlapping) {
             string += '';
             subString += '';
@@ -82,7 +82,7 @@ module.exports = Backbone.Model.extend({
         }
         return mostChar;
     },
-    getAllOutlines: function() {
+    getAllOutlines() {
         // console.info("Start number crunching");
         this.reset();
         let char;
@@ -110,7 +110,7 @@ module.exports = Backbone.Model.extend({
         }
         return true;
     },
-    getSvgPathFromOutlines: function(outlines, s) {
+    getSvgPathFromOutlines(outlines, s) {
         let path = '';
         let emergencyBreak = 10000;
         let lastR = -1;
@@ -180,23 +180,23 @@ module.exports = Backbone.Model.extend({
         return path;
     },
 
-    getOutlineDirection: function(outline) {
+    getOutlineDirection(outline) {
         let x = outline.x2 - outline.x1;
         let y = outline.y2 - outline.y1;
         return this.directions[y + '|' + x];
     },
 
-    getKeyForRowCol: function(r, c) {
+    getKeyForRowCol(r, c) {
         return (r + '|' + c);
     },
-    getRowColFromKey: function(k) {
+    getRowColFromKey(k) {
         let s = k.split('|');
         return {r: parseInt(s[0]), c: parseInt(s[1])};
     },
-    isLikeRoad: function(s) {
+    isLikeRoad(s) {
         return this.ROAD_FIELDS.indexOf(s) >= 0;
     },
-    getFieldOutlines: function(r, c) {
+    getFieldOutlines(r, c) {
         let currentField = this.map.getFieldAtRowCol(r, c);
 
         // for all 4 directions
@@ -259,7 +259,7 @@ module.exports = Backbone.Model.extend({
                     if (!(k in this.outlines[currentField])) {
                         this.outlines[currentField][k] = [];
                     }
-                    this.outlines[currentField][k].push({x1: x1, y1: y1, x2: x2, y2: y2});
+                    this.outlines[currentField][k].push({x1, y1, x2, y2});
                 }
 
                 // if we should add to road
@@ -270,7 +270,7 @@ module.exports = Backbone.Model.extend({
                     if (!(k in this.outlines['O'])) {
                         this.outlines['O'][k] = [];
                     }
-                    this.outlines['O'][k].push({x1: x1, y1: y1, x2: x2, y2: y2});
+                    this.outlines['O'][k].push({x1, y1, x2, y2});
                 }
             }
         }

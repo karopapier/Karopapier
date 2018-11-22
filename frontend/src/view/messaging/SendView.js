@@ -7,14 +7,14 @@ module.exports = Marionette.View.extend({
         keyup: 'resize',
     },
 
-    onRender: function() {
+    onRender() {
         const me=this;
-        setTimeout(function() {
+        setTimeout(() => {
             me.resize();
         }, 100);
     },
 
-    send: function(e) {
+    send(e) {
         const text = this.$('.send-text').val().trim();
         if (text.length === 0) {
             e.preventDefault();
@@ -24,23 +24,23 @@ module.exports = Marionette.View.extend({
         console.info('Nachricht', text, 'an', userId);
 
         this.trigger('send', {
-            userId: userId,
-            text: text,
+            userId,
+            text,
         });
         this.$('input[type=submit]').prop('disabled', true);
         e.preventDefault();
     },
 
-    reset: function() {
+    reset() {
         this.$('.send-text').val('');
         this.enable();
     },
 
-    enable: function() {
+    enable() {
         this.$('input[type=submit]').prop('disabled', false);
     },
 
-    resize: function() {
+    resize() {
         const o = this.$('.send-text')[0];
         o.style.height = '1px';
         o.style.height = (o.scrollHeight)+'px';

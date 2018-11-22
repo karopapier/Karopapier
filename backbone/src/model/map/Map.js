@@ -13,7 +13,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
      * @constructor Map
      * @class Map
      */
-    initialize: function() {
+    initialize() {
         this.validFields = Object.keys(this.FIELDS);
         this.offroadRegEx = new RegExp('(X|P|L|G|N|V|T|W|Y|Z|_)');
 
@@ -45,10 +45,10 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         '8': 'cp8',
         '9': 'cp9',
     },
-    isValidField: function(c) {
+    isValidField(c) {
         return this.validFields.indexOf(c.toUpperCase()) >= 0;
     },
-    setMapcode: function(mapcode) {
+    setMapcode(mapcode) {
         // make sure we don't have CR in there and make it all UPPERCASE
         if (typeof mapcode === 'undefined') {
             console.error('No mapcode in setMapcode', mapcode);
@@ -74,22 +74,22 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
 
         this.set({
             'mapcode': trimcode,
-            'starties': starties,
-            'rows': rows,
-            'cols': cols,
-            'cps': cps,
+            starties,
+            rows,
+            cols,
+            cps,
         });
     },
 
-    getMapcodeAsArray: function() {
+    getMapcodeAsArray() {
         return this.get('mapcode').split('\n');
     },
 
-    setMapcodeFromArray: function(a) {
+    setMapcodeFromArray(a) {
         this.setMapcode(a.join('\n'));
     },
 
-    floodfill: function(row, col, color) {
+    floodfill(row, col, color) {
         const oldColor = this.getFieldAtRowCol(row, col);
         this.fillstack = [];
         // console.log('Start fill', row, col, color);
@@ -97,8 +97,8 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         this.floodFill4(row, col, oldColor, color);
     },
 
-    floodFill4: function(row, col, oldColor, color) {
-        this.fillstack.push({row: row, col: col});
+    floodFill4(row, col, oldColor, color) {
+        this.fillstack.push({row, col});
         while (this.fillstack.length > 0) {
             const rc = this.fillstack.pop();
             const r = rc.row;
@@ -117,7 +117,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         }
     },
 
-    addRow: function(count, index) {
+    addRow(count, index) {
         /**
          * @param counter number of rows to insert
          * @param index   'before where to add'. 0 is at front; undefined or negative at end
@@ -154,7 +154,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
 
         this.setMapcodeFromArray(codeRows);
     },
-    addCol: function(count, index) {
+    addCol(count, index) {
         /**
          * @param counter number of cols to insert
          * @param index   "before where to add". 0 is at front; undefined or negative at end
@@ -187,7 +187,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         this.setMapcodeFromArray(newCodeRows);
     },
 
-    delRow: function(count, index) {
+    delRow(count, index) {
         /**
          * @param counter number of cols to delete
          * @param index   'before where to delete'. 0 is at front; undefined or negative at end
@@ -215,7 +215,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         this.setMapcodeFromArray(newCodeRows);
     },
 
-    delCol: function(count, index) {
+    delCol(count, index) {
         /**
          * @param counter number of cols to delete
          * @param index   'before where to delete'. 0 is at front; undefined or negative at end
@@ -250,10 +250,10 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         this.setMapcodeFromArray(newCodeRows);
     },
 
-    updateMapcode: function(e, mapcode) {
+    updateMapcode(e, mapcode) {
         this.setMapcode(mapcode);
     },
-    sanitize: function() {
+    sanitize() {
         // console.log('sanitize and set correct code');
 
         const dirtyCode = TextHelper.trim(this.get('mapcode').toUpperCase());
@@ -262,7 +262,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         // find longest line
         const rows = dirtyCode.split('\n');
         let rowlength = 0;
-        rows.forEach(function(row) {
+        rows.forEach((row) => {
             if (row.length > rowlength) {
                 rowlength = row.length;
             }
@@ -272,7 +272,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         const cleanRows = [];
         let parcs = 0;
         const me = this;
-        rows.forEach(function(row) {
+        rows.forEach((row) => {
             if (row.length < rowlength) {
                 row += Array(rowlength - row.length + 1).join('X');
             }
@@ -302,13 +302,13 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
 
         // Make sure to remove \n at last line
     },
-    getStartPositions: function() {
+    getStartPositions() {
         return this.getFieldPositions('S');
     },
-    getCpPositions: function(mapcode) {
+    getCpPositions(mapcode) {
         return this.getFieldPositions('\\d', mapcode);
     },
-    getFieldPositions: function(field, mapcode) {
+    getFieldPositions(field, mapcode) {
         let positions = [];
         let re = new RegExp(field, 'g');
         mapcode = mapcode || this.get('mapcode');
@@ -319,14 +319,14 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         }
         return positions;
     },
-    getCpList: function(mapcode) {
+    getCpList(mapcode) {
         mapcode = mapcode || this.get('mapcode');
-        return (mapcode.match(/\d/g) || []).sort().filter(function(el, i, a) {
+        return (mapcode.match(/\d/g) || []).sort().filter((el, i, a) => {
             if (i == a.indexOf(el)) return 1;
             return 0;
         });
     },
-    withinBounds: function(opt) {
+    withinBounds(opt) {
         let x;
         let y;
         if ((opt.hasOwnProperty('row')) && opt.hasOwnProperty('col')) {
@@ -345,7 +345,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         if (y > this.get('rows') - 1) return false;
         return true;
     },
-    setFieldAtRowCol: function(r, c, field) {
+    setFieldAtRowCol(r, c, field) {
         const pos = this.getPosFromRowCol(r, c);
         const oldcode = this.get('mapcode');
         // console.log('Mapcodecheck');
@@ -355,7 +355,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
             mapcode = oldcode.substr(0, pos) + field + oldcode.substr(pos + 1);
             this.set('mapcode', mapcode, {silent: true});
             // trigger field change instead
-            this.trigger('change:field', {r: r, c: c, field: field, oldfield: oldfield, oldcode: oldcode});
+            this.trigger('change:field', {r, c, field, oldfield, oldcode});
             // console.log('Change triggered');
         }
     },
@@ -365,7 +365,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
      * @param c 0..cols-1
      * @returns {String}
      */
-    getFieldAtRowCol: function(r, c) {
+    getFieldAtRowCol(r, c) {
         // console.log(r, c);
         if (!this.withinBounds({row: r, col: c})) {
             console.error(r, c);
@@ -376,18 +376,18 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         return this.get('mapcode').charAt(pos);
     },
 
-    getPosFromRowCol: function(r, c) {
+    getPosFromRowCol(r, c) {
         return (r * (this.get('cols') + 1)) + c;
     },
 
-    getRowColFromPos: function(pos) {
+    getRowColFromPos(pos) {
         const cols = this.get('cols') + 1;
         const c = pos % cols;
         const r = Math.floor(pos / cols);
         return {row: r, col: c, x: c, y: r};
     },
 
-    getPassedFields: function(mo) {
+    getPassedFields(mo) {
         if (!mo) console.error('No motion given');
         const positions = mo.getPassedPositions();
         // console.log(positions);
@@ -397,7 +397,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
                 const pos = positions[posKey];
                 const x = pos.get('x');
                 const y = pos.get('y');
-                if (this.withinBounds({x: x, y: y})) {
+                if (this.withinBounds({x, y})) {
                     fields.push(this.getFieldAtRowCol(y, x));
                 } else {
                     fields.push('_');
@@ -406,7 +406,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         }
         return fields;
     },
-    isPossible: function(mo) {
+    isPossible(mo) {
         const fields = this.getPassedFields(mo);
 
         // if undefined in fields, not possible
@@ -419,7 +419,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
      * @param motions
      * @returns {Array} Motions
      */
-    verifiedMotions: function(motions) {
+    verifiedMotions(motions) {
         const remaining = [];
         for (let p = 0; p < motions.length; p++) {
             const mo = motions[p];

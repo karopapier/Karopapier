@@ -1,6 +1,6 @@
 const _ = require('underscore');
 module.exports = Backbone.Model.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.map) {
             console.error('No map for Conway');
@@ -13,19 +13,19 @@ module.exports = Backbone.Model.extend({
         this.currentNeighbours = {};
         _.bindAll(this, 'step', 'die', 'rise', 'adjustNeighbours', 'countLivingNeighbours', 'isAlive', 'isDead', 'setAllChanged', 'calcField'); // eslint-disable-line max-len
     },
-    isAlive: function(f) {
+    isAlive(f) {
         return (f === this.livingField());
     },
-    isDead: function(f) {
+    isDead(f) {
         return (f === this.deadField());
     },
-    deadField: function() {
+    deadField() {
         return 'X';
     },
-    livingField: function() {
+    livingField() {
         return 'O';
     },
-    countLivingNeighbours: function() {
+    countLivingNeighbours() {
         let cols = this.map.get('cols');
         let rows = this.map.get('rows');
         for (let r = 0, maxR = rows; r < maxR; r++) {
@@ -46,17 +46,17 @@ module.exports = Backbone.Model.extend({
             }
         }
     },
-    die: function(r, c) {
+    die(r, c) {
         // console.log("Die",r,c);
         this.map.setFieldAtRowCol(r, c, this.deadField());
         this.adjustNeighbours(r, c, -1);
     },
-    rise: function(r, c) {
+    rise(r, c) {
         // console.log("Rise",r,c);
         this.map.setFieldAtRowCol(r, c, this.livingField());
         this.adjustNeighbours(r, c, 1);
     },
-    adjustNeighbours: function(r, c, i) {
+    adjustNeighbours(r, c, i) {
         for (let x = -1; x <= 1; x++) {
             for (let y = -1; y <= 1; y++) {
                 let ry = r + y;
@@ -71,17 +71,17 @@ module.exports = Backbone.Model.extend({
             }
         }
     },
-    setAllChanged: function() {
+    setAllChanged() {
         let cols = this.map.get('cols');
         let rows = this.map.get('rows');
 
         for (let r = 0, maxR = rows; r < maxR; r++) {
             for (let c = 0, maxC = cols; c < maxC; c++) {
-                this.changed[r + '|' + c] = {r: r, c: c};
+                this.changed[r + '|' + c] = {r, c};
             }
         }
     },
-    calcField: function(r, c) {
+    calcField(r, c) {
         let field = this.currentMap.getFieldAtRowCol(r, c);
         // console.log("is field", field);
         if ((field === 'X') || (field === 'O') || (field === 'Y') || (field === 'Z')) {
@@ -102,7 +102,7 @@ module.exports = Backbone.Model.extend({
             }
         }
     },
-    step: function() {
+    step() {
         this.currentMap.setMapcode(this.map.get('mapcode'));
         this.currentNeighbours = JSON.parse(JSON.stringify(this.livingNeighbours));
 

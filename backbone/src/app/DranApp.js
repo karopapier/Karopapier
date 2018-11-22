@@ -6,7 +6,7 @@ const GameListItemView = require('../view/game/GameListItemView');
 
 module.exports = Marionette.Application.extend({
     className: 'dranApp',
-    initialize: function() {
+    initialize() {
         this.layout = new DranLayout({});
         this.view = new DranAppView({
             model: this,

@@ -13,13 +13,13 @@ module.exports = Marionette.CollectionView.extend({
     },
     childView: MapPlayerMoves,
 
-    childViewOptions: function() {
+    childViewOptions() {
         return {
             settings: this.settings,
         };
     },
 
-    initialize: function(options) {
+    initialize(options) {
         if (!this.collection) {
             console.error('Missing Collection');
             return false;
@@ -39,12 +39,12 @@ module.exports = Marionette.CollectionView.extend({
         this.listenTo(this.model, 'change:completed', this.check);
         this.listenTo(this.settings, 'change:drawLimit', this.drawLimit);
     },
-    check: function() {
+    check() {
         if (!this.model.get('completed')) return false;
         this.resize();
 
         // initialise visibility & drawLimits
-        this.collection.each(function(m) {
+        this.collection.each((m) => {
             // defaults
             let drawLimit = 5;
             let visible = true;
@@ -59,22 +59,22 @@ module.exports = Marionette.CollectionView.extend({
             }
 
             m.set({
-                drawLimit: drawLimit,
+                drawLimit,
                 initDrawLimit: drawLimit,
-                visible: visible,
+                visible,
             });
         });
         this.render();
     },
 
-    drawLimit: function() {
+    drawLimit() {
         let newLimit = this.settings.get('drawLimit');
-        this.collection.each(function(m) {
+        this.collection.each((m) => {
             m.set('drawLimit', newLimit);
         });
     },
 
-    resize: function() {
+    resize() {
         let w = this.model.map.get('cols') * (this.settings.get('size') + this.settings.get('border'));
         let h = this.model.map.get('rows') * (this.settings.get('size') + this.settings.get('border'));
         this.$el.css({

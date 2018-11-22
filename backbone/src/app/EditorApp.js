@@ -8,7 +8,7 @@ const KaroMapCollection = require('../collection/KaroMapCollection');
 const Map = require('../model/map/Map');
 
 module.exports = Marionette.Application.extend({
-    initialize: function(options) {
+    initialize(options) {
         this.layout = new EditorLayout({
             editorApp: this,
         });
@@ -42,7 +42,7 @@ module.exports = Marionette.Application.extend({
             editorsettings: this.editorsettings,
         });
     },
-    hotkey: function(e) {
+    hotkey(e) {
         const ascii = e.which;
         const char = String.fromCharCode(ascii).toUpperCase();
         // check hotkey for being a map code

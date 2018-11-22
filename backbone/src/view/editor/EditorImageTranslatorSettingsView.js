@@ -3,7 +3,7 @@ const Marionette = require('backbone.marionette');
 
 module.exports = Marionette.ItemView.extend({
     template: window.JST['editor/imagetranslatorsettings'],
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.imageTranslator) {
             console.error('No imageTranslator passed to TranslatorSettingsView');
@@ -25,7 +25,7 @@ module.exports = Marionette.ItemView.extend({
         // "input input[name='scaleHeight']": "changeScale"
     },
 
-    update: function() {
+    update() {
         // console.log("EITSV update");
         this.$('.editor-imagetranslator-settings-invert').prop('checked', this.imageTranslator.settings.get('invert'));
         this.$('.editor-imagetranslator-settings-speedmode').prop('checked', this.imageTranslator.settings.get('speedmode')); // eslint-disable-line max-len
@@ -33,7 +33,7 @@ module.exports = Marionette.ItemView.extend({
         this.$('.editor-imagetranslator-settings-scaleWidth').val(this.imageTranslator.settings.get('scaleWidth'));
     },
 
-    changeSetting: function() {
+    changeSetting() {
         let binary = this.$('.editor-imagetranslator-settings-binary').prop('checked');
         this.imageTranslator.settings.set('binary', binary);
 
@@ -46,18 +46,18 @@ module.exports = Marionette.ItemView.extend({
         console.log('Now bin invert, speed', binary, invert, speedmode);
     },
 
-    changeScale: function() {
+    changeScale() {
         let scW = parseInt(this.$('.editor-imagetranslator-settings-scaleWidth').val());
         // console.log("SC", scW);
         if (scW < 1) scW = 1;
         this.imageTranslator.settings.setScale(scW);
     },
 
-    run: function() {
+    run() {
         this.imageTranslator.run();
     },
 
-    render: function() {
+    render() {
         // console.log("EITSV render");
         let json = this.imageTranslator.settings.toJSON();
         _.defaults(json, this.imageTranslator.editorsettings.toJSON());

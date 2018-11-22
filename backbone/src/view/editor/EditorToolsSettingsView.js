@@ -3,7 +3,7 @@ const Marionette = require('backbone.marionette');
 
 module.exports = Marionette.ItemView.extend({
     template: window.JST['editor/viewsettings'],
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.viewsettings) {
             console.error('No viewsettings passed to EditorToolsSettingsView');
@@ -19,7 +19,7 @@ module.exports = Marionette.ItemView.extend({
         'input input[name=\'border\']': 'changeSizeBorder',
         'change input[name=\'specles\']': 'changeSpecles',
     },
-    changeSizeBorder: function(e) {
+    changeSizeBorder(e) {
         let size = parseInt(this.$('.editor-tools-settings-size').val());
         let border = parseInt(this.$('.editor-tools-settings-border').val());
         if (size < 1) size = 1;
@@ -27,21 +27,21 @@ module.exports = Marionette.ItemView.extend({
         if (border > 20) border = 20;
         if (border < 0) border = 0;
         this.viewsettings.set({
-            size: size,
-            border: border,
+            size,
+            border,
         });
     },
-    changeSpecles: function(e) {
+    changeSpecles(e) {
         let checked = this.$('.editor-tools-settings-specles').prop('checked');
         this.viewsettings.set('specles', checked);
     },
 
-    update: function(e) {
+    update(e) {
         this.$('.editor-tools-settings-size').val(this.viewsettings.get('size'));
         this.$('.editor-tools-settings-border').val(this.viewsettings.get('border'));
         this.$('.editor-tools-settings-specles').prop('checked', this.viewsettings.get('specles'));
     },
-    render: function() {
+    render() {
         this.$el.html(this.template());
     },
 });

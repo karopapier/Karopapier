@@ -12,14 +12,14 @@ module.exports = Backbone.Model.extend(/** @lends UserFactory.prototype */ {
      * @constructor Userfactory
      * @param options
      */
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
 
         this.userCache = new Backbone.Collection();
         this.uid = 0;
         this.login = new User();
     },
-    getUser: function(data) {
+    getUser(data) {
         // console.log("Get user",data);
         let user = this.userCache.get(data);
         // console.log("Got user",user);
@@ -39,16 +39,16 @@ module.exports = Backbone.Model.extend(/** @lends UserFactory.prototype */ {
         return user;
     },
 
-    setLogin: function(user) {
+    setLogin(user) {
         this.stopListening(this.login);
         this.login = user;
         this.listenTo(this.login, 'change id', this.updateSelf.bind(this));
         this.updateSelf();
     },
-    updateSelf: function() {
+    updateSelf() {
         let me = this;
         this.uid = this.login.get('id');
-        this.userCache.each(function(u) {
+        this.userCache.each((u) => {
             u.set('self', (u.get('id') === me.uid));
         });
     },

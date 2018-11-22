@@ -1,7 +1,7 @@
 const Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
-    getPath: function(mapid, cb) {
+    getPath(mapid, cb) {
         let rows = 0;
         let cols = 0;
         let path = '';
@@ -36,16 +36,16 @@ module.exports = Backbone.Model.extend({
             cb(i);
         } else {
             // we need to get the path and dimensions via request
-            $.get('/paths/' + mapid + '.svg', function(data) {
+            $.get('/paths/' + mapid + '.svg', (data) => {
                 // console.debug(data);
                 path = data.getElementById('mapSvgView');
                 amifinished();
-            }).fail(function(err) {
+            }).fail((err) => {
                 console.error(err);
                 path = false;
                 amifinished();
             });
-            $.getJSON('/api/map/' + mapid + '.json', function(data) {
+            $.getJSON('/api/map/' + mapid + '.json', (data) => {
                 // console.log(data);
                 rows = data.rows;
                 cols = data.cols;
@@ -53,10 +53,10 @@ module.exports = Backbone.Model.extend({
             });
         }
     },
-    getFromUrl: function(id) {
+    getFromUrl(id) {
     },
-    getFromStore: function(id) {
+    getFromStore(id) {
     },
-    saveToStore: function(id, path) {
+    saveToStore(id, path) {
     },
 });

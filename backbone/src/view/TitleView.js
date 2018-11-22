@@ -2,7 +2,7 @@ const _ = require('underscore');
 const Backbone = require('backbone');
 
 module.exports = Backbone.View.extend(/** @lends TitleView */{
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'render');
 
         this.title = options.title || 'Karopapier';
@@ -10,7 +10,7 @@ module.exports = Backbone.View.extend(/** @lends TitleView */{
         // expects User as model
         this.model.on('change:dran', this.render);
     },
-    render: function() {
+    render() {
         let t = '';
         let dran = this.model.get('dran');
 

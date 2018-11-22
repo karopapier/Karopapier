@@ -14,13 +14,13 @@ module.exports = Marionette.View.extend({
         auto: '.js-auto',
     },
 
-    initialize: function() {
+    initialize() {
         let me = this;
         this.filteredUsers = new UserCollection(this.collection.toJSON());
         this.listview = new UserlistView({
             collection: this.filteredUsers,
         });
-        this.listenTo(this.listview, 'childview:select', function(e) {
+        this.listenTo(this.listview, 'childview:select', (e) => {
             me.insert(e.model);
             me.unautocomplete();
         });
@@ -31,24 +31,24 @@ module.exports = Marionette.View.extend({
             border: '1px solid black',
         });
     },
-    autocomplete: function(e) {
+    autocomplete(e) {
         let typed = this.$('input').val().toLowerCase();
-        this.filteredUsers.reset(this.collection.filter(function(m) {
+        this.filteredUsers.reset(this.collection.filter((m) => {
             return !m.get('login').toLowerCase().indexOf(typed);
         }));
         this.listview = this.getRegion('auto').show(this.listview);
         this.getRegion('auto').$el.show();
     },
 
-    unautocomplete: function() {
+    unautocomplete() {
         this.getRegion('auto').$el.hide();
     },
 
-    insert: function(m) {
+    insert(m) {
         this.$('input').val(m.get('login'));
     },
 
-    select: function() {
+    select() {
         this.trigger('select', this.$('input').val());
     },
 });

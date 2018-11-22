@@ -3,7 +3,7 @@ module.exports = Marionette.View.extend({
     template: require('../../../templates/messaging/message.html'),
     className: 'message',
     templateContext: {
-        formatTsIsoDate: function(ts) {
+        formatTsIsoDate(ts) {
             const dat = new Date(ts * 1000);
             const y = dat.getFullYear();
             let m = dat.getMonth() + 1;
@@ -12,7 +12,7 @@ module.exports = Marionette.View.extend({
             if (d < 10) d = '0' + d;
             return y + '-' + m + '-' + d;
         },
-        formatTs: function(ts) {
+        formatTs(ts) {
             const d = new Date(ts * 1000);
             let m = d.getMinutes();
             if (m < 10) m = '0' + m;

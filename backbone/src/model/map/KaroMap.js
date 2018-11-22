@@ -7,18 +7,18 @@ module.exports = Backbone.Model.extend({
         mapcode: '1',
         loaded: false,
     },
-    initialize: function(...args) {
+    initialize(...args) {
         // init Maps model
         this.constructor.__super__.initialize.apply(this, args);
     },
-    loading: function() {
+    loading() {
         // fill mapcode with growing Xs while waiting
 
     },
-    retrieve: function() {
+    retrieve() {
         // standard map
         let me = this;
-        $.getJSON('/api/map/' + this.get('id') + '.json', function(data) {
+        $.getJSON('/api/map/' + this.get('id') + '.json', (data) => {
             data.loaded = true;
             me.set(data);
         });

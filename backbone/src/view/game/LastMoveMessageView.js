@@ -4,7 +4,7 @@ const moment = require('moment');
 const KaroUtil = require('../../model/Util');
 
 module.exports = Backbone.View.extend({
-    initialize: function() {
+    initialize() {
         this.listenTo(this.collection, 'reset change', this.render);
         _.bindAll(this, 'render');
         this.template = _.template('<small><%= name %> (<%= date %>): &quot;<%= text %>&quot;<br /></small>\n');
@@ -13,7 +13,7 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.settings, 'change:timestamp', this.render);
     },
 
-    render: function() {
+    render() {
         let html = '';
         let ts = this.settings.get('timestamp');
 

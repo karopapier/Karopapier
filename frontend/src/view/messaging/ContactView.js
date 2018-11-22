@@ -7,12 +7,12 @@ module.exports = Marionette.View.extend({
         click: 'contact:select',
     },
 
-    initialize: function() {
+    initialize() {
         this.listenTo(this.model, 'change:selected', this.render);
         this.listenTo(this.model, 'change:uc', this.render);
     },
 
-    onRender: function() {
+    onRender() {
         if (this.model.get('selected')) {
             this.$el.addClass('selected');
         } else {

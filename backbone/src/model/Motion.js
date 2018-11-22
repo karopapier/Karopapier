@@ -17,36 +17,36 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
      * - NOT THE SOURCE (can be obtained with getSourcePosition() )
      *
      */
-    initialize: function() {
+    initialize() {
 
     },
-    setXY1toXY2: function(x1, y1, x2, y2) {
+    setXY1toXY2(x1, y1, x2, y2) {
         let pos = new Position({x: x2, y: y2});
         let vec = new Vector({x: x2 - x1, y: y2 - y1});
         this.set('position', pos);
         this.set('vector', vec);
         return this;
     },
-    setXYXvYv: function(x, y, xv, yv) {
-        let pos = new Position({x: x, y: y});
+    setXYXvYv(x, y, xv, yv) {
+        let pos = new Position({x, y});
         let vec = new Vector({x: xv, y: yv});
         this.set('position', pos);
         this.set('vector', vec);
         return this;
     },
-    clone: function() {
+    clone() {
         return new Motion({
             position: this.get('position').clone(),
             vector: this.get('vector').clone(),
         });
     },
-    toString: function() {
+    toString() {
         return this.get('position').toString() + ' ' + this.get('vector').toString();
     },
-    toKeyString: function() {
+    toKeyString() {
         return this.get('position').toString();
     },
-    toMove: function() {
+    toMove() {
         return {
             x: this.get('position').get('x'),
             y: this.get('position').get('y'),
@@ -57,7 +57,7 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
     /**
      * @return Position
      */
-    getStopPosition: function() {
+    getStopPosition() {
         let pos = this.getSourcePosition();
         let vec = this.get('vector').clone();
 
@@ -72,7 +72,7 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
      * @return Position
      */
 
-    getSourcePosition: function() {
+    getSourcePosition() {
         let p = new Position(this.get('position').toJSON());
         p.set('x', p.get('x') - this.get('vector').get('x'));
         p.set('y', p.get('y') - this.get('vector').get('y'));
@@ -116,7 +116,7 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
      *
      * @returns {Array} Motion
      */
-    getPossibles: function() {
+    getPossibles() {
         let possibles = [];
         // #walk the 9 possibilities to have them arranged like
         // # 0 1 2
@@ -141,14 +141,14 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
         }
         return possibles;
     },
-    getPossiblesByLength: function() {
+    getPossiblesByLength() {
         let possibles = this.getPossibles();
-        possibles = _.sortBy(possibles, function(m) {
+        possibles = _.sortBy(possibles, (m) => {
             return m.get('vector').getLength();
         });
         return possibles;
     },
-    getPassedPositions: function() {
+    getPassedPositions() {
         return this.getSourcePosition().getPassedPositionsTo(this.get('position'));
     },
     /*
@@ -172,7 +172,7 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
      * applies a vector on the current Motion, modifing the position
      * @param Vector
      */
-    move: function(v) {
+    move(v) {
         this.get('position').move(v);
         this.set('vector', v);
         return this;

@@ -5,7 +5,7 @@ module.exports = Backbone.View.extend({
     tagName: 'tr',
     className: 'playerTableRow',
     template: window['JST']['game/playerTableRow'],
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'render');
         // this.listenTo(this.collection, "change", this.render);
         // this.listenTo(this.collection, "reset", this.render);
@@ -19,16 +19,16 @@ module.exports = Backbone.View.extend({
         'mouseleave': 'unhighlight',
     },
 
-    setVisibility: function(e) {
+    setVisibility(e) {
         $e = $(e.currentTarget);
         this.model.set('visible', $e.prop('checked'));
     },
 
-    updateVisibility: function() {
+    updateVisibility() {
         this.$('input').prop('checked', this.model.get('visible'));
     },
 
-    updateHighlight: function() {
+    updateHighlight() {
         if (this.model.get('highlight')) {
             this.$el.addClass('highlight');
         } else {
@@ -36,15 +36,15 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    highlight: function() {
+    highlight() {
         this.model.set('highlight', true);
     },
 
-    unhighlight: function() {
+    unhighlight() {
         this.model.set('highlight', false);
     },
 
-    render: function() {
+    render() {
         let data = this.model.toJSON();
         let statusClass = '';
         let displayStatus = '';

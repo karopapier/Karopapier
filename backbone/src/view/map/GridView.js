@@ -2,7 +2,7 @@
 const Backbone = require('backbone');
 module.exports = Backbone.View.extend(/** @lends GridView.prototype */{
     /* this makes it generate namespaced SVG tags */
-    _createElement: function(tagName) {
+    _createElement(tagName) {
         return document.createElementNS('http://www.w3.org/2000/svg', tagName);
     },
     tagName: 'svg',
@@ -18,7 +18,7 @@ module.exports = Backbone.View.extend(/** @lends GridView.prototype */{
      * @param options
      * @returns {boolean}
      */
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
 
         if (!options.players) {
@@ -57,19 +57,19 @@ module.exports = Backbone.View.extend(/** @lends GridView.prototype */{
         'click': 'leftclick',
     },
 
-    contextmenu: function(e) {
+    contextmenu(e) {
         this.trigger('contextmenu', e);
         e.preventDefault();
     },
 
-    leftclick: function(e) {
+    leftclick(e) {
         this.trigger('default');
     },
 
-    drawPositions: function() {
+    drawPositions() {
         // console.log("DRAW POSITIONS");
         this.fieldsize = this.settings.get('size') + this.settings.get('border');
-        this.players.each(function(p) {
+        this.players.each((p) => {
             let x = p.get('lastmove').x;
             let y = p.get('lastmove').y;
             let color = '#' + p.get('color');
@@ -82,10 +82,10 @@ module.exports = Backbone.View.extend(/** @lends GridView.prototype */{
             };
             for (let k in attrs) pos.setAttribute(k, attrs[k]);
             this.$el.append(pos);
-        }.bind(this));
+        });
     },
 
-    resize: function() {
+    resize() {
         this.fieldSize = (this.settings.get('size') + this.settings.get('border'));
         let w = this.map.get('cols') * this.fieldSize;
         let h = this.map.get('rows') * this.fieldSize;

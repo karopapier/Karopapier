@@ -3,7 +3,7 @@ const Marionette = require('backbone.marionette');
 const Map = require('../../model/map/Map');
 
 module.exports = Marionette.ItemView.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.editorsettings) {
             console.error('No editorsettings passed to EditorToolsFieldsView');
@@ -23,19 +23,19 @@ module.exports = Marionette.ItemView.extend({
         'click .editor-tools-fields-drawmode': 'selectDrawmode',
     },
 
-    setRightclick: function() {
+    setRightclick() {
         let rightclick = this.$('.editor-tools-fields-rightclick').prop('checked');
         this.editorsettings.set('rightclick', rightclick);
     },
 
-    rightclick: function(e) {
+    rightclick(e) {
         if (this.editorsettings.get('rightclick')) {
             e.preventDefault();
             return false;
         }
     },
 
-    update: function() {
+    update() {
         let buttons = this.editorsettings.get('buttons');
         this.$('.editor-tools-fields-field').removeClass('activeField');
         this.$('.editor-tools-fields-field[data-field="' + buttons[1] + '"]').addClass('activeField');
@@ -47,7 +47,7 @@ module.exports = Marionette.ItemView.extend({
         this.$('.editor-tools-fields-rightclick').prop('checked', this.editorsettings.get('rightclick'));
     },
 
-    selectField: function(e, i) {
+    selectField(e, i) {
         let f = $(e.currentTarget).data('field');
         let w = e.which;
         if ((w == 3) && (!this.editorsettings.get('rightclick'))) {
@@ -56,12 +56,12 @@ module.exports = Marionette.ItemView.extend({
         this.editorsettings.setButtonField(w, f);
     },
 
-    selectDrawmode: function(e, i) {
+    selectDrawmode(e, i) {
         let m = $(e.currentTarget).data('drawmode');
         this.editorsettings.set('drawmode', m);
     },
 
-    render: function() {
+    render() {
         this.$el.empty();
         let map = new Map();
         let fieldlists = ['OX', 'SFP', '123456789', 'GLNVTWYZ'];

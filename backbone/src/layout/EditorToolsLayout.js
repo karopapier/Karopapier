@@ -7,7 +7,7 @@ const EditorToolsMaploadView = require('../view/editor/EditorToolsMaploadView');
 
 module.exports = Marionette.LayoutView.extend({
     template: require('../../templates/editor/tools.html'),
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.editorApp) {
             console.error('No editorApp passed to EditorToolsView');
@@ -24,7 +24,7 @@ module.exports = Marionette.LayoutView.extend({
         'settings': '.editor-tools-viewsettings',
         'mapload': '.editor-tools-mapload',
     },
-    onShow: function() {
+    onShow() {
         this.fields.show(new EditorToolsFieldsView({
             editorsettings: this.editorsettings,
         }));

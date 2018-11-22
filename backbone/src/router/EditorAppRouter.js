@@ -6,7 +6,7 @@ module.exports = Backbone.Router.extend({
         '': 'loadMap',
     },
 
-    loadMap: function(mapId) {
+    loadMap(mapId) {
         alert('Hier will ich gar nicht hin');
         return false;
         console.info('Loading ' + mapId);

@@ -4,10 +4,10 @@ const Backbone = require('backbone');
 module.exports = Backbone.View.extend({
     tag: 'div',
     className: 'playerInfo',
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'render');
     },
-    render: function() {
+    render() {
         this.$el.html(this.model.get('id') + '-' + this.model.get('name'));
         this.$el.css({
             position: 'absolute',

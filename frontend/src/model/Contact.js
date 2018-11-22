@@ -5,7 +5,7 @@ module.exports = Backbone.Model.extend({
         selected: false,
     },
 
-    setAllRead: function() {
+    setAllRead() {
         this.save({r: true}, {
             patch: true,
             wait: true,

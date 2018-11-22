@@ -21,13 +21,13 @@ window.Karopapier = new KaropapierApp({
     realtimeHost: 'turted.karopapier.de',
 });
 
-$(document).ready(function() {
+$(document).ready(() => {
     console.log('Doc ready, start Karopapier app');
     Karopapier.start();
     console.log('App started');
 });
 
-Karopapier.User.on('change:id', function() {
+Karopapier.User.on('change:id', () => {
     $('#username').text(Karopapier.User.get('login'));
 });
 
@@ -61,7 +61,7 @@ const renderView = new MapRenderView({
     settings: mvs,
 });
 
-game.on('change:completed', function() {
+game.on('change:completed', () => {
     if (!game.get('completed')) return false;
     renderView.settings.set('cpsActive', game.get('withCheckpoints'));
     let dranId = game.get('dranId');
@@ -90,11 +90,11 @@ const mpm = new MapPlayersMoves({
 
 const possView = new PossiblesView({
     el: '#mapImage',
-    game: game,
+    game,
     mapView: renderView,
 });
 
-possView.on('game:player:move', function(playerId, mo) {
+possView.on('game:player:move', (playerId, mo) => {
     let testmode = $('#testmode').is(':checked');
     if (testmode) {
         let player = game.get('players').get(playerId);
@@ -126,7 +126,7 @@ possView.on('game:player:move', function(playerId, mo) {
         // console.log("Send move");
         let movedGID = game.get('id');
         // console.warn("I just moved", movedGID);
-        myTextGet(moveUrl, function(text) {
+        myTextGet(moveUrl, (text) => {
             // console.log("Parse move response");
             parseMoveResponse(text, movedGID);
         });
@@ -235,12 +235,12 @@ $('#testmode').click(checkTestmode);
 $('#testmode').prop('checked', true);
 checkTestmode();
 
-$('.drawMoveLimit').click(function(e) {
+$('.drawMoveLimit').click((e) => {
     const l = $(e.currentTarget).data('limit');
     mvs.set('drawLimit', l);
 });
 
-$('#moveMsgForm').submit(function(e) {
+$('#moveMsgForm').submit((e) => {
     const moveMsg = $('#movemessage').val();
     const w = $('#movemessage').width();
     if (moveMsg !== '') {
@@ -262,7 +262,7 @@ const nextGame = new Game();
 // EVENTS
 // ///////////////////////////////////////////////////////////////////////////
 
-game.on('change:completed', function() {
+game.on('change:completed', () => {
     // console.log("Completed", game.get("completed"));
     if (!(game.get('completed'))) return false;
 
@@ -285,33 +285,33 @@ game.on('change:completed', function() {
     lmmv.settings.set('timestamp', ts);
 });
 
-game.on('change:moved', function() {
+game.on('change:moved', () => {
     // console.log("Game changed moved to ", game.get("moved"));
     if (game.get('moved')) {
         checkNextGame();
     }
 });
 
-nextGame.on('change:completed', function() {
+nextGame.on('change:completed', () => {
     if (nextGame.get('completed')) {
         // console.log("Next game is completed. Wanna have it?");
         checkNextGame();
     }
 });
 
-dranQueue.on('reset', function(q, e) {
+dranQueue.on('reset', (q, e) => {
     // console.info("DranQueue INITIAL reset");
     // make sure to remove currently showing game from queue
     checkPreload();
 });
 
-dranQueue.on('add', function(g, q, e) {
+dranQueue.on('add', (g, q, e) => {
     // console.info("DranQueue add", g.get("id"));
     checkNextGame();
     checkPreload();
 });
 
-dranQueue.on('remove', function(g, q, e) {
+dranQueue.on('remove', (g, q, e) => {
     // console.info("DranQueue remove", g.get("id"));
     checkPreload();
 });
@@ -334,7 +334,7 @@ const checkPreload = function() {
         if (nextGame.get('id') === 0) {
             // console.log("Trigger preload of", nextId);
             nextGame.set('id', nextId);
-            setTimeout(function() {
+            setTimeout(() => {
                 nextGame.load(nextId);
             }, 50);
         } else {

@@ -6,7 +6,7 @@ const KaroUtil = require('../../model/Util');
 module.exports = Backbone.View.extend({
     template: _.template('<%= name %> (<%= date %>): &quot;<%= text %>&quot;<br />\n'),
     statusTemplate: _.template('<small><%= name %> (<%= date %>): &quot;<%= text %>&quot;<br /></small>\n'),
-    render: function() {
+    render() {
         // console.log("Rendere Movemessages, derer", this.collection.length);
         let html = '';
         let txt = this.model.get('msg');

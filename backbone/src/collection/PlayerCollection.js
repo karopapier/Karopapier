@@ -5,13 +5,13 @@ const Position = require('../model/Position');
 module.exports = Backbone.Collection.extend({
     model: Player,
 
-    initialize: function(models, options) {
+    initialize(models, options) {
 
     },
 
-    toJSON: function() {
+    toJSON() {
         let modelJSON = [];
-        this.each(function(e, i) {
+        this.each((e, i) => {
             modelJSON.push(e.toJSON());
         });
         return modelJSON;
@@ -21,7 +21,7 @@ module.exports = Backbone.Collection.extend({
      * positions, where all players currently stand.
      * can be limited to those that already moved this round (according to change of rules for GID>75000)
      */
-    getOccupiedPositions: function(onlyMoved) {
+    getOccupiedPositions(onlyMoved) {
         let queryParams = {
             position: 0,
             status: 'ok',

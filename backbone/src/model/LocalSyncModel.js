@@ -11,7 +11,7 @@ module.exports = Backbone.Model.extend(/** @lends LocalSyncModel */ {
      * @class LocalSyncModel
      * @constructor LocalSyncModel
      */
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'directSave', 'onStorageEvent');
         $(window).bind('storage', this.onStorageEvent);
         let id = this.get('storageId');
@@ -24,11 +24,11 @@ module.exports = Backbone.Model.extend(/** @lends LocalSyncModel */ {
         this.set(data);
         this.initialized = true;
     },
-    set: function(...args) {
+    set(...args) {
         Backbone.Model.prototype.set.apply(this, args);
         if (this.initialized) this.directSave();
     },
-    onStorageEvent: function(e) {
+    onStorageEvent(e) {
         let key = e.originalEvent.key;
         let val = e.originalEvent.newValue;
         if (key === this.get('storageId')) {
@@ -38,7 +38,7 @@ module.exports = Backbone.Model.extend(/** @lends LocalSyncModel */ {
             this.set(j);
         }
     },
-    directSave: function(e) {
+    directSave(e) {
         // console.log("Direct save", e, this.toJSON());
         store.set(this.get('storageId'), this.toJSON());
     },

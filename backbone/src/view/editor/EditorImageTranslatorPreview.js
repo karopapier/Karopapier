@@ -3,7 +3,7 @@ const Marionette = require('backbone.marionette');
 
 module.exports = Marionette.ItemView.extend({
     tagName: 'canvas',
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'drop');
         options = options || {};
         if (!options.imageTranslator) {
@@ -38,12 +38,12 @@ module.exports = Marionette.ItemView.extend({
         'drop': 'drop',
     },
 
-    prevent: function(e) {
+    prevent(e) {
         e.preventDefault();
         return false;
     },
 
-    drop: function(e) {
+    drop(e) {
         e.preventDefault();
         let origEvent = e.originalEvent;
         let me = this;
@@ -66,7 +66,7 @@ module.exports = Marionette.ItemView.extend({
         e.preventDefault();
     },
 
-    render: function() {
+    render() {
         if (!this.imageTranslator.settings.get('active')) {
             // console.info("not active");
             return true;

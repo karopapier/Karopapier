@@ -33,7 +33,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
          * @author Peter Dietrich
          * @augments Backbone.View
          */
-        initialize: function(options) {
+        initialize(options) {
             options = options || {};
             _.bindAll(this, 'updateFieldSize', 'getRowColFromXY', 'getRowFromY', 'getColFromX', 'getXYFromRowCol', 'getXFromCol', 'getYFromRow', 'getFieldAtXY', 'setFieldAtXY', 'setFieldAtRowCol'); // eslint-disable-line max-len
             _.defaults(options, this.optionDefaults);
@@ -55,7 +55,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
             this.listenTo(this.settings, 'change:size change:border', this.updateFieldSize);
             this.updateFieldSize();
         },
-        updateFieldSize: function() {
+        updateFieldSize() {
             this.fieldSize = (this.settings.get('size') + this.settings.get('border'));
             // console.log("New fieldsize",this.fieldSize);
         },
@@ -67,17 +67,17 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
          * @returns {rcCoordinate}
          *
          * */
-        getRowColFromXY: function(x, y) {
+        getRowColFromXY(x, y) {
             return {
                 'r': this.getRowFromY(y),
                 'c': this.getColFromX(x),
             };
         },
-        getRowFromY: function(y) {
+        getRowFromY(y) {
             // console.log("Math.floor(",y,"/",this.fieldSize,") = ", Math.floor(y / this.fieldSize));
             return Math.floor(y / this.fieldSize);
         },
-        getColFromX: function(x) {
+        getColFromX(x) {
             // console.log("Math.floor(",x,"/",this.fieldSize,") = ", Math.floor(x / this.fieldSize));
             return Math.floor(x / this.fieldSize);
         },
@@ -88,33 +88,33 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
          * @param {Number} c 0..colCOunt-1
          * @returns {xyCoordinate}
          */
-        getXYFromRowCol: function(r, c) {
+        getXYFromRowCol(r, c) {
             return {
                 'x': this.getXFromCol(c),
                 'y': this.getYFromRow(r),
             };
         },
 
-        getXFromCol: function(c) {
+        getXFromCol(c) {
             return (c + 0.5) * this.fieldSize;
         },
 
-        getYFromRow: function(r) {
+        getYFromRow(r) {
             return (r + 0.5) * this.fieldSize;
         },
 
-        getFieldAtXY: function(x, y) {
+        getFieldAtXY(x, y) {
             alert('Deprecated');
             let rc = this.getRowColFromXY(x, y);
             return this.model.getFieldAtRowCol(rc.r, rc.c);
         },
 
-        floodfill: function(x, y, field) {
+        floodfill(x, y, field) {
             let rc = this.getRowColFromXY(x, y);
             this.model.floodfill(rc.r, rc.c, field);
         },
 
-        setFieldAtXY: function(x, y, field) {
+        setFieldAtXY(x, y, field) {
             let rc = this.getRowColFromXY(x, y);
             let old = this.model.getFieldAtRowCol(rc.r, rc.c);
             if (old != field) {
@@ -127,7 +127,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
          * @param {Number} c 0..colCOunt-1
          * @param {Character} field
          * */
-        setFieldAtRowCol: function(r, c, field) {
+        setFieldAtRowCol(r, c, field) {
             this.model.setFieldAtRowCol(r, c, field);
         },
     }

@@ -9,13 +9,13 @@ module.exports = Backbone.Model.extend(/** @lends BrowserNotifier.prototype*/{
      * BrowserNotifier manages all notifications to be shown in the browser
      *
      */
-    initialize: function(options) {
+    initialize(options) {
         this.eventEmitter = options.eventEmitter;
         this.user = options.user;
         this.settings = options.settings;
         this.control = options.control;
 
-        this.eventEmitter.on('CHAT:MESSAGE', function(data) {
+        this.eventEmitter.on('CHAT:MESSAGE', (data) => {
             // console.warn(data.chatmsg);
             new BrowserNotification({
                 title: data.user + ' spricht',
@@ -25,7 +25,7 @@ module.exports = Backbone.Model.extend(/** @lends BrowserNotifier.prototype*/{
                 tag: 'chat',
                 icon: '/favicon.ico',
                 timeout: 10000,
-                onClick: function() {
+                onClick() {
                     window.open('/index.html');
                 },
             });
@@ -33,7 +33,7 @@ module.exports = Backbone.Model.extend(/** @lends BrowserNotifier.prototype*/{
 
         this.listenTo(this.user, 'change:dran', this.updateDran);
     },
-    updateDran: function(data) {
+    updateDran(data) {
         let dran = this.user.get('dran');
         let title = 'Du bist ein bisschen dran (' + dran + ')';
         if (dran == 0) title = 'Du bist gar nich dran!';
@@ -45,13 +45,13 @@ module.exports = Backbone.Model.extend(/** @lends BrowserNotifier.prototype*/{
         if (dran != 1) en = 'en';
         let text = 'Du bist bei ' + dran + ' Spiel' + en + ' dran';
         new BrowserNotification({
-            title: title,
+            title,
             tag: 'dran',
             body: text,
             icon: '/favicon.ico',
             timeout: dran > 0 ? 0 : 2000,
             // permissionDenied: permissionDenied,
-            onClick: function() {
+            onClick() {
                 // window.open("http://www.karopapier.de/showmap.php?GID="+data.gid);
                 window.open('/dran.html');
             },

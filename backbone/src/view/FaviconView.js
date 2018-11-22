@@ -8,7 +8,7 @@ module.exports = Backbone.View.extend(/** @lends FaviconView */ {
      * @constructor FaviconView
      * @param options
      */
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'update', 'reset', 'addNum', 'render');
         this.baseUrl = this.el.href;
         this.src = this.baseUrl;
@@ -26,17 +26,17 @@ module.exports = Backbone.View.extend(/** @lends FaviconView */ {
         // expects User as model
         this.model.on('change:dran change:id', this.update);
     },
-    update: function(u, dran, e) {
+    update(u, dran, e) {
         if (!dran) dran = 0;
         this.reset();
         // console.info("Update favicon ", dran);
         this.addNum(dran);
         this.render();
     },
-    reset: function() {
+    reset() {
         this.src = this.baseUrl;
     },
-    addNum: function(n) {
+    addNum(n) {
         this.ctx.drawImage(this.img, 0, 0);
         if (n > 99) n = '99';
         this.ctx.textBaseline = 'bottom';
@@ -53,7 +53,7 @@ module.exports = Backbone.View.extend(/** @lends FaviconView */ {
         // console.log("Old href: " + favicon.href);
         this.render();
     },
-    render: function() {
+    render() {
         // console.log("Render favico");
         let link = document.createElement('link');
         link.id = 'favicon';

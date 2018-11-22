@@ -7,7 +7,7 @@ const EditorImageTranslatorSettingsView = require('../view/editor/EditorImageTra
 module.exports = Marionette.LayoutView.extend({
     className: 'editorImageTranslator',
     template: window.JST['editor/imagetranslatorlayout'],
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.imageTranslator) {
             console.error('No imageTranslator passed to EditorImageTranslatorLayout');
@@ -21,7 +21,7 @@ module.exports = Marionette.LayoutView.extend({
         'info': '.editor-imagetranslator-info',
         'settings': '.editor-imagetranslator-settings',
     },
-    onShow: function() {
+    onShow() {
         // add all subviews into the rendered view
         this.preview.show(new EditorImageTranslatorPreview({
             imageTranslator: this.imageTranslator,

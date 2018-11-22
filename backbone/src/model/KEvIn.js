@@ -10,7 +10,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
      * Karo EVent INterfcae - handling and forwarding real time notifications, forwarding them to the KaroApp
      *
      */
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         // console.log("Run init on KEvIn");
         _.bindAll(this, 'ident', 'hook', 'start', 'stop');
@@ -33,7 +33,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
         this.ident();
         this.hook();
     },
-    ident: function() {
+    ident() {
         let user = this.user;
 
         if (user.get('id') === 0) {
@@ -43,15 +43,15 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
             this.start();
         }
     },
-    hook: function() {
+    hook() {
         // simple trigger for a new move - consider skipping it for the more eloquent GAME:MOVE with my id
-        this.turted.on('yourTurn', function(data) {
+        this.turted.on('yourTurn', (data) => {
             // console.log("SKIPPED - yourTurn not forwared")
             // Karopapier.vent.trigger("USER:DRAN", data);
         });
 
         // simple trigger for when you moved
-        this.turted.on('youMoved', function(data) {
+        this.turted.on('youMoved', (data) => {
             // console.info("USER:MOVED aus youMoved");
             // console.log("SKIPPED - youMoved not forwared")
             // Karopapier.vent.trigger("USER:MOVED", data);
@@ -59,7 +59,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
 
         // detailed trigger if a game related to you saw a move
         let me = this;
-        this.turted.on('otherMoved', function(data) {
+        this.turted.on('otherMoved', (data) => {
             data.related = true;
             // console.info("GAME:MOVE aus otherMoved");
             me.vent.trigger('GAME:MOVE', data);
@@ -77,25 +77,25 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
         });
 
         //
-        this.turted.on('anyOtherMoved', function(data) {
+        this.turted.on('anyOtherMoved', (data) => {
             data.related = false;
             // console.info("GAME:MOVE aus anyOtherMoved");
             me.vent.trigger('GAME:MOVE', data);
         });
-        this.turted.on('CHAT:MESSAGE', function(data) {
+        this.turted.on('CHAT:MESSAGE', (data) => {
             // console.info("CHAT:MESSAGE");
             me.vent.trigger('CHAT:MESSAGE', data.chatmsg);
         });
 
-        this.turted.on('msg', function(data) {
+        this.turted.on('msg', (data) => {
             me.vent.trigger('message:new', data);
         });
     },
-    start: function() {
+    start() {
         this.turted.join('karochat');
         this.turted.join('livelog');
     },
-    stop: function() {
+    stop() {
         // this.turted.leave("karochat");
         // this.turted.leave("livelog");
     },

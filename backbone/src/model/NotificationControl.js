@@ -13,14 +13,14 @@ module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype 
      * @constructor NotificationControl
      * @class NotificationControl
      */
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'granted', 'unsupported', 'denied', 'finaldenied', 'check', 'request');
         // console.log("INIT WEB NOT");
         this.listenTo(this, 'change', this.status);
         this.listenTo(this, 'change:enabled', this.request);
         this.check();
     },
-    unsupported: function() {
+    unsupported() {
         // console.log("Browser kann nicht");
         this.set({
             'supported': false,
@@ -28,7 +28,7 @@ module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype 
             'enabled': false,
         });
     },
-    finaldenied: function() {
+    finaldenied() {
         this.set({
             granted: false,
             denied: true,
@@ -36,16 +36,16 @@ module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype 
             enabled: false,
         });
     },
-    granted: function() {
+    granted() {
         this.set({granted: true, denied: false, final: true});
     },
-    denied: function() {
+    denied() {
         this.set({granted: false, denied: true, final: true, enabled: false});
     },
-    request: function() {
+    request() {
         if (this.get('enabled')) {
             let me = this;
-            Notification.requestPermission(function(result) {
+            Notification.requestPermission((result) => {
                 // console.log(result);
                 if (result === 'denied') {
                     me.denied();
@@ -58,14 +58,14 @@ module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype 
             });
         }
     },
-    status: function() {
+    status() {
         return true;
         console.log('-------------------------------');
         for (let k in this.attributes) {
             console.log(k, this.attributes[k]);
         }
     },
-    check: function() {
+    check() {
         if (!('Notification' in window)) {
             this.unsupported();
         } else {

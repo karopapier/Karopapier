@@ -3,14 +3,14 @@ const _ = require('underscore');
 module.exports = MapBaseView.extend({
     className: 'mapImageView',
     tag: 'img',
-    initialize: function(...args) {
+    initialize(...args) {
         // init MapBaseView with creation of a settings model
         this.constructor.__super__.initialize.apply(this, args);
         _.bindAll(this, 'render');
         this.listenTo(this.model, 'change:id', this.render);
         this.listenTo(this.settings, 'change', this.render);
     },
-    render: function() {
+    render() {
         let mapid = this.model.get('id');
         if (mapid === 0) {
             this.$el.hide();

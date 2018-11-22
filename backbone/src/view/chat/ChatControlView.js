@@ -5,7 +5,7 @@ const NotificationControlView = require('../NotificationControlView');
 module.exports = Backbone.View.extend({
     tagName: 'div',
     template: require('../../../templates/chat/chatControl.html'),
-    initialize: function(options) {
+    initialize(options) {
         this.app = options.app;
         _.bindAll(this, 'render');
         this.listenTo(this.app.User, 'change:id', this.render);
@@ -34,31 +34,31 @@ module.exports = Backbone.View.extend({
         'click #oldLink': 'setOldLink',
         'click #showBotrix': 'setShowBotrix',
     },
-    setStart: function(e) {
+    setStart(e) {
         let start = parseInt(this.$el.find('#startLine').val());
         this.model.set('start', start);
     },
-    syncStart: function(e) {
+    syncStart(e) {
         let v = parseInt(e.currentTarget.value);
         $('#startLine').val(v);
     },
-    setLimit: function(e) {
+    setLimit(e) {
         let limit = parseInt($(e.currentTarget).text());
         this.model.set('limit', limit);
     },
-    rewind: function(e) {
+    rewind(e) {
         let start = this.model.get('start');
         if (start > 100) start -= 100;
         this.model.set('start', start);
     },
-    forward: function(e) {
+    forward(e) {
         let start = this.model.get('start');
         start += 100;
         this.model.set({
-            start: start,
+            start,
         });
     },
-    toggleTimewarp: function(e) {
+    toggleTimewarp(e) {
         let history = this.model.get('history');
         let settings = {};
         settings.history = !history;
@@ -75,28 +75,28 @@ module.exports = Backbone.View.extend({
         this.model.set(settings);
     },
 
-    setLinkifyFun: function(e) {
+    setLinkifyFun(e) {
         let funny = $(e.currentTarget).prop('checked');
         this.model.set('funny', funny);
     },
-    setShowBotrix: function(e) {
+    setShowBotrix(e) {
         let showBotrix = $(e.currentTarget).prop('checked');
         this.model.set('showBotrix', showBotrix);
     },
-    setOldLink: function(e) {
+    setOldLink(e) {
         let oldLink = $(e.currentTarget).prop('checked');
         this.model.set('oldLink', oldLink);
     },
-    updateFunny: function(e) {
+    updateFunny(e) {
         this.$el.find('#funnyChat').prop('checked', this.model.get('funny'));
     },
-    updateOldLink: function(e) {
+    updateOldLink(e) {
         this.$el.find('#oldLink').prop('checked', this.model.get('oldLink'));
     },
-    updateBotrix: function(e) {
+    updateBotrix(e) {
         this.$el.find('#showBotrix').prop('checked', this.model.get('showBotrix'));
     },
-    render: function() {
+    render() {
         console.log('Render control view', this.model.get('start'), this.model.get('lastLineId'));
         if (this.app.User.get('id') != 0) {
             this.$el.html(this.template({user: this.app.User.toJSON(), settings: this.model.toJSON()}));

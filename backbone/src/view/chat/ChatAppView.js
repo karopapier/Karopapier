@@ -3,7 +3,7 @@ const $ = require('jquery');
 
 module.exports = Marionette.ItemView.extend({
     className: 'chatAppView',
-    render: function() {
+    render() {
         this.model.layout.render();
 
         // insert views

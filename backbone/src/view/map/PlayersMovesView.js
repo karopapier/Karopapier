@@ -4,7 +4,7 @@ const PlayerMovesView = require('./PlayerMovesView');
 
 module.exports = Marionette.CollectionView.extend({
     /* this makes it generate namespaced SVG tags */
-    _createElement: function(tagName) {
+    _createElement(tagName) {
         return document.createElementNS('http://www.w3.org/2000/svg', tagName);
     },
     tagName: 'svg',
@@ -15,7 +15,7 @@ module.exports = Marionette.CollectionView.extend({
         visible: true,
     },
     childView: PlayerMovesView,
-    childViewOptions: function(el, i) {
+    childViewOptions(el, i) {
         // pass the right playersMoves into the view
         // console.log("get moves for ", el.get("id"));
         // console.log(this.playersMoves[el.get("id")]);
@@ -25,14 +25,14 @@ module.exports = Marionette.CollectionView.extend({
             util: Karopapier.util,
         };
     },
-    viewComparator: function(a, b) {
+    viewComparator(a, b) {
         // for the view, make "myself" and highlighted always last to be svg-rendered on top
         if (a.get('highlight')) return 1;
         if (a.get('id') === this.user.get('id')) return 1;
         // console.log("View Compa", a.get("id"), b.get("id"), "vs", this.user.get("id"));
         // console.log("View Compa", a.get("highlight"), b.get("highlight"), "highlight");
     },
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
 
         if (!this.collection) {
@@ -74,13 +74,13 @@ module.exports = Marionette.CollectionView.extend({
         this.listenTo(this.collection, 'change:highlight', this.reorder);
         this.resize();
     },
-    check: function() {
+    check() {
         let me = this;
         // console.info("CHECK");
         this.resize();
 
         // initialise visibility & drawLimits
-        this.collection.each(function(m) {
+        this.collection.each((m) => {
             // defaults
             let drawLimit = 5;
             let visible = true;
@@ -104,22 +104,22 @@ module.exports = Marionette.CollectionView.extend({
             // setting player
             // console.warn("Setting player", m, visible);
             m.set({
-                drawLimit: drawLimit,
+                drawLimit,
                 initDrawLimit: drawLimit,
-                visible: visible,
+                visible,
             });
         });
         // this.render();
     },
 
-    drawLimit: function() {
+    drawLimit() {
         let newLimit = this.settings.get('drawLimit');
-        this.collection.each(function(m) {
+        this.collection.each((m) => {
             m.set('drawLimit', newLimit);
         });
     },
 
-    resize: function() {
+    resize() {
         this.fieldSize = (this.settings.get('size') + this.settings.get('border'));
         let w = this.map.get('cols') * this.fieldSize;
         let h = this.map.get('rows') * this.fieldSize;

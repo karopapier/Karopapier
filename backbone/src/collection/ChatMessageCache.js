@@ -9,13 +9,13 @@ module.exports = Backbone.Collection.extend({
     model: ChatMessage,
     comparator: 'lineId',
     lastLineId: 0,
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'parse', 'cache');
         this.info = new Backbone.Model({
             lastLineId: 0,
         });
     },
-    cache: function(start, limit) {
+    cache(start, limit) {
         if (typeof limit === 'undefined') limit = 100;
         let me = this;
         console.log('Caching', start);
@@ -24,16 +24,16 @@ module.exports = Backbone.Collection.extend({
         this.fetch({
             url: this.baseUrl + '?start=' + start + '&limit=' + limit + '&callback=?',
             remove: false,
-            success: function() {
+            success() {
                 me.trigger('CHAT:CACHE:UPDATED');
             },
         });
     },
-    parse: function(data) {
+    parse(data) {
         // inspect data for max line id
         console.log('parsing cms');
         let ll = this.info.get('lastLineId');
-        _.each(data, function(cm) {
+        _.each(data, (cm) => {
             if (cm.lineId > ll) {
                 ll = cm.lineId;
             }

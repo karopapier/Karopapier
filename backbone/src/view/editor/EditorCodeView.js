@@ -2,7 +2,7 @@ const Backbone = require('backbone');
 const MapCodeView = require('../map/MapCodeView');
 
 module.exports = Backbone.View.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.model) {
             console.error('No map for EditorCodeView');
@@ -12,10 +12,10 @@ module.exports = Backbone.View.extend({
     events: {
         'blur .mapCodeView': 'sanity',
     },
-    sanity: function() {
+    sanity() {
         this.model.sanitize();
     },
-    render: function() {
+    render() {
         let mcv = new MapCodeView({
             className: 'mapCodeView',
             model: this.model,

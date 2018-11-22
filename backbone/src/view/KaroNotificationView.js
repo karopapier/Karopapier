@@ -8,7 +8,7 @@ module.exports = Backbone.View.extend(/** @lends KaroNotificationView */ {
      * @constructor KaroNotificationView
      * @class KaroNotificationView
      */
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'render', 'done');
         // this.render();
         this.listenTo(this.model, 'remove', this.done);
@@ -16,20 +16,20 @@ module.exports = Backbone.View.extend(/** @lends KaroNotificationView */ {
     events: {
         'click .close': 'remove',
     },
-    remove: function() {
+    remove() {
         this.model.destroy();
     },
-    done: function() {
+    done() {
         let me = this;
         this.$el.hide({
             effect: 'slide',
             direction: 'up',
-            complete: function() {
+            complete() {
                 me.$el.remove();
             },
         });
     },
-    render: function() {
+    render() {
         let text = this.model.get('text');
         let html = '';
         this.el.style.position = 'relative';

@@ -6,7 +6,7 @@ module.exports = Backbone.Model.extend({
         rightclick: true,
         drawmode: 'draw',
     },
-    setButtonField: function(b, f) {
+    setButtonField(b, f) {
         let buttons = this.get('buttons');
         // unset silently to trigger change event on array
         // https://stackoverflow.com/questions/8491546/models-change-event-wont-fire-when-updating-an-array#

@@ -28,7 +28,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
      * @class KaropapierApp
      * @param options
      */
-    initialize: function(options) {
+    initialize(options) {
         console.log('KAROPAPIER BBAPP INIT');
 
         if (!'realtimeHost' in options) {
@@ -88,7 +88,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
 
         this.listenTo(this, 'start', this.bootstrap.bind(this));
     },
-    bootstrap: function() {
+    bootstrap() {
         let me = this;
         // console.log("Jetzt bootstrap app");
 
@@ -105,15 +105,15 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         dranRefresh();
         this.listenTo(this.User, 'change:id', dranRefresh);
 
-        this.vent.on('USER:DRAN', function(data) {
+        this.vent.on('USER:DRAN', (data) => {
             me.UserDranGames.addId(data.gid, data.name);
         });
 
-        this.vent.on('USER:MOVED', function(data) {
+        this.vent.on('USER:MOVED', (data) => {
             me.UserDranGames.remove(data.gid);
         });
 
-        this.vent.on('message:new', function(msg) {
+        this.vent.on('message:new', (msg) => {
             let uc = me.User.get('uc');
             uc++;
             me.User.set('uc', uc);
@@ -164,7 +164,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
             // root: '/i/'  // not on live branch wegen 2.server/
         });
 
-        this.vent.on('GAME:MOVE', function(data) {
+        this.vent.on('GAME:MOVE', (data) => {
             // only for unrelated moves, count up or down
             if (data.related) return false;
             let movedUser = new User({id: data.movedId, login: data.movedLogin});
@@ -174,7 +174,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         });
 
         // global keyup handler for hotkeys
-        $(document).on('keypress', function(e) {
+        $(document).on('keypress', (e) => {
             // if key pressed outside input, the target is "body", so we consider it a hotkey
             let targetTag = e.target.tagName.toUpperCase();
             if (targetTag === 'BODY') {

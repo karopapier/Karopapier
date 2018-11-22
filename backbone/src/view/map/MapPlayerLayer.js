@@ -7,7 +7,7 @@ module.exports = Backbone.View.extend({
         size: 11,
         border: 1,
     },
-    initialize: function(options) {
+    initialize(options) {
         alert('I HAVE BEEN USED');
         if (!this.model) {
             console.error('Missing Model');
@@ -19,7 +19,7 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.settings, 'change:size change:border', this.render);
         this.listenTo(this.model, 'change:id', this.render);
     },
-    render: function() {
+    render() {
         let gameId = this.model.get('id');
         if (gameId === 0) {
             this.$el.hide();

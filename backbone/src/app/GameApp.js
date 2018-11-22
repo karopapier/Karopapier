@@ -5,8 +5,7 @@ const GameDranQueueView = require('../view/game/DranQueueView');
 
 module.exports = Marionette.Application.extend({
     className: 'gameApp',
-    initialize: function(options) {
-        const me = this;
+    initialize(options) {
         this.app = options.app; // Karopapier
         this.settings = options.settings;
 
@@ -20,16 +19,16 @@ module.exports = Marionette.Application.extend({
         });
 
         // make sure that (if available) the first two games in queue get/are always fully loaded with details
-        this.listenTo(this.app.UserDranGames, 'update', function() {
+        this.listenTo(this.app.UserDranGames, 'update', () => {
             console.log('Q update');
-            let q = me.app.UserDranGames;
-            q.first(2).forEach(function(g) {
+            let q = this.app.UserDranGames;
+            q.first(2).forEach((g) => {
                 if (!g.get('completed')) g.load();
             });
             // var g = me.app.UserDranGames.at(0);
         });
 
-        this.app.vent.on('GAME:MOVE', function(data) {
+        this.app.vent.on('GAME:MOVE', (data) => {
             // console.info(data);
         });
     },

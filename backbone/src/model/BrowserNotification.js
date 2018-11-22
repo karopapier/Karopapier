@@ -10,11 +10,11 @@ module.exports = Backbone.Model.extend({
         group: 'general',
         timeout: 8000,
         icon: '/favicon.ico',
-        onClick: function() {
+        onClick() {
         },
 
     },
-    initialize: function(options) {
+    initialize(options) {
         try {
             this.myNotify = new Notification(this.get('title'), {
                 'body': this.get('body'),
@@ -37,7 +37,7 @@ module.exports = Backbone.Model.extend({
         // this.myNotify.addEventListener('close', this, false);
         this.myNotify.addEventListener('click', this.get('onClick'), false);
     },
-    close: function() {
+    close() {
         this.myNotify.close();
     },
 });

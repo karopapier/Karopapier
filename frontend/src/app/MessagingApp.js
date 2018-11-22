@@ -72,7 +72,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         $.when(
             me.contacts.fetch(),
             me.messages.fetch()
-        ).done(function() {
+        ).done(() => {
             me.start();
         });
     },
@@ -91,11 +91,11 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
 
         this.layout.getRegion('contacts').show(this.contactsView);
 
-        this.listenTo(this.layout, 'unselect', function() {
+        this.listenTo(this.layout, 'unselect', () => {
             me.unselect();
         });
 
-        this.listenTo(this.contactsView, 'childview:contact:select', function(e) {
+        this.listenTo(this.contactsView, 'childview:contact:select', (e) => {
             let contact = e.model;
             me.select(contact);
         });
@@ -105,7 +105,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
             collection: this.users,
         });
         this.layout.getRegion('addcontact').show(this.addContactView);
-        this.addContactView.on('select', function(contactName) {
+        this.addContactView.on('select', (contactName) => {
             me.selectName(contactName);
         });
 
@@ -114,7 +114,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         });
     },
 
-    selectName: function(contactName) {
+    selectName(contactName) {
         console.info('Select', contactName);
         let c = this.contacts.findWhere({
             login: contactName,
@@ -134,9 +134,9 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         this.select(c);
     },
 
-    select: function(contact) {
+    select(contact) {
         let me = this;
-        this.contacts.each(function(c) {
+        this.contacts.each((c) => {
             c.set('selected', contact.get('id') === c.get('id'));
         });
         let messages = this.messages.where({
@@ -144,7 +144,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         });
         let prevDate = '';
         let uc = 0;
-        messages.forEach(function(m) {
+        messages.forEach((m) => {
             let d = new Date(m.get('ts') * 1000);
             let dat = '' + d.getDate() + d.getMonth();
             if (dat !== prevDate) {
@@ -163,13 +163,13 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         this.layout.getRegion('send').show(this.sendView);
         this.layout.$el.addClass('js-selected');
         this.layout.$el.removeClass('js-unselected');
-        this.listenTo(this.sendView, 'send', function(data) {
+        this.listenTo(this.sendView, 'send', (data) => {
             me.messages.create(data, {
                 wait: true,
-                success: function() {
+                success() {
                     me.sendView.reset();
                 },
-                error: function() {
+                error() {
                     me.sendView.enable();
                     // Fehler beim Versand
                 },
@@ -188,8 +188,8 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         Backbone.history.navigate('zettel/' + contact.get('login'));
     },
 
-    unselect: function() {
-        this.contacts.each(function(c) {
+    unselect() {
+        this.contacts.each((c) => {
             c.set('selected', false);
         });
         this.userMessages.reset([]);
@@ -200,11 +200,11 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         Backbone.history.navigate('zettel');
     },
 
-    unreadRecalc: function() {
+    unreadRecalc() {
         let total = 0;
         console.info('Unread recalc');
         let me = this;
-        this.contacts.each(function(c) {
+        this.contacts.each((c) => {
             let uc = me.messages.where({
                 r: 0,
                 contact_id: c.get('id'),
@@ -216,7 +216,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         this.authUser.set('uc', total);
     },
 
-    getSelectedContact: function() {
+    getSelectedContact() {
         return this.contacts.findWhere({selected: true});
     },
 });

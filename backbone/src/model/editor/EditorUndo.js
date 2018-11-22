@@ -2,7 +2,7 @@ const _ = require('underscore');
 const Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'undo');
         options = options || {};
         this.map = options.map;
@@ -27,7 +27,7 @@ module.exports = Backbone.Model.extend({
         this.listenTo(this.map, 'change:mapcode', this.checkChange);
     },
 
-    checkStatus: function() {
+    checkStatus() {
         if (this.editorsettings.get('undo')) {
             this.enable();
         } else {
@@ -35,7 +35,7 @@ module.exports = Backbone.Model.extend({
         }
     },
 
-    checkChange: function(e) {
+    checkChange(e) {
         if (this._lastChangeWasUndo) {
             // console.info("War ein undo");
         } else {
@@ -45,7 +45,7 @@ module.exports = Backbone.Model.extend({
         // console.log("Undo hat noch", this.undoStack.length);
     },
 
-    pushChange: function(code) {
+    pushChange(code) {
         if (!this._enabled) return false;
         // console.log("Push ", code, "because", this._enabled);
         let l = this.undoStack.length;
@@ -61,20 +61,20 @@ module.exports = Backbone.Model.extend({
         this.trigger('change:undoStack', this.undoStack);
     },
 
-    disable: function() {
+    disable() {
         // console.log("Undo disabled");
         this.pushChange(this.map.get('mapcode'));
         this._enabled = false;
     },
 
-    enable: function() {
+    enable() {
         // console.log("Undo re-enabled, take snapshot")
         this._enabled = true;
         // this.pushChange(this.map.get("mapcode"));
     },
 
 
-    undo: function() {
+    undo() {
         if (this.undoStack.length >= 1) {
             this._lastChangeWasUndo = true;
             let undocode = this.undoStack.pop();

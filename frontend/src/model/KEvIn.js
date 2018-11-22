@@ -58,12 +58,12 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
             }
         });
 
-        this.turted.on('anyOtherMoved', function(data) {
+        this.turted.on('anyOtherMoved', (data) => {
             data.related = false;
             me.appChannel.trigger('game:move', data);
         });
 
-        this.turted.on('chat:message', function(data) {
+        this.turted.on('chat:message', (data) => {
             me.appChannel.trigger('chat:message', data);
         });
 

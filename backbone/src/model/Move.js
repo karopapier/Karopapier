@@ -11,7 +11,7 @@ module.exports = Backbone.Model.extend({
         yv: 0,
         test: false,
     },
-    getMotion: function() {
+    getMotion() {
         let pos = new Position({x: this.get('x'), y: this.get('y')});
         let vec = new Vector({x: this.get('xv'), y: this.get('yv')});
         return new Motion({

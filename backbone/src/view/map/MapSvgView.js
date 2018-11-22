@@ -4,7 +4,7 @@ module.exports = MapBaseView.extend({
     tagName: 'div',
     template: window.JST['map/svg'],
     className: 'mapSvgView',
-    initialize: function(options) {
+    initialize(options) {
         // init MapBaseView with creation of a settings model
         this.constructor.__super__.initialize.apply(this, arguments);
         _.bindAll(this, 'adjustSize', 'render', 'initSvg', 'renderFromPathStore', 'renderFromPathFinder');
@@ -20,7 +20,7 @@ module.exports = MapBaseView.extend({
         this.mapPathFinder = new MapPathFinder(this.model);
         this.render();
     },
-    initCss: function() {
+    initCss() {
         $('#mapSvgStyle').remove();
         let styleEl = document.createElement('style');
         styleEl.appendChild(document.createTextNode('')); // webkit fix
@@ -66,7 +66,7 @@ module.exports = MapBaseView.extend({
 
         this.updateCheckpoints();
     },
-    clearCheckpointRules: function() {
+    clearCheckpointRules() {
         for (let r = 0; r < this.styleSheet.cssRules.length; r++) {
             let rule = this.styleSheet.cssRules[r];
             if (rule.selectorText.slice(0, 3) == '.cp') { // startsWith
@@ -78,7 +78,7 @@ module.exports = MapBaseView.extend({
             }
         }
     },
-    updateCheckpoints: function() {
+    updateCheckpoints() {
         this.clearCheckpointRules();
         let cps = this.model.get('cps');
         if (this.settings.get('cpsActive') === false) {
@@ -101,7 +101,7 @@ module.exports = MapBaseView.extend({
             );
         }
     },
-    adjustSize: function() {
+    adjustSize() {
         // console.log(this.model.get("cols"));
         // console.log(this.fieldSize);
         let w = this.model.get('cols') * this.fieldSize;
@@ -109,7 +109,7 @@ module.exports = MapBaseView.extend({
         this.$el.css({width: w, height: h});
         this.$SVG.attr({width: w, height: h});
     },
-    initSvg: function() {
+    initSvg() {
         // get template code
         // var svgTemplate = MapTemplate();
         let svgSrcCode = this.template();
@@ -121,7 +121,7 @@ module.exports = MapBaseView.extend({
         $old.replaceWith(this.$SVG);
         this.adjustSize();
     },
-    renderFromPathFinder: function() {
+    renderFromPathFinder() {
         // console.log("Rendering SvgView");
         if (typeof this.model.get('mapcode') === 'undefined') {
             return false;
@@ -172,18 +172,18 @@ module.exports = MapBaseView.extend({
         console.log('Render triggered');
         this.trigger('rendered');
     },
-    makeSVG: function(tag, attrs) {
+    makeSVG(tag, attrs) {
         let el = document.createElementNS('http://www.w3.org/2000/svg', tag);
         for (let k in attrs) {
             el.setAttribute(k, attrs[k]);
         }
         return el;
     },
-    renderFromPathStore: function() {
+    renderFromPathStore() {
         // console.log("Render from pathstore");
         let mps = new MapPathStore();
         let me = this;
-        mps.getPath(this.model.get('id'), function(map) {
+        mps.getPath(this.model.get('id'), (map) => {
             // console.log("Look at getPath Response", map)
             if (map === false) {
                 // console.log("Trigger pathFinder from failed getPath");
@@ -213,7 +213,7 @@ module.exports = MapBaseView.extend({
             me.initCss();
         });
     },
-    render: function() {
+    render() {
         if ((this.model.get('id') !== 0) && (this.model.get('id') < 1000) && (!(this.forceMapPathFinder))) {
             this.renderFromPathStore();
         } else {

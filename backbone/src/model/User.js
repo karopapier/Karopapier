@@ -12,14 +12,14 @@ module.exports = Backbone.ModelFactory(/** @lends User.prototype */ { // eslint-
      * @class User
      * @constructor User
      */
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'increaseDran', 'decreaseDran');
         this.url = '/api/user/' + this.get('id') + '/info.json';
     },
-    increaseDran: function() {
+    increaseDran() {
         this.set('dran', this.get('dran') + 1);
     },
-    decreaseDran: function() {
+    decreaseDran() {
         this.set('dran', this.get('dran') - 1);
     },
 });

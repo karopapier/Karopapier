@@ -5,7 +5,7 @@ const moment = require('moment');
 module.exports = Backbone.View.extend({
     id: 'gameInfo',
     template: require('../../../templates/game/gameInfo.html'),
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'render');
         this.listenTo(this.model, 'change', this.render);
         this.listenTo(this.model.map, 'change', this.render);
@@ -27,7 +27,7 @@ module.exports = Backbone.View.extend({
             'allowed': 'erlaubt',
         };
     },
-    render: function() {
+    render() {
         // console.log("Render infos for ", this.model.get("name"));
         if (!this.model.get('completed')) {
             // console.log("Skip rendering, game not complete");

@@ -7,7 +7,7 @@ module.exports = Backbone.View.extend({
     events: {
         'clicked': 'clickMove',
     },
-    initialize: function(options) {
+    initialize(options) {
         // console.warn("I AM THE POSSIBLES VIEW");
         _.bindAll(this, 'clearPossibles', 'checkWillCrash', 'render');
         if (!options.hasOwnProperty('game')) {
@@ -24,23 +24,23 @@ module.exports = Backbone.View.extend({
         this.listenTo(this, 'changeHighlight', this.checkHighlight);
         this.highlight = false;
     },
-    clearPossibles: function() {
+    clearPossibles() {
         // console.info("Clear possibles");
-        _.each(this.views, function(v) {
+        _.each(this.views, (v) => {
             // console.log("Ich entferne nen alten possible");
             v.cleanup().remove();
         });
         this.views = [];
         // this.$('.possibleMove').remove();
     },
-    clickMove: function(mo) {
+    clickMove(mo) {
         // forward the event
         this.trigger('game:player:move', this.game.get('dranId'), mo);
     },
-    checkWillCrash: function(k, possible) {
+    checkWillCrash(k, possible) {
         possible.set('willCrash', k.willCrash(possible, 16));
     },
-    checkHighlight: function(e, a, b) {
+    checkHighlight(e, a, b) {
         // console.log("Triggered");
         if (this.highlight) {
             this.highlight.model.set('highlight', false);
@@ -48,7 +48,7 @@ module.exports = Backbone.View.extend({
         e.model.set('highlight', true);
         this.highlight = e;
     },
-    render: function() {
+    render() {
         // console.info("Rendering possibles for",this.game.get("id"));
         this.clearPossibles();
         // console.log(possibles);
@@ -57,7 +57,7 @@ module.exports = Backbone.View.extend({
             map: this.game.map,
         });
 
-        this.game.possibles.each(function(possible) {
+        this.game.possibles.each((possible) => {
             let posView = new PossibleView({
                 mapView: this.mapView,
                 model: possible,
@@ -69,6 +69,6 @@ module.exports = Backbone.View.extend({
             this.$el.append(posView.el);
             this.views.push(posView);
             this.listenTo(posView, 'clicked', this.clickMove.bind(this));
-        }.bind(this));
+        });
     },
 });

@@ -11,7 +11,7 @@ const Position = Backbone.Model.extend(/** @lends Position.prototype */{
      * @param x {interger} or {Object} either x or x/y map
      * @param y {integer} optional y
      */
-    initialize: function(x, y) {
+    initialize(x, y) {
         // check if first arg is an object with x and y or if we have two numeric args
         if (typeof x === 'object') {
             // we have an object, so we assume default map with x and y
@@ -28,10 +28,10 @@ const Position = Backbone.Model.extend(/** @lends Position.prototype */{
         }
     },
 
-    toString: function() {
+    toString() {
         return '[' + this.get('x') + '|' + this.get('y') + ']';
     },
-    move: function(v) {
+    move(v) {
         this.set('x', this.get('x') + v.get('x'));
         this.set('y', this.get('y') + v.get('y'));
     },
@@ -41,12 +41,12 @@ const Position = Backbone.Model.extend(/** @lends Position.prototype */{
      * @param Position p
      * @return Vector
      */
-    getVectorTo: function(p) {
+    getVectorTo(p) {
         const vx = p.get('x') - this.get('x');
         const vy = p.get('y') - this.get('y');
         return new Vector({x: vx, y: vy});
     },
-    getPassedPositionsTo: function(p) {
+    getPassedPositionsTo(p) {
         const v = this.getVectorTo(p);
         const vecs = v.getPassedVectors();
         const positions = {};

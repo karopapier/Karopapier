@@ -51,16 +51,16 @@ module.exports = Backbone.Model.extend({
         'cp9': '255,000,255', // Checkpoint 9
         'cp9_2': '0,0,0',
     },
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'setCharacterAlias', 'getRGB');
         this.setCharacterAlias();
         this.bind('change', this.setCharacterAlias);
     },
-    setCharacterAlias: function() {
+    setCharacterAlias() {
         // make colors accessible via name or character
         let me = this;
         let map = new Map();
-        _.each(map.FIELDS, function(name, char) {
+        _.each(map.FIELDS, (name, char) => {
             // name and nameBG are already set
 
             // so we need to set <char> and <char>_2
@@ -68,7 +68,7 @@ module.exports = Backbone.Model.extend({
             me.set(char + '_2', me.get(name + '_2'));
         });
     },
-    getRGB: function(field) {
+    getRGB(field) {
         let rgb = this.get(field);
         if (!rgb) {
             console.error('No color for', field);

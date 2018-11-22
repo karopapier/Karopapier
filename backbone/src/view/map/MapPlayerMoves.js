@@ -6,7 +6,7 @@ module.exports = Backbone.View.extend({
     optionDefaults: {
         visible: true,
     },
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'resize', 'hidePlayerInfo', 'showPlayerInfo');
         // console.info("MapPlayerMoves being called for", this.model.get("name"));
         // console.log(options);
@@ -30,7 +30,7 @@ module.exports = Backbone.View.extend({
         'mouseleave .playerPosition': 'hidePlayerInfo',
     },
 
-    render: function() {
+    render() {
         if (!this.g) {
             this.createGroup();
         } else {
@@ -42,7 +42,7 @@ module.exports = Backbone.View.extend({
         this.visibility();
     },
 
-    createGroup: function() {
+    createGroup() {
         // replace my container div with a svg group
         this.g = KaroUtil.createSvg('g', {
             class: 'playerMoves',
@@ -50,7 +50,7 @@ module.exports = Backbone.View.extend({
         this.setElement(this.g);
     },
 
-    addPosition: function() {
+    addPosition() {
         // if no move, nothing to draw, stop
         if (this.model.moves.length < 1) return false;
 
@@ -67,7 +67,7 @@ module.exports = Backbone.View.extend({
         this.$el.append(currentPosition);
     },
 
-    addMoves: function() {
+    addMoves() {
         // if only one move, stop here
         if (this.model.moves.length <= 1) return false;
 
@@ -92,7 +92,7 @@ module.exports = Backbone.View.extend({
         if (moves.length > 0) {
             // start path for all moves
             pathCode = 'M' + (parseInt(moves[0].get('x') * this.fieldsize) + this.halfsize) + ',' + (parseInt(moves[0].get('y') * this.fieldsize) + this.halfsize); // eslint-disable-line max-len
-            moves.forEach(function(m, i) {
+            moves.forEach((m, i) => {
                 let x = parseInt(m.get('x'));
                 let y = parseInt(m.get('y'));
                 pathCode += 'L' + (x * this.fieldsize + this.halfsize) + ',' + (y * this.fieldsize + this.halfsize);
@@ -104,7 +104,7 @@ module.exports = Backbone.View.extend({
                     fill: color,
                 });
                 movesFragment.appendChild(square);
-            }.bind(this));
+            });
         }
 
         // console.log(pathCode);
@@ -121,7 +121,7 @@ module.exports = Backbone.View.extend({
         // console.log("RENDERTE moves for", this.model.get("name"));
     },
 
-    resize: function() {
+    resize() {
         this.size = this.settings.get('size');
         this.halfsize = this.size / 2;
         this.thirdsize = this.size / 3;
@@ -129,7 +129,7 @@ module.exports = Backbone.View.extend({
         this.fieldsize = this.size + this.border;
     },
 
-    visibility: function() {
+    visibility() {
         // console.log(this.model.attributes);
         if (this.model.get('visible')) {
             this.$el.css('display', 'inline');
@@ -138,7 +138,7 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    highlight: function() {
+    highlight() {
         if (this.model.get('highlight')) {
             this.model.set('drawLimit', -1);
         } else {
@@ -146,7 +146,7 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    showPlayerInfo: function(e) {
+    showPlayerInfo(e) {
         this.model.set('highlight', true);
         return true;
         let playerId = e.currentTarget.getAttribute('data-playerId');
@@ -157,11 +157,11 @@ module.exports = Backbone.View.extend({
         this.activePi.render();
         this.$el.parent().append(this.activePi.el);
     },
-    hidePlayerInfo: function(e) {
+    hidePlayerInfo(e) {
         this.model.set('highlight', false);
         // this.activePi.remove();
     },
-    old_render: function() {
+    old_render() {
         this.el.appendChild(movesFragment);
         this.el.appendChild(posFragment);
     },

@@ -17,7 +17,7 @@ module.exports = Backbone.Model.extend(/** @lends Notification.prototype*/{
      * A Notification to be shown on screen or as browser notification
      *
      */
-    initialize: function(options) {
+    initialize(options) {
         if (typeof options === 'string') {
             this.set('text', options);
         } else {

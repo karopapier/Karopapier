@@ -6,12 +6,12 @@ const KaroNotificationView = require('./KaroNotificationView');
 module.exports = Backbone.View.extend(/** @lends KaroNotifierView */ {
     tagName: 'ul',
     className: 'notifier',
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'showNotification', 'render');
         // this.render();
         this.listenTo(this.model.notifications, 'add', this.showNotification);
     },
-    showNotification: function(notification) { // , notifications) {
+    showNotification(notification) { // , notifications) {
         let nv = new KaroNotificationView({
             model: notification,
         }).render();
@@ -22,7 +22,7 @@ module.exports = Backbone.View.extend(/** @lends KaroNotifierView */ {
             effect: 'fade',
         });
     },
-    render: function() {
+    render() {
         $('body').append(this.el);
         return this;
     },

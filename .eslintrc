@@ -31,6 +31,8 @@
     "require-jsdoc": "off",
     "valid-jsdoc": "off",
     "guard-for-in": "off",
-    "prefer-rest-params": "off"
+    "prefer-rest-params": "off",
+    "prefer-arrow-callback": "error",
+    "object-shorthand": "error"
   }
 }

@@ -11,7 +11,7 @@ module.exports = Backbone.View.extend({
     },
     tagName: 'span',
     template: require('../../templates/user/userView.html'),
-    initialize: function(options) {
+    initialize(options) {
         if (!this.model) {
             console.error('No model!');
             return false;
@@ -25,9 +25,13 @@ module.exports = Backbone.View.extend({
         // this.listenTo(this.model, "change:dran", this.dranChange);
         // this.listenTo(this.model, "remove", this.remove);
 
+        setInterval(() => {
+            this.model.set('dran', Math.floor(Math.random() * 100));
+        }, 1500);
+
         this.render();
     },
-    onChange: function(e) {
+    onChange(e) {
         // if dran is the only changed property
         if (e.changed.dran && _.size(e.changed) == 1) {
             this.dranChange(e);
@@ -35,7 +39,7 @@ module.exports = Backbone.View.extend({
         }
         this.render();
     },
-    dranChange: function(user) {
+    dranChange(user) {
         // @TODO Flacker wieder einbauen
         console.log('Dran change Animation kaputt gemacht');
     },

@@ -3,7 +3,7 @@ module.exports = Backbone.View.extend({
     tagName: 'div',
     id: 'GameApp',
     className: 'gameAppView',
-    render: function() {
+    render() {
         // this.model is the gameApp with its collections
         this.model.layout.render();
 

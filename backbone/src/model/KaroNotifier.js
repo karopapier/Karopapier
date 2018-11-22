@@ -12,7 +12,7 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
      * Provides custom methods as shortcuts for common notifications
      *
      */
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'add', 'addGameMoveNotification', 'addUserDranNotification');
         let me = this;
         this.notifications = new Backbone.Collection();
@@ -21,7 +21,7 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
         this.user = options.user;
         this.settings = options.settings;
 
-        this.eventEmitter.on('CHAT:MESSAGE', function(data) {
+        this.eventEmitter.on('CHAT:MESSAGE', (data) => {
             // console.warn(data.chatmsg);
             new BrowserNotification({
                 title: data.user + ' spricht',
@@ -31,13 +31,13 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
                 tag: 'chat',
                 icon: '/favicon.ico',
                 timeout: 2000,
-                notifyClick: function() {
+                notifyClick() {
                     alert('Geklickt');
                 },
             });
         });
 
-        this.eventEmitter.on('GAME:MOVE', function(data) {
+        this.eventEmitter.on('GAME:MOVE', (data) => {
             // skip unrelated
             if (!data.related) {
                 if (me.user.get('id') == 1) {
@@ -54,21 +54,21 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
             }
         });
     },
-    add: function(n) {
+    add(n) {
         this.notifications.add(n);
 
         let t = n.get('timeout');
         if (t !== 0) {
             let me = this;
-            setTimeout(function() {
+            setTimeout(() => {
                 me.remove(n);
             }, t);
         }
     },
-    remove: function(n) {
+    remove(n) {
         this.notifications.remove(n);
     },
-    addGameMoveNotification: function(data) {
+    addGameMoveNotification(data) {
         if (data.name.length > 30) data.name = data.name.substring(0, 27) + '...';
         let text = 'Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen. Jetzt ist <%= nextLogin %> dran'; // eslint-disable-line max-len
         let t = _.template(text);
@@ -80,7 +80,7 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
         });
         this.add(n);
     },
-    addUserDranNotification: function(data) {
+    addUserDranNotification(data) {
         let text = 'Du bist dran! Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen.'; // eslint-disable-line max-len
         let t = _.template(text);
         let n = new KaroNotification({

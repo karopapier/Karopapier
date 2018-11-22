@@ -1,7 +1,7 @@
 const Backbone = require('backbone');
 
 module.exports = Backbone.Router.extend({
-    initialize: function(options) {
+    initialize(options) {
         this.app = options.app;
     },
 
@@ -9,7 +9,7 @@ module.exports = Backbone.Router.extend({
         '*href': 'showIndex',
     },
 
-    showIndex: function(href) {
+    showIndex(href) {
         this.app.navigate(href);
     },
 });

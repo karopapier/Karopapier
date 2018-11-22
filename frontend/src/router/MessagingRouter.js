@@ -9,11 +9,11 @@ module.exports = Backbone.Router.extend({
         'zettel': 'index',
     },
 
-    index: function() {
+    index() {
         this.app.unselect();
     },
 
-    select: function(contactName) {
+    select(contactName) {
         this.app.selectName(contactName);
     },
 });

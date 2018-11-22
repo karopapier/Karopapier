@@ -11,7 +11,7 @@ const $ = require('jquery');
             karoUtil.replacements = [];
             karoUtil.replacements.push({
                 r: '<a (.*?)</a>',
-                f: function(a) {
+                f(a) {
                     // real-link protector
                     return a;
                 },
@@ -61,7 +61,7 @@ const $ = require('jquery');
                 // -:Pic
                 karoUtil.replacements.push({
                     r: '-:Pic src=(.*?) Pic:-',
-                    f: function(text) {
+                    f(text) {
                         return '<img src="http://daumennagel.de/' + RegExp.$1 + '" />';
                         // return '<img src="' + RegExp.$1 + '" />';
                     },
@@ -70,7 +70,7 @@ const $ = require('jquery');
                 // nen
                 karoUtil.replacements.push({
                     r: '(^|\\s)nen(^|\\s|$)',
-                    f: function(text) {
+                    f(text) {
                         return RegExp.$1 + 'einen' + RegExp.$2;
                     },
                 });
@@ -78,7 +78,7 @@ const $ = require('jquery');
                 // Nen
                 karoUtil.replacements.push({
                     r: '(^|\\s)Nen(^|\\s|$)',
-                    f: function() {
+                    f() {
                         return RegExp.$1 + 'Einen' + RegExp.$2;
                     },
                 });
@@ -86,7 +86,7 @@ const $ = require('jquery');
                 // Thomas Anders
                 karoUtil.replacements.push({
                     r: '\\banders\\b',
-                    f: function() {
+                    f() {
                         return ' <img style="opacity: .3" src="/images/anders.jpg" alt="anders" title="anders" />';
                     },
                     sw: 'i',
@@ -95,7 +95,7 @@ const $ = require('jquery');
                 // The HOFF
                 karoUtil.replacements.push({
                     r: '\\bhoff\\b',
-                    f: function() {
+                    f() {
                         return ' <img style="opacity: .3" src="/images/hoff.jpg"     alt="hoff" title="hoff" />';
                     },
                     sw: 'i',
@@ -105,10 +105,10 @@ const $ = require('jquery');
             // GID
             karoUtil.replacements.push({
                 r: '(?:http\\:\\/\\/www.karopapier.de\\/showmap.php\\?|http:\\/\\/2.karopapier.de\\/game.html\\?|\\b)GID[ =]([0-9]{3,6})\\b', // eslint-disable-line max-len
-                f: function(all, gid) {
+                f(all, gid) {
                     // console.log("All", all);
                     // console.log("GID", gid);
-                    $.getJSON('/api/game/' + gid + '/info.json', function(gameInfo) {
+                    $.getJSON('/api/game/' + gid + '/info.json', (gameInfo) => {
                         $('a.GidLink' + gid).text(gid + ' - ' + gameInfo.game.name);
                     });
                     if (karoUtil.oldLink) {
@@ -123,7 +123,7 @@ const $ = require('jquery');
             // Links
             karoUtil.replacements.push({
                 r: '(?![^<]+>)((https?\\:\\/\\/|ftp\:\\/\\/)|(www\\.))(\\S+)(\\w{2,4})(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?', // eslint-disable-line max-len
-                f: function(url) {
+                f(url) {
                     // console.log("URL MATCH", url);
                     let className = '';
                     let linktext = url;
@@ -140,7 +140,7 @@ const $ = require('jquery');
                         // console.log("Its a yt url", url);
                         let videoid = 0;
                         try {
-                            videoid = url.split('?')[1].split('&').filter(function(part) {
+                            videoid = url.split('?')[1].split('&').filter((part) => {
                                 return part.substr(0, 2) == 'v=';
                             })[0].split('=')[1];
                         } catch (err) {
@@ -156,7 +156,7 @@ const $ = require('jquery');
                             linktitle = snippet.description;
                         } else {
                             // console.log(ytUrl);
-                            $.getJSON(ytUrl, function(data) {
+                            $.getJSON(ytUrl, (data) => {
                                 let snippet = data.items[0].snippet;
                                 YOUTUBE_CACHE[videoid] = snippet;
                                 linktext = '<img height="20" src="' + snippet.thumbnails.default.url + '" />' + snippet.title; // eslint-disable-line max-len
@@ -182,7 +182,7 @@ const $ = require('jquery');
             // Smilies
             karoUtil.replacements.push({
                 r: ':([a-z]*?):',
-                f: function(all, smil) {
+                f(all, smil) {
                     // console.log(smil);
                     let img = document.createElement('img');
                     img.src = '//www.karopapier.de/bilder/smilies/' + smil + '.gif';
@@ -197,7 +197,7 @@ const $ = require('jquery');
 
             karoUtil.replacements.push({
                 r: 'img src="\\/images\\/smilies\\/(.*?).gif" alt=',
-                f: function(all, smil) {
+                f(all, smil) {
                     // console.log(all, smil);
                     return 'img src="//www.karopapier.de/bilder/smilies/' + RegExp.$1 + '.gif" alt=';
                 },

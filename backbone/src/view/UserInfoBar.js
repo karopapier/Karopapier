@@ -9,12 +9,12 @@ module.exports = Backbone.View.extend({
     events: {
         'click .login': 'login',
     },
-    login: function(e) {
+    login(e) {
         e.preventDefault();
         console.log('Login now');
         return false;
     },
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'render');
         this.userView = new UserView({
             model: this.model,
@@ -25,7 +25,7 @@ module.exports = Backbone.View.extend({
         });
         this.listenTo(this.model, 'change', this.render);
     },
-    render: function() {
+    render() {
         let uid = this.model.get('id');
         if (uid > 0) {
             this.$el.html(this.userView.$el);

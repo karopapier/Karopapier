@@ -4,7 +4,7 @@ const EditorImageTranslatorSettings = require('./EditorImageTranslatorSettings')
 const MapRenderPalette = require('../map/MapRenderPalette');
 
 module.exports = Backbone.Model.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.map) {
             console.error('No map passed to EditorImageTranslator');
@@ -36,7 +36,7 @@ module.exports = Backbone.Model.extend({
         this.initColorMode(this.map, new MapRenderPalette());
     },
 
-    getFieldForRgbaArray: function(rgba, colormode) {
+    getFieldForRgbaArray(rgba, colormode) {
         if (!colormode) {
             let avg = (rgba[0] + rgba[1] + rgba[2]) / 3;
             let idx = (!this.findOptions.invert ^ !(avg <= 127)) << 0; // true =1, false =0
@@ -67,7 +67,7 @@ module.exports = Backbone.Model.extend({
         return field;
     },
 
-    processField: function(row, col, tr, tc, x, y, w, h, scW, scH, withTimeout) {
+    processField(row, col, tr, tc, x, y, w, h, scW, scH, withTimeout) {
         // console.log("Processing", row, col, x, y, w, h, scW, scH);
         // console.log("processing ",x,"/",w,"and",y,"/",h);
         let me = this;
@@ -98,12 +98,12 @@ module.exports = Backbone.Model.extend({
             return true;
         }
 
-        window.setTimeout(function() {
+        window.setTimeout(() => {
             me.processField(row, col, tr, tc, x, y, w, h, scW, scH, true);
         }, 0);
     },
 
-    timecheck: function() {
+    timecheck() {
         let start0 = new Date().getTime();
         let scW = this.settings.get('scaleWidth');
         let scH = this.settings.get('scaleHeight');
@@ -115,12 +115,12 @@ module.exports = Backbone.Model.extend({
         return t;
     },
 
-    initColorMode: function(map, palette) {
+    initColorMode(map, palette) {
         let whitelist = /(O|P|G|L|N|T|V|W|X|Y|Z)/;
         this.hsls = {};
         for (let f in map.FIELDS) {
             if (f.match(whitelist)) {
-                let mainRGB = palette.get(f).split(',').map(function(e) {
+                let mainRGB = palette.get(f).split(',').map((e) => {
                     return parseInt(e);
                 });
                 let hsl = this.rgb2hsl(mainRGB);
@@ -130,7 +130,7 @@ module.exports = Backbone.Model.extend({
         return true;
     },
 
-    run: function() {
+    run() {
         this.editorsettings.set('undo', false);
         this.helper = 0;
         this.mapcodeResize();
@@ -180,7 +180,7 @@ module.exports = Backbone.Model.extend({
         return true;
     },
 
-    mapcodeResize: function() {
+    mapcodeResize() {
         // console.log("Resize map to", this.settings.get("targetCols"), this.settings.get("targetRows"));
         let undo = this.editorsettings.get('undo');
         this.editorsettings.set('undo', false);
@@ -193,14 +193,14 @@ module.exports = Backbone.Model.extend({
         this.editorsettings.set('undo', undo);
     },
 
-    getSourceInfo: function() {
+    getSourceInfo() {
         return {
             width: this.image.width,
             height: this.image.height,
         };
     },
 
-    loadImage: function(img) {
+    loadImage(img) {
         let w = img.width;
         let h = img.height;
         // console.log("Loaded img", w, h);
@@ -225,12 +225,12 @@ module.exports = Backbone.Model.extend({
         this.editorsettings.set('undo', true);
     },
 
-    getImageData: function() {
+    getImageData() {
         // console.log("get data of ctx", this.canvas.width, this.canvas.height);
         return this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
     },
 
-    loadUrl: function(url, callback) {
+    loadUrl(url, callback) {
         let me = this;
         this.image.onload = function() {
             let w = me.image.width;
@@ -248,7 +248,7 @@ module.exports = Backbone.Model.extend({
         this.image.src = url;
     },
 
-    averageRgba: function(imageData) {
+    averageRgba(imageData) {
         if (imageData.length % 4 != 0) {
             console.error('Imagedate has a length of', imageData.length);
             return false;
@@ -266,7 +266,7 @@ module.exports = Backbone.Model.extend({
         return avg;
     },
 
-    rgb2hsl: function(rgb) {
+    rgb2hsl(rgb) {
         /**
          * based on
          * http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion

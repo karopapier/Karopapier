@@ -15,7 +15,7 @@ module.exports = Backbone.Collection.extend({
     },
 
     addId(id, name) {
-        const g = new Game({id: id});
+        const g = new Game({id});
         if (name) {
             g.set('name', name);
         }

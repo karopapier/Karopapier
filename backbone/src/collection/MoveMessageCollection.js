@@ -8,21 +8,21 @@ module.exports = Backbone.Collection.extend(/** @lends MoveMessageCollection.pro
      * @class MoveMessageCollection
      */
     model: Move,
-    initialize: function() {
+    initialize() {
         _.bindAll(this, 'updateFromPlayers');
     },
 
-    comparator: function(mm) {
+    comparator(mm) {
         return mm.get('t');
     },
 
-    updateFromPlayers: function(players) {
+    updateFromPlayers(players) {
         let msgs = [];
-        players.each(function(p) {
-            let withMessage = p.moves.filter(function(m) {
+        players.each((p) => {
+            let withMessage = p.moves.filter((m) => {
                 return m.get('msg');
             });
-            _.each(withMessage, function(m) {
+            _.each(withMessage, (m) => {
                 m.set('player', p);
             });
             msgs = msgs.concat(withMessage);

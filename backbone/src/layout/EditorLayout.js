@@ -6,7 +6,7 @@ const EditorCodeView = require('../view/editor/EditorCodeView');
 const EditorImageTranslatorLayout = require('./EditorImageTranslatorLayout');
 
 module.exports = Marionette.LayoutView.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.editorApp) {
             console.error('No editorApp passed to EditorLayout');
@@ -23,7 +23,7 @@ module.exports = Marionette.LayoutView.extend({
     },
     className: 'editorAppView',
     template: window.JST['editor/layout'],
-    onShow: function() {
+    onShow() {
         // add all subviews into the rendered view
         this.tools.show(new EditorToolsLayout({
             editorApp: this.editorApp,

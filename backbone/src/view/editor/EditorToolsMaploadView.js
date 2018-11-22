@@ -4,7 +4,7 @@ const MapListView = require('../map/MapListView');
 
 module.exports = Marionette.ItemView.extend({
     template: window.JST['editor/mapload'],
-    initialize: function(options) {
+    initialize(options) {
         if (!options.editorApp) {
             console.error('No editorApp passed to EditorToolsMaploadView');
             return;
@@ -16,13 +16,13 @@ module.exports = Marionette.ItemView.extend({
     events: {
         'change .karoMaps': 'karoMapChange',
     },
-    karoMapChange: function(e) {
+    karoMapChange(e) {
         let id = this.$('.karoMaps').val();
         let map = this.editorApp.karoMaps.get(id);
         let mapcode = map.get('mapcode');
         this.editorApp.map.setMapcode(mapcode);
     },
-    render: function() {
+    render() {
         this.$el.empty();
         this.$el.html(this.template());
         this.karoMapListView = new MapListView({

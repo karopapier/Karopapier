@@ -1,6 +1,6 @@
 const Marionette = require('backbone.marionette');
 module.exports = Marionette.ItemView.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.editorsettings) {
             console.error('No editorsettings passed to EditorToolsButtonView');
@@ -9,10 +9,10 @@ module.exports = Marionette.ItemView.extend({
         this.editorsettings = options.editorsettings;
         this.listenTo(this.editorsettings, 'change:buttons', this.update);
     },
-    urlFor: function(f) {
+    urlFor(f) {
         return '/images/mapfields/' + f + '.png?v=25';
     },
-    update: function(model, buttons) {
+    update(model, buttons) {
         let prev = model.previous('buttons');
         let now = buttons;
         for (let i = 1; i <= 3; i++) {
@@ -22,7 +22,7 @@ module.exports = Marionette.ItemView.extend({
             }
         }
     },
-    render: function() {
+    render() {
         let buttons = this.editorsettings.get('buttons');
         let html = 'Aktuelle Mausbelegung<br />Links, Mitte, Rechts: ';
         for (let i = 1; i <= 3; i++) {

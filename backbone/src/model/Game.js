@@ -18,7 +18,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
      * @class Game
      * @param options map
      */
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         _.bindAll(this, 'parse', 'load', 'updatePossibles');
         if (options.map) {
@@ -43,11 +43,11 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         });
     },
 
-    url: function() {
+    url() {
         return '/api/game/' + this.get('id') + '/details.json';
     },
 
-    parse: function(data) {
+    parse(data) {
         // console.log("PARSE");
         // make sure data is matching current gameId (delayed responses get dropped)
         if (this.get('id') !== 0) {
@@ -72,7 +72,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         return data;
     },
 
-    load: function(id) {
+    load(id) {
         let hasId = this.get('id');
 
         // if not ID already set or passed, return
@@ -85,12 +85,12 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         if (this.get('loading')) return false;
         // silently set the id, events trigger after data is here
         // this.set({"id": id, completed: false}, {silent: true});
-        this.set({'id': id, 'completed': false, 'loading': true});
+        this.set({id, 'completed': false, 'loading': true});
         console.info('Fetching game details for ' + id);
         this.fetch();
     },
 
-    updatePossibles: function() {
+    updatePossibles() {
         // console.warn("Start Recalc possibles for", this.get("id"));
         if (!(this.get('completed'))) return false;
         if (this.get('moved')) return false;
@@ -111,7 +111,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
 
         // if no moves but dran and active, return starties
         if ((movesCount === 0) && (currentPlayer.get('status') == 'ok')) {
-            theoreticals = this.map.getStartPositions().map(function(e) {
+            theoreticals = this.map.getStartPositions().map((e) => {
                 let v = new Vector({x: 0, y: 0});
                 let mo = new Motion({
                     position: e,
@@ -131,7 +131,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
 
         // only for GID > 75000 limit to those that already moved
         let occupiedPositions = this.get('players').getOccupiedPositions((this.get('id') >= 75000));
-        let occupiedPositionStrings = occupiedPositions.map(function(e) {
+        let occupiedPositionStrings = occupiedPositions.map((e) => {
             return e.toString();
         });
 
@@ -148,12 +148,12 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
      * Set all nested parameters from other games data, keeping references intact
      * @param othergame
      */
-    setFrom: function(othergame) {
+    setFrom(othergame) {
         // console.warn("START SETTING FROM OTHER GAME");
         this.set('completed', false);
         othergame.set('completed', false);
         let attribsToSet = {};
-        _.each(othergame.attributes, function(att, i) {
+        _.each(othergame.attributes, (att, i) => {
             if (typeof att !== 'object') {
                 // console.log("Setting ", i, "to", att);
                 attribsToSet[i] = att;

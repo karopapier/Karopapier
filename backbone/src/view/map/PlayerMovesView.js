@@ -3,10 +3,10 @@ const Marionette = require('backbone.marionette');
 module.exports = Marionette.ItemView.extend({
     tagName: 'g',
     /* this makes it generate namespaced SVG tags */
-    _createElement: function(tagName) {
+    _createElement(tagName) {
         return document.createElementNS('http://www.w3.org/2000/svg', tagName);
     },
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.settings) {
             console.error('No settings for MapPlayerMoves');
@@ -33,14 +33,14 @@ module.exports = Marionette.ItemView.extend({
         this.color = '#' + this.model.get('color');
     },
 
-    render: function() {
+    render() {
         this.$el.empty();
         this.resize();
         this.addMoves();
         this.visibility();
     },
 
-    addMoves: function() {
+    addMoves() {
         // if only one move, stop here
         if (this.collection.length <= 1) return false;
 
@@ -65,7 +65,7 @@ module.exports = Marionette.ItemView.extend({
         if (moves.length > 0) {
             // start path for all moves
             pathCode = 'M' + (parseInt(moves[0].get('x') * this.fieldsize) + this.halfsize) + ',' + (parseInt(moves[0].get('y') * this.fieldsize) + this.halfsize); // eslint-disable-line max-len
-            moves.forEach(function(m, i) {
+            moves.forEach((m, i) => {
                 let x = parseInt(m.get('x'));
                 let y = parseInt(m.get('y'));
                 pathCode += 'L' + (x * this.fieldsize + this.halfsize) + ',' + (y * this.fieldsize + this.halfsize);
@@ -79,7 +79,7 @@ module.exports = Marionette.ItemView.extend({
                 };
                 for (let k in attrs) square.setAttribute(k, attrs[k]);
                 movesFragment.appendChild(square);
-            }.bind(this));
+            });
             // console.log(pathCode);
         }
 
@@ -101,7 +101,7 @@ module.exports = Marionette.ItemView.extend({
         // console.log("RENDERTE moves for", this.model.get("name"));
     },
 
-    resize: function() {
+    resize() {
         this.size = this.settings.get('size');
         this.halfsize = this.size / 2;
         this.thirdsize = this.size / 3;
@@ -109,7 +109,7 @@ module.exports = Marionette.ItemView.extend({
         this.fieldsize = this.size + this.border;
     },
 
-    visibility: function() {
+    visibility() {
         if (this.model.get('visible') || (this.model.get('highlight'))) {
             this.$el.css('display', 'inline');
         } else {
@@ -117,7 +117,7 @@ module.exports = Marionette.ItemView.extend({
         }
     },
 
-    highlight: function() {
+    highlight() {
         // console.log("Change highlight");
         if (this.model.get('highlight')) {
             this.model.set('drawLimit', -1);

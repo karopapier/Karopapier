@@ -23,7 +23,7 @@ module.exports = Backbone.View.extend({
             // mark exceeded @todo raus aus view
             // i is 0-based, so >= not >
             model.set('exceeded', (i >= slots));
-            const v = new LobbyUserView({model: model});
+            const v = new LobbyUserView({model});
             v.render();
             this.$el.append(v.el);
         });

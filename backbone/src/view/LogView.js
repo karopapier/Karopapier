@@ -1,10 +1,10 @@
 module.exports = Marionette.View.extend({
     tagName: 'pre',
-    initialize: function(options) {
+    initialize(options) {
         this.info = options.info || '-';
         this.log('Init');
     },
-    log: function(t) {
+    log(t) {
         let d = new Date();
         let h = d.getHours();
         let m = d.getMinutes();
@@ -15,7 +15,7 @@ module.exports = Marionette.View.extend({
         let ds = h + ':' + m + ':' + s + '.' + ms;
         this.$el.append(ds + ' ' + this.info + ' ' + t + ' (' + this.cid + ')\n');
     },
-    render: function() {
+    render() {
         this.log('Render');
         return this;
     },

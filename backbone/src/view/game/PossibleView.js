@@ -12,10 +12,10 @@ module.exports = Backbone.View.extend({
         'mouseleave': 'unhoverMove',
         'click .confirmer': 'confirmMove',
     },
-    NOWAY: function() {
+    NOWAY() {
         alert('YES');
     },
-    initialize: function(options) {
+    initialize(options) {
         this.mouseOrTouch = 'mouse';
         _.bindAll(this, 'checkMove', 'hoverMove', 'unhoverMove', 'render', 'cleanup');
         if (!options.hasOwnProperty('mapView')) {
@@ -30,15 +30,15 @@ module.exports = Backbone.View.extend({
         this.$confirmer = $('<div class="confirmer" style="position: fixed; bottom: 20px; right:20px; width: 50px; height: 50px; background-color: red">' + this.model.get('vector').toString() + '</div>'); // eslint-disable-line max-len
         this.$el.append(this.$confirmer.hide());
     },
-    wasTouch: function() {
+    wasTouch() {
         this.mouseOrTouch = 'touch';
     },
-    confirmMove: function(e) {
+    confirmMove(e) {
         this.trigger('clicked', this.model);
         this.mouseOrTouch = 'mouse';
         e.stopPropagation();
     },
-    checkMove: function(e) {
+    checkMove(e) {
         console.log('Click by ', this.mouseOrTouch);
         if (this.mouseOrTouch == 'touch') {
             this.model.set('highlight', true);
@@ -49,7 +49,7 @@ module.exports = Backbone.View.extend({
         }
         this.mouseOrTouch = 'mouse';
     },
-    hoverMove: function(e, a, b) {
+    hoverMove(e, a, b) {
         let mo = this.model;
         if (mo.get('vector').getLength() > 2.8) {
             // console.log(mo);
@@ -58,14 +58,14 @@ module.exports = Backbone.View.extend({
             this.$el.parent().append(this.stopDiv);
         }
     },
-    unhoverMove: function() {
+    unhoverMove() {
         if (this.stopDiv) this.stopDiv.remove();
     },
-    cleanup: function() {
+    cleanup() {
         this.unhoverMove();
         return this;
     },
-    render: function() {
+    render() {
         let v = this.model.get('vector');
         let p = this.model.get('position');
         this.$el.css({

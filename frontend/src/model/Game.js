@@ -8,7 +8,7 @@ module.exports = Backbone.Model.extend({
         blocked: 0,
     },
 
-    url: function() {
+    url() {
         return '/api/games/' + this.get('id');
     },
 

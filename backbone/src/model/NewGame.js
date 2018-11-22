@@ -3,10 +3,10 @@ module.exports = Backbone.Model.extend({
     defaults: {
         id: 0,
     },
-    initialize: function() {
+    initialize() {
     },
 
-    url: function() {
+    url() {
         return '/api/game/add.json';
     },
 });

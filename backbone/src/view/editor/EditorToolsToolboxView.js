@@ -1,6 +1,6 @@
 const Marionette = require('backbone.marionette');
 module.exports = Marionette.ItemView.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.editorsettings) {
             console.error('No editorsettings passed to EditorToolsToolboxView');
@@ -23,15 +23,15 @@ module.exports = Marionette.ItemView.extend({
 
     },
 
-    undo: function() {
+    undo() {
         this.editorUndo.undo();
     },
 
-    updateUndoCount: function(model, buttons) {
+    updateUndoCount(model, buttons) {
         this.undoButton.text('Undo (' + this.editorUndo.undoStack.length + ')');
     },
 
-    render: function() {
+    render() {
         this.undoButton = $('<button title="Strg+z">Undo</button>');
         this.$el.html(this.undoButton);
         this.updateUndoCount();

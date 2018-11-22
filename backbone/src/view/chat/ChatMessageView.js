@@ -7,11 +7,11 @@ module.exports = Backbone.View.extend({
     tagName: 'div',
     className: 'chatMessage',
     template: require('../../../templates/chat/chatMessage.html'),
-    id: function() {
+    id() {
         return 'cm' + this.model.get('lineId');
     },
 
-    initialize: function(options) {
+    initialize(options) {
         _.bindAll(this, 'render');
         options = options || {};
         if (!options.util) {
@@ -38,7 +38,7 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.model, 'change:showBotrix', this.checkVisible);
     },
 
-    updateText: function() {
+    updateText() {
         let me = this;
         let $dummy = $('<span>');
         $dummy.html(this.model.get('text'));
@@ -49,7 +49,7 @@ module.exports = Backbone.View.extend({
 
         let $textSpan = this.$el.find('.chatText').first();
         $textSpan.html(text);
-        this.$el.find('img').load(function(e) {
+        this.$el.find('img').load((e) => {
             let $parparent = me.$el.parent().parent();
             let newHeight = me.$el.height();
             // console.log("Message height changed from", messageHeight, "to", newHeight);
@@ -59,12 +59,12 @@ module.exports = Backbone.View.extend({
             // console.log("nachher", $parparent.scrollTop());
         });
         let messageHeight = -1;
-        setTimeout(function() {
+        setTimeout(() => {
             messageHeight = me.$el.height();
         }, 5);
     },
 
-    checkVisible: function() {
+    checkVisible() {
         let s = this.model.get('showBotrix');
         let is = this.model.get('isBotrixGameMessage');
         if (is && !s) {
@@ -74,7 +74,7 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    render: function() {
+    render() {
         // var text = this.model.get("text");
         let data = this.model.toJSON();
         data.text = '';

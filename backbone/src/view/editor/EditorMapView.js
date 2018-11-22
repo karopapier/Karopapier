@@ -3,7 +3,7 @@ const Backbone = require('backbone');
 const MapRenderView = require('../map/MapRenderView');
 
 module.exports = Backbone.View.extend({
-    initialize: function(options) {
+    initialize(options) {
         options = options || {};
         if (!options.viewsettings) {
             console.error('No viewsettings passed to EditorMapView');
@@ -24,7 +24,7 @@ module.exports = Backbone.View.extend({
         this.drawing = false;
         this.resizing = false;
     },
-    render: function() {
+    render() {
         this.mapRenderView = new MapRenderView({
             settings: this.viewsettings,
             model: this.model,
@@ -44,20 +44,20 @@ module.exports = Backbone.View.extend({
         'contextmenu': 'rightclick',
     },
 
-    rightclick: function(e) {
+    rightclick(e) {
         if (this.editorsettings.get('rightclick')) {
             e.preventDefault();
             return false;
         }
     },
 
-    xyFromE: function(e) {
+    xyFromE(e) {
         let x = (e.pageX - this.offLeft);
         let y = (e.pageY - this.offTop);
-        return {x: x, y: y};
+        return {x, y};
     },
 
-    draw: function(e) {
+    draw(e) {
         let xy = this.xyFromE(e);
         let x = xy.x - this.resizeHandleWidth;
         let y = xy.y - this.resizeHandleWidth;
@@ -70,7 +70,7 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    resize: function(e) {
+    resize(e) {
         if (!this.resize) return false;
         let xy = this.xyFromE(e);
 
@@ -139,7 +139,7 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    recalcDimensions: function(e) {
+    recalcDimensions(e) {
         this.w = this.$el.width();
         this.h = this.$el.height();
         let off = this.$el.offset();
@@ -150,7 +150,7 @@ module.exports = Backbone.View.extend({
         // console.log("Now", this.w, this.h, this.outW, this.outH, this.offLeft, this.offTop);
     },
 
-    resizeDirections: function(e) {
+    resizeDirections(e) {
         let d = {
             we: '',
             ns: '',
@@ -188,7 +188,7 @@ module.exports = Backbone.View.extend({
         return d;
     },
 
-    mousedown: function(e) {
+    mousedown(e) {
         let button = e.which;
         // console.log("Button", button, "right", this.editorsettings.get("rightclick"));
         if ((button == 3) && (!this.editorsettings.get('rightclick'))) {
@@ -244,7 +244,7 @@ module.exports = Backbone.View.extend({
         return true;
     },
 
-    mouseup: function(e) {
+    mouseup(e) {
         this.editorsettings.set('undo', true);
         this.drawing = false;
         this.resizing = false;
@@ -253,12 +253,12 @@ module.exports = Backbone.View.extend({
         $(document).unbind('mouseup');
     },
 
-    mouseenter: function(e) {
+    mouseenter(e) {
         // If it's not correctly updated, do this!
         if (this.offTop == 0) this.recalcDimensions();
     },
 
-    mousemove: function(e) {
+    mousemove(e) {
         if (this.drawing) {
             this.draw(e);
             return true;
@@ -281,7 +281,7 @@ module.exports = Backbone.View.extend({
         }
     },
 
-    mouseleave: function(e) {
+    mouseleave(e) {
         // console.log("LEAVE");
         this.drawing = false;
         // this.resizing = false;

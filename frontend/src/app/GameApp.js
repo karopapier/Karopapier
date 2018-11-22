@@ -24,10 +24,9 @@ module.exports = Marionette.Application.extend({
     },
 
     loadInitialAndStart() {
-        let me = this;
         $.when(
-        ).done(function() {
-            me.start();
+        ).done(() => {
+            this.start();
         });
     },
 

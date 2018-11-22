@@ -5,7 +5,7 @@ module.exports = Marionette.Region.extend({
         'click .modal-close': 'removeView',
     },
 
-    attachHtml: function(view) {
+    attachHtml(view) {
         $('body').addClass('noscroll');
         const modalEl = $('<div class="modal-content"></div>');
         modalEl.append(view.el);

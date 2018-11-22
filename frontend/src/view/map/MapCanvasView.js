@@ -4,7 +4,7 @@ const MapRenderPalette = require('../../model/map/MapRenderPalette');
 module.exports = MapBaseView.extend({
     className: 'mapRenderView',
     tagName: 'canvas',
-    initialize: function(...args) {
+    initialize(...args) {
         // init MapBaseView with creation of a settings model
         this.constructor.__super__.initialize.apply(this, args);
         this.listenTo(this.model, 'change:mapcode', this.render);
@@ -29,19 +29,19 @@ module.exports = MapBaseView.extend({
         this.prepareCache();
     },
 
-    isCheckpoint: function(f) {
+    isCheckpoint(f) {
         return (parseInt(f) == f);
     },
 
-    isFlagField: function(f) {
+    isFlagField(f) {
         return (this.flagFields.indexOf(f) >= 0);
     },
 
-    isStandardField: function(f) {
+    isStandardField(f) {
         return (this.standardFields.indexOf(f) >= 0);
     },
 
-    prepareCache: function() {
+    prepareCache() {
         console.info('Prepare field cache');
         const me = this;
         this.imageDatas = {};
@@ -56,7 +56,7 @@ module.exports = MapBaseView.extend({
         canvas.width = canvas.height = this.fieldSize;
         let ctx = canvas.getContext('2d');
 
-        _.each(this.model.FIELDS, function(name, f) {
+        _.each(this.model.FIELDS, (name, f) => {
             if (me.isStandardField(f)) {
                 me.imageDatas[f] = [];
                 // create 4 different random fields
@@ -71,7 +71,7 @@ module.exports = MapBaseView.extend({
         });
     },
 
-    prepareFieldCtx: function(ctx, f) {
+    prepareFieldCtx(ctx, f) {
         const me = this;
 
         // fill completely field with primary color
@@ -124,7 +124,7 @@ module.exports = MapBaseView.extend({
         return ctx;
     },
 
-    renderCheckpoints: function() {
+    renderCheckpoints() {
         // console.warn('RENDER CHECKPOINTS', new Date());
 
         // find cps
@@ -133,7 +133,7 @@ module.exports = MapBaseView.extend({
         const me = this;
 
         // for each cp, drawField
-        cps.forEach(function(pos) {
+        cps.forEach((pos) => {
             const cp = pos.attributes;
             const f = me.model.getFieldAtRowCol(cp.row, cp.col);
             // console.log('Rendering CP', cp, f);
@@ -145,7 +145,7 @@ module.exports = MapBaseView.extend({
         });
     },
 
-    renderFieldChange: function(e, a, b) {
+    renderFieldChange(e, a, b) {
         // console.info('Fieldchange only');
         const field = e.field;
         const r = e.r;
@@ -153,7 +153,7 @@ module.exports = MapBaseView.extend({
         this.drawField(r, c, field);
     },
 
-    render: function() {
+    render() {
         console.warn('FULL RENDER', new Date());
         this.trigger('before:render');
         const map = this.model;
@@ -172,7 +172,7 @@ module.exports = MapBaseView.extend({
         this.trigger('render');
     },
 
-    drawField: function(r, c, field) {
+    drawField(r, c, field) {
         const x = c * (this.fieldSize);
         const y = r * (this.fieldSize);
         let d = this.imageDatas[field];
@@ -189,7 +189,7 @@ module.exports = MapBaseView.extend({
         this.ctx.putImageData(d, x, y);
     },
 
-    addSpecles: function(ctx, color) {
+    addSpecles(ctx, color) {
         // console.log('Adding specles ');
         ctx.fillStyle = color;
         for (let i = 0; i < 3; i++) {
@@ -199,7 +199,7 @@ module.exports = MapBaseView.extend({
         }
     },
 
-    addBorder: function(ctx, color) {
+    addBorder(ctx, color) {
         // console.log('Adding border');
         ctx.lineWidth = this.border;
         ctx.strokeStyle = color;
@@ -211,7 +211,7 @@ module.exports = MapBaseView.extend({
         ctx.closePath();
     },
 
-    addFlags: function(ctx, color) {
+    addFlags(ctx, color) {
         // assume prefilled with color1
         if (this.fieldSize < 2) return;
         ctx.fillStyle = color;
@@ -230,7 +230,7 @@ module.exports = MapBaseView.extend({
         }
     },
 
-    addStartGrid: function(ctx, color) {
+    addStartGrid(ctx, color) {
         // fg square
         const newSize = this.fieldSize;
         ctx.lineWidth = this.fieldSize / 8;

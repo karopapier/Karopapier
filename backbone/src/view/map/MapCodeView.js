@@ -3,7 +3,7 @@ const Backbone = require('backbone');
 
 module.exports = Backbone.View.extend({
     tagName: 'textarea',
-    initialize: function(options) {
+    initialize(options) {
         _.defaults(options, {readonly: true});
         this.readonly = options.readonly;
         _.bindAll(this, 'render', 'setBounds', 'setCode', 'getCode', 'updateModel');
@@ -18,16 +18,16 @@ module.exports = Backbone.View.extend({
             this.makeEditable();
         }
     },
-    makeReadonly: function() {
+    makeReadonly() {
         this.$el.attr('disabled', 'disabled');
         this.undelegateEvents();
     },
-    makeEditable: function() {
+    makeEditable() {
         this.delegateEvents({
             'keyup': 'updateModel',
         });
     },
-    setBounds: function() {
+    setBounds() {
         // console.log("Bounds");
         this.$el.attr({
             'rows': this.model.get('rows') + 1,
@@ -35,17 +35,17 @@ module.exports = Backbone.View.extend({
         })
         ;
     },
-    setCode: function() {
+    setCode() {
         // console.info("I need to change");
         this.$el.val(this.model.get('mapcode'));
     },
-    getCode: function() {
+    getCode() {
         return this.$el.val();
     },
-    updateModel: function() {
+    updateModel() {
         this.model.set('mapcode', this.getCode());
     },
-    render: function() {
+    render() {
         this.setBounds();
         this.setCode();
     },
