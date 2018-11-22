@@ -40,8 +40,8 @@
     "turted-client": "^1.1.0",
     "underscore": "^1.8.3"
   },
-  "browserlist": [
-    "> 5% in DE",
-    "last 4 version 2"
+  "browserslist": [
+    "> 1% in DE",
+    "last 4 versions"
   ]
 }
