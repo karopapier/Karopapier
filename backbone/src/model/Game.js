@@ -73,7 +73,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
     },
 
     load(id) {
-        let hasId = this.get('id');
+        const hasId = this.get('id');
 
         // if not ID already set or passed, return
         if (!id && !hasId) return false;
@@ -100,11 +100,11 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         }
         // console.warn("Really DO recalc possibles for", this.get("id"));
 
-        let dranId = this.get('dranId');
+        const dranId = this.get('dranId');
         if (this.get('players').length < 1) return false;
-        let currentPlayer = this.get('players').get(dranId);
+        const currentPlayer = this.get('players').get(dranId);
         if (!currentPlayer) return false;
-        let movesCount = currentPlayer.moves.length;
+        const movesCount = currentPlayer.moves.length;
 
         // FIXME
         let theoreticals;
@@ -112,8 +112,8 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         // if no moves but dran and active, return starties
         if ((movesCount === 0) && (currentPlayer.get('status') == 'ok')) {
             theoreticals = this.map.getStartPositions().map((e) => {
-                let v = new Vector({x: 0, y: 0});
-                let mo = new Motion({
+                const v = new Vector({x: 0, y: 0});
+                const mo = new Motion({
                     position: e,
                     vector: v,
                 });
@@ -121,8 +121,8 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
                 return mo;
             });
         } else {
-            let lastmove = currentPlayer.getLastMove();
-            let mo = lastmove.getMotion();
+            const lastmove = currentPlayer.getLastMove();
+            const mo = lastmove.getMotion();
             // get theoretic motions
             // reduce possibles with map
             theoreticals = mo.getPossibles();
@@ -130,14 +130,14 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         }
 
         // only for GID > 75000 limit to those that already moved
-        let occupiedPositions = this.get('players').getOccupiedPositions((this.get('id') >= 75000));
-        let occupiedPositionStrings = occupiedPositions.map((e) => {
+        const occupiedPositions = this.get('players').getOccupiedPositions((this.get('id') >= 75000));
+        const occupiedPositionStrings = occupiedPositions.map((e) => {
             return e.toString();
         });
 
-        let possibles = [];
+        const possibles = [];
         for (let i = 0; i < theoreticals.length; i++) {
-            let possible = theoreticals[i];
+            const possible = theoreticals[i];
             if (occupiedPositionStrings.indexOf(possible.toKeyString()) < 0) {
                 possibles.push(possible);
             }
@@ -152,7 +152,7 @@ module.exports = Backbone.Model.extend(/** @lends Game.prototype */ {
         // console.warn("START SETTING FROM OTHER GAME");
         this.set('completed', false);
         othergame.set('completed', false);
-        let attribsToSet = {};
+        const attribsToSet = {};
         _.each(othergame.attributes, (att, i) => {
             if (typeof att !== 'object') {
                 // console.log("Setting ", i, "to", att);

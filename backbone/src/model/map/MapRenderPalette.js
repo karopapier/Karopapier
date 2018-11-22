@@ -58,8 +58,8 @@ module.exports = Backbone.Model.extend({
     },
     setCharacterAlias() {
         // make colors accessible via name or character
-        let me = this;
-        let map = new Map();
+        const me = this;
+        const map = new Map();
         _.each(map.FIELDS, (name, char) => {
             // name and nameBG are already set
 

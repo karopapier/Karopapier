@@ -15,7 +15,7 @@ module.exports = Marionette.View.extend({
     },
 
     initialize() {
-        let me = this;
+        const me = this;
         this.filteredUsers = new UserCollection(this.collection.toJSON());
         this.listview = new UserlistView({
             collection: this.filteredUsers,
@@ -32,7 +32,7 @@ module.exports = Marionette.View.extend({
         });
     },
     autocomplete(e) {
-        let typed = this.$('input').val().toLowerCase();
+        const typed = this.$('input').val().toLowerCase();
         this.filteredUsers.reset(this.collection.filter((m) => {
             return !m.get('login').toLowerCase().indexOf(typed);
         }));

@@ -38,7 +38,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
             _.defaults(options, this.optionDefaults);
             if (options.settings) {
                 // apply and enrich the settings if some are missing
-                let attr = options.settings.attributes;
+                const attr = options.settings.attributes;
                 _.defaults(attr, this.optionDefaults);
                 this.settings = options.settings;
                 this.settings.set(attr);

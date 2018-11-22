@@ -21,7 +21,7 @@ module.exports = Marionette.Application.extend({
         // make sure that (if available) the first two games in queue get/are always fully loaded with details
         this.listenTo(this.app.UserDranGames, 'update', () => {
             console.log('Q update');
-            let q = this.app.UserDranGames;
+            const q = this.app.UserDranGames;
             q.first(2).forEach((g) => {
                 if (!g.get('completed')) g.load();
             });

@@ -12,7 +12,7 @@ module.exports = Backbone.View.extend(/** @lends TitleView */{
     },
     render() {
         let t = '';
-        let dran = this.model.get('dran');
+        const dran = this.model.get('dran');
 
         if (dran > 0) {
             t += '(' + dran + ') ';

@@ -70,25 +70,25 @@ module.exports = Backbone.View.extend(/** @lends GridView.prototype */{
         // console.log("DRAW POSITIONS");
         this.fieldsize = this.settings.get('size') + this.settings.get('border');
         this.players.each((p) => {
-            let x = p.get('lastmove').x;
-            let y = p.get('lastmove').y;
-            let color = '#' + p.get('color');
-            let pos = this._createElement('circle');
-            let attrs = {
+            const x = p.get('lastmove').x;
+            const y = p.get('lastmove').y;
+            const color = '#' + p.get('color');
+            const pos = this._createElement('circle');
+            const attrs = {
                 cx: x * this.fieldsize + this.fieldsize / 2,
                 cy: y * this.fieldsize + this.fieldsize / 2,
                 r: this.fieldsize * .3,
                 fill: color,
             };
-            for (let k in attrs) pos.setAttribute(k, attrs[k]);
+            for (const k in attrs) pos.setAttribute(k, attrs[k]);
             this.$el.append(pos);
         });
     },
 
     resize() {
         this.fieldSize = (this.settings.get('size') + this.settings.get('border'));
-        let w = this.map.get('cols') * this.fieldSize;
-        let h = this.map.get('rows') * this.fieldSize;
+        const w = this.map.get('cols') * this.fieldSize;
+        const h = this.map.get('rows') * this.fieldSize;
         this.$el.css({width: w, height: h}).attr({width: w, height: h});
     },
 });

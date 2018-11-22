@@ -34,7 +34,7 @@ module.exports = Backbone.Model.extend(/** @lends BrowserNotifier.prototype*/{
         this.listenTo(this.user, 'change:dran', this.updateDran);
     },
     updateDran(data) {
-        let dran = this.user.get('dran');
+        const dran = this.user.get('dran');
         let title = 'Du bist ein bisschen dran (' + dran + ')';
         if (dran == 0) title = 'Du bist gar nich dran!';
         if (dran > 10) title = 'Du bist ganz schön dran! (' + dran + ')';
@@ -43,7 +43,7 @@ module.exports = Backbone.Model.extend(/** @lends BrowserNotifier.prototype*/{
         if (dran > 40) title = 'LOS! Du bist verdammt dran! (' + dran + ')';
         let en = '';
         if (dran != 1) en = 'en';
-        let text = 'Du bist bei ' + dran + ' Spiel' + en + ' dran';
+        const text = 'Du bist bei ' + dran + ' Spiel' + en + ' dran';
         new BrowserNotification({
             title,
             tag: 'dran',

@@ -14,7 +14,7 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
      */
     initialize(options) {
         _.bindAll(this, 'add', 'addGameMoveNotification', 'addUserDranNotification');
-        let me = this;
+        const me = this;
         this.notifications = new Backbone.Collection();
 
         this.eventEmitter = options.eventEmitter;
@@ -57,9 +57,9 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
     add(n) {
         this.notifications.add(n);
 
-        let t = n.get('timeout');
+        const t = n.get('timeout');
         if (t !== 0) {
-            let me = this;
+            const me = this;
             setTimeout(() => {
                 me.remove(n);
             }, t);
@@ -70,9 +70,9 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
     },
     addGameMoveNotification(data) {
         if (data.name.length > 30) data.name = data.name.substring(0, 27) + '...';
-        let text = 'Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen. Jetzt ist <%= nextLogin %> dran'; // eslint-disable-line max-len
-        let t = _.template(text);
-        let n = new KaroNotification({
+        const text = 'Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen. Jetzt ist <%= nextLogin %> dran'; // eslint-disable-line max-len
+        const t = _.template(text);
+        const n = new KaroNotification({
             text: t(data),
             level: 'info',
             group: 'global',
@@ -81,9 +81,9 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
         this.add(n);
     },
     addUserDranNotification(data) {
-        let text = 'Du bist dran! Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen.'; // eslint-disable-line max-len
-        let t = _.template(text);
-        let n = new KaroNotification({
+        const text = 'Du bist dran! Bei <a href="/game.html?GID=<%= gid %>"><%- name %></a> hat <%= movedLogin %> gerade gezogen.'; // eslint-disable-line max-len
+        const t = _.template(text);
+        const n = new KaroNotification({
             text: t(data),
             level: 'ok',
             group: 'dran',

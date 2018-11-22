@@ -16,7 +16,7 @@ module.exports = Backbone.View.extend({
         this.model.sanitize();
     },
     render() {
-        let mcv = new MapCodeView({
+        const mcv = new MapCodeView({
             className: 'mapCodeView',
             model: this.model,
             readonly: false,

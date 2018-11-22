@@ -149,15 +149,15 @@ const $ = require('jquery');
                         }
                         // console.log("Its a yt url", url, videoid);
                         className += ' yt_' + videoid;
-                        let ytUrl = 'https://www.googleapis.com/youtube/v3/videos?id=' + videoid + '&key=AIzaSyBuMu8QDh49VqGJo4cSS4_9pTC9cqZwy98&part=snippet'; // eslint-disable-line max-len
+                        const ytUrl = 'https://www.googleapis.com/youtube/v3/videos?id=' + videoid + '&key=AIzaSyBuMu8QDh49VqGJo4cSS4_9pTC9cqZwy98&part=snippet'; // eslint-disable-line max-len
                         if (videoid in YOUTUBE_CACHE) {
-                            let snippet = YOUTUBE_CACHE[videoid];
+                            const snippet = YOUTUBE_CACHE[videoid];
                             linktext = '<img height="20" src="' + snippet.thumbnails.default.url + '" />' + snippet.title; // eslint-disable-line max-len
                             linktitle = snippet.description;
                         } else {
                             // console.log(ytUrl);
                             $.getJSON(ytUrl, (data) => {
-                                let snippet = data.items[0].snippet;
+                                const snippet = data.items[0].snippet;
                                 YOUTUBE_CACHE[videoid] = snippet;
                                 linktext = '<img height="20" src="' + snippet.thumbnails.default.url + '" />' + snippet.title; // eslint-disable-line max-len
                                 $('a.yt_' + videoid).attr('title', snippet.description).html(linktext);
@@ -184,7 +184,7 @@ const $ = require('jquery');
                 r: ':([a-z]*?):',
                 f(all, smil) {
                     // console.log(smil);
-                    let img = document.createElement('img');
+                    const img = document.createElement('img');
                     img.src = '//www.karopapier.de/bilder/smilies/' + smil + '.gif';
                     img.onload = function() {
                         // console.log("Ich lud");
@@ -206,8 +206,8 @@ const $ = require('jquery');
         };
 
         karoUtil.createSvg = function(tag, attrs) {
-            let el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-            for (let k in attrs) {
+            const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+            for (const k in attrs) {
                 el.setAttribute(k, attrs[k]);
             }
             return el;
@@ -219,10 +219,10 @@ const $ = require('jquery');
             // console.log('Look at', text);
             const l = this.replacements.length;
             for (let i = 0; i < l; i++) {
-                let rpl = this.replacements[i];
-                let r = rpl.r; // regex string
-                let f = rpl.f; // return function/value
-                let sw = rpl.sw || ''; // switch
+                const rpl = this.replacements[i];
+                const r = rpl.r; // regex string
+                const f = rpl.f; // return function/value
+                const sw = rpl.sw || ''; // switch
                 // console.log(r, sw);
 
                 let rx;
@@ -233,14 +233,14 @@ const $ = require('jquery');
                     rpl.rx = rx;
                 }
                 // console.log(rx);
-                let parts = rx.exec(text);
+                const parts = rx.exec(text);
                 if (parts) {
                     // console.log('Match for', rx, parts);
-                    let before = parts[1];
-                    let matchingText = parts[2];
-                    let after = parts[3];
+                    const before = parts[1];
+                    const matchingText = parts[2];
+                    const after = parts[3];
                     // console.log(1, before, 2, matchingText, 3, after);
-                    let textToReturn = karoUtil.linkify(before) + matchingText.replace(new RegExp(r, sw), f) + karoUtil.linkify(after); // eslint-disable-line max-len
+                    const textToReturn = karoUtil.linkify(before) + matchingText.replace(new RegExp(r, sw), f) + karoUtil.linkify(after); // eslint-disable-line max-len
                     // console.info(textToReturn);
                     return textToReturn;
                 }
@@ -257,8 +257,8 @@ const $ = require('jquery');
         };
 
         karoUtil.lazyCss = function(url) {
-            let head = document.getElementsByTagName('head')[0];
-            let link = document.createElement('link');
+            const head = document.getElementsByTagName('head')[0];
+            const link = document.createElement('link');
             link.type = 'text/css';
             link.rel = 'stylesheet';
             link.href = url;
@@ -266,8 +266,8 @@ const $ = require('jquery');
         };
 
         karoUtil.lazyJs = function(url) {
-            let head = document.getElementsByTagName('head')[0];
-            let script = document.createElement('script');
+            const head = document.getElementsByTagName('head')[0];
+            const script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = url;
             head.appendChild(script);

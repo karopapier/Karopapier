@@ -7,8 +7,8 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.model, 'change:name', this.render);
     },
     render() {
-        let $old = this.$el;
-        let $new = $(this.template(this.model.toJSON()));
+        const $old = this.$el;
+        const $new = $(this.template(this.model.toJSON()));
         this.setElement($new);
         $old.replaceWith($new);
         return this;

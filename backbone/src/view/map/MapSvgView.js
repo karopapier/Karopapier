@@ -22,7 +22,7 @@ module.exports = MapBaseView.extend({
     },
     initCss() {
         $('#mapSvgStyle').remove();
-        let styleEl = document.createElement('style');
+        const styleEl = document.createElement('style');
         styleEl.appendChild(document.createTextNode('')); // webkit fix
         styleEl.id = 'mapSvgStyle';
         document.head.appendChild(styleEl);
@@ -68,7 +68,7 @@ module.exports = MapBaseView.extend({
     },
     clearCheckpointRules() {
         for (let r = 0; r < this.styleSheet.cssRules.length; r++) {
-            let rule = this.styleSheet.cssRules[r];
+            const rule = this.styleSheet.cssRules[r];
             if (rule.selectorText.slice(0, 3) == '.cp') { // startsWith
                 // console.log(rule.style.fillOpacity); //.fillOpacity);
                 if (rule.style.fillOpacity) {
@@ -80,7 +80,7 @@ module.exports = MapBaseView.extend({
     },
     updateCheckpoints() {
         this.clearCheckpointRules();
-        let cps = this.model.get('cps');
+        const cps = this.model.get('cps');
         if (this.settings.get('cpsActive') === false) {
             // no checkpoints required, hide them
             for (let cp = 0; cp < cps.length; cp++) {
@@ -90,7 +90,7 @@ module.exports = MapBaseView.extend({
         }
 
         // no, looks like cps are active
-        let cpsVisited = this.settings.get('cpsVisited');
+        const cpsVisited = this.settings.get('cpsVisited');
         if (!cpsVisited) return true;
         if (cpsVisited.length === 0) return true;
         for (let cp = 0; cp < cpsVisited.length; cp++) {
@@ -104,19 +104,19 @@ module.exports = MapBaseView.extend({
     adjustSize() {
         // console.log(this.model.get("cols"));
         // console.log(this.fieldSize);
-        let w = this.model.get('cols') * this.fieldSize;
-        let h = this.model.get('rows') * this.fieldSize;
+        const w = this.model.get('cols') * this.fieldSize;
+        const h = this.model.get('rows') * this.fieldSize;
         this.$el.css({width: w, height: h});
         this.$SVG.attr({width: w, height: h});
     },
     initSvg() {
         // get template code
         // var svgTemplate = MapTemplate();
-        let svgSrcCode = this.template();
-        let svgDOM = new DOMParser().parseFromString(svgSrcCode, 'text/xml');
+        const svgSrcCode = this.template();
+        const svgDOM = new DOMParser().parseFromString(svgSrcCode, 'text/xml');
         this.SVG = svgDOM.documentElement;
         this.$SVG = $(this.SVG);
-        let $old = this.$el;
+        const $old = this.$el;
         this.setElement(this.SVG);
         $old.replaceWith(this.$SVG);
         this.adjustSize();
@@ -128,12 +128,12 @@ module.exports = MapBaseView.extend({
         }
 
         // get mainfill
-        let mainchar = this.mapPathFinder.getMainField();
+        const mainchar = this.mapPathFinder.getMainField();
         // console.log("Mainchar",mainchar);
-        let mainclass = this.model.FIELDS[mainchar];
+        const mainclass = this.model.FIELDS[mainchar];
         this.$SVG.find('#mainfill').attr('class', mainclass);
 
-        let $paths = this.$SVG.find('#paths');
+        const $paths = this.$SVG.find('#paths');
         $($paths).empty();
 
         // get outlines
@@ -152,7 +152,7 @@ module.exports = MapBaseView.extend({
         });
         $paths[0].appendChild(p);
 
-        for (let char in this.mapPathFinder.outlines) {
+        for (const char in this.mapPathFinder.outlines) {
             if (char !== mainchar && char !== 'O') {
                 // console.log("Path for ",char);
                 path = this.mapPathFinder.getSvgPathFromOutlines(this.mapPathFinder.outlines[char], this.fieldSize);
@@ -165,7 +165,7 @@ module.exports = MapBaseView.extend({
                 $paths[0].appendChild(p);
             }
         }
-        let map = this.model;
+        const map = this.model;
         // console.log(map.attributes);
         document.getElementById('mapSvgView').setAttribute('viewBox', '0 0 ' + (map.get('cols') * 12) + ' ' + (map.get('rows') * 12)); // eslint-disable-line max-len
         this.initCss();
@@ -173,16 +173,16 @@ module.exports = MapBaseView.extend({
         this.trigger('rendered');
     },
     makeSVG(tag, attrs) {
-        let el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-        for (let k in attrs) {
+        const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+        for (const k in attrs) {
             el.setAttribute(k, attrs[k]);
         }
         return el;
     },
     renderFromPathStore() {
         // console.log("Render from pathstore");
-        let mps = new MapPathStore();
-        let me = this;
+        const mps = new MapPathStore();
+        const me = this;
         mps.getPath(this.model.get('id'), (map) => {
             // console.log("Look at getPath Response", map)
             if (map === false) {
@@ -192,17 +192,17 @@ module.exports = MapBaseView.extend({
             }
             // get the map (from store or via request) and inject it via callback
             // console.log("Ich hab ne Karte", map);
-            let parser = new DOMParser();
+            const parser = new DOMParser();
             // parse the path, check if it is compressed
             let path = map.p;
             if (path.charAt(0) != '<') {
                 path = LZString.decompress(path);
             }
             // console.log("Path uncompressed: ",path);
-            let doc = parser.parseFromString(path, 'image/svg+xml');
-            let mapNode = me.$SVG.find('#paths')[0];
+            const doc = parser.parseFromString(path, 'image/svg+xml');
+            const mapNode = me.$SVG.find('#paths')[0];
             while (mapNode.childNodes.length > 0) {
-                let f = mapNode.firstChild;
+                const f = mapNode.firstChild;
                 mapNode.removeChild(f);
             }
             // console.log("Jetzt einfug");

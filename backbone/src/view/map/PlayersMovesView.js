@@ -75,7 +75,7 @@ module.exports = Marionette.CollectionView.extend({
         this.resize();
     },
     check() {
-        let me = this;
+        const me = this;
         // console.info("CHECK");
         this.resize();
 
@@ -113,7 +113,7 @@ module.exports = Marionette.CollectionView.extend({
     },
 
     drawLimit() {
-        let newLimit = this.settings.get('drawLimit');
+        const newLimit = this.settings.get('drawLimit');
         this.collection.each((m) => {
             m.set('drawLimit', newLimit);
         });
@@ -121,8 +121,8 @@ module.exports = Marionette.CollectionView.extend({
 
     resize() {
         this.fieldSize = (this.settings.get('size') + this.settings.get('border'));
-        let w = this.map.get('cols') * this.fieldSize;
-        let h = this.map.get('rows') * this.fieldSize;
+        const w = this.map.get('cols') * this.fieldSize;
+        const h = this.map.get('rows') * this.fieldSize;
         this.$el.css({width: w, height: h}).attr({width: w, height: h});
     },
 })

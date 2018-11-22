@@ -44,7 +44,7 @@ module.exports = Backbone.View.extend(/** lends NotificationControl */ {
         }
     },
     checkEnabled() {
-        let on = this.$('#notificationEnabled').prop('checked');
+        const on = this.$('#notificationEnabled').prop('checked');
         this.model.set('enabled', on);
     },
     render() {

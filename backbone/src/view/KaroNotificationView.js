@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend(/** @lends KaroNotificationView */ {
         this.model.destroy();
     },
     done() {
-        let me = this;
+        const me = this;
         this.$el.hide({
             effect: 'slide',
             direction: 'up',
@@ -30,7 +30,7 @@ module.exports = Backbone.View.extend(/** @lends KaroNotificationView */ {
         });
     },
     render() {
-        let text = this.model.get('text');
+        const text = this.model.get('text');
         let html = '';
         this.el.style.position = 'relative';
         this.$el.addClass(this.model.get('level'));

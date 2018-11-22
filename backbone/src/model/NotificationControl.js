@@ -44,7 +44,7 @@ module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype 
     },
     request() {
         if (this.get('enabled')) {
-            let me = this;
+            const me = this;
             Notification.requestPermission((result) => {
                 // console.log(result);
                 if (result === 'denied') {
@@ -61,7 +61,7 @@ module.exports = Backbone.Model.extend(/** @lends NotificationControl.prototype 
     status() {
         return true;
         console.log('-------------------------------');
-        for (let k in this.attributes) {
+        for (const k in this.attributes) {
             console.log(k, this.attributes[k]);
         }
     },

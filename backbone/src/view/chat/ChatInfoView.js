@@ -67,7 +67,7 @@ module.exports = Marionette.ItemView.extend({
         let html;
         $.getJSON('/api/blockers', (bl) => {
             const blockerlist = bl;
-            let dran = this.model.get('dran');
+            const dran = this.model.get('dran');
             if (dran == 0) {
                 html = 'Du bist ein <a href="/karowiki/index.php/Nixblocker">Nixblocker</a>';
             }
@@ -78,7 +78,7 @@ module.exports = Marionette.ItemView.extend({
                 html = '<a href="/dran.html" target="ibndran">Bei <strong>' + dran + '</strong> Spielen dran</a> <a href=""">'; // eslint-disable-line max-len
             }
             if (dran > 0) {
-                let nextGame = this.app.UserDranGames.at(0);
+                const nextGame = this.app.UserDranGames.at(0);
                 if (nextGame) {
                     html += '<br><a title="ZIEH!" href="/game.html?GID=' + nextGame.get('id') + '"><b>Zieh!</b><img src="/images/arrow_right.png" style="vertical-align: center"></a>'; // eslint-disable-line max-len
                 }
@@ -87,7 +87,7 @@ module.exports = Marionette.ItemView.extend({
 
             let pos = 0;
             if (blockerlist.length > 0) {
-                let l = blockerlist.length;
+                const l = blockerlist.length;
                 for (let i = 0; i < l; i++) {
                     if (blockerlist[i].id == myId) {
                         pos = i + 1;
@@ -113,7 +113,7 @@ module.exports = Marionette.ItemView.extend({
     },
 
     updateHabdich() {
-        let habdich = _.reduce(this.chatUserCollection.pluck('dran'), (sum, el) => {
+        const habdich = _.reduce(this.chatUserCollection.pluck('dran'), (sum, el) => {
             return sum + el;
         }, 0);
         this.$('#chatHabdich').text(habdich);
@@ -124,7 +124,7 @@ module.exports = Marionette.ItemView.extend({
         let html;
         $.getJSON('/api/users/' + this.model.get('id') + '/blockers', (data) => {
             if (data.length > 0) {
-                let blocker = data[0];
+                const blocker = data[0];
                 html = 'Dein Top-Blocker: ' + blocker.login + ' (' + blocker.blocked + ')';
             } else {
                 html = '';

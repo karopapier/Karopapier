@@ -14,9 +14,9 @@ module.exports = Backbone.Model.extend(/** @lends LocalSyncModel */ {
     initialize() {
         _.bindAll(this, 'directSave', 'onStorageEvent');
         $(window).bind('storage', this.onStorageEvent);
-        let id = this.get('storageId');
+        const id = this.get('storageId');
         // console.log("INIT LOCALSYNC ON ", id);
-        let data = store.get(id);
+        const data = store.get(id);
         // console.log("From store",data);
         // data = JSON.parse(data);
         // console.log("Data now", data);
@@ -29,11 +29,11 @@ module.exports = Backbone.Model.extend(/** @lends LocalSyncModel */ {
         if (this.initialized) this.directSave();
     },
     onStorageEvent(e) {
-        let key = e.originalEvent.key;
-        let val = e.originalEvent.newValue;
+        const key = e.originalEvent.key;
+        const val = e.originalEvent.newValue;
         if (key === this.get('storageId')) {
             // console.log("ICH SOLL WERDEN", val);
-            let j = JSON.parse(val);
+            const j = JSON.parse(val);
             // console.log(j);
             this.set(j);
         }

@@ -54,8 +54,8 @@ module.exports = Backbone.View.extend({
         // if no move, nothing to draw, stop
         if (this.model.moves.length < 1) return false;
 
-        let m = this.model.getLastMove();
-        let currentPosition = KaroUtil.createSvg('circle', {
+        const m = this.model.getLastMove();
+        const currentPosition = KaroUtil.createSvg('circle', {
             'cx': m.get('x') * this.fieldsize + this.size / 2,
             'cy': m.get('y') * this.fieldsize + this.size / 2,
             'r': 4,
@@ -71,10 +71,10 @@ module.exports = Backbone.View.extend({
         // if only one move, stop here
         if (this.model.moves.length <= 1) return false;
 
-        let limit = this.model.get('drawLimit');
+        const limit = this.model.get('drawLimit');
         // console.log("Limit:", limit);
-        let color = this.color;
-        let movesFragment = document.createDocumentFragment();
+        const color = this.color;
+        const movesFragment = document.createDocumentFragment();
 
         let moves = this.model.moves.toArray();
         if (limit >= 0) {
@@ -93,10 +93,10 @@ module.exports = Backbone.View.extend({
             // start path for all moves
             pathCode = 'M' + (parseInt(moves[0].get('x') * this.fieldsize) + this.halfsize) + ',' + (parseInt(moves[0].get('y') * this.fieldsize) + this.halfsize); // eslint-disable-line max-len
             moves.forEach((m, i) => {
-                let x = parseInt(m.get('x'));
-                let y = parseInt(m.get('y'));
+                const x = parseInt(m.get('x'));
+                const y = parseInt(m.get('y'));
                 pathCode += 'L' + (x * this.fieldsize + this.halfsize) + ',' + (y * this.fieldsize + this.halfsize);
-                let square = KaroUtil.createSvg('rect', {
+                const square = KaroUtil.createSvg('rect', {
                     x: x * this.fieldsize + this.thirdsize,
                     y: y * this.fieldsize + this.thirdsize,
                     width: this.thirdsize,
@@ -108,7 +108,7 @@ module.exports = Backbone.View.extend({
         }
 
         // console.log(pathCode);
-        let p = KaroUtil.createSvg('path', {
+        const p = KaroUtil.createSvg('path', {
             'd': pathCode,
             'stroke': color,
             'stroke-width': 1,
@@ -149,8 +149,8 @@ module.exports = Backbone.View.extend({
     showPlayerInfo(e) {
         this.model.set('highlight', true);
         return true;
-        let playerId = e.currentTarget.getAttribute('data-playerId');
-        let p = this.collection.get(playerId);
+        const playerId = e.currentTarget.getAttribute('data-playerId');
+        const p = this.collection.get(playerId);
         this.activePi = new PlayerInfo({
             model: p,
         });

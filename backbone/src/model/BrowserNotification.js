@@ -26,7 +26,7 @@ module.exports = Backbone.Model.extend({
             return;
         }
 
-        let timeout = this.get('timeout');
+        const timeout = this.get('timeout');
         if (timeout && !isNaN(timeout)) {
             setTimeout(this.close.bind(this), timeout);
             // console.log("Set to close after",timeout);

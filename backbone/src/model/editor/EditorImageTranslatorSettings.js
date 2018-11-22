@@ -24,8 +24,8 @@ module.exports = Backbone.Model.extend({
     setScale(sc) {
         if (sc == 0) return false;
         if (sc < 1) return false;
-        let tc = Math.floor(this.get('sourceWidth') / sc);
-        let tr = Math.floor(this.get('sourceHeight') / sc);
+        const tc = Math.floor(this.get('sourceWidth') / sc);
+        const tr = Math.floor(this.get('sourceHeight') / sc);
         this.set({
             scaleWidth: sc,
             scaleHeight: sc,
@@ -35,8 +35,8 @@ module.exports = Backbone.Model.extend({
     },
 
     setTargetRowCol(r, c) {
-        let scw = this.get('sourceWidth') / c;
-        let sch = Math.floor(this.get('sourceHeight') / r);
+        const scw = this.get('sourceWidth') / c;
+        const sch = Math.floor(this.get('sourceHeight') / r);
         this.set({
             scaleWidth: scw,
             scaleHeight: sch,
@@ -50,8 +50,8 @@ module.exports = Backbone.Model.extend({
         // assume default target cols of 60
         // calc scale to match that
 
-        let srcW = this.get('sourceWidth');
-        let srcH = this.get('sourceHeight');
+        const srcW = this.get('sourceWidth');
+        const srcH = this.get('sourceHeight');
         let sc = 10;
         if ((srcW < 60) || (srcH < 40)) {
             sc = 1;

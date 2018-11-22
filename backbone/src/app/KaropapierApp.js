@@ -89,7 +89,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         this.listenTo(this, 'start', this.bootstrap.bind(this));
     },
     bootstrap() {
-        let me = this;
+        const me = this;
         // console.log("Jetzt bootstrap app");
 
         // container for KaroNotifier
@@ -123,8 +123,8 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         // refresh function considering logout
         function loadTheme() {
             if (me.User.get('id') == 0) return false;
-            let theme = me.User.get('theme');
-            let themeUrl = '/themes/' + theme + '/css/theme.css';
+            const theme = me.User.get('theme');
+            const themeUrl = '/themes/' + theme + '/css/theme.css';
             KaroUtil.lazyCss(themeUrl);
         }
 
@@ -167,16 +167,16 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         this.vent.on('GAME:MOVE', (data) => {
             // only for unrelated moves, count up or down
             if (data.related) return false;
-            let movedUser = new User({id: data.movedId, login: data.movedLogin});
+            const movedUser = new User({id: data.movedId, login: data.movedLogin});
             movedUser.decreaseDran();
-            let nextUser = new User({id: data.nextId, login: data.nextLogin});
+            const nextUser = new User({id: data.nextId, login: data.nextLogin});
             nextUser.increaseDran();
         });
 
         // global keyup handler for hotkeys
         $(document).on('keypress', (e) => {
             // if key pressed outside input, the target is "body", so we consider it a hotkey
-            let targetTag = e.target.tagName.toUpperCase();
+            const targetTag = e.target.tagName.toUpperCase();
             if (targetTag === 'BODY') {
                 if (e.which !== 0) {
                     // console.log("HOTKEY " + String.fromCharCode(e.which));

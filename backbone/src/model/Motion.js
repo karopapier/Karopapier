@@ -21,15 +21,15 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
 
     },
     setXY1toXY2(x1, y1, x2, y2) {
-        let pos = new Position({x: x2, y: y2});
-        let vec = new Vector({x: x2 - x1, y: y2 - y1});
+        const pos = new Position({x: x2, y: y2});
+        const vec = new Vector({x: x2 - x1, y: y2 - y1});
         this.set('position', pos);
         this.set('vector', vec);
         return this;
     },
     setXYXvYv(x, y, xv, yv) {
-        let pos = new Position({x, y});
-        let vec = new Vector({x: xv, y: yv});
+        const pos = new Position({x, y});
+        const vec = new Vector({x: xv, y: yv});
         this.set('position', pos);
         this.set('vector', vec);
         return this;
@@ -58,8 +58,8 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
      * @return Position
      */
     getStopPosition() {
-        let pos = this.getSourcePosition();
-        let vec = this.get('vector').clone();
+        const pos = this.getSourcePosition();
+        const vec = this.get('vector').clone();
 
         while (vec.getLength() > 0) {
             pos.move(vec);
@@ -73,7 +73,7 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
      */
 
     getSourcePosition() {
-        let p = new Position(this.get('position').toJSON());
+        const p = new Position(this.get('position').toJSON());
         p.set('x', p.get('x') - this.get('vector').get('x'));
         p.set('y', p.get('y') - this.get('vector').get('y'));
         return p;
@@ -117,23 +117,23 @@ const Motion = Backbone.Model.extend(/** @lends Motion.prototype*/{
      * @returns {Array} Motion
      */
     getPossibles() {
-        let possibles = [];
+        const possibles = [];
         // #walk the 9 possibilities to have them arranged like
         // # 0 1 2
         // # 3 4 5
         // # 6 7 8
         let i = 0;
-        let posx = this.get('position').get('x');
-        let posy = this.get('position').get('y');
-        let baseX = this.get('vector').get('x');
-        let baseY = this.get('vector').get('y');
+        const posx = this.get('position').get('x');
+        const posy = this.get('position').get('y');
+        const baseX = this.get('vector').get('x');
+        const baseY = this.get('vector').get('y');
         for (let iY = -1; iY <= 1; iY++) {
             for (let iX = -1; iX <= 1; iX++) {
-                let x = baseX + iX;
-                let y = baseY + iY;
+                const x = baseX + iX;
+                const y = baseY + iY;
                 if ((x !== 0) || (y !== 0)) {
-                    let xv = baseX + iX;
-                    let yv = baseY + iY;
+                    const xv = baseX + iX;
+                    const yv = baseY + iY;
                     possibles[i] = new Motion().setXYXvYv(posx + xv, posy + yv, xv, yv);
                     i++;
                 }

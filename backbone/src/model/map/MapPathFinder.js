@@ -56,7 +56,7 @@ module.exports = Backbone.Model.extend({
 
             let n = 0;
             let pos = 0;
-            let step = (allowOverlapping) ? (1) : (subString.length);
+            const step = (allowOverlapping) ? (1) : (subString.length);
 
             while (true) {
                 pos = string.indexOf(subString, pos);
@@ -68,11 +68,11 @@ module.exports = Backbone.Model.extend({
             return (n);
         }
 
-        let mc = this.map.get('mapcode');
+        const mc = this.map.get('mapcode');
         let mostChar = '';
         let charCount = 0;
-        for (let char in this.map.FIELDS) {
-            let nb = occurrences(mc, char);
+        for (const char in this.map.FIELDS) {
+            const nb = occurrences(mc, char);
             if (nb) {
                 if (nb > charCount) {
                     mostChar = char;
@@ -86,8 +86,8 @@ module.exports = Backbone.Model.extend({
         // console.info("Start number crunching");
         this.reset();
         let char;
-        let cols = this.map.get('cols');
-        let rows = this.map.get('rows');
+        const cols = this.map.get('cols');
+        const rows = this.map.get('rows');
 
         let r = 0;
         let c = 0;
@@ -134,14 +134,14 @@ module.exports = Backbone.Model.extend({
         // console.log(lastR, lastC);
 
         while ((!(_.isEmpty(outlines))) && (emergencyBreak > 0)) {
-            let searchKey = this.getKeyForRowCol(lastR, lastC);
+            const searchKey = this.getKeyForRowCol(lastR, lastC);
             // console.log("Looking for key", searchKey);
             // console.log(path);
 
             if (searchKey in outlines) {
-                let a = outlines[searchKey];
-                let o = a.shift();
-                let thisDirection = this.getOutlineDirection(o);
+                const a = outlines[searchKey];
+                const o = a.shift();
+                const thisDirection = this.getOutlineDirection(o);
 
                 if (thisDirection != lastDirection) {
                     path += 'L' + (o.x1 * s) + ',' + (o.y1 * s);
@@ -181,8 +181,8 @@ module.exports = Backbone.Model.extend({
     },
 
     getOutlineDirection(outline) {
-        let x = outline.x2 - outline.x1;
-        let y = outline.y2 - outline.y1;
+        const x = outline.x2 - outline.x1;
+        const y = outline.y2 - outline.y1;
         return this.directions[y + '|' + x];
     },
 
@@ -190,14 +190,14 @@ module.exports = Backbone.Model.extend({
         return (r + '|' + c);
     },
     getRowColFromKey(k) {
-        let s = k.split('|');
+        const s = k.split('|');
         return {r: parseInt(s[0]), c: parseInt(s[1])};
     },
     isLikeRoad(s) {
         return this.ROAD_FIELDS.indexOf(s) >= 0;
     },
     getFieldOutlines(r, c) {
-        let currentField = this.map.getFieldAtRowCol(r, c);
+        const currentField = this.map.getFieldAtRowCol(r, c);
 
         // for all 4 directions
         // get the char and if it is different, add outline
@@ -205,12 +205,12 @@ module.exports = Backbone.Model.extend({
         let testField;
 
         let copyToRoad = false;
-        for (let direction in this.modifiers) {
+        for (const direction in this.modifiers) {
             // console.log("Now doing directions: ",direction,"from ", r,c)
             // console.log("Remembering i am coming from ", from);
-            let mod = this.modifiers[direction];
-            let testR = r + mod.r;
-            let testC = c + mod.c;
+            const mod = this.modifiers[direction];
+            const testR = r + mod.r;
+            const testC = c + mod.c;
 
             if (this.map.withinBounds({row: testR, col: testC})) {
                 testField = this.map.getFieldAtRowCol(testR, testC);
@@ -237,8 +237,8 @@ module.exports = Backbone.Model.extend({
 
             if (testField != currentField) {
                 // add outlines
-                let fromMod = this.outlineModifiers[direction].from;
-                let toMod = this.outlineModifiers[direction].to;
+                const fromMod = this.outlineModifiers[direction].from;
+                const toMod = this.outlineModifiers[direction].to;
                 if (!(currentField in this.outlines)) {
                     // init outline per char
                     this.outlines[currentField] = {};
@@ -246,11 +246,11 @@ module.exports = Backbone.Model.extend({
 
                 // use start as key and add array of outlines, as several outlines can start at one point
 
-                let x1 = c + fromMod.c;
-                let y1 = r + fromMod.r;
-                let x2 = c + toMod.c;
-                let y2 = r + toMod.r;
-                let k = this.getKeyForRowCol(y1, x1);
+                const x1 = c + fromMod.c;
+                const y1 = r + fromMod.r;
+                const x2 = c + toMod.c;
+                const y2 = r + toMod.r;
+                const k = this.getKeyForRowCol(y1, x1);
 
                 // if we are on a road and next is a road alternative
                 if (currentField == 'O' && this.isLikeRoad(testField)) {

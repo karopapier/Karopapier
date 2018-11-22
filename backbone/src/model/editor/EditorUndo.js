@@ -48,9 +48,9 @@ module.exports = Backbone.Model.extend({
     pushChange(code) {
         if (!this._enabled) return false;
         // console.log("Push ", code, "because", this._enabled);
-        let l = this.undoStack.length;
+        const l = this.undoStack.length;
         if (l > 0) {
-            let prev = this.undoStack[l - 1];
+            const prev = this.undoStack[l - 1];
             // console.log("Compare", prev, code);
             if (code === prev) {
                 // console.info("Skip double triggered change, last undo is the same");
@@ -77,7 +77,7 @@ module.exports = Backbone.Model.extend({
     undo() {
         if (this.undoStack.length >= 1) {
             this._lastChangeWasUndo = true;
-            let undocode = this.undoStack.pop();
+            const undocode = this.undoStack.pop();
             // console.log(undocode);
             this.map.set('mapcode', undocode);
             // console.log("Now trigger change:undoStack");

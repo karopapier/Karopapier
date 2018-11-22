@@ -46,7 +46,7 @@ module.exports = Backbone.Model.extend(/** @lends UserFactory.prototype */ {
         this.updateSelf();
     },
     updateSelf() {
-        let me = this;
+        const me = this;
         this.uid = this.login.get('id');
         this.userCache.each((u) => {
             u.set('self', (u.get('id') === me.uid));

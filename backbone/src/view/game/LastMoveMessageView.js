@@ -15,17 +15,17 @@ module.exports = Backbone.View.extend({
 
     render() {
         let html = '';
-        let ts = this.settings.get('timestamp');
+        const ts = this.settings.get('timestamp');
 
         if ((this.collection.length > 0) && ts) {
-            let filter = function(m) {
-                let d = moment(m.get('t'), 'YYYY-MM-DD hh:mm:ss');
+            const filter = function(m) {
+                const d = moment(m.get('t'), 'YYYY-MM-DD hh:mm:ss');
                 return (d.unix() > (ts.getTime() / 1000));
             };
 
-            let filtered = this.collection.filter(filter);
+            const filtered = this.collection.filter(filter);
             _.each(filtered, function(e) {
-                let tpl = this.template;
+                const tpl = this.template;
                 // if (!txt.startsWith("-:K")) {  //do we want to see status messages since last move or not?
                 html += tpl({
                     name: e.get('player').get('name'),

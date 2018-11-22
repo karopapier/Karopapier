@@ -24,7 +24,7 @@ const MessagingRouter = require('../router/MessagingRouter');
 
 module.exports = window.MessagingApp = Marionette.Application.extend({
     initialize(config) {
-        let me = this;
+        const me = this;
 
         this.config = config;
 
@@ -36,7 +36,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         this.messages = new MessageCollection();
         this.userMessages = new MessageCollection();
         this.listenTo(this.messages, 'add', (m) => {
-            let selectedContact = me.getSelectedContact();
+            const selectedContact = me.getSelectedContact();
             // if current contact selected, add message to filtered userMessages
             if (selectedContact) {
                 if (m.get('contact_id') === selectedContact.get('id')) {
@@ -47,8 +47,8 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
 
         this.messagingChannel = Radio.channel('messaging');
         this.messagingChannel.on('message:new', (data) => {
-            let m = new Message(data);
-            let selectedContact = this.getSelectedContact();
+            const m = new Message(data);
+            const selectedContact = this.getSelectedContact();
             // if current contact selected, add message as already read
             if (selectedContact) {
                 if (m.get('contact_id') === selectedContact.get('id')) {
@@ -68,7 +68,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
     },
 
     loadInitialAndStart() {
-        let me = this;
+        const me = this;
         $.when(
             me.contacts.fetch(),
             me.messages.fetch()
@@ -79,7 +79,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
 
     start() {
         console.info('Start App');
-        let me = this;
+        const me = this;
         this.unreadRecalc();
 
         // Now bind to add in case of realtime updates
@@ -96,7 +96,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         });
 
         this.listenTo(this.contactsView, 'childview:contact:select', (e) => {
-            let contact = e.model;
+            const contact = e.model;
             me.select(contact);
         });
 
@@ -135,18 +135,18 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
     },
 
     select(contact) {
-        let me = this;
+        const me = this;
         this.contacts.each((c) => {
             c.set('selected', contact.get('id') === c.get('id'));
         });
-        let messages = this.messages.where({
+        const messages = this.messages.where({
             contact_id: contact.get('id'),
         });
         let prevDate = '';
         let uc = 0;
         messages.forEach((m) => {
-            let d = new Date(m.get('ts') * 1000);
-            let dat = '' + d.getDate() + d.getMonth();
+            const d = new Date(m.get('ts') * 1000);
+            const dat = '' + d.getDate() + d.getMonth();
             if (dat !== prevDate) {
                 m.set('dateSeparator', true);
                 prevDate = dat;
@@ -203,9 +203,9 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
     unreadRecalc() {
         let total = 0;
         console.info('Unread recalc');
-        let me = this;
+        const me = this;
         this.contacts.each((c) => {
-            let uc = me.messages.where({
+            const uc = me.messages.where({
                 r: 0,
                 contact_id: c.get('id'),
                 rxtx: 'rx',

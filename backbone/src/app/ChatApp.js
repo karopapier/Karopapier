@@ -75,7 +75,7 @@ module.exports = Marionette.Application.extend({
 
         this.listenTo(this.configuration, 'change:limit', function(conf, limit) {
             if (this.configuration.get('atEnd')) {
-                let start = this.configuration.get('lastLineId') - this.configuration.get('limit');
+                const start = this.configuration.get('lastLineId') - this.configuration.get('limit');
                 this.configuration.set('start', start);
             }
             this.app.Settings.set('chat_limit', limit);
@@ -133,10 +133,10 @@ module.exports = Marionette.Application.extend({
 
         this.listenTo(this.chatMessageCache, 'CHAT:CACHE:UPDATED', function() {
             // chat cache was updated - filter what to view
-            let start = this.configuration.get('start');
-            let end = parseInt(start) + parseInt(this.configuration.get('limit'));
-            let toShow = this.chatMessageCache.filter((cm) => {
-                let lineId = cm.get('lineId');
+            const start = this.configuration.get('start');
+            const end = parseInt(start) + parseInt(this.configuration.get('limit'));
+            const toShow = this.chatMessageCache.filter((cm) => {
+                const lineId = cm.get('lineId');
                 // console.log("Check",lineId,"to be between",start,end);
                 return ((lineId >= start) && (lineId <= end));
             });
@@ -150,9 +150,9 @@ module.exports = Marionette.Application.extend({
                 return false;
             }
 
-            let extender = 100;
+            const extender = 100;
             let start = this.configuration.get('start');
-            let limit = this.configuration.get('limit');
+            const limit = this.configuration.get('limit');
             if (start <= 1) return true;
             start -= extender;
             this.configuration.set({
@@ -163,7 +163,7 @@ module.exports = Marionette.Application.extend({
         });
 
         // wire message cache and view collection together
-        let me = this;
+        const me = this;
         this.listenTo(this.chatMessageCache.info, 'change:lastLineId', function(ll) {
             console.warn('Update conf ll to ', ll.get('lastLineId'));
             this.configuration.set('lastLineId', ll.get('lastLineId'));
@@ -171,10 +171,10 @@ module.exports = Marionette.Application.extend({
 
         this.listenTo(this.configuration, 'change:lastLineId', function() {
             // a change here only matters if we are "at the end"
-            let ll = this.configuration.get('lastLineId');
+            const ll = this.configuration.get('lastLineId');
             if (this.configuration.get('atEnd')) {
-                let limit = this.configuration.get('limit');
-                let start = ll - limit;
+                const limit = this.configuration.get('limit');
+                const start = ll - limit;
                 // do this silently if start was 0
                 this.configuration.set('start', start, {});
             }
@@ -205,15 +205,15 @@ module.exports = Marionette.Application.extend({
         // console.log("updateView");
         if (this.configuration.get('atEnd')) {
             console.log('We are at the end');
-            let l = this.chatMessageCache.length;
-            let lim = this.configuration.get('limit');
+            const l = this.chatMessageCache.length;
+            const lim = this.configuration.get('limit');
             this.chatMessageCollection.set(this.chatMessageCache.slice(l - lim));
         }
     },
     scrollCheck(e) {
         // console.log("Check already", this.already);
-        let cmv = this.chatMessagesView;
-        let me = this;
+        const cmv = this.chatMessagesView;
+        const me = this;
         if (this.already) {
             cmv.scrollCheck();
             this.already = false;

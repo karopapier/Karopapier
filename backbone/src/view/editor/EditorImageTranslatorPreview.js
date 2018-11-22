@@ -15,12 +15,12 @@ module.exports = Marionette.ItemView.extend({
         this.canvas = this.el;
         this.ctx = this.canvas.getContext('2d');
 
-        let me = this;
+        const me = this;
         this.img = new Image();
         this.img.onload = function() {
             // console.log("Cat loaded");
-            let w = me.img.width;
-            let h = me.img.height;
+            const w = me.img.width;
+            const h = me.img.height;
 
             // adjust internal canvas
             me.canvas.width = w;
@@ -45,13 +45,13 @@ module.exports = Marionette.ItemView.extend({
 
     drop(e) {
         e.preventDefault();
-        let origEvent = e.originalEvent;
-        let me = this;
-        let files = origEvent.dataTransfer.files;
+        const origEvent = e.originalEvent;
+        const me = this;
+        const files = origEvent.dataTransfer.files;
         if (files.length > 0) {
-            let file = files[0];
+            const file = files[0];
             if (typeof FileReader !== 'undefined' && file.type.indexOf('image') != -1) {
-                let reader = new FileReader();
+                const reader = new FileReader();
                 // Note: addEventListener doesn't work in Google Chrome for this event
                 reader.onload = function(e) {
                     me.img.src = e.target.result;
@@ -73,7 +73,7 @@ module.exports = Marionette.ItemView.extend({
         }
         this.canvas.width = this.imageTranslator.settings.get('sourceWidth');
         this.canvas.height = this.imageTranslator.settings.get('sourceHeight');
-        let imgdat = this.imageTranslator.getImageData();
+        const imgdat = this.imageTranslator.getImageData();
         // console.log(imgdat);
         this.ctx.putImageData(imgdat, 0, 0);
 

@@ -24,7 +24,7 @@ module.exports = Marionette.ItemView.extend({
     },
 
     setRightclick() {
-        let rightclick = this.$('.editor-tools-fields-rightclick').prop('checked');
+        const rightclick = this.$('.editor-tools-fields-rightclick').prop('checked');
         this.editorsettings.set('rightclick', rightclick);
     },
 
@@ -36,7 +36,7 @@ module.exports = Marionette.ItemView.extend({
     },
 
     update() {
-        let buttons = this.editorsettings.get('buttons');
+        const buttons = this.editorsettings.get('buttons');
         this.$('.editor-tools-fields-field').removeClass('activeField');
         this.$('.editor-tools-fields-field[data-field="' + buttons[1] + '"]').addClass('activeField');
 
@@ -48,8 +48,8 @@ module.exports = Marionette.ItemView.extend({
     },
 
     selectField(e, i) {
-        let f = $(e.currentTarget).data('field');
-        let w = e.which;
+        const f = $(e.currentTarget).data('field');
+        const w = e.which;
         if ((w == 3) && (!this.editorsettings.get('rightclick'))) {
             return false;
         }
@@ -57,19 +57,19 @@ module.exports = Marionette.ItemView.extend({
     },
 
     selectDrawmode(e, i) {
-        let m = $(e.currentTarget).data('drawmode');
+        const m = $(e.currentTarget).data('drawmode');
         this.editorsettings.set('drawmode', m);
     },
 
     render() {
         this.$el.empty();
-        let map = new Map();
-        let fieldlists = ['OX', 'SFP', '123456789', 'GLNVTWYZ'];
+        const map = new Map();
+        const fieldlists = ['OX', 'SFP', '123456789', 'GLNVTWYZ'];
         let html = '';
         for (let r = 0; r < fieldlists.length; r++) {
-            let fieldlist = fieldlists[r];
+            const fieldlist = fieldlists[r];
             for (let i = 0, e = fieldlist.length; i < e; i++) {
-                let c = fieldlist[i];
+                const c = fieldlist[i];
                 html += '<img src="/images/mapfields/' + c + '.png?v=201512181836" ';
                 html += 'class="editor-tools-fields-field" data-field="' + c + '" title="' + map.FIELDS[c] + '" />';
             }

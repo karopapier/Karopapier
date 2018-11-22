@@ -11,8 +11,8 @@ module.exports = Marionette.CollectionView.extend({
     },
 
     onRender() {
-        let el = this.el;
-        let parent = el.parentNode;
+        const el = this.el;
+        const parent = el.parentNode;
         if (parent) {
             parent.scrollTop = parent.scrollHeight;
         }

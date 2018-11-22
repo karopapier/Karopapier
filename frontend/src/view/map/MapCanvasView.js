@@ -165,7 +165,7 @@ module.exports = MapBaseView.extend({
         const me = this;
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
-                let f = map.getFieldAtRowCol(r, c);
+                const f = map.getFieldAtRowCol(r, c);
                 me.drawField(r, c, f);
             }
         }

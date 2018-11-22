@@ -6,7 +6,7 @@ module.exports = Backbone.Model.extend({
         let cols = 0;
         let path = '';
 
-        let amifinished = function() {
+        const amifinished = function() {
             // console.log("check if finished");
             // we should have the path and dimensions here
             // console.log(path);
@@ -16,11 +16,11 @@ module.exports = Backbone.Model.extend({
                 return false;
             }
             if (rows != 0 && cols != 0 && path != '') {
-                let m = {};
+                const m = {};
                 m.r = rows;
                 m.c = cols;
 
-                let xml = (new XMLSerializer).serializeToString(path);
+                const xml = (new XMLSerializer).serializeToString(path);
                 m.p = xml;
                 store.set('map' + mapid, m);
                 cb(m);
@@ -30,7 +30,7 @@ module.exports = Backbone.Model.extend({
         };
 
         // check if we have the path in store
-        let i = store.get('map' + mapid);
+        const i = store.get('map' + mapid);
         if (i) {
             // console.log ("I from store",i);
             cb(i);

@@ -35,17 +35,17 @@ module.exports = Backbone.Model.extend(/** @lends Player.prototype */{
         }
     },
     toJSON() {
-        let modelJSON = Backbone.Model.prototype.toJSON.call(this);
+        const modelJSON = Backbone.Model.prototype.toJSON.call(this);
         modelJSON.moves = this.moves.toJSON();
         return modelJSON;
     },
     getStatus() {
-        let means = {
+        const means = {
             'kicked': 'rausgeworfen',
             'left': 'ausgestiegen',
             'invited': 'eingeladen',
         };
-        let s = this.get('status');
+        const s = this.get('status');
         if (s in means) return means[s];
         return s;
     },

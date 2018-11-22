@@ -44,10 +44,10 @@ module.exports = Marionette.ItemView.extend({
         // if only one move, stop here
         if (this.collection.length <= 1) return false;
 
-        let limit = this.model.get('drawLimit');
+        const limit = this.model.get('drawLimit');
         // console.log("Limit:", limit);
-        let color = this.color;
-        let movesFragment = document.createDocumentFragment();
+        const color = this.color;
+        const movesFragment = document.createDocumentFragment();
 
         let moves = this.collection.toArray();
         if (limit >= 0) {
@@ -66,32 +66,32 @@ module.exports = Marionette.ItemView.extend({
             // start path for all moves
             pathCode = 'M' + (parseInt(moves[0].get('x') * this.fieldsize) + this.halfsize) + ',' + (parseInt(moves[0].get('y') * this.fieldsize) + this.halfsize); // eslint-disable-line max-len
             moves.forEach((m, i) => {
-                let x = parseInt(m.get('x'));
-                let y = parseInt(m.get('y'));
+                const x = parseInt(m.get('x'));
+                const y = parseInt(m.get('y'));
                 pathCode += 'L' + (x * this.fieldsize + this.halfsize) + ',' + (y * this.fieldsize + this.halfsize);
-                let square = this._createElement('rect');
-                let attrs = {
+                const square = this._createElement('rect');
+                const attrs = {
                     x: x * this.fieldsize + this.thirdsize,
                     y: y * this.fieldsize + this.thirdsize,
                     width: this.thirdsize,
                     height: this.thirdsize,
                     fill: color,
                 };
-                for (let k in attrs) square.setAttribute(k, attrs[k]);
+                for (const k in attrs) square.setAttribute(k, attrs[k]);
                 movesFragment.appendChild(square);
             });
             // console.log(pathCode);
         }
 
         // console.log(pathCode);
-        let p = this._createElement('path');
-        let attrs = {
+        const p = this._createElement('path');
+        const attrs = {
             'd': pathCode,
             'stroke': color,
             'stroke-width': 1,
             'fill': 'none',
         };
-        for (let k in attrs) p.setAttribute(k, attrs[k]);
+        for (const k in attrs) p.setAttribute(k, attrs[k]);
         // //movesFragment.appendChild(p);
         // console.log(movesFragment);
         this.el.appendChild(movesFragment);

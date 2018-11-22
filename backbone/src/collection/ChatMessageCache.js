@@ -17,7 +17,7 @@ module.exports = Backbone.Collection.extend({
     },
     cache(start, limit) {
         if (typeof limit === 'undefined') limit = 100;
-        let me = this;
+        const me = this;
         console.log('Caching', start);
         // TODO check from start to end
         // TODO make sure to grab if start is close to end

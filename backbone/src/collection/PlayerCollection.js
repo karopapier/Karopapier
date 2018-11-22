@@ -10,7 +10,7 @@ module.exports = Backbone.Collection.extend({
     },
 
     toJSON() {
-        let modelJSON = [];
+        const modelJSON = [];
         this.each((e, i) => {
             modelJSON.push(e.toJSON());
         });
@@ -22,20 +22,20 @@ module.exports = Backbone.Collection.extend({
      * can be limited to those that already moved this round (according to change of rules for GID>75000)
      */
     getOccupiedPositions(onlyMoved) {
-        let queryParams = {
+        const queryParams = {
             position: 0,
             status: 'ok',
         };
         if (onlyMoved) {
             queryParams.moved = true;
         }
-        let blockers = this.where(queryParams);
+        const blockers = this.where(queryParams);
 
-        let positions = [];
+        const positions = [];
         for (let i = 0, l = blockers.length; i < l; i++) {
-            let mos = blockers[i].moves;
+            const mos = blockers[i].moves;
             if (mos.length > 0) {
-                let mo = mos.at(mos.length - 1);
+                const mo = mos.at(mos.length - 1);
                 positions.push(new Position({
                     x: mo.attributes.x,
                     y: mo.attributes.y,

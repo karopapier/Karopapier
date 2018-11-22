@@ -39,7 +39,7 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
             _.defaults(options, this.optionDefaults);
             if (options.settings) {
                 // apply and enrich the settings if some are missing
-                let attr = options.settings.attributes;
+                const attr = options.settings.attributes;
                 _.defaults(attr, this.optionDefaults);
                 this.settings = options.settings;
                 this.settings.set(attr);
@@ -105,18 +105,18 @@ module.exports = Marionette.View.extend(/** @lends MapBaseView.prototype */
 
         getFieldAtXY(x, y) {
             alert('Deprecated');
-            let rc = this.getRowColFromXY(x, y);
+            const rc = this.getRowColFromXY(x, y);
             return this.model.getFieldAtRowCol(rc.r, rc.c);
         },
 
         floodfill(x, y, field) {
-            let rc = this.getRowColFromXY(x, y);
+            const rc = this.getRowColFromXY(x, y);
             this.model.floodfill(rc.r, rc.c, field);
         },
 
         setFieldAtXY(x, y, field) {
-            let rc = this.getRowColFromXY(x, y);
-            let old = this.model.getFieldAtRowCol(rc.r, rc.c);
+            const rc = this.getRowColFromXY(x, y);
+            const old = this.model.getFieldAtRowCol(rc.r, rc.c);
             if (old != field) {
                 this.setFieldAtRowCol(rc.r, rc.c, field);
             }

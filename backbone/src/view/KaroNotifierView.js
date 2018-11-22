@@ -12,7 +12,7 @@ module.exports = Backbone.View.extend(/** @lends KaroNotifierView */ {
         this.listenTo(this.model.notifications, 'add', this.showNotification);
     },
     showNotification(notification) { // , notifications) {
-        let nv = new KaroNotificationView({
+        const nv = new KaroNotificationView({
             model: notification,
         }).render();
         nv.el.style.display = 'none';

@@ -34,13 +34,13 @@ module.exports = Marionette.ItemView.extend({
     },
 
     changeSetting() {
-        let binary = this.$('.editor-imagetranslator-settings-binary').prop('checked');
+        const binary = this.$('.editor-imagetranslator-settings-binary').prop('checked');
         this.imageTranslator.settings.set('binary', binary);
 
-        let invert = this.$('.editor-imagetranslator-settings-invert').prop('checked');
+        const invert = this.$('.editor-imagetranslator-settings-invert').prop('checked');
         this.imageTranslator.settings.set('invert', invert);
 
-        let speedmode = this.$('.editor-imagetranslator-settings-speedmode').prop('checked');
+        const speedmode = this.$('.editor-imagetranslator-settings-speedmode').prop('checked');
         this.imageTranslator.settings.set('speedmode', speedmode);
 
         console.log('Now bin invert, speed', binary, invert, speedmode);
@@ -59,7 +59,7 @@ module.exports = Marionette.ItemView.extend({
 
     render() {
         // console.log("EITSV render");
-        let json = this.imageTranslator.settings.toJSON();
+        const json = this.imageTranslator.settings.toJSON();
         _.defaults(json, this.imageTranslator.editorsettings.toJSON());
         // console.log(json);
         this.$el.html(this.template(json));

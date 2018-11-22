@@ -35,15 +35,15 @@ module.exports = Backbone.View.extend({
         'click #showBotrix': 'setShowBotrix',
     },
     setStart(e) {
-        let start = parseInt(this.$el.find('#startLine').val());
+        const start = parseInt(this.$el.find('#startLine').val());
         this.model.set('start', start);
     },
     syncStart(e) {
-        let v = parseInt(e.currentTarget.value);
+        const v = parseInt(e.currentTarget.value);
         $('#startLine').val(v);
     },
     setLimit(e) {
-        let limit = parseInt($(e.currentTarget).text());
+        const limit = parseInt($(e.currentTarget).text());
         this.model.set('limit', limit);
     },
     rewind(e) {
@@ -59,8 +59,8 @@ module.exports = Backbone.View.extend({
         });
     },
     toggleTimewarp(e) {
-        let history = this.model.get('history');
-        let settings = {};
+        const history = this.model.get('history');
+        const settings = {};
         settings.history = !history;
         settings.limit = 100;
         if (history) {
@@ -76,15 +76,15 @@ module.exports = Backbone.View.extend({
     },
 
     setLinkifyFun(e) {
-        let funny = $(e.currentTarget).prop('checked');
+        const funny = $(e.currentTarget).prop('checked');
         this.model.set('funny', funny);
     },
     setShowBotrix(e) {
-        let showBotrix = $(e.currentTarget).prop('checked');
+        const showBotrix = $(e.currentTarget).prop('checked');
         this.model.set('showBotrix', showBotrix);
     },
     setOldLink(e) {
-        let oldLink = $(e.currentTarget).prop('checked');
+        const oldLink = $(e.currentTarget).prop('checked');
         this.model.set('oldLink', oldLink);
     },
     updateFunny(e) {

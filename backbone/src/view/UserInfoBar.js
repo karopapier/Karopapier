@@ -26,11 +26,11 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.model, 'change', this.render);
     },
     render() {
-        let uid = this.model.get('id');
+        const uid = this.model.get('id');
         if (uid > 0) {
             this.$el.html(this.userView.$el);
             this.$el.append(' ');
-            let uc = this.model.get('uc');
+            const uc = this.model.get('uc');
             if (uc > 0) {
                 this.$el.append('<a href="//karopapier.de/zettel"><span class="unread">' + uc + '</span></a>');
             }

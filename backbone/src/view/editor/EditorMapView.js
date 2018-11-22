@@ -52,16 +52,16 @@ module.exports = Backbone.View.extend({
     },
 
     xyFromE(e) {
-        let x = (e.pageX - this.offLeft);
-        let y = (e.pageY - this.offTop);
+        const x = (e.pageX - this.offLeft);
+        const y = (e.pageY - this.offTop);
         return {x, y};
     },
 
     draw(e) {
-        let xy = this.xyFromE(e);
-        let x = xy.x - this.resizeHandleWidth;
-        let y = xy.y - this.resizeHandleWidth;
-        let buttons = this.editorsettings.get('buttons');
+        const xy = this.xyFromE(e);
+        const x = xy.x - this.resizeHandleWidth;
+        const y = xy.y - this.resizeHandleWidth;
+        const buttons = this.editorsettings.get('buttons');
         // console.log("Draw ", x, y);
         for (let i = 1; i <= 3; i++) {
             if (this.buttonDown[i]) {
@@ -72,13 +72,13 @@ module.exports = Backbone.View.extend({
 
     resize(e) {
         if (!this.resize) return false;
-        let xy = this.xyFromE(e);
+        const xy = this.xyFromE(e);
 
         // check for W-E resize
         if (this.currentDirections.we) {
-            let x = xy.x - this.resizeHandleWidth;
-            let right = Math.floor((x - this.startX) / this.fieldsize) > 0;
-            let left = Math.ceil((x - this.startX) / this.fieldsize) < 0;
+            const x = xy.x - this.resizeHandleWidth;
+            const right = Math.floor((x - this.startX) / this.fieldsize) > 0;
+            const left = Math.ceil((x - this.startX) / this.fieldsize) < 0;
 
             if (this.currentDirections.e) {
                 if (right) {
@@ -109,9 +109,9 @@ module.exports = Backbone.View.extend({
 
         // check for N-S resize
         if (this.currentDirections.ns) {
-            let y = xy.y - this.resizeHandleWidth;
-            let down = Math.floor((y - this.startY) / this.fieldsize) > 0;
-            let up = Math.ceil((y - this.startY) / this.fieldsize) < 0;
+            const y = xy.y - this.resizeHandleWidth;
+            const down = Math.floor((y - this.startY) / this.fieldsize) > 0;
+            const up = Math.ceil((y - this.startY) / this.fieldsize) < 0;
 
             if (this.currentDirections.s) {
                 if (down) {
@@ -142,7 +142,7 @@ module.exports = Backbone.View.extend({
     recalcDimensions(e) {
         this.w = this.$el.width();
         this.h = this.$el.height();
-        let off = this.$el.offset();
+        const off = this.$el.offset();
         this.offLeft = Math.round(off.left);
         this.offTop = Math.round(off.top);
         this.outW = this.$el.outerWidth();
@@ -151,7 +151,7 @@ module.exports = Backbone.View.extend({
     },
 
     resizeDirections(e) {
-        let d = {
+        const d = {
             we: '',
             ns: '',
             n: false,
@@ -159,12 +159,12 @@ module.exports = Backbone.View.extend({
             w: false,
             e: false,
         };
-        let xy = this.xyFromE(e);
-        let x = xy.x;
-        let y = xy.y;
-        let rhw = this.resizeHandleWidth;
-        let w = this.w;
-        let h = this.h;
+        const xy = this.xyFromE(e);
+        const x = xy.x;
+        const y = xy.y;
+        const rhw = this.resizeHandleWidth;
+        const w = this.w;
+        const h = this.h;
 
         if (x < rhw) {
             d.we = 'w';
@@ -189,7 +189,7 @@ module.exports = Backbone.View.extend({
     },
 
     mousedown(e) {
-        let button = e.which;
+        const button = e.which;
         // console.log("Button", button, "right", this.editorsettings.get("rightclick"));
         if ((button == 3) && (!this.editorsettings.get('rightclick'))) {
             // leave default rightclick menu intact
@@ -203,7 +203,7 @@ module.exports = Backbone.View.extend({
         this.editorsettings.set('undo', false);
 
         this.buttonDown[e.which] = true;
-        let xy = this.xyFromE(e);
+        const xy = this.xyFromE(e);
         // check if we are resizing
         if (this.currentDirections.direction !== '') {
             this.startX = xy.x - this.resizeHandleWidth;
@@ -222,9 +222,9 @@ module.exports = Backbone.View.extend({
         // check draw mode
         if (this.editorsettings.get('drawmode') == 'floodfill') {
             // console.log("FLOODFILL");
-            let x = xy.x - this.resizeHandleWidth;
-            let y = xy.y - this.resizeHandleWidth;
-            let buttons = this.editorsettings.get('buttons');
+            const x = xy.x - this.resizeHandleWidth;
+            const y = xy.y - this.resizeHandleWidth;
+            const buttons = this.editorsettings.get('buttons');
             // console.log(this.buttonDown)
 
             for (let i = 1; i <= 3; i++) {
@@ -273,7 +273,7 @@ module.exports = Backbone.View.extend({
         // console.log(e.target);
 
         // simple mouse move
-        let d = this.resizeDirections(e);
+        const d = this.resizeDirections(e);
         if (d.direction) {
             this.el.style.cursor = d.direction + '-resize';
         } else {

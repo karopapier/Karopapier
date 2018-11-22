@@ -21,11 +21,11 @@ module.exports = Backbone.View.extend({
         this.util = options.util;
 
         // check if it is a botrix game message
-        let bgreq = /Botrix, spiel mit/g;
-        let bgack = /.*fahr ich jetzt in Grund und Boden!/g;
-        let bgack2 = /.*mach ich jetzt Ruehrei/g;
-        let bgack3 = /.*Direktlink/g;
-        let line = this.model.get('text');
+        const bgreq = /Botrix, spiel mit/g;
+        const bgack = /.*fahr ich jetzt in Grund und Boden!/g;
+        const bgack2 = /.*mach ich jetzt Ruehrei/g;
+        const bgack3 = /.*Direktlink/g;
+        const line = this.model.get('text');
         if (line.match(bgreq) || line.match(bgack) || line.match(bgack2) || line.match(bgack3)) {
             this.model.set('isBotrixGameMessage', true);
             this.$el.addClass('botrixGame');
@@ -39,22 +39,22 @@ module.exports = Backbone.View.extend({
     },
 
     updateText() {
-        let me = this;
-        let $dummy = $('<span>');
+        const me = this;
+        const $dummy = $('<span>');
         $dummy.html(this.model.get('text'));
         let text = $dummy.text();
 
         text = emojione.unicodeToImage(text);
         text = this.util.linkify(text);
 
-        let $textSpan = this.$el.find('.chatText').first();
+        const $textSpan = this.$el.find('.chatText').first();
         $textSpan.html(text);
         this.$el.find('img').load((e) => {
-            let $parparent = me.$el.parent().parent();
-            let newHeight = me.$el.height();
+            const $parparent = me.$el.parent().parent();
+            const newHeight = me.$el.height();
             // console.log("Message height changed from", messageHeight, "to", newHeight);
-            let old = $parparent.scrollTop();
-            let now = old + newHeight - messageHeight;
+            const old = $parparent.scrollTop();
+            const now = old + newHeight - messageHeight;
             $parparent.scrollTop(now);
             // console.log("nachher", $parparent.scrollTop());
         });
@@ -65,8 +65,8 @@ module.exports = Backbone.View.extend({
     },
 
     checkVisible() {
-        let s = this.model.get('showBotrix');
-        let is = this.model.get('isBotrixGameMessage');
+        const s = this.model.get('showBotrix');
+        const is = this.model.get('isBotrixGameMessage');
         if (is && !s) {
             this.$el.hide();
         } else {
@@ -76,7 +76,7 @@ module.exports = Backbone.View.extend({
 
     render() {
         // var text = this.model.get("text");
-        let data = this.model.toJSON();
+        const data = this.model.toJSON();
         data.text = '';
         this.$el.html(this.template(data));
 

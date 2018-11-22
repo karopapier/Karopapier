@@ -33,7 +33,7 @@ module.exports = Backbone.View.extend({
             // console.log("Skip rendering, game not complete");
             return false;
         }
-        let data = this.model.toJSON();
+        const data = this.model.toJSON();
         data.mapId = this.model.map.get('id');
         data.mapName = this.model.map.get('name');
         data.mapAuthor = this.model.map.get('author');

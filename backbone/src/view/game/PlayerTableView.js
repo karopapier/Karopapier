@@ -22,21 +22,21 @@ module.exports = Marionette.CompositeView.extend({
     },
 
     checkAll(e) {
-        let vis = $(e.currentTarget).prop('checked');
+        const vis = $(e.currentTarget).prop('checked');
         this.collection.each((m) => {
             m.set('visible', vis);
         });
     },
 
     calcBlocktime() {
-        let moves = new MoveCollection();
-        let blocktime = {};
+        const moves = new MoveCollection();
+        const blocktime = {};
         this.collection.each((p) => {
-            let id = p.get('id');
+            const id = p.get('id');
             blocktime[id] = 0;
             // console.log(p);
             // console.log(p.get("name"), p.moves.length);
-            let ms = p.moves.toJSON();
+            const ms = p.moves.toJSON();
             ms.map((m) => {
                 m.userId = id;
             });
@@ -53,8 +53,8 @@ module.exports = Marionette.CompositeView.extend({
             lasttime = new Date(moves.at(0).get('t').replace(' ', 'T') + 'Z').getTime();
         }
         moves.each((m) => {
-            let d = new Date(m.get('t').replace(' ', 'T') + 'Z').getTime();
-            let userId = m.get('userId');
+            const d = new Date(m.get('t').replace(' ', 'T') + 'Z').getTime();
+            const userId = m.get('userId');
             blocktime[userId] += (d - lasttime);
             lasttime = d;
         });

@@ -38,8 +38,8 @@ module.exports = Backbone.Model.extend({
 
     getFieldForRgbaArray(rgba, colormode) {
         if (!colormode) {
-            let avg = (rgba[0] + rgba[1] + rgba[2]) / 3;
-            let idx = (!this.findOptions.invert ^ !(avg <= 127)) << 0; // true =1, false =0
+            const avg = (rgba[0] + rgba[1] + rgba[2]) / 3;
+            const idx = (!this.findOptions.invert ^ !(avg <= 127)) << 0; // true =1, false =0
             field = this.findOptions.colors[idx];
             return field;
         }
@@ -48,10 +48,10 @@ module.exports = Backbone.Model.extend({
         let minDiff = Infinity;
         let field = '.';
 
-        let fieldHSL = this.rgb2hsl(rgba);
-        for (let f in this.hsls) {
+        const fieldHSL = this.rgb2hsl(rgba);
+        for (const f in this.hsls) {
             let diff = 0;
-            let hsl = this.hsls[f];
+            const hsl = this.hsls[f];
             // console.log("Diff", hsl, fieldHSL);
 
             diff += Math.pow(hsl[0] - fieldHSL[0], 2);
@@ -70,11 +70,11 @@ module.exports = Backbone.Model.extend({
     processField(row, col, tr, tc, x, y, w, h, scW, scH, withTimeout) {
         // console.log("Processing", row, col, x, y, w, h, scW, scH);
         // console.log("processing ",x,"/",w,"and",y,"/",h);
-        let me = this;
-        let imgdata = me.ctx.getImageData(x, y, scW, scH);
+        const me = this;
+        const imgdata = me.ctx.getImageData(x, y, scW, scH);
 
-        let pixelRgba = me.averageRgba(imgdata.data);
-        let field = me.getFieldForRgbaArray(pixelRgba, !this.findOptions.binary);
+        const pixelRgba = me.averageRgba(imgdata.data);
+        const field = me.getFieldForRgbaArray(pixelRgba, !this.findOptions.binary);
         me.map.setFieldAtRowCol(row, col, field);
 
         if (!withTimeout) return false;
@@ -104,26 +104,26 @@ module.exports = Backbone.Model.extend({
     },
 
     timecheck() {
-        let start0 = new Date().getTime();
-        let scW = this.settings.get('scaleWidth');
-        let scH = this.settings.get('scaleHeight');
+        const start0 = new Date().getTime();
+        const scW = this.settings.get('scaleWidth');
+        const scH = this.settings.get('scaleHeight');
 
         this.processField(0, 0, 1, 1, 0, 0, scW, scH, scW, scH, false);
-        let end0 = new Date().getTime();
-        let t = Math.round(end0 - start0);
+        const end0 = new Date().getTime();
+        const t = Math.round(end0 - start0);
         // console.log(t);
         return t;
     },
 
     initColorMode(map, palette) {
-        let whitelist = /(O|P|G|L|N|T|V|W|X|Y|Z)/;
+        const whitelist = /(O|P|G|L|N|T|V|W|X|Y|Z)/;
         this.hsls = {};
-        for (let f in map.FIELDS) {
+        for (const f in map.FIELDS) {
             if (f.match(whitelist)) {
-                let mainRGB = palette.get(f).split(',').map((e) => {
+                const mainRGB = palette.get(f).split(',').map((e) => {
                     return parseInt(e);
                 });
-                let hsl = this.rgb2hsl(mainRGB);
+                const hsl = this.rgb2hsl(mainRGB);
                 this.hsls[f] = hsl;
             }
         }
@@ -134,13 +134,13 @@ module.exports = Backbone.Model.extend({
         this.editorsettings.set('undo', false);
         this.helper = 0;
         this.mapcodeResize();
-        let scW = this.settings.get('scaleWidth');
-        let scH = this.settings.get('scaleHeight');
-        let w = this.canvas.width;
-        let h = this.canvas.height;
+        const scW = this.settings.get('scaleWidth');
+        const scH = this.settings.get('scaleHeight');
+        const w = this.canvas.width;
+        const h = this.canvas.height;
         let t = this.settings.get('fieldtime');
-        let tr = this.settings.get('targetRows');
-        let tc = this.settings.get('targetCols');
+        const tr = this.settings.get('targetRows');
+        const tc = this.settings.get('targetCols');
         if (t == 0) {
             t = 20;
         }
@@ -155,7 +155,7 @@ module.exports = Backbone.Model.extend({
         };
 
         // console.log("Run translation of " + w + "x" + h + " at", scW, scH, "with fieldtime", t);
-        let me = this;
+        const me = this;
         let row = 0;
         let col = 0;
 
@@ -182,10 +182,10 @@ module.exports = Backbone.Model.extend({
 
     mapcodeResize() {
         // console.log("Resize map to", this.settings.get("targetCols"), this.settings.get("targetRows"));
-        let undo = this.editorsettings.get('undo');
+        const undo = this.editorsettings.get('undo');
         this.editorsettings.set('undo', false);
-        let row = new Array(this.settings.get('targetCols') + 1).join('.');
-        let rows = [];
+        const row = new Array(this.settings.get('targetCols') + 1).join('.');
+        const rows = [];
         for (let i = 0, l = this.settings.get('targetRows'); i < l; i++) {
             rows.push(row);
         }
@@ -201,8 +201,8 @@ module.exports = Backbone.Model.extend({
     },
 
     loadImage(img) {
-        let w = img.width;
-        let h = img.height;
+        const w = img.width;
+        const h = img.height;
         // console.log("Loaded img", w, h);
 
         // adjust internal canvas
@@ -231,10 +231,10 @@ module.exports = Backbone.Model.extend({
     },
 
     loadUrl(url, callback) {
-        let me = this;
+        const me = this;
         this.image.onload = function() {
-            let w = me.image.width;
-            let h = me.image.height;
+            const w = me.image.width;
+            const h = me.image.height;
             me.settings.set({
                 sourceWidth: w,
                 sourceHeight: h,
@@ -254,13 +254,13 @@ module.exports = Backbone.Model.extend({
             return false;
         }
 
-        let sum = [0, 0, 0];
+        const sum = [0, 0, 0];
         for (let p = 0, l = imageData.length; p < l; p += 4) {
             sum[0] += imageData[p];
             sum[1] += imageData[p + 1];
             sum[2] += imageData[p + 2];
         }
-        let pixels = l / 4;
+        const pixels = l / 4;
         avg = [sum[0] / pixels, sum[1] / pixels, sum[2] / pixels, 255];
         // console.log(avg);
         return avg;
@@ -293,7 +293,7 @@ module.exports = Backbone.Model.extend({
         if (max === min) {
             h = s = 0; // achromatic
         } else {
-            let d = max - min;
+            const d = max - min;
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
             switch (max) {
                 case r:

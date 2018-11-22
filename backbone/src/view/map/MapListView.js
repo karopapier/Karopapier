@@ -10,9 +10,9 @@ module.exports = Marionette.CollectionView.extend({
         'change select': 'selected',
     },
     selected(e) {
-        let $select = $(e.currentTarget);
-        let id = $select.val();
-        let m = this.collection.get(id);
+        const $select = $(e.currentTarget);
+        const id = $select.val();
+        const m = this.collection.get(id);
         this.trigger('selected', m);
     },
 });

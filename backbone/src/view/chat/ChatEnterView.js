@@ -13,7 +13,7 @@ module.exports = Backbone.View.extend({
     },
     sendMessage(e) {
         e.preventDefault();
-        let msg = $('#newchatmessage').val();
+        const msg = $('#newchatmessage').val();
         if (msg != '') {
             $.ajax({
                 url: '/api/chat/message.json',
@@ -39,7 +39,7 @@ module.exports = Backbone.View.extend({
         }
     },
     render() {
-        let uid = this.model.get('id');
+        const uid = this.model.get('id');
         let html = '';
         if (uid < 0) {
             html = 'Wart mal, kenn ich Dich?';

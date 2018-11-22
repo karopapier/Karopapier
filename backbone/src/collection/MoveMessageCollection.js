@@ -19,7 +19,7 @@ module.exports = Backbone.Collection.extend(/** @lends MoveMessageCollection.pro
     updateFromPlayers(players) {
         let msgs = [];
         players.each((p) => {
-            let withMessage = p.moves.filter((m) => {
+            const withMessage = p.moves.filter((m) => {
                 return m.get('msg');
             });
             _.each(withMessage, (m) => {

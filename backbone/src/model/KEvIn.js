@@ -34,7 +34,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
         this.hook();
     },
     ident() {
-        let user = this.user;
+        const user = this.user;
 
         if (user.get('id') === 0) {
             this.stop();
@@ -58,7 +58,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype*/{
         });
 
         // detailed trigger if a game related to you saw a move
-        let me = this;
+        const me = this;
         this.turted.on('otherMoved', (data) => {
             data.related = true;
             // console.info("GAME:MOVE aus otherMoved");

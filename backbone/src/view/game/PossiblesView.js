@@ -53,12 +53,12 @@ module.exports = Backbone.View.extend({
         this.clearPossibles();
         // console.log(possibles);
 
-        let k = new KRACHZ({
+        const k = new KRACHZ({
             map: this.game.map,
         });
 
         this.game.possibles.each((possible) => {
-            let posView = new PossibleView({
+            const posView = new PossibleView({
                 mapView: this.mapView,
                 model: possible,
                 parent: this,

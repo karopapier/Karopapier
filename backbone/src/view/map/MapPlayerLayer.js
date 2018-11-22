@@ -20,7 +20,7 @@ module.exports = Backbone.View.extend({
         this.listenTo(this.model, 'change:id', this.render);
     },
     render() {
-        let gameId = this.model.get('id');
+        const gameId = this.model.get('id');
         if (gameId === 0) {
             this.$el.hide();
         } else {

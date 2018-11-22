@@ -19,27 +19,27 @@ module.exports = Backbone.View.extend({
     },
     scrollcheck() {
         console.log('I scroll');
-        let $c = $('#chatMessages');
-        let topf = $c.prop('scrollTop');
-        let hoch = $c.prop('scrollHeight');
+        const $c = $('#chatMessages');
+        const topf = $c.prop('scrollTop');
+        const hoch = $c.prop('scrollHeight');
         console.log(topf, hoch);
     },
     addItem(chatMessage, animated) {
-        let chatMessageView = new ChatMessageView({
+        const chatMessageView = new ChatMessageView({
             model: chatMessage,
             util: this.util,
         });
-        let lineId = parseInt(chatMessage.get('lineId'));
+        const lineId = parseInt(chatMessage.get('lineId'));
 
         // find out where to insert the template
-        let previousMessage = this.$el.find('#cm' + (lineId - 1));
+        const previousMessage = this.$el.find('#cm' + (lineId - 1));
 
         // chatMessageView.$el.find("img").on("load", this.scrollDown.bind(this));
 
         // keep track of scroll
-        let $parent = this.$el.parent();
-        let sh = $parent.prop('scrollHeight');
-        let st = $parent.scrollTop();
+        const $parent = this.$el.parent();
+        const sh = $parent.prop('scrollHeight');
+        const st = $parent.scrollTop();
 
         // add message at right place, either at beginning or after previous one
         if (previousMessage[0]) {
@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend({
         } else {
             this.$el.prepend(chatMessageView.$el);
         }
-        let newSh = $parent.prop('scrollHeight');
+        const newSh = $parent.prop('scrollHeight');
 
         // find how much the height changed and scroll to original position
         $parent.scrollTop(st + newSh - sh);
@@ -59,7 +59,7 @@ module.exports = Backbone.View.extend({
         options = _.defaults(options || {}, {forced: false, animated: true});
         // check if scrolled down
         const $parent = this.$el.parent();
-        let toScrollDown = $parent.prop('scrollHeight') - $parent.prop('clientHeight') - $parent.prop('scrollTop');
+        const toScrollDown = $parent.prop('scrollHeight') - $parent.prop('clientHeight') - $parent.prop('scrollTop');
         // user is scrolled up, don't follow new line
         if ((toScrollDown > 40) && !(options.forced)) {
             // console.log("Skip scroll");
@@ -83,8 +83,8 @@ module.exports = Backbone.View.extend({
         }, 10);
     },
     scrollCheck() {
-        let $parent = this.$el.parent();
-        let top = $parent.prop('scrollTop'); // how much space until you reach the top
+        const $parent = this.$el.parent();
+        const top = $parent.prop('scrollTop'); // how much space until you reach the top
         if (top <= 100) {
             this.trigger('CHAT:MESSAGES:TOP');
         }

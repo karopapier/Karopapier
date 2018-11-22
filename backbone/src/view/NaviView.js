@@ -4,7 +4,7 @@ module.exports = Marionette.View.extend(/** @lends NaviView.prototype */ {
     render() {
         this.$el.html(this.template());
         this.$('a[href*=".html"]').click((e) => {
-            let href = $(e.currentTarget).attr('href');
+            const href = $(e.currentTarget).attr('href');
             console.log(href);
             Karopapier.router.navigate(href, {trigger: true});
             e.preventDefault();

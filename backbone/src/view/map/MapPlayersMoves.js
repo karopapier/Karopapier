@@ -68,15 +68,15 @@ module.exports = Marionette.CollectionView.extend({
     },
 
     drawLimit() {
-        let newLimit = this.settings.get('drawLimit');
+        const newLimit = this.settings.get('drawLimit');
         this.collection.each((m) => {
             m.set('drawLimit', newLimit);
         });
     },
 
     resize() {
-        let w = this.model.map.get('cols') * (this.settings.get('size') + this.settings.get('border'));
-        let h = this.model.map.get('rows') * (this.settings.get('size') + this.settings.get('border'));
+        const w = this.model.map.get('cols') * (this.settings.get('size') + this.settings.get('border'));
+        const h = this.model.map.get('rows') * (this.settings.get('size') + this.settings.get('border'));
         this.$el.css({
             width: w,
             height: h,

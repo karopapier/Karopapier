@@ -26,8 +26,8 @@ module.exports = Backbone.Model.extend({
         return 'O';
     },
     countLivingNeighbours() {
-        let cols = this.map.get('cols');
-        let rows = this.map.get('rows');
+        const cols = this.map.get('cols');
+        const rows = this.map.get('rows');
         for (let r = 0, maxR = rows; r < maxR; r++) {
             for (let c = 0, maxC = cols; c < maxC; c++) {
                 let livingNeighbours = 0;
@@ -59,9 +59,9 @@ module.exports = Backbone.Model.extend({
     adjustNeighbours(r, c, i) {
         for (let x = -1; x <= 1; x++) {
             for (let y = -1; y <= 1; y++) {
-                let ry = r + y;
-                let cx = c + x;
-                let k = ry + '|' + cx;
+                const ry = r + y;
+                const cx = c + x;
+                const k = ry + '|' + cx;
                 if (this.map.withinBounds({row: ry, col: cx})) {
                     if ((x !== 0) || (y !== 0)) {
                         this.livingNeighbours[k] += i;
@@ -72,8 +72,8 @@ module.exports = Backbone.Model.extend({
         }
     },
     setAllChanged() {
-        let cols = this.map.get('cols');
-        let rows = this.map.get('rows');
+        const cols = this.map.get('cols');
+        const rows = this.map.get('rows');
 
         for (let r = 0, maxR = rows; r < maxR; r++) {
             for (let c = 0, maxC = cols; c < maxC; c++) {
@@ -82,7 +82,7 @@ module.exports = Backbone.Model.extend({
         }
     },
     calcField(r, c) {
-        let field = this.currentMap.getFieldAtRowCol(r, c);
+        const field = this.currentMap.getFieldAtRowCol(r, c);
         // console.log("is field", field);
         if ((field === 'X') || (field === 'O') || (field === 'Y') || (field === 'Z')) {
             livingNeighbours = this.currentNeighbours[r + '|' + c];
@@ -106,12 +106,12 @@ module.exports = Backbone.Model.extend({
         this.currentMap.setMapcode(this.map.get('mapcode'));
         this.currentNeighbours = JSON.parse(JSON.stringify(this.livingNeighbours));
 
-        let currentChanged = this.changed;
+        const currentChanged = this.changed;
         this.changed = {};
 
-        for (let k in currentChanged) {
+        for (const k in currentChanged) {
             if (currentChanged.hasOwnProperty(k)) {
-                let coords = currentChanged[k];
+                const coords = currentChanged[k];
                 r = coords.r;
                 c = coords.c;
                 // console.log("Calculate", r, c);

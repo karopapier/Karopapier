@@ -7,15 +7,15 @@ module.exports = Backbone.View.extend({
         this.path = options.path;
     },
     template() {
-        let path = this.path.replace('.html', '');
+        const path = this.path.replace('.html', '');
         return window.JST['static/' + path];
     },
     render() {
-        let content = this.template();
+        const content = this.template();
         this.$el.html(content);
 
         this.$('a[href*=".html"]').click((e) => {
-            let href = $(e.currentTarget).attr('href');
+            const href = $(e.currentTarget).attr('href');
             console.log(href);
             Karopapier.router.navigate(href, {trigger: true});
             e.preventDefault();

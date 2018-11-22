@@ -50,7 +50,7 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
 
     willCrash(mo, depth) {
         // console.warn("starting", mo.toString(), depth);
-        let map = this.get('map');
+        const map = this.get('map');
         if (!depth) depth = 8;
         // crazyHelperFunction(mo, depth);
         // TAKES++;
@@ -66,7 +66,7 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
             return false;
         }
 
-        let stop = mo.getStopPosition();
+        const stop = mo.getStopPosition();
         if (!(map.withinBounds({x: stop.get('x'), y: stop.get('y')}))) {
             this.cache[mo.toString()] = true;
             return true;
@@ -82,18 +82,18 @@ module.exports = Backbone.Model.extend(/** @lends KRACHZ.prototype*/{
         if ((mo.get('vector').getLength() == 1) && (possibles.length == 8)) return false;
 
         let crashes = 0;
-        let plen = possibles.length;
+        const plen = possibles.length;
         for (let p = 0; p < plen; p++) {
             // console.info(possibles[p],"now")
-            let possible = possibles[p];
-            let moString = possible.toString();
+            const possible = possibles[p];
+            const moString = possible.toString();
             // console.log(moString, "Depth:", depth, p + "/" + crashes);
             if (depth >= 1) {
                 if (moString in this.cache) {
                     // console.info("Cached",moString);
                     return this.cache[moString];
                 }
-                let wc = this.willCrash(possible, depth - 1);
+                const wc = this.willCrash(possible, depth - 1);
                 this.cache[moString] = wc;
                 if (wc) {
                     crashes++;

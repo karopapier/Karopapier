@@ -238,7 +238,7 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         }
 
         // define function that is apply to every row
-        let f = function(row) {
+        const f = function(row) {
             return row.slice(sliceStart, sliceEnd);
         };
 
@@ -305,8 +305,8 @@ module.exports = Backbone.Model.extend(/** @lends Map.prototype*/{
         return this.getFieldPositions('\\d', mapcode);
     },
     getFieldPositions(field, mapcode) {
-        let positions = [];
-        let re = new RegExp(field, 'g');
+        const positions = [];
+        const re = new RegExp(field, 'g');
         mapcode = mapcode || this.get('mapcode');
         let hit;
         while (hit = re.exec(mapcode)) {

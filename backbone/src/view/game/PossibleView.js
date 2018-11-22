@@ -50,10 +50,10 @@ module.exports = Backbone.View.extend({
         this.mouseOrTouch = 'mouse';
     },
     hoverMove(e, a, b) {
-        let mo = this.model;
+        const mo = this.model;
         if (mo.get('vector').getLength() > 2.8) {
             // console.log(mo);
-            let stop = mo.getStopPosition();
+            const stop = mo.getStopPosition();
             this.stopDiv = $('<div class="stopPosition" style="left: ' + stop.get('x') * 12 + 'px; top: ' + stop.get('y') * 12 + 'px;"></div>'); // eslint-disable-line max-len
             this.$el.parent().append(this.stopDiv);
         }
@@ -66,8 +66,8 @@ module.exports = Backbone.View.extend({
         return this;
     },
     render() {
-        let v = this.model.get('vector');
-        let p = this.model.get('position');
+        const v = this.model.get('vector');
+        const p = this.model.get('position');
         this.$el.css({
             left: p.get('x') * 12,
             top: p.get('y') * 12,
@@ -85,7 +85,7 @@ module.exports = Backbone.View.extend({
         }
         // if vector = (0|0], mark as start
         // console.log(v.toString());
-        let willCrash = this.model.get('willCrash');
+        const willCrash = this.model.get('willCrash');
         if (willCrash !== undefined) {
             if (this.model.get('willCrash')) {
                 this.$el.addClass('willCrash');

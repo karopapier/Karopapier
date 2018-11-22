@@ -117,7 +117,7 @@ module.exports = Backbone.Model.extend(/** @lends Motion.prototype*/{
      * @returns {Array} Motion
      */
     getPossibles() {
-        let possibles = [];
+        const possibles = [];
         /*
         #walk the 9 possibilities to have them arranged like
         # 0 1 2

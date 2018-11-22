@@ -13,8 +13,8 @@ module.exports = Marionette.ItemView.extend({
         return '/images/mapfields/' + f + '.png?v=25';
     },
     update(model, buttons) {
-        let prev = model.previous('buttons');
-        let now = buttons;
+        const prev = model.previous('buttons');
+        const now = buttons;
         for (let i = 1; i <= 3; i++) {
             if (prev[i] != now[i]) {
                 // set new src
@@ -23,7 +23,7 @@ module.exports = Marionette.ItemView.extend({
         }
     },
     render() {
-        let buttons = this.editorsettings.get('buttons');
+        const buttons = this.editorsettings.get('buttons');
         let html = 'Aktuelle Mausbelegung<br />Links, Mitte, Rechts: ';
         for (let i = 1; i <= 3; i++) {
             html += '<img src="' + this.urlFor(buttons[i]) + '" class="button' + i + '" > ';

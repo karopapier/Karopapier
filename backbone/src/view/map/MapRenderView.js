@@ -45,7 +45,7 @@ module.exports = MapBaseView.extend({
 
     prepareCache() {
         console.info('Prepare field cache');
-        let me = this;
+        const me = this;
         this.imageDatas = {};
         this.size = this.settings.get('size');
         this.border = this.settings.get('border');
@@ -54,7 +54,7 @@ module.exports = MapBaseView.extend({
         this.cpsActive = this.settings.get('cpsActive');
         this.cpsVisited = this.settings.get('cpsVisited');
 
-        let canvas = document.createElement('canvas');
+        const canvas = document.createElement('canvas');
         canvas.width = canvas.height = this.fieldSize;
         let ctx = canvas.getContext('2d');
 
@@ -74,7 +74,7 @@ module.exports = MapBaseView.extend({
     },
 
     prepareFieldCtx(ctx, f) {
-        let me = this;
+        const me = this;
 
         // fill completely field with primary color
         ctx.fillStyle = me.palette.getRGB(f);
@@ -130,14 +130,14 @@ module.exports = MapBaseView.extend({
         // console.warn("RENDER CHECKPOINTS", new Date());
 
         // find cps
-        let cps = this.model.getCpPositions();
+        const cps = this.model.getCpPositions();
         // console.log("CPs to render", cps);
-        let me = this;
+        const me = this;
 
         // for each cp, drawField
         cps.forEach((pos) => {
-            let cp = pos.attributes;
-            let f = me.model.getFieldAtRowCol(cp.row, cp.col);
+            const cp = pos.attributes;
+            const f = me.model.getFieldAtRowCol(cp.row, cp.col);
             // console.log("Rendering CP", cp, f);
             if (me.settings.get('cpsActive')) {
                 me.drawField(cp.row, cp.col, f);
@@ -149,25 +149,25 @@ module.exports = MapBaseView.extend({
 
     renderFieldChange(e, a, b) {
         // console.info("Fieldchange only");
-        let field = e.field;
-        let r = e.r;
-        let c = e.c;
+        const field = e.field;
+        const r = e.r;
+        const c = e.c;
         this.drawField(r, c, field);
     },
 
     render() {
         console.warn('FULL RENDER', new Date());
         this.trigger('before:render');
-        let map = this.model;
-        let rows = map.get('rows');
-        let cols = map.get('cols');
+        const map = this.model;
+        const rows = map.get('rows');
+        const cols = map.get('cols');
         this.el.width = map.get('cols') * (this.fieldSize);
         this.el.height = map.get('rows') * (this.fieldSize);
 
-        let me = this;
+        const me = this;
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
-                let f = map.getFieldAtRowCol(r, c);
+                const f = map.getFieldAtRowCol(r, c);
                 me.drawField(r, c, f);
             }
         }
@@ -175,8 +175,8 @@ module.exports = MapBaseView.extend({
     },
 
     drawField(r, c, field) {
-        let x = c * (this.fieldSize);
-        let y = r * (this.fieldSize);
+        const x = c * (this.fieldSize);
+        const y = r * (this.fieldSize);
         let d = this.imageDatas[field];
         if (!d) {
             // unknown new field??
@@ -195,8 +195,8 @@ module.exports = MapBaseView.extend({
         // console.log("Adding specles ");
         ctx.fillStyle = color;
         for (let i = 0; i < 3; i++) {
-            let xr = Math.round(Math.random() * (this.size - 1));
-            let yr = Math.round(Math.random() * (this.size - 1));
+            const xr = Math.round(Math.random() * (this.size - 1));
+            const yr = Math.round(Math.random() * (this.size - 1));
             ctx.fillRect(xr, yr, 1, 1);
         }
     },
@@ -218,14 +218,14 @@ module.exports = MapBaseView.extend({
         if (this.fieldSize < 2) return;
         ctx.fillStyle = color;
 
-        let factor = Math.round(this.fieldSize / 4);
-        let sende = this.fieldSize / factor;
+        const factor = Math.round(this.fieldSize / 4);
+        const sende = this.fieldSize / factor;
 
         for (let m = 0; m < sende; m++) {
             for (let n = 0; n < sende; n++) {
                 if ((m + n) % 2 === 1) {
-                    let xm = Math.round(m * factor);
-                    let yn = Math.round(n * factor);
+                    const xm = Math.round(m * factor);
+                    const yn = Math.round(n * factor);
                     ctx.fillRect(xm, yn, factor, factor);
                 }
             }
@@ -234,7 +234,7 @@ module.exports = MapBaseView.extend({
 
     addStartGrid(ctx, color) {
         // fg square
-        let newSize = this.fieldSize;
+        const newSize = this.fieldSize;
         ctx.lineWidth = this.fieldSize / 8;
         ctx.strokeStyle = color;
         ctx.beginPath();

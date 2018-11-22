@@ -13,7 +13,7 @@ module.exports = Marionette.ItemView.extend({
         this.model.layout.chatEnter.show(this.model.chatEnterView, {preventDestroy: true});
 
         this.$el.html(this.model.layout.$el);
-        let $el = this.model.layout.chatMessages.$el;
+        const $el = this.model.layout.chatMessages.$el;
         $($el).on('scroll', this.model.chatMessagesView.scrollCheck);
     },
 });

@@ -55,7 +55,7 @@ module.exports = Backbone.View.extend(/** @lends FaviconView */ {
     },
     render() {
         // console.log("Render favico");
-        let link = document.createElement('link');
+        const link = document.createElement('link');
         link.id = 'favicon';
         link.type = 'image/x-icon';
         link.rel = 'shortcut icon';

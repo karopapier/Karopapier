@@ -11,12 +11,12 @@ module.exports = MapBaseView.extend({
         this.listenTo(this.settings, 'change', this.render);
     },
     render() {
-        let mapid = this.model.get('id');
+        const mapid = this.model.get('id');
         if (mapid === 0) {
             this.$el.hide();
         } else {
             // console.info("Getting image");
-            let cps = (this.settings.get('cpsActive') === true) ? 1 : 0;
+            const cps = (this.settings.get('cpsActive') === true) ? 1 : 0;
             this.$el.show();
             this.$el.attr('src', '/images/loading.gif');
             this.$el.attr('src', '/map/' + mapid + '.png?size=' + this.settings.get('size') + '&border=' + this.settings.get('border') + '&cps=' + cps); // eslint-disable-line max-len

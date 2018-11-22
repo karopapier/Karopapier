@@ -45,11 +45,11 @@ module.exports = Backbone.View.extend({
     },
 
     render() {
-        let data = this.model.toJSON();
+        const data = this.model.toJSON();
         let statusClass = '';
         let displayStatus = '';
-        let status = this.model.get('status');
-        let pos = this.model.get('position');
+        const status = this.model.get('status');
+        const pos = this.model.get('position');
         if (status == 'kicked' || status == 'left') {
             statusClass = status;
             displayStatus = this.model.getStatus();

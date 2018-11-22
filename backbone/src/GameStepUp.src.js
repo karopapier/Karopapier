@@ -64,9 +64,9 @@ const renderView = new MapRenderView({
 game.on('change:completed', () => {
     if (!game.get('completed')) return false;
     renderView.settings.set('cpsActive', game.get('withCheckpoints'));
-    let dranId = game.get('dranId');
+    const dranId = game.get('dranId');
     if (dranId !== 26) {
-        let cpsVisited = game.get('players').get(game.get('dranId')).get('checkedCps');
+        const cpsVisited = game.get('players').get(game.get('dranId')).get('checkedCps');
         renderView.settings.set('cpsVisited', cpsVisited);
     }
 });
@@ -95,10 +95,10 @@ const possView = new PossiblesView({
 });
 
 possView.on('game:player:move', (playerId, mo) => {
-    let testmode = $('#testmode').is(':checked');
+    const testmode = $('#testmode').is(':checked');
     if (testmode) {
-        let player = game.get('players').get(playerId);
-        let move = new Move(mo.toMove());
+        const player = game.get('players').get(playerId);
+        const move = new Move(mo.toMove());
         move.set('t', new Date());
         move.set('test', true);
         player.moves.add(move);
@@ -107,7 +107,7 @@ possView.on('game:player:move', (playerId, mo) => {
     } else {
         // build move url
         let moveUrl = '/move.php?GID=' + game.get('id');
-        let m = mo.toMove();
+        const m = mo.toMove();
         if (mo.get('vector').getLength() === 0) {
             // http://www.karopapier.de/move.php?GID=84078&startx=8&starty=29
             moveUrl += '&startx=' + m.x + '&starty=' + m.y;
@@ -116,7 +116,7 @@ possView.on('game:player:move', (playerId, mo) => {
             moveUrl += '&xpos=' + m.x + '&ypos=' + m.y + '&xvec=' + m.xv + '&yvec=' + m.yv;
         }
 
-        let moveMsg = $('#movemessage').val();
+        const moveMsg = $('#movemessage').val();
         if (moveMsg !== '') {
             moveUrl += '&movemessage=' + moveMsg;
             $('#movemessageDisplay').hide();
@@ -124,7 +124,7 @@ possView.on('game:player:move', (playerId, mo) => {
         }
 
         // console.log("Send move");
-        let movedGID = game.get('id');
+        const movedGID = game.get('id');
         // console.warn("I just moved", movedGID);
         myTextGet(moveUrl, (text) => {
             // console.log("Parse move response");
@@ -142,7 +142,7 @@ function parseMoveResponse(text, movedGID) {
     // indexOf Danke ==ok
     if ((text.indexOf('Danke.') >= 0) || (text.indexOf('Spiel beendet') >= 0)) {
         // <B>Didi</B> kommt als n&auml;chstes dran
-        let hits = text.match(/<B>(.*?)<\/B> kommt als n/);
+        const hits = text.match(/<B>(.*?)<\/B> kommt als n/);
         let nextPlayer = 'Unknown';
         if (hits) {
             if (hits.length > 1) {
@@ -155,13 +155,13 @@ function parseMoveResponse(text, movedGID) {
         }
 
         // console.log("check listed next games and add them to queue as well, excluding moved one");
-        let gids = text.match(/GID=(\d*)/g);
+        const gids = text.match(/GID=(\d*)/g);
         let dranQueueEmpty = (dranQueue.length == 0);
         if (gids.length > 0) {
             for (let i = 0; i < gids.length; i++) {
-                let s = gids[i].split('=');
+                const s = gids[i].split('=');
                 if (s) {
-                    let gid = s[1];
+                    const gid = s[1];
                     // console.log("Compare found", gid, "with", movedGID);
                     if (gid != movedGID) {
                         // console.log(gid, "!=", movedGID, ", so add it to queue");
@@ -188,7 +188,7 @@ function parseMoveResponse(text, movedGID) {
 }
 
 function myTextGet(url, cb, errcb) {
-    let request = new XMLHttpRequest();
+    const request = new XMLHttpRequest();
     request.withCredentials = true;
     request.open('GET', url, true);
     request.onload = function() {
@@ -218,13 +218,13 @@ const checkTestmode = function() {
     }
 
     $('#mapImage').removeClass('testmode');
-    let dranId = game.get('dranId');
-    let dranPlayer = game.get('players').get(dranId);
+    const dranId = game.get('dranId');
+    const dranPlayer = game.get('players').get(dranId);
     console.log(game.get('players'));
     // const dranMoves = myPlayer.get("moves"); #FIXME
-    let dranMoves = dranPlayer.moves;
+    const dranMoves = dranPlayer.moves;
 
-    let noTestMoves = dranMoves.where({'test': false});
+    const noTestMoves = dranMoves.where({'test': false});
     dranPlayer.moves.set(noTestMoves);
     mpm.render();
     game.updatePossibles();
@@ -269,12 +269,12 @@ game.on('change:completed', () => {
     $('#mapImage').show();
 
     // set limit for "LastMoveMessages"
-    let dranId = game.get('dranId');
+    const dranId = game.get('dranId');
     let ts = false;
     if (dranId) {
-        let p = game.get('players').get(dranId);
+        const p = game.get('players').get(dranId);
         if (p) {
-            let lastmove = p.moves.last();
+            const lastmove = p.moves.last();
             if (lastmove) {
                 ts = new Date(lastmove.get('t'));
             }
@@ -321,7 +321,7 @@ const checkPreload = function() {
     // console.log("Preparing buffer");
     if (dranQueue.length > 0) {
         // console.log("DQ len", dranQueue.length);
-        let nextId = dranQueue.at(0).get('id');
+        const nextId = dranQueue.at(0).get('id');
         // console.log("Next ID", nextId);
 
         if ((nextId == game.get('id')) && (!game.get('moved'))) {

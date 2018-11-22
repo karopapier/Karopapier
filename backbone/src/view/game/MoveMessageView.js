@@ -9,7 +9,7 @@ module.exports = Backbone.View.extend({
     render() {
         // console.log("Rendere Movemessages, derer", this.collection.length);
         let html = '';
-        let txt = this.model.get('msg');
+        const txt = this.model.get('msg');
         let tpl = this.template;
         if (txt.startsWith('-:K')) {
             tpl = this.statusTemplate;

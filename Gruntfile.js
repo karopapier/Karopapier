@@ -184,6 +184,7 @@ module.exports = function(grunt) {
             }
         },
         eslint: {
+            options: {fix: true},
             target: [
                 'frontend/src/**/*.js',
                 'backbone/src/**/*.js',

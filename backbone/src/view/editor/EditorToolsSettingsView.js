@@ -32,7 +32,7 @@ module.exports = Marionette.ItemView.extend({
         });
     },
     changeSpecles(e) {
-        let checked = this.$('.editor-tools-settings-specles').prop('checked');
+        const checked = this.$('.editor-tools-settings-specles').prop('checked');
         this.viewsettings.set('specles', checked);
     },
 
