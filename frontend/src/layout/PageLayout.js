@@ -12,5 +12,6 @@ module.exports = Marionette.View.extend({
             el: '.modal-container',
             regionClass: ModalRegion,
         },
+        footer: 'footer',
     },
 });

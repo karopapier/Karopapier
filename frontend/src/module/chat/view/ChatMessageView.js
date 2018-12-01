@@ -1,12 +1,17 @@
-const _ = require('underscore');
-const Backbone = require('backbone');
-const $ = require('jquery');
-const emojione = require('emojione');
+// const _ = require('underscore');
+const Marionette = require('backbone.marionette');
+// const Radio = require('backbone.radio');
+// const dataChannel = Radio.channel('data');
 
-module.exports = Backbone.View.extend({
+// const $ = require('jquery');
+// const emojione = require('emojione');
+
+module.exports = Marionette.View.extend({
     tagName: 'div',
     className: 'chatMessage',
     template: require('../templates/chatMessage.html'),
+
+    /*
     id() {
         return 'cm' + this.model.get('lineId');
     },
@@ -83,4 +88,5 @@ module.exports = Backbone.View.extend({
         this.updateText();
         return this;
     },
+    */
 });

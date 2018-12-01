@@ -17,6 +17,8 @@ const UserCollection = require('../collection/UserCollection');
 const GameCollection = require('../collection/GameCollection');
 const MapCollection = require('../collection/MapCollection');
 
+const ChatMessageCollection = require('../module/chat/collection/ChatMessageCollection');
+
 const KEvIn = require('../model/KEvIn');
 
 // Router
@@ -27,6 +29,7 @@ const PageLayout = require('../layout/PageLayout');
 
 // View
 const UserInfoBarView = require('../view/UserInfoBarView');
+const FooterView = require('../module/footer/view/FooterView');
 
 module.exports = window.KaroApp = Marionette.Application.extend({
     region: '.container',
@@ -79,6 +82,9 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         this.dranGames = new GameCollection();
 
+        this.chatMessages = new ChatMessageCollection();
+        this.chatMessages.fetchLast();
+
         this.navigator = Radio.channel('navigator');
         dataChannel.reply('users', () => {
             return this.users;
@@ -102,6 +108,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         dataChannel.reply('users', () => {
             return this.users;
+        });
+
+        dataChannel.reply('chatMessages', () => {
+            return this.chatMessages;
         });
 
         dataChannel.reply('drangames', () => {
@@ -181,6 +191,8 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.layout.showChildView('userinfo', new UserInfoBarView({
             model: this.authUser,
         }));
+
+        this.layout.showChildView('footer', new FooterView());
 
         Backbone.history.start({pushState: true});
     },
