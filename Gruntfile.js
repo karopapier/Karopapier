@@ -84,7 +84,7 @@ module.exports = function(grunt) {
         watch: {
             app: {
                 files: ['frontend/src/**/*', 'frontend/templates/**/*'],
-                tasks: ['build:dev', 'bust'],
+                tasks: ['build:frontend', 'bust'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig,
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
                     'backbone/templates/**/*',
                     'backbone/src/GameStepUp.src.js'
                 ],
-                tasks: ['build:dev', 'bust'],
+                tasks: ['build:bb', 'bust'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig,
@@ -212,7 +212,8 @@ module.exports = function(grunt) {
 
     // Default task(s).
     grunt.registerTask('build', ['build:prod', 'less', 'jst', 'bust']);
-    grunt.registerTask('build:dev', ['browserify:dev', 'browserify:gamestepup', 'browserify:bbapp', 'style', 'test', 'jst']);
+    grunt.registerTask('build:frontend', ['browserify:dev', 'style', 'test']);
+    grunt.registerTask('build:bb', ['browserify:gamestepup', 'browserify:bbapp', 'style', 'test', 'jst']);
     grunt.registerTask('build:prod', ['browserify', 'uglify', 'style']);
     grunt.registerTask('style', ['eslint']);
     grunt.registerTask('bust', ['shell:bust']);
