@@ -13,7 +13,7 @@ const KaroUtil = require('../model/Util');
 const FaviconView = require('../view/FaviconView');
 const TitleView = require('../view/TitleView');
 const KaropapierLayout = require('../layout/KaropapierLayout');
-const UserInfoBarView = require('../view/UserInfoBarView');
+const UserInfoBar = require('../view/UserInfoBar');
 const NaviView = require('../view/NaviView');
 const AppRouter = require('../router/AppRouter');
 require('../polyfills');
@@ -149,7 +149,7 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         });
 
         // user info bar right top
-        this.infoBar = new UserInfoBarView({
+        this.infoBar = new UserInfoBar({
             model: this.User,
         });
         this.layout.header.show(this.infoBar);
