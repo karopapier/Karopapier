@@ -10,6 +10,7 @@ const layoutChannel = Radio.channel('layout');
 
 // Model
 const User = require('../model/User');
+const LocalSyncModel = require('../model/LocalSyncModel');
 
 // Collection
 const UserCollection = require('../collection/UserCollection');
@@ -35,18 +36,23 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         console.info('App init');
         Backbone.emulateHTTP = true;
 
+        // routing
         this.nav2app = {
             zettel: 'messaging',
             spiele: 'game',
             dran: 'dran',
             dran2: 'dran',
             erstellen: 'newgame',
+            chat: 'chat',
+            chat3: 'chat',
         };
+
         this.availableApps = {
             messaging: require('./MessagingApp'),
             game: require('./GameApp'),
             dran: require('./DranApp'),
             newgame: require('./NewGameApp'),
+            chat: require('../module/chat/app/ChatApp'),
         };
 
         this.authUser = new User();
@@ -56,6 +62,16 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.users = new UserCollection();
         this.users.url = '/api/users';
         this.users.fetch();
+
+        this.settings = new LocalSyncModel({
+            id: 1,
+            storageId: 'settings',
+            chat_funny: true,
+            chat_limit: 20,
+            chat_oldLink: false,
+            notification_chat: true,
+            notification_dran: true,
+        });
 
         this.maps = new MapCollection();
         this.maps.url = '/api/map/list.json?nocode=true';
@@ -78,6 +94,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         dataChannel.reply('config', () => {
             return this.config;
+        });
+
+        dataChannel.reply('settings', () => {
+            return this.settings;
         });
 
         dataChannel.reply('users', () => {
@@ -109,7 +129,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         console.info('Switch to app', appname);
         this.initApp(appname);
         this.layout.getRegion('content').detachView();
-        console.log('Showing apps layout');
+        console.log('Showing app\'s layout');
         this.layout.showChildView('content', this.apps[appname].layout);
         console.log('Showing apps layout done');
         this.currentApp = appname;

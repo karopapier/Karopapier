@@ -1,15 +1,16 @@
+/*
 const _ = require('underscore');
 const $ = require('jquery');
 const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
-const ChatLayout = require('../layout/ChatLayout');
-const ChatMessageCache = require('../collection/ChatMessageCache');
+const ChatLayout = require('../../../../../backbone/src/layout/ChatLayout');
+const ChatMessageCache = require('../../../frontend/src/module/chat/collection/ChatMessageCache');
 const ChatMessageCollection = require('../collection/ChatMessageCollection');
-const ChatAppView = require('../view/chat/ChatAppView');
-const ChatMessagesView = require('../view/chat/ChatMessagesView');
-const ChatInfoView = require('../view/chat/ChatInfoView');
-const ChatControlView = require('../view/chat/ChatControlView');
-const ChatEnterView = require('../view/chat/ChatEnterView');
+const ChatAppView = require('../../../../../backbone/src/view/chat/ChatAppView');
+const ChatMessagesView = require('../../../../../backbone/src/view/chat/ChatMessagesView');
+const ChatInfoView = require('../../../../../backbone/src/view/chat/ChatInfoView');
+const ChatControlView = require('../../../../../backbone/src/view/chat/ChatControlView');
+const ChatEnterView = require('../../../../../backbone/src/view/chat/ChatEnterView');
 
 module.exports = Marionette.Application.extend({
     initialize(options) {
@@ -235,3 +236,4 @@ module.exports = Marionette.Application.extend({
     },
 });
 
+*/

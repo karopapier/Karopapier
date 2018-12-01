@@ -1,10 +1,10 @@
 const _ = require('underscore');
 const Backbone = require('backbone');
-const NotificationControlView = require('../NotificationControlView');
+const NotificationControlView = require('../../../../../backbone/src/view/NotificationControlView');
 
 module.exports = Backbone.View.extend({
     tagName: 'div',
-    template: require('../../../templates/chat/chatControl.html'),
+    template: require('../templates/chatControl.html'),
     initialize(options) {
         this.app = options.app;
         _.bindAll(this, 'render');

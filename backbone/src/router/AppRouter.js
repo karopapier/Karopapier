@@ -1,5 +1,4 @@
 const Backbone = require('backbone');
-const ChatApp = require('../app/ChatApp');
 const DranApp = require('../app/DranApp');
 const GameApp = require('../app/GameApp');
 const EditorApp = require('../app/EditorApp');
@@ -17,7 +16,6 @@ module.exports = Backbone.Router.extend({
     routes: {
         '': 'showChat',
         'index.html': 'showChat',
-        'chat.html': 'showChat',
         'dran.html': 'showDran',
         'editor.html': 'showEditor',
         'game.html?GID=:gameId': 'showGame',
@@ -46,15 +44,6 @@ module.exports = Backbone.Router.extend({
         this.app.layout.content.show(new StaticView({
             path,
         }));
-    },
-    showChat() {
-        // if (!this.app.chatApp) {
-        // this.app.chatContainer = new Backbone.View();
-        this.app.chatApp = new ChatApp({
-            app: this.app,
-            settings: this.app.Settings,
-        });
-        this.app.layout.content.show(this.app.chatApp.view);
     },
     showEditor() {
         this.app.editorApp = new EditorApp({

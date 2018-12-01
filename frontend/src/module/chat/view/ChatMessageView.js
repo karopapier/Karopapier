@@ -6,7 +6,7 @@ const emojione = require('emojione');
 module.exports = Backbone.View.extend({
     tagName: 'div',
     className: 'chatMessage',
-    template: require('../../../templates/chat/chatMessage.html'),
+    template: require('../templates/chatMessage.html'),
     id() {
         return 'cm' + this.model.get('lineId');
     },

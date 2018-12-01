@@ -1,5 +1,5 @@
 const Backbone = require('backbone');
-const User = require('../model/User');
+const User = require('../../../../../backbone/src/model/User');
 
 module.exports = Backbone.Collection.extend({
     url: '/api/chat/users.json',

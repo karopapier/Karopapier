@@ -1,5 +1,5 @@
 const Marionette = require('backbone.marionette');
-const UserView = require('../UserView');
+const UserView = require('../../../../../backbone/src/view/UserView');
 
 module.exports = Marionette.CollectionView.extend({
     tagName: 'ul',

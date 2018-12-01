@@ -1,13 +1,13 @@
 const _ = require('underscore');
 const $ = require('jquery');
 const Marionette = require('backbone.marionette');
-const ChatUserCollection = require('../../collection/ChatUserCollection');
+const ChatUserCollection = require('../collection/ChatUserCollection');
 const ChatUsersView = require('./ChatUsersView');
 
 module.exports = Marionette.ItemView.extend({
     tagName: 'div',
     className: 'chatInfoView',
-    template: require('../../../templates/chat/chatInfo.html'),
+    template: require('../templates/chatInfo.html'),
 
     initialize(options) {
         options = options || {};
@@ -56,9 +56,9 @@ module.exports = Marionette.ItemView.extend({
 
     updateInfos() {
         console.log('Update Chat Infos');
-        this.updateDranInfo();
-        this.updateHabdich();
-        this.updateTopBlocker();
+        // this.updateDranInfo();
+        // this.updateHabdich();
+        // this.updateTopBlocker();
     },
 
     updateDranInfo() {

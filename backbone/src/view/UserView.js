@@ -1,7 +1,7 @@
 const _ = require('underscore');
-const Backbone = require('backbone');
+const Marionette = require('backbone.marionette');
 
-module.exports = Backbone.View.extend({
+module.exports = Marionette.View.extend({
     options: {
         withAnniversary: true,
         withGames: false,
@@ -12,23 +12,17 @@ module.exports = Backbone.View.extend({
     tagName: 'span',
     template: require('../../templates/user/userView.html'),
     initialize(options) {
-        if (!this.model) {
-            console.error('No model!');
-            return false;
-        }
         this.options = _.defaults(options || {}, this.options);
-        _.bindAll(this, 'dranChange', 'render', 'onChange');
 
         // console.log("Init UserView", this.model.get("login"));
-        this.listenTo(this.model, 'change', this.onChange);
+        // this.listenTo(this.model, 'change', this.onChange);
         // this.listenTo(this.model, "change", this.render);
         // this.listenTo(this.model, "change:dran", this.dranChange);
         // this.listenTo(this.model, "remove", this.remove);
 
         setInterval(() => {
             this.model.set('dran', Math.floor(Math.random() * 100));
-        }, 1500);
-
+        }, 3500);
         this.render();
     },
     onChange(e) {

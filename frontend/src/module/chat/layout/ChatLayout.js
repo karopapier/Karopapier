@@ -1,8 +1,8 @@
 const Marionette = require('backbone.marionette');
 
-module.exports = Marionette.LayoutView.extend({
+module.exports = Marionette.View.extend({
     className: 'chatLayout',
-    template: require('../../templates/chat/chatLayout.html'),
+    template: require('../../../../templates/chat/chatLayout.html'),
     regions: {
         chatMessages: '#chatMessages',
         chatInfo: '#chatInfo',
