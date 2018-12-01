@@ -6,12 +6,16 @@ module.exports = Marionette.View.extend({
         return;
     },
     regions: {
-        userinfo: '#userInfoBar',
-        content: '.content',
-        modal: {
+        'userinfo': '#userInfoBar',
+        'content': '.content',
+        'modal': {
             el: '.modal-container',
             regionClass: ModalRegion,
         },
-        footer: 'footer',
+        'footer': 'footer',
+        'mobile-nav': {
+            el: '.mobile-nav',
+            replaceElement: true,
+        },
     },
 });

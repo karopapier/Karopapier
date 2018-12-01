@@ -30,6 +30,7 @@ const PageLayout = require('../layout/PageLayout');
 // View
 const UserInfoBarView = require('../view/UserInfoBarView');
 const FooterView = require('../module/footer/view/FooterView');
+const MobileNavView = require('../module/mobile-nav/view/MobileNavView');
 
 module.exports = window.KaroApp = Marionette.Application.extend({
     region: '.container',
@@ -193,6 +194,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         }));
 
         this.layout.showChildView('footer', new FooterView());
+        this.layout.showChildView('mobile-nav', new MobileNavView());
 
         Backbone.history.start({pushState: true});
     },

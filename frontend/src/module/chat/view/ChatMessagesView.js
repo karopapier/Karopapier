@@ -1,10 +1,13 @@
-const _ = require('underscore');
-const Backbone = require('backbone');
+const Marionette = require('backbone.marionette');
 const ChatMessageView = require('./ChatMessageView');
 
-module.exports = Backbone.View.extend({
+module.exports = Marionette.CollectionView.extend({
     tagName: 'div',
     id: 'chatMessagesContainer',
+    childView: ChatMessageView,
+
+
+    /*
     initialize(options) {
         options = options || {};
         if (!options.util) {
@@ -78,6 +81,8 @@ module.exports = Backbone.View.extend({
          }
          //},100);
          */
+
+    /*
         setTimeout(() => {
             $parent.stop().animate({scrollTop: $parent.prop('scrollHeight')}, 100);
         }, 10);
@@ -89,6 +94,7 @@ module.exports = Backbone.View.extend({
             this.trigger('CHAT:MESSAGES:TOP');
         }
     },
+    */
 });
 
 /*

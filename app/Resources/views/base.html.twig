@@ -22,15 +22,7 @@
         <div class="container">
 
             <header>
-                <nav class="nav-menu-mobile hidden">
-                    <ul>
-                        <li>A</li>
-                        <li>B</li>
-                        <li>C</li>
-                        <li>D</li>
-                    </ul>
-                </nav>
-                <ul class="main-nav">
+                <ul class="main-nav desktop-only">
                     <li><a href="/erstellen" class="js-applink">Neues Spiel</a></li>
                     <li><a href="/chat" class="js-applink">Chat</a></li>
                     <li><a href="/dran2" class="js-applink">Dran</a></li>
@@ -56,6 +48,7 @@
                 {% block body %}{% endblock %}
             </section>
             <div class="modal-container hidden"></div>
+            <div class="mobile-nav"></div>
             {% block javascripts %}{% endblock %}
             <footer>
                 {% include ("footer.html.twig") %}
