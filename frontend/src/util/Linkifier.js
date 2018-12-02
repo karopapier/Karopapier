@@ -102,6 +102,24 @@ module.exports = Marionette.Object.extend({
             });
         }
 
+        // img src mit quot
+        this.replacements.push({
+            r: '&lt;img src=&quot;(.*?)&quot; /&gt;',
+            f(all, img) {
+                // console.log(all, smil);
+                return '<img src="' + RegExp.$1 + '" />';
+            },
+            sw: 'i',
+        });
+
+        this.replacements.push({
+            // r: '&lt;img src="\\/images\\/smilies\\/(.*?).gif" alt="(.*?)" title="(.*?)"&gt;',
+            r: '&lt;img src=&quot;/images/smilies/(.*?).gif&quot; alt=&quot;.*?&quot; title=&quot;.*?&quot;&gt;',
+            f(all, img) {
+                return '<img src="/images/smilies/' + img + '.gif">';
+            },
+        });
+
         // GID
         this.replacements.push({
             r: '(?:http\\:\\/\\/www.karopapier.de\\/showmap.php\\?|http:\\/\\/2.karopapier.de\\/game.html\\?|\\b)GID[ =]([0-9]{3,6})\\b', // eslint-disable-line max-len
@@ -202,14 +220,6 @@ module.exports = Marionette.Object.extend({
                 return 'img src="//www.karopapier.de/bilder/smilies/' + RegExp.$1 + '.gif" alt=';
             },
             sw: 'i',
-        });
-
-        this.replacements.push({
-            // r: '&lt;img src="\\/images\\/smilies\\/(.*?).gif" alt="(.*?)" title="(.*?)"&gt;',
-            r: '&lt;img src=&quot;/images/smilies/(.*?).gif&quot; alt=&quot;.*?&quot; title=&quot;.*?&quot;&gt;',
-            f(all, img) {
-                return '<img src="/images/smilies/' + img + '.gif">';
-            },
         });
     },
 
