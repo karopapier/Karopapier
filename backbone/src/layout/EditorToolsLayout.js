@@ -5,7 +5,7 @@ const EditorToolsButtonsView = require('../view/editor/EditorToolsButtonsView');
 const EditorToolsSettingsView = require('../view/editor/EditorToolsSettingsView');
 const EditorToolsMaploadView = require('../view/editor/EditorToolsMaploadView');
 
-module.exports = Marionette.View.extend({
+module.exports = Marionette.LayoutView.extend({
     template: require('../../templates/editor/tools.html'),
     initialize(options) {
         options = options || {};

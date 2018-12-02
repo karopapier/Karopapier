@@ -1,6 +1,6 @@
 const Marionette = require('backbone.marionette');
 
-module.exports = Marionette.View.extend({
+module.exports = Marionette.LayoutView.extend({
     regions: {
         header: '#header',
         navi: '#navi',
