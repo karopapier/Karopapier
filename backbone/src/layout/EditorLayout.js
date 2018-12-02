@@ -5,7 +5,7 @@ const EditorMapView = require('../view/editor/EditorMapView');
 const EditorCodeView = require('../view/editor/EditorCodeView');
 const EditorImageTranslatorLayout = require('./EditorImageTranslatorLayout');
 
-module.exports = Marionette.LayoutView.extend({
+module.exports = Marionette.View.extend({
     initialize(options) {
         options = options || {};
         if (!options.editorApp) {

@@ -4,7 +4,7 @@ const EditorImageTranslatorPreview = require('../view/editor/EditorImageTranslat
 const EditorImageTranslatorInfoView = require('../view/editor/EditorImageTranslatorInfoView');
 const EditorImageTranslatorSettingsView = require('../view/editor/EditorImageTranslatorSettingsView');
 
-module.exports = Marionette.LayoutView.extend({
+module.exports = Marionette.View.extend({
     className: 'editorImageTranslator',
     template: window.JST['editor/imagetranslatorlayout'],
     initialize(options) {
