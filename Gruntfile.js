@@ -214,7 +214,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['build:prod', 'less', 'jst', 'bust']);
     grunt.registerTask('build:frontend', ['browserify:dev', 'style', 'test']);
     grunt.registerTask('build:bb', ['browserify:gamestepup', 'browserify:bbapp', 'style', 'test', 'jst']);
-    grunt.registerTask('build:prod', ['browserify', 'uglify', 'style']);
+    grunt.registerTask('build:prod', ['less', 'browserify', 'uglify', 'bust']);
     grunt.registerTask('style', ['eslint']);
     grunt.registerTask('bust', ['shell:bust']);
     grunt.registerTask('default', ['build:dev', 'less', 'bust', 'watch']);
