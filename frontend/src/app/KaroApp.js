@@ -20,6 +20,7 @@ const MapCollection = require('../collection/MapCollection');
 const ChatMessageCollection = require('../module/chat/collection/ChatMessageCollection');
 
 const KEvIn = require('../model/KEvIn');
+const Linkifier = require('../util/Linkifier');
 
 // Router
 const AppRouter = require('./../router/StaticRouter');
@@ -65,6 +66,8 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.users = new UserCollection();
         this.users.url = '/api/users';
         this.users.fetch();
+
+        this.linkifier = new Linkifier();
 
         this.settings = new LocalSyncModel({
             id: 1,
@@ -116,6 +119,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         dataChannel.reply('drangames', () => {
             return this.dranGames;
+        });
+
+        dataChannel.reply('linkifier', () => {
+            return this.linkifier;
         });
 
         layoutChannel.reply('region:modal', () => {
