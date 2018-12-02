@@ -1,5 +1,4 @@
 const $ = window.jQuery = require('jquery');
-const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
 const User = require('../model/User.js');
 const DranGameCollection = require('../collection/DranGameCollection');
@@ -36,7 +35,6 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         }
 
         this.User = new User({});
-        // make this user refer to "check" for loging in
         this.User.url = '/api/user/check';
         this.User.fetch();
 
@@ -159,10 +157,10 @@ module.exports = Marionette.Application.extend(/** @lends KaropapierApp */ {
         this.router = new AppRouter({
             app: this,
         });
-        Backbone.history.start({
-            pushState: true,
-            // root: '/i/'  // not on live branch wegen 2.server/
-        });
+        // Backbone.history.start({
+        // pushState: true,
+        // root: '/i/'  // not on live branch wegen 2.server/
+        // });
 
         this.vent.on('GAME:MOVE', (data) => {
             // only for unrelated moves, count up or down
