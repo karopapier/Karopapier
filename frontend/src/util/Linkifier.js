@@ -11,7 +11,7 @@ module.exports = Marionette.Object.extend({
         this.replacements = [];
         this.replacements.push({
             r: '<a (.*?)</a>',
-            f(a) {
+            f: (a) => {
                 // real-link protector
                 return a;
             },
@@ -61,7 +61,7 @@ module.exports = Marionette.Object.extend({
             // -:Pic
             this.replacements.push({
                 r: '-:Pic src=(.*?) Pic:-',
-                f(text) {
+                f: (text) => {
                     return '<img src="http://daumennagel.de/' + RegExp.$1 + '" />';
                     // return '<img src="' + RegExp.$1 + '" />';
                 },
@@ -70,7 +70,7 @@ module.exports = Marionette.Object.extend({
             // nen
             this.replacements.push({
                 r: '(^|\\s)nen(^|\\s|$)',
-                f(text) {
+                f: (text) => {
                     return RegExp.$1 + 'einen' + RegExp.$2;
                 },
             });
@@ -78,7 +78,7 @@ module.exports = Marionette.Object.extend({
             // Nen
             this.replacements.push({
                 r: '(^|\\s)Nen(^|\\s|$)',
-                f() {
+                f: () => {
                     return RegExp.$1 + 'Einen' + RegExp.$2;
                 },
             });
@@ -86,7 +86,7 @@ module.exports = Marionette.Object.extend({
             // Thomas Anders
             this.replacements.push({
                 r: '\\banders\\b',
-                f() {
+                f: () => {
                     return ' <img style="opacity: .3" src="/images/anders.jpg" alt="anders" title="anders" />';
                 },
                 sw: 'i',
@@ -95,7 +95,7 @@ module.exports = Marionette.Object.extend({
             // The HOFF
             this.replacements.push({
                 r: '\\bhoff\\b',
-                f() {
+                f: () => {
                     return ' <img style="opacity: .3" src="/images/hoff.jpg"     alt="hoff" title="hoff" />';
                 },
                 sw: 'i',
@@ -105,7 +105,7 @@ module.exports = Marionette.Object.extend({
         // img src mit quot
         this.replacements.push({
             r: '&lt;img src=&quot;(.*?)&quot; /&gt;',
-            f(all, img) {
+            f: (all, img) => {
                 // console.log(all, smil);
                 return '<img src="' + RegExp.$1 + '" />';
             },
@@ -115,7 +115,7 @@ module.exports = Marionette.Object.extend({
         this.replacements.push({
             // r: '&lt;img src="\\/images\\/smilies\\/(.*?).gif" alt="(.*?)" title="(.*?)"&gt;',
             r: '&lt;img src=&quot;/images/smilies/(.*?).gif&quot; alt=&quot;.*?&quot; title=&quot;.*?&quot;&gt;',
-            f(all, img) {
+            f: (all, img) => {
                 return '<img src="/images/smilies/' + img + '.gif">';
             },
         });
@@ -123,7 +123,7 @@ module.exports = Marionette.Object.extend({
         // GID
         this.replacements.push({
             r: '(?:http\\:\\/\\/www.karopapier.de\\/showmap.php\\?|http:\\/\\/2.karopapier.de\\/game.html\\?|\\b)GID[ =]([0-9]{3,6})\\b', // eslint-disable-line max-len
-            f(all, gid) {
+            f: (all, gid) => {
                 // console.log("All", all);
                 // console.log("GID", gid);
                 $.getJSON('/api/game/' + gid + '/info.json', (gameInfo) => {
@@ -141,7 +141,7 @@ module.exports = Marionette.Object.extend({
         // Links
         this.replacements.push({
             r: '(?![^<]+>)((https?\\:\\/\\/|ftp\:\\/\\/)|(www\\.))(\\S+)(\\w{2,4})(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-\\/]))?', // eslint-disable-line max-len
-            f(url) {
+            f: (url) => {
                 // console.log("URL MATCH", url);
                 let className = '';
                 let linktext = url;
@@ -200,7 +200,7 @@ module.exports = Marionette.Object.extend({
         // Smilies
         this.replacements.push({
             r: ':([a-z]*?):',
-            f(all, smil) {
+            f: (all, smil) => {
                 // console.log(smil);
                 const img = document.createElement('img');
                 img.src = '//www.karopapier.de/bilder/smilies/' + smil + '.gif';
@@ -215,7 +215,7 @@ module.exports = Marionette.Object.extend({
 
         this.replacements.push({
             r: 'img src="\\/images\\/smilies\\/(.*?).gif" alt=',
-            f(all, smil) {
+            f: (all, smil) => {
                 // console.log(all, smil);
                 return 'img src="//www.karopapier.de/bilder/smilies/' + RegExp.$1 + '.gif" alt=';
             },
