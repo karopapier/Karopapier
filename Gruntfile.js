@@ -130,7 +130,7 @@ module.exports = function(grunt) {
             options: {
                 prettify: true,
                 processName: function(filepath) {
-                    let p = filepath;
+                    var p = filepath;
                     p = p.replace('backbone/templates/', '');
                     p = p.replace(/\.html$/, '');
                     p = p.replace(/\.tpl$/, '');
