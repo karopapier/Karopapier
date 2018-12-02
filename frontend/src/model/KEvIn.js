@@ -1,8 +1,12 @@
 const Backbone = require('backbone');
 const Radio = require('backbone.radio');
 const TURTED = require('turted-client');
+const io = require('socket.io-client');
+const appChannel = Radio.channel('app');
+const dataChannel = Radio.channel('data');
+const messagingChannel = Radio.channel('messaging');
+
 module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
-    defaults: {},
     /**
      * @constructor KEvIn
      * @class KEvIn
@@ -10,26 +14,83 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
      *
      */
     initialize() {
-        // console.log("Run init on KEvIn");
-        const dataChannel = Radio.channel('data');
         this.user = dataChannel.request('user:logged:in');
-        const config = dataChannel.request('config');
 
-        let turtedHost = '';
-        if (config.turtedHost) {
-            turtedHost = config.turtedHost;
+        this.connected = false;
+        this.hooked = false;
+        this.identified = false;
+
+        this.listenTo(this.user, 'change:login', () => {
+            // console.log('Im RT hat sich ein User geändert');
+            this.update();
+        });
+    },
+
+    update() {
+        // connected?
+        // hooked?
+        // ident?
+
+        if (this.user.isLoggedIn()) {
+            this.connect();
+            return;
         }
-        if (!turtedHost) {
-            console.error('NO HOST CONFIG');
+
+        // console.log('make sure to be disconnected');
+        this.disconnect();
+    },
+
+    connect() {
+        this.config = dataChannel.request('config');
+
+        const host = this.config.turtedHost;
+
+        // prepare IO to only use websocket, no polling, if previously connected with websocket
+        let transports = ['polling', 'websocket'];
+        try {
+            if (sessionStorage.getItem('WS') === 'ok') {
+                // console.log('WS IS OK');
+                transports = ['websocket'];
+            }
+        } catch (e) {
+            // console.log('No storage')
         }
+        this.socket = io(host, {
+            transports,
+        });
 
-        this.appChannel = Radio.channel('app');
-        this.messagingChannel = Radio.channel('messaging');
+        // Wenn connected, check nach 5 Sekunden, ob websocket oder polling
+        // bei "connected" ist zu Beginn erst mal polling, daher auf upgrade warten
+        this.socket.on('connect', () => {
+            this.connected = true;
 
-        this.listenTo(this.user, 'change:id', this.ident);
-        this.turted = new TURTED(turtedHost);
-        this.ident();
+            setTimeout(() => {
+                const transport = this.socket.io.engine.transport.name;
+                // console.log('DANN SCHAU MA MA', transport);
+                if (transport === 'websocket') {
+                    // console.info('Established websocket');
+                    try {
+                        sessionStorage.setItem('WS', 'ok');
+                    } catch (e) {
+                        console.info('No storage', e);
+                    }
+                }
+            }, 5000);
+        });
+
+        this.turted = new TURTED(host, this.socket);
         this.hook();
+        this.ident();
+    },
+
+    disconnect() {
+        if (this.connected) {
+            if (this.socket) {
+                this.socket.disconnect(() => {
+                    // console.log('Bin jetz disconnected und kann den socket wegwerfen');
+                });
+            }
+        }
     },
 
     ident() {
@@ -45,30 +106,28 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
 
     hook() {
         // detailed trigger if a game related to you saw a move
-        const me = this;
-
         this.turted.on('otherMoved', (data) => {
             data.related = true;
-            this.appChannel.trigger('game:move', data);
+            appChannel.trigger('game:move', data);
             if (this.user.get('id') === data.movedId) {
-                this.appChannel.trigger('user:moved', data);
+                appChannel.trigger('user:moved', data);
             }
             if (this.user.get('id') === data.nextId) {
-                this.appChannel.trigger('user:dran', data);
+                appChannel.trigger('user:dran', data);
             }
         });
 
         this.turted.on('anyOtherMoved', (data) => {
             data.related = false;
-            me.appChannel.trigger('game:move', data);
+            appChannel.trigger('game:move', data);
         });
 
         this.turted.on('chat:message', (data) => {
-            me.appChannel.trigger('chat:message', data);
+            appChannel.trigger('chat:message', data);
         });
 
         this.turted.on('msg', (data) => {
-            this.messagingChannel.trigger('message:new', data);
+            messagingChannel.trigger('message:new', data);
         });
     },
 

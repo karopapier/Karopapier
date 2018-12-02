@@ -9,7 +9,7 @@ const appChannel = Radio.channel('app');
 const layoutChannel = Radio.channel('layout');
 
 // Model
-const User = require('../model/User');
+const AuthUser = require('../model/AuthUser');
 const LocalSyncModel = require('../model/LocalSyncModel');
 
 // Collection
@@ -59,8 +59,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             chat: require('../module/chat/app/ChatApp'),
         };
 
-        this.authUser = new User();
-        this.authUser.url = '/api/users/check';
+        this.authUser = new AuthUser();
         this.authUser.fetch();
 
         this.users = new UserCollection();
@@ -124,6 +123,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         });
 
         this.kevin = new KEvIn();
+        this.kevin.update();
 
         this.router = new AppRouter({
             app: this,
