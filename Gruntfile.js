@@ -23,7 +23,7 @@ module.exports = function(grunt) {
             options: {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
                 transform: [
-                    ['babelify', {presets: ['es2015']}],
+                    ['babelify', {presets: ['env']}],
                     ['jstify'] //html -> underscore templates
                 ],
             },
