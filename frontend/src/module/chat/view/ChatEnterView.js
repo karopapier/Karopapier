@@ -1,18 +1,44 @@
-const $ = require('jquery');
-const Backbone = require('backbone');
+// const $ = require('jquery');
+const Marionette = require('backbone.marionette');
+const Radio = require('backbone.radio');
+const dataChannel = Radio.channel('data');
+const promiseChannel = Radio.channel('promise');
 
-module.exports = Backbone.View.extend({
+module.exports = Marionette.View.extend({
     tagName: 'div',
-    template: window['JST']['chat/chatEnter'],
-    initialize(options) {
-        this.listenTo(this.model, 'change:id', this.render);
-        return this;
+    template: require('../templates/chatEnter.html'),
+    templateContext() {
+        return {
+            user: dataChannel.request('user:logged:in'),
+        };
     },
+
+    ui: {
+        input: 'input',
+        button: 'button',
+    },
+
+    initialize() {
+        this.listenTo(this.model, 'change:id', this.render);
+    },
+
     events: {
         'submit': 'sendMessage',
     },
     sendMessage(e) {
         e.preventDefault();
+        const text = this.getUI('input').val();
+        promiseChannel.request('send:message', text).then((msg) => {
+            this.getUI('input').val('');
+        }).catch((status, err) => {
+            console.error(status, err);
+        }).then(() => {
+            this.getUI('button').prop('disabled', false);
+        });
+
+        this.getUI('button').prop('disabled', true);
+    },
+    /*
         const msg = $('#newchatmessage').val();
         if (msg != '') {
             $.ajax({
@@ -38,17 +64,5 @@ module.exports = Backbone.View.extend({
             $('#newchatmessagesubmit').prop('disabled', true).stop().animate({opacity: 0});
         }
     },
-    render() {
-        const uid = this.model.get('id');
-        let html = '';
-        if (uid < 0) {
-            html = 'Wart mal, kenn ich Dich?';
-        } else if (uid == 0) {
-            html = 'Du bist nicht angemeldet...';
-        } else {
-            html = this.template({user: this.model.toJSON()});
-        }
-        this.$el.html(html);
-        return this;
-    },
+    */
 });

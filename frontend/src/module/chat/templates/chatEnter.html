@@ -1,7 +1,6 @@
-<form id="chatEnterForm">
-    <span id="chatUserName"><b><%= user.login %></b></span> sagt: </span>
-    <input type="text" name="newchatmessage" id="newchatmessage" style="width: 300px" />
-    <input type="submit" value="Sag es" id="newchatmessagesubmit" />
+<form class="chat-enter-form">
+    <b><%= user.get('login') %></b> sagt:
+    <input type="text" name="newchatmessage" class="js-chat-text" style="width: 300px"/>
+    <button>Sag es</button>
 </form>
 <br>
-<a href="http://smile.welcomes-you.com/">Smiley-Sammlung</a>
