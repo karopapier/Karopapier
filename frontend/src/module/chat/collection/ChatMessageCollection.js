@@ -23,6 +23,10 @@ module.exports = BaseCollection.extend({
         this.fetch({reset: true});
     },
 
+    updateLast() {
+        this.fetch();
+    },
+
     getLast() {
         const l = this.length;
         if (l > 0) {

@@ -37,6 +37,7 @@ module.exports = Marionette.Application.extend({
                     },
                     success: (data) => {
                         return resolve(data);
+                        this.chatMessages.fetch();
                     },
                     error: (xhr, status) => {
                         return reject(status, xhr);

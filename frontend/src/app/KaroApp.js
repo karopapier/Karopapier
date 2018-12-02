@@ -180,6 +180,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             this.dranGames.add(g);
         });
 
+        this.listenTo(appChannel, 'chat:message', (message) => {
+            this.chatMessages.updateLast();
+        });
+
         this.layout = new PageLayout({
             el: '.container',
         });

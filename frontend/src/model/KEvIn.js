@@ -122,7 +122,7 @@ module.exports = Backbone.Model.extend(/** @lends KEvIn.prototype */{
             appChannel.trigger('game:move', data);
         });
 
-        this.turted.on('chat:message', (data) => {
+        this.turted.on('CHAT:MESSAGE', (data) => {
             appChannel.trigger('chat:message', data);
         });
 
