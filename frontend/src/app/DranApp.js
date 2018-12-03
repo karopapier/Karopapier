@@ -7,7 +7,7 @@ const DranGamesView = require('../view/game/DranGamesView');
 
 module.exports = Marionette.Application.extend({
 
-    initialize(config) {
+    initialize() {
         console.log('Init Dran App');
 
         this.navigator = Radio.channel('navigator');
