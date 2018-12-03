@@ -1,13 +1,30 @@
-const _ = require('underscore');
-const $ = require('jquery');
+// const _ = require('underscore');
+// const $ = require('jquery');
 const Marionette = require('backbone.marionette');
-const ChatUserCollection = require('../collection/ChatUserCollection');
+const Radio = require('backbone.radio');
+const dataChannel = Radio.channel('data');
+
 const ChatUsersView = require('./ChatUsersView');
 
-module.exports = Marionette.ItemView.extend({
+module.exports = Marionette.View.extend({
     tagName: 'div',
     className: 'chatInfoView',
-    template: require('../templates/chatInfo.html'),
+    template: require('../templates/chat-info.html'),
+    regions: {
+        'chat-users': {
+            el: '.chat-users',
+            replaceElement: true,
+        },
+    },
+
+    onRender() {
+        // this.show
+        this.showChildView('chat-users', new ChatUsersView({
+            collection: dataChannel.request('users'),
+        }));
+    },
+
+    /*
 
     initialize(options) {
         options = options || {};
@@ -75,12 +92,15 @@ module.exports = Marionette.ItemView.extend({
                 html = 'Bei einem Spiel dran';
             }
             if (dran > 1) {
-                html = '<a href="/dran.html" target="ibndran">Bei <strong>' + dran + '</strong> Spielen dran</a> <a href=""">'; // eslint-disable-line max-len
+                html = '<a href="/dran.html" target="ibndran">Bei <strong>' + dran +
+                 '</strong> Spielen dran</a> <a href=""">'; // eslint-disable-line max-len
             }
             if (dran > 0) {
                 const nextGame = this.app.UserDranGames.at(0);
                 if (nextGame) {
-                    html += '<br><a title="ZIEH!" href="/game.html?GID=' + nextGame.get('id') + '"><b>Zieh!</b><img src="/images/arrow_right.png" style="vertical-align: center"></a>'; // eslint-disable-line max-len
+                    html += '<br><a title="ZIEH!" href="/game.html?GID=' + nextGame.get('id') +
+                    '"><b>Zieh!</b><img src="/images/arrow_right.png"
+                     style="vertical-align: center"></a>'; // eslint-disable-line max-len
                 }
             }
             $('#chatInfoDran').html(html);
@@ -132,4 +152,5 @@ module.exports = Marionette.ItemView.extend({
             $('#chatInfoTopBlocker').html(html);
         });
     },
+    */
 });

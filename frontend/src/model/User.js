@@ -5,6 +5,7 @@ module.exports = Backbone.Model.extend({
         login: '',
         activeGames: 0,
         dran: 0,
+        chat: false, // currently in chat
         uc: 0,
     },
 });

@@ -1,0 +1,23 @@
+<%  if (options.withAnniversary && birthdayToday) { %>
+<img src="/images/smilies/birthday.gif" alt="Wird immer älter" title="Wird immer älter">
+<% } %>
+<% if (options.withAnniversary && karodayToday) { %>
+<img src="/images/smilies/bouncy.gif" alt="Hat heute Karotag" title="Hat heute Karotag">
+<% } %>
+<% if (options.withDesperation && desperate) { %>
+<img src="/images/spielegeil.png" alt="Spielegeil" title="Spielegeil">
+<% } %>
+
+<span class="userLabel">
+<% if (options.withInfoLink) { %>
+<a href="/userinfo.php?about=<%= id %>">
+    <% } %>
+    <%= login %>
+    <% if (options.withInfoLink) { %>
+</a>
+<% } %>
+</span>
+
+<% if (options.withGames) { %>
+<small><% if (options.withGamesLink) { %>(<a href="/dran.html?uid=<%= id %>" class="js-dran"><%= dran %></a>/<% } else { %>(<%= dran %>/<% } %><% if (options.withGamesLink) { %><a href="http://www.karopapier.de/showgames.php?spielevon=<%= id %>"><%= activeGames %></a>)<% } else { %><%= activeGames %>)<% } %>
+</small><% } %>

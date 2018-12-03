@@ -89,6 +89,11 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.chatMessages.fetchLast();
 
         this.navigator = Radio.channel('navigator');
+
+        dataChannel.reply('user:logged:in', () => {
+            return this.authUser;
+        });
+
         dataChannel.reply('users', () => {
             return this.users;
         });
@@ -97,20 +102,12 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             return this.maps;
         });
 
-        dataChannel.reply('user:logged:in', () => {
-            return this.authUser;
-        });
-
         dataChannel.reply('config', () => {
             return this.config;
         });
 
         dataChannel.reply('settings', () => {
             return this.settings;
-        });
-
-        dataChannel.reply('users', () => {
-            return this.users;
         });
 
         dataChannel.reply('chatMessages', () => {
@@ -147,9 +144,9 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         console.info('Switch to app', appname);
         this.initApp(appname);
         this.layout.getRegion('content').detachView();
-        console.log('Showing app\'s layout');
+        // console.log('Showing app\'s layout');
         this.layout.showChildView('content', this.apps[appname].layout);
-        console.log('Showing apps layout done');
+        // console.log('Showing apps layout done');
         this.currentApp = appname;
     },
 
@@ -172,12 +169,12 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         // handle realtime updates of dranGames
         appChannel.on('user:moved', (data) => {
             const gid = data.gid;
-            console.log('HAve to remove from dran', data);
+            console.log('Have to remove from dran', data);
             this.dranGames.remove(gid);
         });
 
         appChannel.on('user:dran', (data) => {
-            console.log('HAve to add to dran', data);
+            console.log('Have to add to dran', data);
             const g = {
                 id: data.gid,
                 name: data.name,
@@ -225,7 +222,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         const nav = parts.shift();
         const data = parts.shift();
 
-        console.log('Navigate', nav, data);
+        console.info('Navigate', nav, data);
 
         this.switchNav(nav);
 
