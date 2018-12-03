@@ -25,4 +25,10 @@ helpers.repeat = function(str, n) {
     return new Array(n + 1).join(str);
 };
 
+helpers.decodeHtml = function(html) {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+};
+
 module.exports = helpers;

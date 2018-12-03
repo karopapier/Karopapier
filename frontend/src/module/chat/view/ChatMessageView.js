@@ -2,6 +2,7 @@
 const Marionette = require('backbone.marionette');
 const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');
+const TextHelper = require('../../../util/TextHelper');
 
 // const $ = require('jquery');
 // const emojione = require('emojione');
@@ -18,6 +19,7 @@ module.exports = Marionette.View.extend({
     templateContext() {
         return {
             linkify: this.linkifier.linkify.bind(this.linkifier), // sonst kommt die message als 'this'
+            decodeHtml: TextHelper.decodeHtml,
         };
     },
 
