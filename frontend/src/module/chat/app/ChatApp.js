@@ -36,8 +36,9 @@ module.exports = Marionette.Application.extend({
                         withCredentials: true,
                     },
                     success: (data) => {
+                        this.chatMessages.fetchLatest();
+                        this.scrollDown();
                         return resolve(data);
-                        this.chatMessages.fetch();
                     },
                     error: (xhr, status) => {
                         return reject(status, xhr);
@@ -60,6 +61,10 @@ module.exports = Marionette.Application.extend({
         // regularily fetch chat users and set the flag on the users accordingly
         setInterval(this.updateChatUsers, 60000);
         this.updateChatUsers();
+        this.scrollDown();
+    },
+
+    scrollDown() {
         setTimeout(() => {
             window.scrollTo(0, document.body.scrollHeight);
         }, 500);

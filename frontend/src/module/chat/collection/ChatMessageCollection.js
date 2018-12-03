@@ -23,8 +23,12 @@ module.exports = BaseCollection.extend({
         this.fetch({reset: true});
     },
 
+    fetchLatest() {
+        this.fetch({data: {limit: 1}, remove: false});
+    },
+
     updateLast() {
-        this.fetch();
+        this.fetch({data: {limit: 1}});
     },
 
     getLast() {
