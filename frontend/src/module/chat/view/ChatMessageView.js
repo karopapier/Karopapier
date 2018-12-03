@@ -9,7 +9,7 @@ const TextHelper = require('../../../util/TextHelper');
 
 module.exports = Marionette.View.extend({
     tagName: 'div',
-    className: 'chatMessage',
+    className: 'chat-message',
     template: require('../templates/chatMessage.html'),
 
     initialize() {
