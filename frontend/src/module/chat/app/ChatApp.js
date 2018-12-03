@@ -60,11 +60,6 @@ module.exports = Marionette.Application.extend({
         // regularily fetch chat users and set the flag on the users accordingly
         setInterval(this.updateChatUsers, 60000);
         this.updateChatUsers();
-
-        setTimeout(() => {
-            const users = dataChannel.request('users');
-            users.get(207).set('chat', false);
-        }, 2000);
     },
 
     /**
