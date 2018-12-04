@@ -32,13 +32,12 @@ module.exports = Marionette.View.extend({
             collection: this.users,
         }));
         this.users.getLoadedPromise().then(() => {
-            console.log('LOADED');
             this.updateHabdich();
         });
     },
 
     updateHabdich() {
-        console.warn('Update habdich');
+        // console.warn('Update habdich');
         const chatUsers = new Backbone.Collection(this.users.where({chat: true}));
         const habdich = _.reduce(chatUsers.pluck('dran'), (sum, el) => {
             console.log(sum, el);
