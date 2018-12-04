@@ -11,10 +11,11 @@ const PUBLICFOLDER = __DIR__.'/web';
 
 $publicfiles = [
     '/js/libs.src.js',
+    '/js/libs.min.js',
+    '/js/KaroApp.dev.min.js',
     '/js/KaroApp.dev.js',
     '/js/KaroApp.src.js',
     '/js/KaroApp.min.js',
-    '/js/KaroApp.dev.js',
     '/js/Karopapier.src.js',
     '/css/app.css',
     '/css/previous.css',

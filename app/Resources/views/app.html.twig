@@ -1,18 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    <script src="{{ cachebust('/js/libs.src.js') }}"></script>
+    <script>
+        window.turtedHost = '{{ getConfig('turted') }}';
+    </script>
     {% if app.environment == "prod" %}
-        <script src="{{ cachebust('/js/KaroApp.src.js') }}"></script>
+        <script src="{{ cachebust('/js/libs.min.js') }}"></script>
+        <script src="{{ cachebust('/js/KaroApp.min.js') }}"></script>
     {% else %}
+        <script src="{{ cachebust('/js/libs.src.js') }}"></script>
         <script src="{{ cachebust('/js/KaroApp.dev.js') }}"></script>
     {% endif %}
-    <script>
-        var app = new KaroApp({
-            turtedHost: '{{ getConfig('turted') }}',
-        });
-        app.authUser.once('sync', () => {
-            app.start();
-        });
-    </script>
 {% endblock %}

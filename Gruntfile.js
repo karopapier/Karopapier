@@ -42,15 +42,16 @@ module.exports = function(grunt) {
                         require: libraries,
                     },
                 },
-                src: './frontend/libload.js', // file, das script src="app.js" erzeugt
-                dest: './web/js/libs.src.js',
+                files: {
+                    './web/js/libs.src.js': ['./frontend/src/libload.js'],
+                },
             },
             dev: {
                 options: {
                     exclude: libraries,
                 },
                 files: {
-                    'web/js/<%= pkg.name %>.dev.js': ['frontend/src/app/KaroApp.js'],
+                    'web/js/<%= pkg.name %>.dev.js': ['frontend/src/app.js'],
                 },
                 browserifyOptions: {
                     debug: true,
@@ -62,7 +63,7 @@ module.exports = function(grunt) {
                     exclude: libraries,
                 },
                 files: {
-                    'web/js/<%= pkg.name %>.src.js': ['frontend/src/app/KaroApp.js'],
+                    'web/js/<%= pkg.name %>.src.js': ['frontend/src/app.js'],
                 },
             },
             bbapp: {
@@ -85,22 +86,11 @@ module.exports = function(grunt) {
         uglify: {
             libs: {
                 files: {
-                    './web/js/libs.js': [
-                        './web/js/libs.src.js',
-                    ],
+                    './web/js/libs.min.js': './web/js/libs.src.js',
                 },
                 options: {
                     sourceMap: false,
                     sourceMapIncludeSources: false,
-                },
-            },
-            dev: {
-                files: {
-                    'web/js/<%= pkg.name %>.dev.js': 'web/js/<%= pkg.name %>.src.js',
-                },
-                options: {
-                    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
-                    beautify: true,
                 },
             },
             min: {
