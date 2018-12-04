@@ -16,8 +16,11 @@ const GameManager = require('../module/data-manager/model/GameManager');
 
 // Collection
 const UserCollection = require('../collection/UserCollection');
-const GameCollection = require('../collection/GameCollection');
 const MapCollection = require('../collection/MapCollection');
+
+// Data Manages
+const BlockerManager = require('../module/data-manager/manager/BlockerManager');
+const DranGamesManager = require('../module/data-manager/manager/DranGamesManager');
 
 const ChatMessageCollection = require('../module/chat/collection/ChatMessageCollection');
 
@@ -85,8 +88,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.maps.url = '/api/map/list.json?nocode=true';
         // this.maps.url = '/api/map/list.json';
 
-        this.dranGames = new GameCollection();
-
         this.chatMessages = new ChatMessageCollection();
         this.chatMessages.fetchLatest();
 
@@ -114,10 +115,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         dataChannel.reply('chatMessages', () => {
             return this.chatMessages;
-        });
-
-        dataChannel.reply('drangames', () => {
-            return this.dranGames;
         });
 
         dataChannel.reply('linkifier', () => {
@@ -172,13 +169,12 @@ module.exports = window.KaroApp = Marionette.Application.extend({
     start() {
         console.info('Karo App start');
 
-        this.dranGames.url = '/api/user/' + this.authUser.get('id') + '/dran';
-        this.dranGames.fetch();
-
         // Handles realtime updates to keep data fresh
         this.userManager = new UserManager();
         this.gameManager = new GameManager();
 
+        this.dranGames = (new DranGamesManager()).getCollection();
+        this.blockers = (new BlockerManager()).getCollection();
 
         this.listenTo(appChannel, 'chat:message', (message) => {
             this.chatMessages.updateLast();

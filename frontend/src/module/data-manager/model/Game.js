@@ -1,5 +1,5 @@
 const Backbone = require('backbone');
-const Map = require('./map/Map');
+const Map = require('../../../model/map/Map');
 module.exports = Backbone.Model.extend({
     defaults: {
         id: 0,

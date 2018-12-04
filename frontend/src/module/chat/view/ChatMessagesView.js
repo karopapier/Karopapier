@@ -12,6 +12,7 @@ module.exports = Marionette.CollectionView.extend({
     },
 
     initialize() {
+        // model is settings
         this.listenTo(this.model, 'change', this.render);
         this.listenTo(this.collection, 'add', this.scrollCheck);
     },

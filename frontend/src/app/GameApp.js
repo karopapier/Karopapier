@@ -5,7 +5,7 @@ const Marionette = require('backbone.marionette');
 const $ = require('jquery');
 const GameRouter = require('../router/GameRouter');
 const GameLayout = require('../layout/GameLayout');
-const Game = require('../model/Game');
+const Game = require('../module/data-manager/model/Game');
 const MapCanvasView = require('../view/map/MapCanvasView');
 
 module.exports = Marionette.Application.extend({

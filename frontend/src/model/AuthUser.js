@@ -5,6 +5,5 @@ module.exports = User.extend({
     isLoggedIn() {
         return this.get('id') > 0;
     },
-
 });
 
