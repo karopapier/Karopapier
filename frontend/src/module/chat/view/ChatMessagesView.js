@@ -6,6 +6,14 @@ module.exports = Marionette.CollectionView.extend({
     id: 'chatMessagesContainer',
     childView: ChatMessageView,
 
+    filter(msg, index, collection) {
+        const lower = this.collection.getLastId() - this.model.get('limit');
+        return (msg.get('id') > lower);
+    },
+
+    initialize() {
+        this.listenTo(this.model, 'change', this.render);
+    },
 
     /*
     initialize(options) {

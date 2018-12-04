@@ -58,13 +58,17 @@ module.exports = Marionette.Application.extend({
     },
 
     start() {
+        this.chatMessages.fetch({data: {limit: 100}});
+
         this.layout.showChildView('messages', new ChatMessagesView({
+            model: this.settings,
             collection: this.chatMessages,
         }));
 
         this.layout.showChildView('chat-info', new ChatInfoView());
         this.layout.showChildView('chat-control', new ChatControlView({
             model: this.settings,
+            collection: this.chatMessages,
         }));
         this.layout.showChildView('chat-enter', new ChatEnterView());
 

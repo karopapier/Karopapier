@@ -17,6 +17,8 @@ module.exports = BaseCollection.extend({
         return parsed;
     },
 
+    comparator: 'id',
+
     url: '/api/chat/list.json',
 
     fetchLast() {
@@ -38,5 +40,14 @@ module.exports = BaseCollection.extend({
         }
 
         return {};
+    },
+
+    getLastId() {
+        const l = this.getLast();
+        if (l) {
+            return l.get('id');
+        }
+
+        return 0;
     },
 });
