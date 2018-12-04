@@ -49,18 +49,17 @@ module.exports = Marionette.View.extend({
     /**
      * Check, if there is a previous deferred from value
      * If so, keep it, reset deferred blink timeout
-     * @param from
      * @param to
      */
-    dranChange(from, to) {
+    dranChange() {
         // console.log('Defered change', from, to);
         // console.log('Deferred change from', this.oldFrom, 'to', to);
 
         // no else, only < > because if equal, no animation
-        if (this.oldFrom < to) {
+        if (this.oldFrom < this.to) {
             this.$el.addClass('blink-red');
         }
-        if (this.oldFrom > to) {
+        if (this.oldFrom > this.to) {
             this.$el.addClass('blink-green');
         }
         setTimeout(() => {
@@ -68,16 +67,18 @@ module.exports = Marionette.View.extend({
             this.$el.removeClass('blink-red');
         }, 2500);
         this.oldFrom = -1;
-        this.getUI('dran').text(to);
+        this.getUI('dran').text(this.to);
+        this.to = -1;
     },
 
     deferredDranChange(from, to) {
         if (this.oldFrom < 0) {
             this.oldFrom = from;
         }
+        this.to = to;
 
         clearTimeout(this.dranChangeTimeout);
 
-        this.dranChangeTimeout = setTimeout(this.dranChange.call(this, from, to), 50);
+        this.dranChangeTimeout = setTimeout(this.dranChange.bind(this), 50);
     },
 });
