@@ -7,13 +7,16 @@ module.exports = Marionette.CollectionView.extend({
     childView: UserView,
 
     initialize() {
-        this.listenTo(this.collection, 'update', () => {
-            this.render();
+        // re-apply filter on change of chat property
+        this.listenTo(this.collection, 'change:chat', (mo) => {
+            this.removeFilter();
+            this.setFilter(this.basicFilter);
         });
+
+        this.setFilter(this.basicFilter);
     },
 
-    filter(model, index, collection) {
-        // only those with chat flag set
+    basicFilter(model) {
         return model.get('chat');
     },
 

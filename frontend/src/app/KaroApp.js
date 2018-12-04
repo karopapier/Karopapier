@@ -1,16 +1,18 @@
 'use strict';
 const Radio = require('backbone.radio');
-const dataChannel = Radio.channel('data');
 const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
 
 // channels
 const appChannel = Radio.channel('app');
+const dataChannel = Radio.channel('data');
 const layoutChannel = Radio.channel('layout');
 
 // Model
 const AuthUser = require('../model/AuthUser');
 const LocalSyncModel = require('../model/LocalSyncModel');
+const UserManager = require('../module/data-manager/model/UserManager');
+const GameManager = require('../module/data-manager/model/GameManager');
 
 // Collection
 const UserCollection = require('../collection/UserCollection');
@@ -173,23 +175,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.dranGames.url = '/api/user/' + this.authUser.get('id') + '/dran';
         this.dranGames.fetch();
 
-        // handle realtime updates of dranGames
-        appChannel.on('user:moved', (data) => {
-            const gid = data.gid;
-            console.log('Have to remove from dran', data);
-            this.dranGames.remove(gid);
-        });
+        // Handles realtime updates to keep data fresh
+        this.userManager = new UserManager();
+        this.gameManager = new GameManager();
 
-        appChannel.on('user:dran', (data) => {
-            console.log('Have to add to dran', data);
-            const g = {
-                id: data.gid,
-                name: data.name,
-                dranName: data.nextLogin,
-                blocked: new Date().getHours() + ':' + new Date().getMinutes(),
-            };
-            this.dranGames.add(g);
-        });
 
         this.listenTo(appChannel, 'chat:message', (message) => {
             this.chatMessages.updateLast();

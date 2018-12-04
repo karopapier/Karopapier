@@ -50,7 +50,6 @@ module.exports = Marionette.View.extend({
         } else {
             this.$el.addClass('blink-green');
         }
-        console.log(this.getUI('dran'));
         this.getUI('dran').text(to);
     },
 });

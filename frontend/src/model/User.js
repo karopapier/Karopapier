@@ -8,5 +8,17 @@ module.exports = Backbone.Model.extend({
         chat: false, // currently in chat
         uc: 0,
     },
+
+    incDran() {
+        const old = this.get('dran');
+        this.set('dran', old + 1);
+    },
+
+    decDran() {
+        const old = this.get('dran');
+        if (old > 0) {
+            this.set('dran', old - 1);
+        }
+    },
 });
 
