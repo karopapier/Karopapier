@@ -8,7 +8,7 @@ const ChatUsersView = require('./ChatUsersView');
 
 module.exports = Marionette.View.extend({
     tagName: 'div',
-    className: 'chatInfoView desktop-only',
+    className: 'chat-info-view desktop-only',
     template: require('../templates/chat-info.html'),
     regions: {
         'chat-users': {
