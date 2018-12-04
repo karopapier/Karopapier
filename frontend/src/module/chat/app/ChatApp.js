@@ -60,6 +60,10 @@ module.exports = Marionette.Application.extend({
     start() {
         this.chatMessages.fetch({data: {limit: 100}});
 
+        setInterval(() => {
+            this.chatMessages.fetch({data: {limit: 100}, remove: false});
+        }, 60000);
+
         this.layout.showChildView('messages', new ChatMessagesView({
             model: this.settings,
             collection: this.chatMessages,
