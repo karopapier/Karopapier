@@ -12,7 +12,11 @@ module.exports = Marionette.Object.extend({
 
         // handle realtime updates of dranGames
         appChannel.on('game:move', (data) => {
-            console.log('Someone moved', data);
+            // skip events that are "related to me", as they would result in double counts
+            if (data.related) {
+                return;
+            }
+            // console.log('Someone moved', data);
             this.moved(data.movedId);
             this.next(data.nextId);
         });
