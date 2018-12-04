@@ -55,9 +55,12 @@ module.exports = Marionette.View.extend({
     dranChange(from, to) {
         // console.log('Defered change', from, to);
         // console.log('Deferred change from', this.oldFrom, 'to', to);
+
+        // no else, only < > because if equal, no animation
         if (this.oldFrom < to) {
             this.$el.addClass('blink-red');
-        } else {
+        }
+        if (this.oldFrom > to) {
             this.$el.addClass('blink-green');
         }
         setTimeout(() => {
