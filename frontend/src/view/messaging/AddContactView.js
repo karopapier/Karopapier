@@ -1,5 +1,5 @@
 const Marionette = require('backbone.marionette');
-const UserCollection = require('../../collection/UserCollection');
+const UserCollection = require('../../module/data-manager/collection/UserCollection');
 const UserlistView = require('./UserlistView');
 module.exports = Marionette.View.extend({
     template: require('../../../templates/messaging/addContact.html'),

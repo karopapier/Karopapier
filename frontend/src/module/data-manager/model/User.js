@@ -1,4 +1,4 @@
-const BaseModel = require('./BaseModel');
+const BaseModel = require('../../../model/BaseModel');
 
 module.exports = BaseModel.extend({
     defaults: {

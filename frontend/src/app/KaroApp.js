@@ -11,11 +11,10 @@ const layoutChannel = Radio.channel('layout');
 // Model
 const AuthUser = require('../model/AuthUser');
 const LocalSyncModel = require('../model/LocalSyncModel');
-const UserManager = require('../module/data-manager/model/UserManager');
-const GameManager = require('../module/data-manager/model/GameManager');
+const UserManager = require('../module/data-manager/manager/UserManager');
+const GameManager = require('../module/data-manager/manager/GameManager');
 
 // Collection
-const UserCollection = require('../collection/UserCollection');
 const MapCollection = require('../collection/MapCollection');
 
 // Data Manages
@@ -68,10 +67,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.authUser = new AuthUser();
         this.authUser.fetch();
 
-        this.users = new UserCollection();
-        this.users.url = '/api/users';
-        this.users.fetch();
-
         this.linkifier = new Linkifier();
 
         this.settings = new LocalSyncModel({
@@ -95,10 +90,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         dataChannel.reply('user:logged:in', () => {
             return this.authUser;
-        });
-
-        dataChannel.reply('users', () => {
-            return this.users;
         });
 
         dataChannel.reply('maps', () => {

@@ -1,15 +1,23 @@
-const Radio = require('backbone.radio');
 const Marionette = require('backbone.marionette');
+const Radio = require('backbone.radio');
 
-// channels
 const appChannel = Radio.channel('app');
 const dataChannel = Radio.channel('data');
+
+const UserCollection = require('../collection/UserCollection');
 
 module.exports = Marionette.Object.extend({
 
     initialize() {
-        this.users = dataChannel.request('users');
-        this.user = dataChannel.request('user:logged:in');
+        this.users = new UserCollection();
+        this.users.url = '/api/users';
+        this.users.fetch();
+
+        this.authUser = dataChannel.request('user:logged:in');
+
+        dataChannel.reply('users', () => {
+            return this.users;
+        });
 
         // handle realtime updates of dranGames
         appChannel.on('game:move', (data) => {
@@ -23,10 +31,10 @@ module.exports = Marionette.Object.extend({
         });
 
         appChannel.on('user:moved', () => {
-            this.user.decDran();
+            this.authUser.decDran();
         });
         appChannel.on('user:dran', () => {
-            this.user.incDran();
+            this.authUser.incDran();
         });
     },
 

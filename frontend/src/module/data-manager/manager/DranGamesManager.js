@@ -1,7 +1,9 @@
 const Marionette = require('backbone.marionette');
 const Radio = require('backbone.radio');
+
 const appChannel = Radio.channel('app');
 const dataChannel = Radio.channel('data');
+
 const GameCollection = require('../collection/GameCollection');
 
 module.exports = Marionette.Object.extend({

@@ -1,4 +1,4 @@
-const User = require('./User');
+const User = require('../module/data-manager/model/User');
 module.exports = User.extend({
     url: '/api/user/check',
 
