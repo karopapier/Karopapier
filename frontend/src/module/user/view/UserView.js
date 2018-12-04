@@ -29,7 +29,6 @@ module.exports = Marionette.View.extend({
         // this.listenTo(this.model, "change:dran", this.dranChange);
         // this.listenTo(this.model, "remove", this.remove);
 
-
         // for deferred dran change handling
         this.oldFrom = -1;
         this.dranChangeTimeout = -1;

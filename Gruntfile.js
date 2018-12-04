@@ -4,7 +4,10 @@ const libraries = [
     'backbone',
     'backbone.marionette',
     'backbone.radio',
-    // 'es6-promise/auto',
+    'es6-promise/auto',
+    'turted-client',
+    'socket.io-client',
+    'store',
 ];
 
 module.exports = function(grunt) {

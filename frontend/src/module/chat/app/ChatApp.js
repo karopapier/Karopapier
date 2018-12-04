@@ -18,6 +18,8 @@ const ChatEnterView = require('../view/ChatEnterView');
 // const ChatMessageCache = require('../collection/ChatMessageCache');
 // const ChatAppView = require('../view/chat/ChatAppView');
 
+require('es6-promise/auto');
+
 module.exports = Marionette.Application.extend({
     initialize() {
         this.layout = new ChatLayout({});

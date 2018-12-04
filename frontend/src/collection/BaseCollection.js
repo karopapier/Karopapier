@@ -1,4 +1,5 @@
 const Backbone = require('backbone');
+require('es6-promise/auto');
 
 module.exports = Backbone.Collection.extend({
     initialize(...args) {
