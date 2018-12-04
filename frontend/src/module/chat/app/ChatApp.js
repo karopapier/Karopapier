@@ -42,7 +42,6 @@ module.exports = Marionette.Application.extend({
                     },
                     success: (data) => {
                         this.chatMessages.fetchLatest();
-                        this.scrollDown();
                         return resolve(data);
                     },
                     error: (xhr, status) => {
@@ -61,7 +60,7 @@ module.exports = Marionette.Application.extend({
         this.chatMessages.fetch({data: {limit: 100}});
 
         setInterval(() => {
-            this.chatMessages.fetch({data: {limit: 100}, remove: false});
+            this.chatMessages.fetch({data: {limit: 100}, remove: false, merge: true});
         }, 60000);
 
         this.layout.showChildView('messages', new ChatMessagesView({
@@ -79,13 +78,6 @@ module.exports = Marionette.Application.extend({
         // regularily fetch chat users and set the flag on the users accordingly
         setInterval(this.updateChatUsers, 60000);
         this.updateChatUsers();
-        this.scrollDown();
-    },
-
-    scrollDown() {
-        setTimeout(() => {
-            window.scrollTo(0, document.body.scrollHeight);
-        }, 500);
     },
 
     /**

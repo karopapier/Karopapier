@@ -8,5 +8,6 @@ module.exports = Backbone.Model.extend({
         lastLineId: 0,
         showBotrix: false,
         oldLink: false,
+        follow: true,
     },
 });

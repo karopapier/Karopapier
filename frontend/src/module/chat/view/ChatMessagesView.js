@@ -13,6 +13,19 @@ module.exports = Marionette.CollectionView.extend({
 
     initialize() {
         this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.collection, 'add', this.scrollCheck);
+    },
+
+    scrollDown() {
+        setTimeout(() => {
+            this.el.scrollTo(0, this.el.scrollHeight);
+        }, 500);
+    },
+
+    scrollCheck(msg) {
+        console.log('Scroll check, message added', msg);
+
+        this.scrollDown();
     },
 
     /*
