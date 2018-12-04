@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
+    <script src="{{ cachebust('/js/libs.src.js') }}"></script>
     {% if app.environment == "prod" %}
         <script src="{{ cachebust('/js/KaroApp.src.js') }}"></script>
     {% else %}

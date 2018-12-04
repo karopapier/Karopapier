@@ -10,6 +10,7 @@ const HASHLENGTH = 6;
 const PUBLICFOLDER = __DIR__.'/web';
 
 $publicfiles = [
+    '/js/libs.src.js',
     '/js/KaroApp.dev.js',
     '/js/KaroApp.src.js',
     '/js/KaroApp.min.js',

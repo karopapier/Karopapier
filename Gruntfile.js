@@ -1,3 +1,12 @@
+const libraries = [
+    'jquery',
+    'underscore',
+    'backbone',
+    'backbone.marionette',
+    'backbone.radio',
+    // 'es6-promise/auto',
+];
+
 module.exports = function(grunt) {
     // Project configuration.
     require('time-grunt')(grunt);
@@ -24,10 +33,22 @@ module.exports = function(grunt) {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
                 transform: [
                     ['babelify', {presets: ['env']}],
-                    ['jstify'] //html -> underscore templates
+                    ['jstify'], //html -> underscore templates
                 ],
             },
+            libs: {
+                options: {
+                    browserifyOptions: {
+                        require: libraries,
+                    },
+                },
+                src: './frontend/libload.js', // file, das script src="app.js" erzeugt
+                dest: './web/js/libs.src.js',
+            },
             dev: {
+                options: {
+                    exclude: libraries,
+                },
                 files: {
                     'web/js/<%= pkg.name %>.dev.js': ['frontend/src/app/KaroApp.js'],
                 },
@@ -38,6 +59,7 @@ module.exports = function(grunt) {
             dist: {
                 options: {
                     banner: '/*! frontend App <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n',
+                    exclude: libraries,
                 },
                 files: {
                     'web/js/<%= pkg.name %>.src.js': ['frontend/src/app/KaroApp.js'],
@@ -58,9 +80,20 @@ module.exports = function(grunt) {
                 files: {
                     'web/js/GameStepUp.js': ['backbone/src/GameStepUp.src.js'],
                 },
-            }
+            },
         },
         uglify: {
+            libs: {
+                files: {
+                    './web/js/libs.js': [
+                        './web/js/libs.src.js',
+                    ],
+                },
+                options: {
+                    sourceMap: false,
+                    sourceMapIncludeSources: false,
+                },
+            },
             dev: {
                 files: {
                     'web/js/<%= pkg.name %>.dev.js': 'web/js/<%= pkg.name %>.src.js',
@@ -117,14 +150,14 @@ module.exports = function(grunt) {
                 files: [
                     'backbone/src/**/*.js',
                     'backbone/templates/**/*',
-                    'backbone/src/GameStepUp.src.js'
+                    'backbone/src/GameStepUp.src.js',
                 ],
                 tasks: ['build:bb', 'bust'],
                 options: {
                     interrupt: true,
                     livereload: livereloadConfig,
                 },
-            }
+            },
         },
         jst: {
             options: {
@@ -179,9 +212,9 @@ module.exports = function(grunt) {
                     ],
                 },
                 files: {
-                    'web/css/Karopapier.min.css': 'backbone/css/karopapier.less'
+                    'web/css/Karopapier.min.css': 'backbone/css/karopapier.less',
                 },
-            }
+            },
         },
         eslint: {
             options: {fix: true},
