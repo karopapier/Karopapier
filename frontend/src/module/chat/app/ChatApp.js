@@ -78,7 +78,7 @@ module.exports = Marionette.Application.extend({
         this.layout.showChildView('chat-enter', new ChatEnterView());
 
         // regularily fetch chat users and set the flag on the users accordingly
-        setInterval(this.updateChatUsers, 60000);
+        setInterval(this.updateChatUsers.bind(this), 60000);
 
         this.users.getLoadedPromise().then(() => {
             this.updateChatUsers().then(() => {
