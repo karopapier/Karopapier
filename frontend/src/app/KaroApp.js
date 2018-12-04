@@ -173,8 +173,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.userManager = new UserManager();
         this.gameManager = new GameManager();
 
-        this.dranGames = (new DranGamesManager()).getCollection();
-        this.blockers = (new BlockerManager()).getCollection();
+        // start data managers
+        // they init, load and update collections (interval & realtime)
+        new DranGamesManager();
+        new BlockerManager();
 
         this.listenTo(appChannel, 'chat:message', (message) => {
             this.chatMessages.updateLast();
