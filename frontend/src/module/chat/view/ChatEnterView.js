@@ -1,4 +1,3 @@
-// const $ = require('jquery');
 const Marionette = require('backbone.marionette');
 const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');

@@ -5,13 +5,18 @@ const ChatLayout = require('../layout/ChatLayout');
 const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');
 const promiseChannel = Radio.channel('promise');
+
+// model
+const ChatSettings = require('../model/ChatSettings');
+
+// view
 const ChatMessagesView = require('../view/ChatMessagesView');
 const ChatInfoView = require('../view/ChatInfoView');
+const ChatControlView = require('../view/ChatControlView');
 const ChatEnterView = require('../view/ChatEnterView');
 
 // const ChatMessageCache = require('../collection/ChatMessageCache');
 // const ChatAppView = require('../view/chat/ChatAppView');
-// const ChatControlView = require('../view/chat/ChatControlView');
 
 module.exports = Marionette.Application.extend({
     initialize() {
@@ -47,6 +52,8 @@ module.exports = Marionette.Application.extend({
             });
         });
 
+        this.settings = new ChatSettings();
+
         this.start();
     },
 
@@ -55,8 +62,11 @@ module.exports = Marionette.Application.extend({
             collection: this.chatMessages,
         }));
 
-        this.layout.showChildView('chat-enter', new ChatEnterView());
         this.layout.showChildView('chat-info', new ChatInfoView());
+        this.layout.showChildView('chat-control', new ChatControlView({
+            model: this.settings,
+        }));
+        this.layout.showChildView('chat-enter', new ChatEnterView());
 
         // regularily fetch chat users and set the flag on the users accordingly
         setInterval(this.updateChatUsers, 60000);

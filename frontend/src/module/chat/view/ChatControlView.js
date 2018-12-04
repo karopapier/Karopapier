@@ -1,10 +1,34 @@
-const _ = require('underscore');
-const Backbone = require('backbone');
-const NotificationControlView = require('../../../../../backbone/src/view/NotificationControlView');
+const Marionette = require('backbone.marionette');
+// const NotificationControlView = require('../../../../../backbone/src/view/NotificationControlView');
 
-module.exports = Backbone.View.extend({
+module.exports = Marionette.View.extend({
     tagName: 'div',
-    template: require('../templates/chatControl.html'),
+    template: require('../templates/chat-control.html'),
+
+    initialize() {
+        this.listenTo(this.model, 'change:limit', this.render);
+    },
+
+    ui: {
+        'toggle-details': '.js-toggle-details',
+        'details': '.js-chat-settings-details',
+        'limits': '.js-chat-message-limit-selector',
+    },
+
+    events: {
+        'click @ui.toggle-details': 'toggleDetails',
+        'click @ui.limits': 'setLimit',
+    },
+
+    toggleDetails() {
+        this.getUI('details').toggleClass('hidden');
+    },
+
+    setLimit(e) {
+        this.model.set('limit', e.target.getAttribute('data-limit'));
+    },
+
+    /*
     initialize(options) {
         this.app = options.app;
         _.bindAll(this, 'render');
@@ -107,4 +131,5 @@ module.exports = Backbone.View.extend({
         }
         return this;
     },
+    */
 });

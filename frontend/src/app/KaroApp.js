@@ -86,7 +86,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.dranGames = new GameCollection();
 
         this.chatMessages = new ChatMessageCollection();
-        this.chatMessages.fetchLast();
+        this.chatMessages.fetchLatest();
 
         this.navigator = Radio.channel('navigator');
 
