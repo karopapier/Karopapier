@@ -9,6 +9,7 @@ module.exports = Marionette.Object.extend({
 
     initialize() {
         this.users = dataChannel.request('users');
+        this.user = dataChannel.request('user:logged:in');
 
         // handle realtime updates of dranGames
         appChannel.on('game:move', (data) => {
@@ -19,6 +20,13 @@ module.exports = Marionette.Object.extend({
             // console.log('Someone moved', data);
             this.moved(data.movedId);
             this.next(data.nextId);
+        });
+
+        appChannel.on('user:moved', () => {
+            this.user.decDran();
+        });
+        appChannel.on('user:dran', () => {
+            this.user.incDran();
         });
     },
 
