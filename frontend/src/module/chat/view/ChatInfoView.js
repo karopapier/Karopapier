@@ -1,5 +1,5 @@
-// const _ = require('underscore');
-// const $ = require('jquery');
+const _ = require('underscore');
+const Backbone = require('backbone');
 const Marionette = require('backbone.marionette');
 const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');
@@ -17,11 +17,34 @@ module.exports = Marionette.View.extend({
         },
     },
 
+    ui: {
+        habdich: '.chat-habdich',
+    },
+
+    initialize() {
+        this.users = dataChannel.request('users');
+        this.listenTo(this.users, 'change', this.updateHabdich);
+    },
+
     onRender() {
         // this.show
         this.showChildView('chat-users', new ChatUsersView({
-            collection: dataChannel.request('users'),
+            collection: this.users,
         }));
+        this.users.getLoadedPromise().then(() => {
+            console.log('LOADED');
+            this.updateHabdich();
+        });
+    },
+
+    updateHabdich() {
+        console.warn('Update habdich');
+        const chatUsers = new Backbone.Collection(this.users.where({chat: true}));
+        const habdich = _.reduce(chatUsers.pluck('dran'), (sum, el) => {
+            console.log(sum, el);
+            return sum + el;
+        }, 0);
+        this.getUI('habdich').text(habdich);
     },
 
     /*

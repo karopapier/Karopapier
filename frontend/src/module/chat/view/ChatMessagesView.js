@@ -23,7 +23,6 @@ module.exports = Marionette.CollectionView.extend({
     },
 
     scrollCheck(msg) {
-        // console.log('Scroll check, message added', msg);
         this.scrollDown();
     },
 
