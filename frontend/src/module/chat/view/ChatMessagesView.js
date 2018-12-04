@@ -3,7 +3,7 @@ const ChatMessageView = require('./ChatMessageView');
 
 module.exports = Marionette.CollectionView.extend({
     tagName: 'div',
-    id: 'chatMessagesContainer',
+    className: 'chat-messages-container flex-item-column',
     childView: ChatMessageView,
 
     filter(msg, index, collection) {

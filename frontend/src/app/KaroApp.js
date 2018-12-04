@@ -148,6 +148,14 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.layout.showChildView('content', this.apps[appname].layout);
         // console.log('Showing apps layout done');
         this.currentApp = appname;
+
+        // fitscreen handling
+        if (appname === 'chat') {
+            console.log('fit');
+            console.log(document.getElementsByTagName('body')[0]);
+            console.log(document.getElementsByTagName('body')[0].classList);
+            document.getElementsByTagName('body')[0].classList.add('fitscreen');
+        }
     },
 
     initApp(appname) {

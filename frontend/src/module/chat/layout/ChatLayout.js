@@ -1,10 +1,13 @@
 const Marionette = require('backbone.marionette');
 
 module.exports = Marionette.View.extend({
-    className: 'chatLayout',
+    className: 'chatLayout flex-item-column',
     template: require('../templates/chat-layout.html'),
     regions: {
-        'messages': '.chat-messages-container',
+        'messages': {
+            el: '.chat-messages-container',
+            replaceElement: true,
+        },
         'chat-info': '.chat-info-container',
         'chat-control': '.chat-control',
         'chat-enter': '.chat-enter',

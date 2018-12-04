@@ -82,11 +82,28 @@ div.clearer {
   min-width: 0;
   min-height: 0;
 
+  .container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
   section.content {
     display: flex;
     flex: 1;
     min-height: 0;
   }
+}
+
+.flex-item {
+  display: flex;
+  flex: 1;
+}
+
+.flex-item-column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .mobile-only {
@@ -116,3 +133,4 @@ div.clearer {
 .noscroll {
   overflow: hidden;
 }
+
