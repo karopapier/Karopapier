@@ -112,6 +112,7 @@ module.exports = window.MessagingApp = Marionette.Application.extend({
         this.router = new MessagingRouter({
             app: this,
         });
+        this.layout.$el.addClass('js-unselected');
     },
 
     selectName(contactName) {
