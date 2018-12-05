@@ -1,15 +1,39 @@
 header {
-  background-image: url(/images/head.jpg);
-  background-position: -4px 0;
+  background: url(/images/head.jpg) -4px 0;
   height: 21px;
+  display: flex;
   @media all and(min-width: @media-small-breakpoint) {
     height: 51px;
   }
 }
 
+.top-nav {
+  //position: absolute;
+  //top: 20px;
+  //left: 10px;
+  //margin: 0;
+  padding: 5px;
+
+  li {
+    float: left;
+    list-style-type: none;
+    margin: 0 5px;
+  }
+}
+
+.header-dran-preview {
+  display: none;
+  overflow: hidden;
+  @media all and(min-width: @media-small-breakpoint) {
+    display: flex;
+    flex: 1;
+  }
+}
+
 #userInfoBar {
-  position: absolute;
-  right: 10px;
-  top: 20px;
-  text-align: right;
+  padding: 20px 15px;
+  //position: absolute;
+  //right: 10px;
+  //top: 20px;
+  //text-align: right;
 }
