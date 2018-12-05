@@ -6,21 +6,21 @@
  * Time: 00:27
  */
 
-namespace AppBundle\Form;
+namespace AppBundle\Module\GameCreation\Form;
 
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class GameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add("name")
-                ->add("zzz", 'Symfony\Component\Form\Extension\Core\Type\IntegerType')
-                ->add("save", 'Symfony\Component\Form\Extension\Core\Type\SubmitType')
-        ;
+            ->add("name")
+            ->add("zzz", IntegerType::class)
+            ->add("save", SubmitType::class);
     }
 }

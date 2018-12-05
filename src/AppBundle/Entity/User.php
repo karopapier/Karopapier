@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\DTO\UserSettingsData;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -230,7 +231,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="GamesPerPage", type="integer", nullable=false)
      */
-    private $gamesperpage = 25;
+    private $gamesPerPage = 25;
 
     /**
      * @var string
@@ -739,7 +740,7 @@ class User implements UserInterface
 
     public function isBot()
     {
-        return (bool)$this->isbot;
+        return (bool) $this->isbot;
     }
 
     /**
@@ -770,4 +771,73 @@ class User implements UserInterface
     {
         $this->distance = $d;
     }
+
+    /**
+     * @return string
+     */
+    public function getVorname()
+    {
+        return $this->vorname;
+    }
+
+    /**
+     * @param string $vorname
+     */
+    public function setVorname($vorname)
+    {
+        $this->vorname = $vorname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNachname()
+    {
+        return $this->nachname;
+    }
+
+    /**
+     * @param string $nachname
+     */
+    public function setNachname($nachname)
+    {
+        $this->nachname = $nachname;
+    }
+
+    public function getUserSettingsData()
+    {
+        $data = new UserSettingsData(
+            $this->vorname,
+            $this->nachname,
+            $this->homepage,
+            $this->birthday,
+            $this->picture,
+            $this->twitter,
+            $this->tag,
+            $this->nacht,
+            $this->maxgames,
+            $this->gamesPerPage,
+            $this->gamesOrder,
+            $this->moveAutoforward,
+            $this->sendmail,
+            $this->theme,
+            $this->useBart,
+            $this->statusCode,
+            $this->useSound,
+            $this->notificationSound,
+            $this->shortInfo,
+            $this->color
+        );
+
+        return $data;
+    }
+
+    public function updateSettings(UserSettingsData $userSettingsData)
+    {
+        $this->vorname = $userSettingsData->vorname;
+        $this->nachname = $userSettingsData->nachname;
+        $this->homepage = $userSettingsData->homepage;
+    }
+
 }
+

@@ -27,9 +27,10 @@ framework:
     default_locale:  "%locale%"
     trusted_hosts:   ~
     session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         # handler_id set to null will use default session handler from php.ini
-        storage_id: session.storage.php_bridge
-        handler_id:  ~
+        storage_id: 'session.storage.native' #session.storage.php_bridge
+        handler_id:  null
         name: KaroSession
     fragments:       ~
     http_method_override: true
