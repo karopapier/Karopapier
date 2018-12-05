@@ -1,23 +1,18 @@
 const Marionette = require('backbone.marionette');
 const UserView = require('../../user/view/UserView');
 
-module.exports = Marionette.CollectionView.extend({
+module.exports = Marionette.NextCollectionView.extend({
     tagName: 'ul',
     className: 'chat-users',
     childView: UserView,
 
     initialize() {
         // re-apply filter on change of chat property
-        this.listenTo(this.collection, 'change:chat', (mo) => {
-            this.removeFilter();
-            this.setFilter(this.basicFilter);
-        });
-
-        this.setFilter(this.basicFilter);
+        this.listenTo(this.collection, 'change:chat', this.filter);
     },
 
-    basicFilter(model) {
-        return model.get('chat');
+    viewFilter(view) {
+        return view.model.get('chat');
     },
 
     childViewOptions: {
