@@ -12,7 +12,6 @@ const layoutChannel = Radio.channel('layout');
 const AuthUser = require('../model/AuthUser');
 const LocalSyncModel = require('../model/LocalSyncModel');
 const UserManager = require('../module/data-manager/manager/UserManager');
-const GameManager = require('../module/data-manager/manager/GameManager');
 
 // Collection
 const MapCollection = require('../collection/MapCollection');
@@ -161,12 +160,9 @@ module.exports = window.KaroApp = Marionette.Application.extend({
     start() {
         console.info('Karo App start');
 
-        // Handles realtime updates to keep data fresh
-        this.userManager = new UserManager();
-        this.gameManager = new GameManager();
-
         // start data managers
-        // they init, load and update collections (interval & realtime)
+        // they init, load and update collections (interval & realtime) to keep data fresh
+        new UserManager();
         new DranGamesManager();
         new BlockerManager();
 
