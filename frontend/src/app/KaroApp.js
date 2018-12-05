@@ -36,6 +36,7 @@ const PageLayout = require('../layout/PageLayout');
 const UserInfoBarView = require('../view/UserInfoBarView');
 const FooterView = require('../module/footer/view/FooterView');
 const MobileNavView = require('../module/mobile-nav/view/MobileNavView');
+const HeaderPreview = require('../module/header-preview/view/HeaderPreview');
 
 module.exports = window.KaroApp = Marionette.Application.extend({
     region: '.container',
@@ -188,6 +189,9 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         this.layout.showChildView('footer', new FooterView());
         this.layout.showChildView('mobile-nav', new MobileNavView());
+        this.layout.showChildView('header-preview', new HeaderPreview({
+            collection: dataChannel.request('dranGames'),
+        }));
 
         Backbone.history.start({pushState: true});
     },

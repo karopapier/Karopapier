@@ -6,6 +6,10 @@ module.exports = Marionette.View.extend({
         return;
     },
     regions: {
+        'header-preview': {
+            el: '.header-dran-preview',
+            replaceElement: true,
+        },
         'userinfo': '#userInfoBar',
         'content': '.content',
         'modal': {

@@ -3,7 +3,7 @@ header {
   height: 21px;
   display: flex;
   @media all and(min-width: @media-small-breakpoint) {
-    height: 51px;
+    height: @header-height;
   }
 }
 
@@ -25,6 +25,7 @@ header {
   display: none;
   overflow: hidden;
   @media all and(min-width: @media-small-breakpoint) {
+    height: @header-height;
     display: flex;
     flex: 1;
   }
