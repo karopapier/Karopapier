@@ -40,7 +40,6 @@ module.exports = Marionette.View.extend({
         // console.warn('Update habdich');
         const chatUsers = new Backbone.Collection(this.users.where({chat: true}));
         const habdich = _.reduce(chatUsers.pluck('dran'), (sum, el) => {
-            console.log(sum, el);
             return sum + el;
         }, 0);
         this.getUI('habdich').text(habdich);
