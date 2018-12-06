@@ -826,7 +826,7 @@ class User implements UserInterface
             $this->useSound,
             $this->notificationSound,
             $this->shortInfo,
-            $this->color
+            '#'.$this->color
         );
 
         return $data;
@@ -837,6 +837,7 @@ class User implements UserInterface
         $this->vorname = $userSettingsData->vorname;
         $this->nachname = $userSettingsData->nachname;
         $this->homepage = $userSettingsData->homepage;
+        $this->color = str_replace('#', '', $userSettingsData->color);
     }
 
 }

@@ -34,6 +34,9 @@ class UserSettingsData
     public $useSound;
     public $notificationSound;
     public $shortInfo;
+    /**
+     * @Assert\Regex("/#([a-fA-F0-9]){6}/")
+     */
     public $color;
 
     public function __construct(
