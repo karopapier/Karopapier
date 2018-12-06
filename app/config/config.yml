@@ -47,6 +47,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     paths: ["%kernel.project_dir%/templates", "%kernel.project_dir%/app/Resources/views"]
+    form_themes: ['form_table_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:

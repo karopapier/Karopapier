@@ -37,6 +37,7 @@ class UserSettingsController extends Controller
             $user->updateSettings($userSettingsData);
             $this->getDoctrine()->getManager()->persist($user);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('notice', 'Ging');
         }
 
         return [

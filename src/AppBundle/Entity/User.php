@@ -837,6 +837,22 @@ class User implements UserInterface
         $this->vorname = $userSettingsData->vorname;
         $this->nachname = $userSettingsData->nachname;
         $this->homepage = $userSettingsData->homepage;
+        $this->birthday = $userSettingsData->birthday;
+        $this->picture = $userSettingsData->picture;
+        $this->twitter = $userSettingsData->twitter;
+        $this->tag = $userSettingsData->tag;
+        $this->nacht = $userSettingsData->nacht;
+        $this->maxgames = $userSettingsData->maxgames;
+        $this->gamesPerPage = $userSettingsData->gamesPerPage;
+        $this->gamesOrder = $userSettingsData->gamesOrder;
+        $this->moveAutoforward = $userSettingsData->moveAutoforward;
+        $this->sendmail = $userSettingsData->sendmail;
+        $this->theme = $userSettingsData->theme;
+        $this->useBart = $userSettingsData->useBart;
+        $this->statusCode = $userSettingsData->statusCode;
+        $this->useSound = $userSettingsData->useSound;
+        $this->notificationSound = $userSettingsData->notificationSound;
+        $this->shortInfo = $userSettingsData->shortInfo;
         $this->color = str_replace('#', '', $userSettingsData->color);
     }
 

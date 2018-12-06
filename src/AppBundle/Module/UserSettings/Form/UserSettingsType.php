@@ -24,57 +24,49 @@ class UserSettingsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $fields = [
-            'vorname' => TextType::class,
-            'nachname' => TextType::class,
-            'homepage' => UrlType::class,
-            'birthday' => BirthdayType::class,
-            'picture' => UrlType::class,
-            'twitter' => TextType::class,
-            'tag' => CheckboxType::class,
-            'nacht' => CheckboxType::class,
-            'maxgames' => IntegerType::class,
-            'gamesPerPage' => IntegerType::class,
-            'gamesOrder' => TextType::class,
-            'moveAutoforward' => TextType::class,
-            'sendmail' => CheckboxType::class,
-            'theme' => TextType::class,
-            'statusCode' => ChoiceType::class,
-            'useBart' => CheckboxType::class,
-            'useSound' => TextType::class,
-            'notificationSound' => TextType::class,
-            'shortInfo' => TextType::class,
-            'color' => ColorType::class,
-            'Save' => SubmitType::class,
-        ];
 
-        foreach ($fields as $name => $class) {
-            $builder->add($name, $class);
-        }
-
-        $builder->add(
-            'statusCode',
-            ChoiceType::class,
-            [
-                'choices' => [
-                    'Normal' => '0',
-                    'Spielegeil' => 10,
-                ],
-            ]
-        );
-
-        $builder->add(
-            'gamesOrder',
-            ChoiceType::class,
-            [
-                'choices' => [
-                    'Blockzeit ("seit")' => 'blocktime',
-                    'Blockzeit (absteigend)' => 'blocktime2',
-                    'Name' => 'name',
-                    'Game Id' => 'gid',
-                    'Kartennummer' => 'mapid',
-                ],
-            ]
-        );
+        $builder
+            ->add('vorname', TextType::class)
+            ->add('nachname', TextType::class)
+            ->add('homepage', UrlType::class)
+            ->add('birthday', BirthdayType::class)
+            ->add('picture', UrlType::class)
+            ->add('twitter', TextType::class)
+            ->add('tag', CheckboxType::class)
+            ->add('nacht', CheckboxType::class)
+            ->add('maxgames', IntegerType::class)
+            ->add('gamesPerPage', IntegerType::class)
+            ->add(
+                'gamesOrder',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        'Blockzeit ("seit")' => 'blocktime',
+                        'Blockzeit (absteigend)' => 'blocktime2',
+                        'Name' => 'name',
+                        'Game Id' => 'gid',
+                        'Kartennummer' => 'mapid',
+                    ],
+                ]
+            )
+            ->add('moveAutoforward', TextType::class)
+            ->add('sendmail', CheckboxType::class)
+            ->add('theme', TextType::class)
+            ->add(
+                'statusCode',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        'Normal' => '0',
+                        'Spielegeil' => 10,
+                    ],
+                ]
+            )
+            ->add('useBart', CheckboxType::class)
+            ->add('useSound', TextType::class)
+            ->add('notificationSound', TextType::class)
+            ->add('shortInfo', TextType::class)
+            ->add('color', ColorType::class)
+            ->add('Save', SubmitType::class);
     }
 }
