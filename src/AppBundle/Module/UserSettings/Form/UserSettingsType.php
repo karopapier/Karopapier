@@ -12,6 +12,7 @@ namespace AppBundle\Module\UserSettings\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -37,7 +38,6 @@ class UserSettingsType extends AbstractType
             'sendmail' => CheckboxType::class,
             'theme' => TextType::class,
             'useBart' => CheckboxType::class,
-            'statusCode' => TextType::class,
             'useSound' => TextType::class,
             'notificationSound' => TextType::class,
             'shortInfo' => TextType::class,
@@ -47,5 +47,16 @@ class UserSettingsType extends AbstractType
         foreach ($fields as $name => $class) {
             $builder->add($name, $class);
         }
+
+        $builder->add(
+            'statusCode',
+            ChoiceType::class,
+            [
+                'choices' => [
+                    'Normal' => '0',
+                    'Spielegeil' => 10,
+                ],
+            ]
+        );
     }
 }
