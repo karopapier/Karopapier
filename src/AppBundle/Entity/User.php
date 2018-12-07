@@ -68,7 +68,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="Homepage", type="string", length=60, nullable=true)
+     * @ORM\Column(name="Homepage", type="string", length=60, nullable=false)
      */
     private $homepage;
 
@@ -138,7 +138,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="Picture", type="string", length=255, nullable=true)
+     * @ORM\Column(name="Picture", type="string", length=255, nullable=false)
      */
     private $picture = '';
 
