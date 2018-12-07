@@ -24,22 +24,56 @@ class UserSettingsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $autoforwardChoices = [
+            'Gar nicht' => -1,
+            'Sofort' => 0,
+        ];
+        $additional = [1, 2, 3, 4, 5, 7, 10, 15, 100];
+        $autoforwardChoices = array_merge(
+            $autoforwardChoices,
+            array_combine(
+                array_map(
+                    function ($k) {
+                        return $k.'s';
+                    },
+                    $additional
+                ),
+                $additional
+            )
+        );
 
         $builder
             ->add('vorname', TextType::class)
             ->add('nachname', TextType::class, ['required' => false])
             ->add('homepage', UrlType::class, ['required' => false])
-            ->add('birthday', BirthdayType::class)
-            ->add('picture', UrlType::class, ['required' => false])
+            ->add('birthday', BirthdayType::class, ['label' => 'Geburtstag'])
+            ->add('picture', UrlType::class, ['required' => false, 'label' => 'Bild-URL'])
             ->add('twitter', TextType::class, ['required' => false])
-            ->add('tag', CheckboxType::class, ['required' => false])
-            ->add('nacht', CheckboxType::class, ['required' => false])
-            ->add('maxgames', IntegerType::class)
-            ->add('gamesPerPage', IntegerType::class)
+            ->add(
+                'tag',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'Willst Du zu normalen Rennen eingeladen werden koennen?']
+            )
+            ->add(
+                'nacht',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'Willst Du zu Nachtrennen eingeladen werden koennen?']
+            )
+            ->add(
+                'maxgames',
+                IntegerType::class,
+                ['label' => 'Wieviele Spiele willst Du maximal haben?']
+            )
+            ->add(
+                'gamesPerPage',
+                IntegerType::class,
+                ['label' => 'Wieviele Spiele sollen auf einer Uebersichtsseite angezeigt werden']
+            )
             ->add(
                 'gamesOrder',
                 ChoiceType::class,
                 [
+                    'label' => 'Wonach sollen die Spiele sortiert werden?',
                     'choices' => [
                         'Blockzeit ("seit")' => 'blocktime',
                         'Blockzeit (absteigend)' => 'blocktime2',
@@ -49,8 +83,19 @@ class UserSettingsType extends AbstractType
                     ],
                 ]
             )
-            ->add('moveAutoforward', TextType::class)
-            ->add('sendmail', CheckboxType::class, ['required' => false])
+            ->add(
+                'moveAutoforward',
+                ChoiceType::class,
+                [
+                    'choices' => $autoforwardChoices,
+                    'label' => 'Weiterleitung nach Zug',
+                ]
+            )
+            ->add(
+                'sendmail',
+                CheckboxType::class,
+                ['required' => false, 'label' => 'Willst Du per Mail über den Zug benachrichtigt werden?	']
+            )
             ->add(
                 'theme',
                 ChoiceType::class,
@@ -75,7 +120,17 @@ class UserSettingsType extends AbstractType
                     ],
                 ]
             )
-            ->add('useBart', CheckboxType::class)
+            ->add(
+                'useBart',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        'Alte Dran-Seite' => 0,
+                        'Bart' => 1,
+                        'Bart v2' => 2,
+                    ],
+                ]
+            )
             ->add('useSound', TextType::class)
             ->add(
                 'notificationSound',
@@ -92,7 +147,7 @@ class UserSettingsType extends AbstractType
                 ]
             )
             ->add('shortInfo', TextType::class, ['required' => false])
-            ->add('color', ColorType::class)
+            ->add('color', ColorType::class, ['label' => 'Deine Spielerfarbe'])
             ->add('Save', SubmitType::class);
     }
 }

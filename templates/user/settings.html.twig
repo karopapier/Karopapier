@@ -6,11 +6,127 @@
     {% endfor %}
 
     {{ form_start(form) }}
-    {#{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}#}
-    {#{{ form_row(form.tag) }}#}
-    {#{{ form_row(form.nacht) }}#}
-    {#{{ form_row(form.homepage) }}#}
-    {{ form_widget(form) }}
+    <table>
+        <tbody>
+        <tr>
+            <th>{{ form_label(form.vorname) }}</th>
+            <td> {{ form_widget(form.vorname) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.nachname) }}</th>
+            <td> {{ form_widget(form.nachname) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.homepage) }}</th>
+            <td> {{ form_widget(form.homepage) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.birthday) }}</th>
+            <td> {{ form_widget(form.birthday) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.picture) }}</th>
+            <td> {{ form_widget(form.picture) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.twitter) }}</th>
+            <td> {{ form_widget(form.twitter) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.sendmail) }}</th>
+            <td> {{ form_widget(form.sendmail) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.tag) }}</th>
+            <td> {{ form_widget(form.tag) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.nacht) }}</th>
+            <td> {{ form_widget(form.nacht) }}</td>
+        </tr>
+        <tr>
+            <th>
+                {{ form_label(form.maxgames) }}
+                <span class="quicktip quicktip-info"
+                      data-quicktip="Wenn du so viele hast bist Du erst mal nicht mehr einladbar">&nbsp;</span>
+            </th>
+            <td>{{ form_widget(form.maxgames) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.gamesPerPage) }}</th>
+            <td> {{ form_widget(form.gamesPerPage) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.gamesOrder) }}</th>
+            <td> {{ form_widget(form.gamesOrder) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.theme) }}</th>
+            <td> {{ form_widget(form.theme) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.useBart) }}</th>
+            <td> {{ form_widget(form.useBart) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.moveAutoforward) }}</th>
+            <td> {{ form_widget(form.moveAutoforward) }}</td>
+        </tr>
+        <tr>
+            <th class="left"><label for="user_status_code">Dein Status</label></th>
+            <td>
+                <select name="user[status_code]" id="user_status_code">
+                    <option value="0" selected="selected">Normal</option>
+                    <option value="10">Spielegeil</option>
+                </select></td>
+        </tr>
+        <tr>
+            <th class="left"><label for="user_use_sound">Sound-Benachrichtigung für Züge</label></th>
+            <td>
+                <select name="user[use_sound]" id="user_use_sound">
+                    <option value="0">Elektromotor - unhörbar</option>
+                    <option value="1" selected="selected">Nur, wenn ich im BART warte</option>
+                    <option value="10">Immer und überall</option>
+                </select></td>
+        </tr>
+        <tr>
+            <th class="left"><label for="user_notification_sound">Benachrichtigungsgeräusch</label></th>
+            <td>
+                <select name="user[notification_sound]" id="user_notification_sound">
+                    <option value="brumm">Porsche 996</option>
+                    <option value="brumm2">Porsche 996 (lauter)</option>
+                    <option value="maranello">Ferrari 575M Maranello</option>
+                    <option value="anlass">Maranello Anlasser</option>
+                    <option value="fiep">Fiesfiep</option>
+                    <option value="quiek" selected="selected">Quiek</option>
+                </select> <input type="button" value="Soundvergleich laden" id="playSound"/>
+            </td>
+        </tr>
+        <tr>
+            <th class="left"><label for="user_short_info">Kurzbeschreibung</label></th>
+            <td>
+                <input type="text" name="user[short_info]" value="" id="user_short_info"/></td>
+        </tr>
+        <tr>
+            <th class="left"><label for="user_move_autoforward"><span class="quicktip quicktip-help"
+                                                                      data-quicktip="Nach wievielen Sekunden soll die Seite nach einem Zug zum naechsten Spiel springen? (-1=Gar nicht, 0=sofort)"><b>Weiterleitung nach Zug</b></span></label>
+            </th>
+            <td>
+                <input type="text" name="user[move_autoforward]" value="-1" id="user_move_autoforward"/></td>
+        </tr>
+        <tr>
+            <th class="left">Wie sollen die Papierstreifen bei Dir aussehen?</th>
+            <td>
+                <img id="sliderPreview" src="/css/slidercheckbox/images/slider_bulb.jpg"> <input type="button"
+                                                                                                 value="Anderer"
+                                                                                                 id="nextSlider">
+            </td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
     {{ form_end(form) }}
 
     <p>Ja, das wird noch hübscher, aber das tut wenigstens mal wieder...</p>
