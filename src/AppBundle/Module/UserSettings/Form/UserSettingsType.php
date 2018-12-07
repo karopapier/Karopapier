@@ -27,11 +27,11 @@ class UserSettingsType extends AbstractType
 
         $builder
             ->add('vorname', TextType::class)
-            ->add('nachname', TextType::class)
-            ->add('homepage', UrlType::class)
+            ->add('nachname', TextType::class, ['required' => false])
+            ->add('homepage', UrlType::class, ['required' => false])
             ->add('birthday', BirthdayType::class)
-            ->add('picture', UrlType::class)
-            ->add('twitter', TextType::class)
+            ->add('picture', UrlType::class, ['required' => false])
+            ->add('twitter', TextType::class, ['required' => false])
             ->add('tag', CheckboxType::class, ['required' => false])
             ->add('nacht', CheckboxType::class, ['required' => false])
             ->add('maxgames', IntegerType::class)
@@ -91,7 +91,7 @@ class UserSettingsType extends AbstractType
                     ],
                 ]
             )
-            ->add('shortInfo', TextType::class)
+            ->add('shortInfo', TextType::class, ['required' => false])
             ->add('color', ColorType::class)
             ->add('Save', SubmitType::class);
     }

@@ -836,9 +836,9 @@ class User implements UserInterface
     {
         $this->vorname = $userSettingsData->vorname;
         $this->nachname = $userSettingsData->nachname;
-        $this->homepage = $userSettingsData->homepage;
+        $this->homepage = (string) $userSettingsData->homepage;
         $this->birthday = $userSettingsData->birthday;
-        $this->picture = $userSettingsData->picture;
+        $this->picture = (string) $userSettingsData->picture;
         $this->twitter = $userSettingsData->twitter;
         $this->tag = $userSettingsData->tag;
         $this->nacht = $userSettingsData->nacht;
@@ -852,7 +852,7 @@ class User implements UserInterface
         $this->statusCode = $userSettingsData->statusCode;
         $this->useSound = $userSettingsData->useSound;
         $this->notificationSound = $userSettingsData->notificationSound;
-        $this->shortInfo = $userSettingsData->shortInfo;
+        $this->shortInfo = (string) $userSettingsData->shortInfo;
         $this->color = str_replace('#', '', $userSettingsData->color);
     }
 
