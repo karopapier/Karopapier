@@ -79,5 +79,5 @@ services:
       class: AppBundle\Provider\CachebustInfoProvider
       public: true
       arguments:
-        - %app.cachebust%
-        - %kernel.environment%
+        - "%app.cachebust%"
+        - "%kernel.environment%"
