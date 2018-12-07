@@ -15,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -67,7 +66,7 @@ class UserSettingsType extends AbstractType
             ->add(
                 'gamesPerPage',
                 IntegerType::class,
-                ['label' => 'Wieviele Spiele sollen auf einer Uebersichtsseite angezeigt werden']
+                ['label' => 'Wieviele Spiele sollen auf einer Übersichtsseite angezeigt werden']
             )
             ->add(
                 'gamesOrder',
@@ -100,6 +99,7 @@ class UserSettingsType extends AbstractType
                 'theme',
                 ChoiceType::class,
                 [
+                    'label' => 'Layout',
                     'choices' => [
                         'Schwarzes Layout' => 'black',
                         'Blaues Layout' => 'blue',
@@ -118,12 +118,14 @@ class UserSettingsType extends AbstractType
                         'Normal' => '0',
                         'Spielegeil' => 10,
                     ],
+                    'label' => 'Dein Status',
                 ]
             )
             ->add(
                 'useBart',
                 ChoiceType::class,
                 [
+                    'label' => 'Welche Dran-Anzeige magst Du?',
                     'choices' => [
                         'Alte Dran-Seite' => 0,
                         'Bart' => 1,
@@ -131,11 +133,23 @@ class UserSettingsType extends AbstractType
                     ],
                 ]
             )
-            ->add('useSound', TextType::class)
+            ->add(
+                'useSound',
+                ChoiceType::class,
+                [
+                    'label' => 'Sound-Benachrichtigung für Züge?',
+                    'choices' => [
+                        'Elektromotor - unhörbar' >= 0,
+                        'Nur, wenn ich im BART warte' => 1,
+                        'Immer und überall' => 10,
+                    ],
+                ]
+            )
             ->add(
                 'notificationSound',
                 ChoiceType::class,
                 [
+                    'label' => 'Benachrichtigungsgeräusch',
                     'choices' => [
                         'Porsche 996' => 'brumm',
                         'Porsche 996 (lauter)' => 'brumm2',
@@ -147,7 +161,6 @@ class UserSettingsType extends AbstractType
                 ]
             )
             ->add('shortInfo', TextType::class, ['required' => false])
-            ->add('color', ColorType::class, ['label' => 'Deine Spielerfarbe'])
-            ->add('Save', SubmitType::class);
+            ->add('color', ColorType::class, ['label' => 'Deine Spielerfarbe']);
     }
 }
