@@ -76,7 +76,7 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
             text: t(data),
             level: 'info',
             group: 'global',
-            imgUrl: '/images/preview/' + data.gid + '.png',
+            imgUrl: '/images/previews/' + data.gid + '.png',
         });
         this.add(n);
     },
@@ -87,7 +87,7 @@ module.exports = Backbone.Model.extend(/** @lends KaroNotifier.prototype*/{
             text: t(data),
             level: 'ok',
             group: 'dran',
-            imgUrl: '/pre/' + data.gid + '.png',
+            imgUrl: '/images/previews/' + data.gid + '.png',
         });
         this.add(n);
     },
