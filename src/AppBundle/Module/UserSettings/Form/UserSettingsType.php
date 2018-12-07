@@ -139,7 +139,7 @@ class UserSettingsType extends AbstractType
                 [
                     'label' => 'Sound-Benachrichtigung für Züge?',
                     'choices' => [
-                        'Elektromotor - unhörbar' >= 0,
+                        'Elektromotor - unhörbar'=> 0,
                         'Nur, wenn ich im BART warte' => 1,
                         'Immer und überall' => 10,
                     ],
