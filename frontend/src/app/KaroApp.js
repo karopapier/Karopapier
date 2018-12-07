@@ -167,7 +167,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         new BlockerManager();
 
         this.listenTo(appChannel, 'chat:message', (message) => {
-            this.chatMessages.updateLast();
+            this.chatMessages.fetchLatest();
         });
 
         this.layout = new PageLayout({
