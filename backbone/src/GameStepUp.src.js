@@ -179,7 +179,7 @@ function parseMoveResponse(text, movedGID) {
 
         // if, after parsing, still no games in queue... Nixblocker, goto chat
         if (dranQueueEmpty) {
-            window.location.href = '/chat.html';
+            window.location.href = '/chat3';
         }
     } else {
         alert('KEIN DANKE!!! Da hat wohl was nicht gepasst');
