@@ -3,10 +3,16 @@
     <head>
         <meta charset="UTF-8"/>
         <title>{% block title %}Karopapier{% endblock %} - Autofahren wie in der Vorlesung</title>
+        <style type="text/css">
+            {{ getInitialCss() }}
+        </style>
         <link rel="stylesheet" href="{{ cachebust('/css/previous.css') }}">
         <link rel="stylesheet" href="{{ cachebust('/css/app.css') }}">
         <link rel="stylesheet" href="{{ cachebust('/css/theme.css') }}">
         <link rel="stylesheet" href="https://www.karopapier.de/css/quicktip/quicktip.css?v=1511511124346">
+        {%  if app.user %}
+        <link rel="stylesheet" type="text/css" media="screen" href="/themes/{{ app.user.theme }}/css/theme.css"/>
+        {%  endif %}
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -34,7 +40,8 @@
                     <div class="unread hidden">123</div>
                     {% if app.user %}
                         <span class="userLabel">{{ app.user.login }}</span>
-                        <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
+                        <small>(<a href="/dran.html">{{ app.user.nbDran }}</a>/<a
+                                    href="http://www.karopapier.de/showgames.php?spielevon=1">{{ app.user.nbGames }}</a>)
                         </small>
                         {% set uc = getUnreadCounter(app.user) %}
                         {% if uc >0 %}
@@ -51,7 +58,7 @@
                 {% block body %}{% endblock %}
             </section>
             <div class="modal-container hidden"></div>
-            <div class="mobile-nav"></div>
+            <div class="mobile-nav mobile-only"></div>
             {% block javascripts %}{% endblock %}
             <footer class="desktop-only">
                 {% include ("footer.html.twig") %}
@@ -61,14 +68,15 @@
         {% if app.environment == "prod" %}
             <!-- Piwik -->
             <script type="text/javascript">
-                var pkBaseURL = "//stats.karopapier.de/";
-                pkBaseURL = "//www.karopapier.de/piwik/";
-                document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+                var pkBaseURL = '//stats.karopapier.de/';
+                pkBaseURL = '//www.karopapier.de/piwik/';
+                document.write(
+                    unescape('%3Cscript src=\'' + pkBaseURL + 'piwik.js\' type=\'text/javascript\'%3E%3C/script%3E'));
             </script>
             <script type="text/javascript">
                 piwik_action_name = '';
                 piwik_idsite = 1;
-                piwik_url = pkBaseURL + "piwik.php";
+                piwik_url = pkBaseURL + 'piwik.php';
                 piwik_log(piwik_action_name, piwik_idsite, piwik_url);
             </script>
             <object>

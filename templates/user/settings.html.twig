@@ -2,13 +2,14 @@
 {% block body %}
     <h1>Einstellungen</h1>
     {% for message in app.flashes('notice') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
+        <div class="flash-notice" style="background-color: lightgreen"> {{ message }} </div>
     {% endfor %}
 
-    {#{{ form_start(form) }}#}
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_start(form) }}
+    {#{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}#}
+    {#{{ form_row(form.tag) }}#}
+    {#{{ form_row(form.nacht) }}#}
+    {#{{ form_row(form.homepage) }}#}
     {{ form_widget(form) }}
     {{ form_end(form) }}
 {% endblock %}

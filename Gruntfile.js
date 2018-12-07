@@ -184,6 +184,17 @@ module.exports = function(grunt) {
                     'web/css/app.css': 'frontend/css/KaroApp.less',
                 },
             },
+            initial: {
+                options: {
+                    plugins: [
+                        new (require('less-plugin-autoprefix')),
+                        new (require('less-plugin-clean-css'))(cleanCssOptions),
+                    ],
+                },
+                files: {
+                    'web/css/initial.css': 'frontend/css/initial.less',
+                },
+            },
             css: {
                 options: {
                     plugins: [

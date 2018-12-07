@@ -856,5 +856,12 @@ class User implements UserInterface
         $this->color = str_replace('#', '', $userSettingsData->color);
     }
 
+    /**
+     * @return string
+     */
+    public function getTheme()
+    {
+        return $this->theme;
+    }
 }
 

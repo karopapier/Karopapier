@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserSettingsController extends Controller
 {
     /**
-     * @Route("/user/settings2", name="user_settings")
+     * @Route("/einstellungen", name="user_settings")
      * @param Request $request
      * @Template("user/settings.html.twig")
      *
