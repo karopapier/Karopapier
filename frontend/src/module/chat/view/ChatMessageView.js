@@ -14,6 +14,7 @@ module.exports = Marionette.View.extend({
 
     initialize() {
         this.linkifier = dataChannel.request('linkifier');
+        this.listenTo(this.linkifier, 'change:funny', this.render);
     },
 
     templateContext() {

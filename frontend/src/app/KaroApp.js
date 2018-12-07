@@ -10,8 +10,9 @@ const layoutChannel = Radio.channel('layout');
 
 // Model
 const AuthUser = require('../model/AuthUser');
-const LocalSyncModel = require('../model/LocalSyncModel');
+// const LocalSyncModel = require('../model/LocalSyncModel');
 const UserManager = require('../module/data-manager/manager/UserManager');
+const ChatSettings = require('../module/chat/model/ChatSettings');
 
 // Collection
 const MapCollection = require('../collection/MapCollection');
@@ -67,8 +68,14 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.authUser = new AuthUser();
         this.authUser.fetch();
 
+        this.settings = new ChatSettings();
+        dataChannel.reply('settings', () => {
+            return this.settings;
+        });
+
         this.linkifier = new Linkifier();
 
+        /*
         this.settings = new LocalSyncModel({
             id: 1,
             storageId: 'settings',
@@ -78,6 +85,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             notification_chat: true,
             notification_dran: true,
         });
+        */
 
         this.maps = new MapCollection();
         this.maps.url = '/api/map/list.json?nocode=true';
@@ -98,10 +106,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
 
         dataChannel.reply('config', () => {
             return this.config;
-        });
-
-        dataChannel.reply('settings', () => {
-            return this.settings;
         });
 
         dataChannel.reply('chatMessages', () => {

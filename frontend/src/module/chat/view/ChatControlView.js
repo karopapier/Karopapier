@@ -7,17 +7,20 @@ module.exports = Marionette.View.extend({
 
     initialize() {
         this.listenTo(this.model, 'change:limit', this.render);
+        this.listenTo(this.model, 'change:funny', this.updateFunny);
     },
 
     ui: {
         'toggle-details': '.js-toggle-details',
         'details': '.js-chat-settings-details',
         'limits': '.js-chat-message-limit-selector',
+        'funny': '.js-chat-funny',
     },
 
     events: {
         'click @ui.toggle-details': 'toggleDetails',
         'click @ui.limits': 'setLimit',
+        'input @ui.funny': 'setFunny',
     },
 
     toggleDetails() {
@@ -26,6 +29,19 @@ module.exports = Marionette.View.extend({
 
     setLimit(e) {
         this.model.set('limit', e.target.getAttribute('data-limit'));
+    },
+
+    onRender() {
+        this.updateFunny();
+    },
+
+    setFunny() {
+        this.model.set('funny', this.getUI('funny').prop('checked'));
+        console.log('Die Settings sind funny', this.model.get('funny'));
+    },
+
+    updateFunny(e) {
+        this.getUI('funny').prop('checked', this.model.get('funny'));
     },
 
     /*

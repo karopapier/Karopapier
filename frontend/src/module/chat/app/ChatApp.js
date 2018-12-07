@@ -7,7 +7,6 @@ const dataChannel = Radio.channel('data');
 const promiseChannel = Radio.channel('promise');
 
 // model
-const ChatSettings = require('../model/ChatSettings');
 
 // view
 const ChatMessagesView = require('../view/ChatMessagesView');
@@ -53,7 +52,7 @@ module.exports = Marionette.Application.extend({
             });
         });
 
-        this.settings = new ChatSettings();
+        this.settings = dataChannel.request('settings');
         this.users = dataChannel.request('users');
 
         this.start();

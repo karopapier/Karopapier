@@ -1,13 +1,19 @@
 const $ = require('jquery');
-const Marionette = require('backbone.marionette');
+const Backbone = require('backbone');
+const Radio = require('backbone.radio');
+const dataChannel = Radio.channel('data');
 
 const YOUTUBE_CACHE = {};
 
-module.exports = Marionette.Object.extend({
+module.exports = Backbone.Model.extend({
     initialize() {
-        this.funny = true;
-        this.oldLink = true;
+        this.settings = dataChannel.request('settings');
+        this.listenTo(this.settings, 'change:funny', this.loadReplacements);
+        this.loadReplacements();
+    },
 
+    loadReplacements() {
+        console.warn('Load Replacements');
         this.replacements = [];
         this.replacements.push({
             r: '<a (.*?)</a>',
@@ -44,7 +50,7 @@ module.exports = Marionette.Object.extend({
             f: '</span>',
         });
 
-        if (this.funny) {
+        if (this.settings.get('funny')) {
             // Eier
             /* Ostern vorbEI
                 this.replacements.push({
@@ -129,11 +135,8 @@ module.exports = Marionette.Object.extend({
                 $.getJSON('/api/game/' + gid + '/info.json', (gameInfo) => {
                     $('a.GidLink' + gid).text(gid + ' - ' + gameInfo.game.name);
                 });
-                if (this.oldLink) {
-                    return '<a class="GidLink' + gid + '" href="//www.karopapier.de/showmap.php?GID=' + gid + '" target="_blank">' + gid + '</a>'; // eslint-disable-line max-len
-                } else {
-                    return '<a class="GidLink' + gid + '" href="//2.karopapier.de/game.html?GID=' + gid + '" target="_blank">' + gid + '</a>'; // eslint-disable-line max-len
-                }
+                return '<a class="GidLink' + gid + '" href="/game.html?GID=' + gid + '" target="_blank">' + gid +
+                    '</a>'; // eslint-disable-line max-len
             },
             sw: 'i',
         });
@@ -167,7 +170,8 @@ module.exports = Marionette.Object.extend({
                     }
                     // console.log("Its a yt url", url, videoid);
                     className += ' yt_' + videoid;
-                    const ytUrl = 'https://www.googleapis.com/youtube/v3/videos?id=' + videoid + '&key=AIzaSyBuMu8QDh49VqGJo4cSS4_9pTC9cqZwy98&part=snippet'; // eslint-disable-line max-len
+                    const ytUrl = 'https://www.googleapis.com/youtube/v3/videos?id=' + videoid +
+                        '&key=AIzaSyBuMu8QDh49VqGJo4cSS4_9pTC9cqZwy98&part=snippet'; // eslint-disable-line max-len
                     if (videoid in YOUTUBE_CACHE) {
                         const snippet = YOUTUBE_CACHE[videoid];
                         linktext = '<img height="20" src="' + snippet.thumbnails.default.url + '" />' + snippet.title; // eslint-disable-line max-len
@@ -177,7 +181,8 @@ module.exports = Marionette.Object.extend({
                         $.getJSON(ytUrl, (data) => {
                             const snippet = data.items[0].snippet;
                             YOUTUBE_CACHE[videoid] = snippet;
-                            linktext = '<img height="20" src="' + snippet.thumbnails.default.url + '" />' + snippet.title; // eslint-disable-line max-len
+                            linktext = '<img height="20" src="' + snippet.thumbnails.default.url + '" />' +
+                                snippet.title; // eslint-disable-line max-len
                             $('a.yt_' + videoid).attr('title', snippet.description).html(linktext);
                         });
                     }
@@ -192,7 +197,8 @@ module.exports = Marionette.Object.extend({
                     }
                 }
 
-                return '<a class="' + className + '" title="' + linktitle + '" target="_blank" rel="nofollow" href="' + url + '">' + linktext + '</a>'; // eslint-disable-line max-len
+                return '<a class="' + className + '" title="' + linktitle + '" target="_blank" rel="nofollow" href="' +
+                    url + '">' + linktext + '</a>'; // eslint-disable-line max-len
             },
             sw: 'i',
         });
@@ -250,7 +256,8 @@ module.exports = Marionette.Object.extend({
                 const matchingText = parts[2];
                 const after = parts[parts.length - 1]; // letzter nach allen matchin brackets
                 // console.log(1, before, 2, matchingText, 3, after);
-                const textToReturn = this.linkify(before) + matchingText.replace(new RegExp(r, sw), f) + this.linkify(after); // eslint-disable-line max-len
+                const textToReturn = this.linkify(before) + matchingText.replace(new RegExp(r, sw), f) +
+                    this.linkify(after); // eslint-disable-line max-len
                 // console.info(textToReturn);
                 return textToReturn;
             }
