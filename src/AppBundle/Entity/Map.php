@@ -166,7 +166,7 @@ class Map
      */
     public function isActive()
     {
-        return (bool)$this->active;
+        return (bool) $this->active;
     }
 
     public function getRating()
@@ -191,8 +191,9 @@ class Map
             "players" => $this->starties,
             // "mapcode" => $this->getCode(),
             "cps" => $this->getCpArray(),
-            "active" => (bool)$this->active,
+            "active" => (bool) $this->active,
             "night" => $this->night,
+            "record" => $this->record,
         );
 
         return $m;
@@ -205,7 +206,7 @@ class Map
 
     public function isNight()
     {
-        return (bool)$this->night;
+        return (bool) $this->night;
     }
 
     public function updateRating($rating)
@@ -334,5 +335,13 @@ class Map
     public function getStartPositions()
     {
         return $this->getCodePositions(array("S"));
+    }
+
+    /**
+     * @return int
+     */
+    public function getRecord()
+    {
+        return $this->record;
     }
 }

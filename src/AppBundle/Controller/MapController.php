@@ -29,7 +29,7 @@ class MapController
     {
         /** @var MapImageOptions $options */
         $options = new MapImageOptions();
-        $thumbnail = (bool)$request->get('thumb', false);
+        $thumbnail = (bool) $request->get('thumb', false);
 
         // Thumbnail or size?
         if ($thumbnail) {
@@ -78,20 +78,17 @@ class MapController
     }
 
     /**
-     * @Route("/map/", name="map_list")
+     * @Route("/maps/", name="map_list")
      * @Template("map/maplist.html.twig")
      */
     public function listAction(Request $request, MapRepository $repo)
     {
         /** @var Map[] $maps */
-        $maps = $repo->getActiveMaps();
-        $data = [];
-        foreach ($maps as $map) {
-            $data[] = $map->toArray();
-        }
+        $qb = $repo->getActiveMapsQueryBuilder();
+        $maps = $qb->getQuery()->execute();
 
         return [
-            'maps' => $data,
+            'maps' => $maps,
         ];
     }
 }

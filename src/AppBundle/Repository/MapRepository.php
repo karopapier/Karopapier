@@ -25,9 +25,7 @@ class MapRepository extends ServiceEntityRepository
      */
     public function getActiveMaps()
     {
-        $qb = $this->createQueryBuilder('m')
-            ->where('m.active=true')
-            ->orderBy('m.id');
+        $qb = $this->getActiveMapsQueryBuilder();
         $maps = $qb->getQuery()->execute();
 
         return $maps;
@@ -36,7 +34,7 @@ class MapRepository extends ServiceEntityRepository
     public function ensureMapIdExists($mapId)
     {
         $connection = $this->getEntityManager()->getConnection();
-        $id = (int)$mapId;
+        $id = (int) $mapId;
         $res = $connection->executeQuery('SELECT M_ID from karo_maps WHERE M_ID='.$id);
         if ($res->rowCount() === 1) {
             return true;
@@ -45,5 +43,12 @@ class MapRepository extends ServiceEntityRepository
         // map does no exists, need to create map entry
         $sql = "INSERT INTO `karo_maps` (`M_ID`, `Name`, `Code`, `Author`, `Comment`, `Night`, `Record`, `Starties`, `nb_cps`, `cps_list`, `cps_rec`, `Active`, `rating`) VALUES ('".$id."', '-', 'XXX', '-', '-', '0', '0', '0', '0', '', '0', '0', '0');";
         $connection->executeQuery($sql);
+    }
+
+    public function getActiveMapsQueryBuilder()
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.active=true')
+            ->orderBy('m.id');
     }
 }
