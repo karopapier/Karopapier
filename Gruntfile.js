@@ -151,6 +151,12 @@ module.exports = function(grunt) {
                     livereload: livereloadConfig,
                 },
             },
+            tests: {
+                files: [
+                    'frontend/test/**/*.js',
+                ],
+                tasks: ['test'],
+            },
         },
         jst: {
             options: {
@@ -233,7 +239,10 @@ module.exports = function(grunt) {
             },
         },
         nodeunit: {
-            all: ['backbone/test/test.js'],
+            all: [
+                'backbone/test/test.js',
+                'frontend/test/test.js',
+            ],
         },
     });
 

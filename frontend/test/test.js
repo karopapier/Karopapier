@@ -2,10 +2,11 @@ var tests = [
     //"example",
     //"GameTest",
     //"KRACHZTest",
-    "MapTest",
-    "MotionTest",
-    "PositionTest",
-    "VectorTest",
+    "LocalSyncModelTest",
+    // "MapTest",
+    // "MotionTest",
+    // "PositionTest",
+    // "VectorTest",
     //"UserFactoryTest",
 ];
 
