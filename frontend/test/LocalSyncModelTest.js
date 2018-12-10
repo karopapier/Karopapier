@@ -22,3 +22,18 @@ exports.cacheTest = function(test) {
     test.equal(lsm.get('brubbu'), 'blabber', 'get value from cache');
     test.done();
 };
+
+exports.storeAndRetrieveTest = function(test) {
+
+    const lsma = new LocalSyncModel({
+        storageId: 'sny',
+    });
+    lsma.set('Fuffy', 50);
+
+    const lsmb = new LocalSyncModel({
+        storageId: 'sny',
+    });
+    test.expect(1);
+    test.equal(lsmb.get('Fuffy'), 50, 'get value from cache');
+    test.done();
+};

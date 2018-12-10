@@ -1,6 +1,6 @@
-const Backbone = require('backbone');
+const LocalSyncModel = require('../../../model/LocalSyncModel');
 
-module.exports = Backbone.Model.extend({
+module.exports = LocalSyncModel.extend({
     defaults: {
         history: false,
         funny: true,
@@ -9,5 +9,9 @@ module.exports = Backbone.Model.extend({
         showBotrix: false,
         oldLink: false,
         follow: true,
+        storageId: 'settings',
+    },
+    initialize(...args) {
+        LocalSyncModel.prototype.initialize.apply(this, args);
     },
 });
