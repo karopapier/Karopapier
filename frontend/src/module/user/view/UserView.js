@@ -35,6 +35,10 @@ module.exports = Marionette.View.extend({
     },
 
     onChange(e) {
+        // if this is not rendered, it has been filtered  and does not need to update
+        if (!this.isRendered()) {
+            return;
+        }
         // if dran is the only changed property
         if (Object.keys(e.changed).length === 1) {
             if (e.changed.dran) {
