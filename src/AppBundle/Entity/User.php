@@ -446,9 +446,9 @@ class User implements UserInterface
     /**
      * @var boolean
      *
-     * @ORM\Column(name="use_bart", type="boolean", nullable=true)
+     * @ORM\Column(name="use_bart", type="integer", nullable=true)
      */
-    private $useBart = true;
+    private $useBart = 2;
 
     /**
      * @var boolean
