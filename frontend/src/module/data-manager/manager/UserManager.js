@@ -11,6 +11,21 @@ module.exports = Marionette.Object.extend({
     initialize() {
         this.users = new UserCollection();
         this.users.url = '/api/users';
+
+        /*
+        const cached = localStorage.getItem('users');
+
+        if (cached) {
+            this.users.reset(JSON.parse(localStorage.getItem('users')));
+            this.users.trigger('loaded');
+        }
+
+        this.users.once('sync', () => {
+            localStorage.setItem('users', JSON.stringify(this.users.toJSON()));
+        });
+
+        */
+
         this.users.fetch();
 
         this.authUser = dataChannel.request('user:logged:in');
