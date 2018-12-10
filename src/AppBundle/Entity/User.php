@@ -686,7 +686,7 @@ class User implements UserInterface
             "size" => $this->size,
             "border" => $this->border,
             "view" => $this->view,
-            "GamesPerPage" => $this->gamesperpage,
+            "GamesPerPage" => $this->gamesPerPage,
             "games_order" => $this->gamesOrder,
             "faulpelz" => $this->faulpelz,
             "move_autoforward" => $this->moveAutoforward,
