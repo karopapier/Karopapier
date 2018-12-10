@@ -5,6 +5,7 @@ const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');
 
 const ChatUsersView = require('./ChatUsersView');
+const ChatDranInfoView = require('./ChatDranInfoView');
 
 module.exports = Marionette.View.extend({
     tagName: 'div',
@@ -15,6 +16,10 @@ module.exports = Marionette.View.extend({
             el: '.chat-users',
             replaceElement: true,
         },
+        'chat-dran-info': {
+            el: '.chat-dran-info',
+            replaceElement: true,
+        },
     },
 
     ui: {
@@ -23,6 +28,7 @@ module.exports = Marionette.View.extend({
 
     initialize() {
         this.users = dataChannel.request('users');
+        this.dranGames = dataChannel.request('dranGames');
         this.listenTo(this.users, 'change', this.updateHabdich);
     },
 
@@ -30,6 +36,9 @@ module.exports = Marionette.View.extend({
         // this.show
         this.showChildView('chat-users', new ChatUsersView({
             collection: this.users,
+        }));
+        this.showChildView('chat-dran-info', new ChatDranInfoView({
+            collection: this.dranGames,
         }));
         this.users.getLoadedPromise().then(() => {
             this.updateHabdich();

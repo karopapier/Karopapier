@@ -1,0 +1,16 @@
+Ich bin dran bei <%= dranCount %>
+<% if (dranCount == 0) { %>
+Du bist ein <a href="//wiki.karopapier.de/Nixblocker">Nixblocker</a>
+<%  } %>
+<% if (dranCount == 1) { %>
+Bei einem Spiel dran
+<%  } %>
+<% if (dranCount > 1) { %>
+<a href="/dran2">Bei <strong><%= dranCount %></strong> Spielen dran</a>
+<%  } %>
+
+<% if (dranCount > 0) { %>
+<br><a title="ZIEH!" href="/game.html?GID=<%= nextId %>"><b>Zieh!</b>
+    <img src="/images/arrow_right.png" style="vertical-align: center">
+</a>
+<% } %>
