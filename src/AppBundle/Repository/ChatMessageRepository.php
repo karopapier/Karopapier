@@ -32,7 +32,7 @@ class ChatMessageRepository extends ServiceEntityRepository
         try {
             return $query->getSingleResult();
         } catch (\Exception $exception) {
-            return new ChatMessage(null, "Diese Chatanzeige ist noch nicht soweit...");
+            return new ChatMessage(null, "-");
         }
     }
 }
