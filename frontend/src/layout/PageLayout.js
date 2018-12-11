@@ -22,4 +22,17 @@ module.exports = Marionette.View.extend({
             replaceElement: true,
         },
     },
+
+    events: {
+        'click a.js-applink': 'navigate',
+        // 'click a.js-logout': 'logout',
+    },
+
+    navigate(e) {
+        if (e.ctrlKey || e.shiftKey) {
+            return true;
+        }
+        this.trigger('navigate', e.currentTarget.href);
+        return e.preventDefault();
+    },
 });
