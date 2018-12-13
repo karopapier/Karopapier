@@ -17,12 +17,18 @@ module.exports = Marionette.Object.extend({
             }
         });
 
-        dataChannel.reply('dranGames', () => {
-            return this.dranGames;
-        });
+        this.dranGames.comparator = (game1, game2) => {
+            // const gamesort = this.authUser.get('gamesort');
+            const gamesort = 'blocktime';
+            if (gamesort === 'blocktime') {
+                if (game1.get('blocked') > game2.get('blocked')) {
+                    return -1;
+                }
+                return 1;
+            }
+        };
 
-        dataChannel.reply('drangames', () => {
-            console.warn('OBSOLETE, request dranGames');
+        dataChannel.reply('dranGames', () => {
             return this.dranGames;
         });
 

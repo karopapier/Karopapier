@@ -3,7 +3,7 @@ const Marionette = require('backbone.marionette');
 const Radio = require('backbone.radio');
 const dataChannel = Radio.channel('data');
 const DranLayout = require('../layout/DranLayout');
-const DranGamesView = require('../view/game/DranGamesView');
+const DranGamesView = require('../view/DranGamesView');
 
 module.exports = Marionette.Application.extend({
 
@@ -13,7 +13,7 @@ module.exports = Marionette.Application.extend({
         this.navigator = Radio.channel('navigator');
 
         this.layout = new DranLayout({});
-        this.dranGames = dataChannel.request('drangames');
+        this.dranGames = dataChannel.request('dranGames');
 
         this.start();
     },

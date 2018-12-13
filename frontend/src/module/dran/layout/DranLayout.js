@@ -1,6 +1,6 @@
 const Marionette = require('backbone.marionette');
 module.exports = Marionette.View.extend({
-    template: require('../../templates/dran/dranLayout.html'),
+    template: require('../templates/dranLayout.html'),
     regions: {
         list: {
             el: '.game-list',

@@ -653,6 +653,7 @@ class User implements UserInterface
             "karodayToday" => $this->isKarodayToday(),
             "theme" => $this->theme,
             "bot" => $this->isbot,
+            "gamesort" => $this->gamesOrder,
         );
 
     }

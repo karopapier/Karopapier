@@ -60,7 +60,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.availableApps = {
             messaging: require('./MessagingApp'),
             game: require('./GameApp'),
-            dran: require('./DranApp'),
+            dran: require('../module/dran/app/DranApp'),
             newgame: require('./NewGameApp'),
             chat: require('../module/chat/app/ChatApp'),
         };
