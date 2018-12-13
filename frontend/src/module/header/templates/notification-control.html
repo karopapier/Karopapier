@@ -1,0 +1,16 @@
+<% if (permission == 'unsupported') { %>
+<span class="quicktip quicktip-error quicktip-fixed" data-quicktip="Sorry, aber bei Benachrichtigungen macht Dein Browser einfach nicht mit. Schon mal über was aktuelles nachgedacht?">&nbsp;</span>
+<% } %>
+
+<% if (permission == 'denied') { %>
+<span class="quicktip quicktip-warn quicktip-fixed" data-quicktip="Du hast das Deinem Browser Benachrichtigungen verboten - DU musst das irgendwie wieder einschalten">&nbsp;</span>
+<% } %>
+
+<% if (permission == 'default') { %>
+<span class="quicktip quicktip-help quicktip-fixed" data-quicktip="Du möchtest Desktop-Benachrichtigungen? Dann musst Du das zulassen - klick mal hier!">&nbsp;</span>
+<% } %>
+
+<% if (permission == 'granted') { %>
+<span class="quicktip quicktip-ok quicktip-fixed" data-quicktip="Benachrichtigungen erlaubt! Voll gut">&nbsp;</span>
+<% } %>
+

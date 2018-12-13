@@ -17,9 +17,10 @@ const ChatSettings = require('../module/chat/model/ChatSettings');
 // Collection
 const MapCollection = require('../collection/MapCollection');
 
-// Data Manages
+// Data Managers
 const BlockerManager = require('../module/data-manager/manager/BlockerManager');
 const DranGamesManager = require('../module/data-manager/manager/DranGamesManager');
+const NotificationControl = require('../module/data-manager/manager/NotificationControl');
 
 const ChatMessageCollection = require('../module/chat/collection/ChatMessageCollection');
 
@@ -33,7 +34,7 @@ const AppRouter = require('./../router/StaticRouter');
 const PageLayout = require('../layout/PageLayout');
 
 // View
-const UserInfoBarView = require('../view/UserInfoBarView');
+const UserInfoBarView = require('../module/header/view/UserInfoBarView');
 const FooterView = require('../module/footer/view/FooterView');
 const MobileNavView = require('../module/mobile-nav/view/MobileNavView');
 const HeaderPreview = require('../module/header-preview/view/HeaderPreview');
@@ -169,6 +170,7 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         new UserManager();
         new DranGamesManager();
         new BlockerManager();
+        new NotificationControl();
 
         this.listenTo(appChannel, 'chat:message', (message) => {
             this.chatMessages.fetchLatest();

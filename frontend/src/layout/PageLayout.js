@@ -10,7 +10,7 @@ module.exports = Marionette.View.extend({
             el: '.header-dran-preview',
             replaceElement: true,
         },
-        'userinfo': '#userInfoBar',
+        'userinfo': '.header-user-infobar',
         'content': '.content',
         'modal': {
             el: '.modal-container',
