@@ -35,7 +35,7 @@ module.exports = Marionette.Object.extend({
         // handle realtime updates of dranGames
         appChannel.on('user:moved', (data) => {
             const gid = data.gid;
-            console.log('Have to remove from dran', data);
+            // console.log('Have to remove from dran', data);
             this.dranGames.remove(gid);
         });
 
