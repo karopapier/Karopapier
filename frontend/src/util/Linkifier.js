@@ -13,7 +13,7 @@ module.exports = Backbone.Model.extend({
     },
 
     loadReplacements() {
-        console.warn('Load Replacements');
+        // console.warn('Load Replacements');
         this.replacements = [];
         this.replacements.push({
             r: '<a (.*?)</a>',

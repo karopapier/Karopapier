@@ -16,7 +16,6 @@ module.exports = Marionette.View.extend({
     },
 
     onRender() {
-        console.log(this.notificationControl);
         this.showChildView('notification', new NotificationControlView({
             model: this.notificationControl,
         }));

@@ -33,7 +33,7 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
 
         foreach ($options as $option => $value) {
             if (array_key_exists($option, $context)) {
-                $options[$option] = (bool)$context[$option];
+                $options[$option] = (bool) $context[$option];
             }
         }
 
@@ -45,12 +45,13 @@ class GameNormalizer implements NormalizerInterface, NormalizerAwareInterface
         $data = [
             'id' => $game->getId(),
             'name' => $game->getName(),
+            'mapId' => $map->getId(),
             'map' => [
                 'id' => $map->getId(),
                 'name' => $map->getName(),
                 'cps' => $mapCps,
             ],
-            'cps' => (bool)$game->getCheckpointsEnabled(),
+            'cps' => (bool) $game->getCheckpointsEnabled(),
             'zzz' => $game->getZzz(),
             'crashallowed' => $game->getCrashAllowed(),
             'startdirection' => $game->getStartDirection(),
