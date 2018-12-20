@@ -48,6 +48,12 @@ services:
         tags:
           - { name: routing.loader }
 
+    AppBundle\Services\ModuleRoutesLoader:
+        arguments:
+          - '%kernel.project_dir%/src/AppBundle/Module'
+        tags:
+          - { name: routing.loader }
+
     AppBundle\Formatter\SmileyHolder:
       arguments:
         - '%kernel.cache_dir%'

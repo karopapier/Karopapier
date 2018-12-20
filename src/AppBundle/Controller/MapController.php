@@ -76,19 +76,4 @@ class MapController
     {
         return $map->toArray();
     }
-
-    /**
-     * @Route("/maps/", name="map_list")
-     * @Template("map/maplist.html.twig")
-     */
-    public function listAction(Request $request, MapRepository $repo)
-    {
-        /** @var Map[] $maps */
-        $qb = $repo->getActiveMapsQueryBuilder();
-        $maps = $qb->getQuery()->execute();
-
-        return [
-            'maps' => $maps,
-        ];
-    }
 }
