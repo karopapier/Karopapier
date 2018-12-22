@@ -6,7 +6,7 @@
  * Time: 00:27
  */
 
-namespace AppBundle\Modules\Map\Form;
+namespace AppBundle\Modules\Maps\Form;
 
 
 use Symfony\Component\Form\AbstractType;

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Modules\Map\Controller;
+namespace AppBundle\Modules\Maps\Controller;
 
 use AppBundle\Entity\Map;
 use AppBundle\Map\MapImageCache;

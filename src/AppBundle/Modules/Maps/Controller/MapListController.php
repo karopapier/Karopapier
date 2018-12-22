@@ -1,10 +1,10 @@
 <?php
 
-namespace AppBundle\Modules\Map\Controller;
+namespace AppBundle\Modules\Maps\Controller;
 
 use AppBundle\Entity\Map;
-use AppBundle\Modules\Map\DTO\MapFilterSettings;
-use AppBundle\Modules\Map\Form\MapFilterType;
+use AppBundle\Modules\Maps\DTO\MapFilterSettings;
+use AppBundle\Modules\Maps\Form\MapFilterType;
 use AppBundle\Repository\MapRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +25,7 @@ class MapListController extends AbstractController
 
     /**
      * @Route("/maps/", name="map_list")
-     * @Template("Map/templates/maplist.html.twig")
+     * @Template("Maps/templates/maplist.html.twig")
      */
     public function listAction(Request $request)
     {

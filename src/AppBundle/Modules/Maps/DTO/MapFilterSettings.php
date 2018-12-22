@@ -6,7 +6,7 @@
  * Time: 00:41
  */
 
-namespace AppBundle\Modules\Map\DTO;
+namespace AppBundle\Modules\Maps\DTO;
 
 
 use Symfony\Component\HttpFoundation\ParameterBag;
