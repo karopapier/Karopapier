@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Spiele</h1>
+
+    {{ form_start(filter_form) }}
+    {{ form_widget(filter_form) }}
+    <button>Such!</button>
+    {{ form_end(filter_form) }}
+
+    <p>Dran, Beendet, Karte, ...</p>
+    <table>
+        <tbody>
+            <tr>
+                <th>Vorschau</th>
+                <th>Name</th>
+                <th>Dran</th>
+            </tr>
+            {% for game in games %}
+                <tr>
+                    <td>
+                        <a href="/game.html?GID={{ game.id }}">
+                            <img src="/images/previews/{{ game.id }}.png" width="60" border="0">
+                        </a>
+                    </td>
+                    <td>
+                        <b id="game{{ game.id }}">{{ game.id }}:
+                            <a href="/game.html?GID={{ game.id }}">
+                                {{ game.name }}
+                            </a></b>
+                    </td>
+                    <td>
+                        {{ game.dranUser }}
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
