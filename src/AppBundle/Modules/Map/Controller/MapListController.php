@@ -23,7 +23,7 @@ class MapListController
 
     /**
      * @Route("/maps/", name="map_list")
-     * @Template("map/maplist.html.twig")
+     * @Template("Map/templates/maplist.html.twig")
      */
     public function listAction(Request $request)
     {

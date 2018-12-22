@@ -1,12 +1,11 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Modules\Map\Controller;
 
 use AppBundle\Entity\Map;
 use AppBundle\Map\MapImageCache;
 use AppBundle\Map\MapImageRenderer;
 use AppBundle\Model\MapImage;
-use AppBundle\Repository\MapRepository;
 use AppBundle\ValueObject\MapImageOptions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -69,7 +68,7 @@ class MapController
 
     /**
      * @Route("/map/{id}", name="map_details", requirements={"id": "\d+"})
-     * @Template("map/mapdetails.html.twig")
+     * @Template("Map/templates/mapdetails.html.twig")
      * @param Map $map
      */
     public function showAction(Request $request, Map $map)
