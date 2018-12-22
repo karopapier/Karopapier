@@ -10,20 +10,23 @@ namespace AppBundle\Modules\Map\DTO;
 
 
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\Validator\Constraints as Assert;
 
-class MapFilter
+class MapFilterSettings
 {
     /**
      * @var string
-     * @Assert
+     * @Assert\Regex("/^[a-zA-z0-9]*$/")
      */
     public $name = '';
+    public $author = '';
 
     public static function createFromParameters(ParameterBag $bag)
     {
         $filter = new self();
 
         $filter->name = $bag->getAlnum('name', '');
+        $filter->author = $bag->getAlnum('author', '');
 
         return $filter;
     }

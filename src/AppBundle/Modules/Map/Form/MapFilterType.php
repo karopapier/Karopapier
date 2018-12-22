@@ -10,8 +10,7 @@ namespace AppBundle\Modules\Map\Form;
 
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class MapFilterType extends AbstractType
@@ -20,7 +19,6 @@ class MapFilterType extends AbstractType
     {
         $builder
             ->add("name")
-            ->add("zzz", IntegerType::class)
-            ->add("save", SubmitType::class);
+            ->add("author", TextType::class, ['label' => 'Ersteller']);
     }
 }

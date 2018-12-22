@@ -3,6 +3,10 @@
 {% block body %}
     <h1>Alle aktuellen Karten</h1>
 
+    {{ form_start(filter_form) }}
+    {{ form_widget(filter_form) }}
+    <button>Such!</button>
+    {{ form_end(filter_form) }}
     <table>
         <tbody>
             <tr>
@@ -10,7 +14,7 @@
                 <th>Name</th>
                 <th>Spieler</th>
                 <th>Züge</th>
-                <th>Author</th>
+                <th>Ersteller</th>
             </tr>
             {% for map in maps %}
                 <tr>

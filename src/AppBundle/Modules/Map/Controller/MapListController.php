@@ -3,13 +3,15 @@
 namespace AppBundle\Modules\Map\Controller;
 
 use AppBundle\Entity\Map;
-use AppBundle\Modules\Map\DTO\MapFilter;
+use AppBundle\Modules\Map\DTO\MapFilterSettings;
+use AppBundle\Modules\Map\Form\MapFilterType;
 use AppBundle\Repository\MapRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MapListController
+class MapListController extends AbstractController
 {
     /**
      * @var MapRepository
@@ -27,19 +29,30 @@ class MapListController
      */
     public function listAction(Request $request)
     {
-        $mapFilter = MapFilter::createFromParameters($request->query);
+        $mapFilter = MapFilterSettings::createFromParameters($request->query);
+        $form = new MapFilterType();
+        $form = $this->createForm(MapFilterType::class, $mapFilter);
+        $form->handleRequest($request);
 
-        /** @var Map[] $maps */
-        $qb = $this->repository->getActiveMapsQueryBuilder();
-        $parameters = [];
-        if ($mapFilter->name !== '') {
-            $qb->andWhere('m.name LIKE :name');
-            $parameters['name'] = '%'.$mapFilter->name.'%';
+        $maps = [];
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Map[] $maps */
+            $qb = $this->repository->getActiveMapsQueryBuilder();
+            $parameters = [];
+            if ($mapFilter->name !== '') {
+                $qb->andWhere('m.name LIKE :name');
+                $parameters['name'] = '%'.$mapFilter->name.'%';
+            }
+            if ($mapFilter->author !== '') {
+                $qb->andWhere('m.author LIKE :author');
+                $parameters['author'] = '%'.$mapFilter->author.'%';
+            }
+            $maps = $qb->getQuery()->execute($parameters);
         }
-        $maps = $qb->getQuery()->execute($parameters);
 
         return [
             'maps' => $maps,
+            'filter_form' => $form->createView(),
         ];
     }
 }
