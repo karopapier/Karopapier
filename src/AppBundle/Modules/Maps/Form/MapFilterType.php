@@ -19,6 +19,6 @@ class MapFilterType extends AbstractType
     {
         $builder
             ->add("name")
-            ->add("author", TextType::class, ['label' => 'Ersteller']);
+            ->add("author", TextType::class, ['label' => 'Ersteller', 'required' => false]);
     }
 }

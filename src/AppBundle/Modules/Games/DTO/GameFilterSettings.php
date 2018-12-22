@@ -16,7 +16,7 @@ class GameFilterSettings
 {
     /**
      * @var string
-     * @Assert\Regex("/^[a-zA-z0-9]*$/")
+     * @Assert\Regex("/^[a-zA-z0-9§$ ]*$/")
      */
     public $name = '';
 
