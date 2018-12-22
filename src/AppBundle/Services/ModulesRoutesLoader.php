@@ -13,7 +13,7 @@ use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\RouteCollection;
 
-class ModuleRoutesLoader extends Loader
+class ModulesRoutesLoader extends Loader
 {
     private $moduleDir;
 

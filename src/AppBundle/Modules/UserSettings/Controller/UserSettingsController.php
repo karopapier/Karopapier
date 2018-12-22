@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Modules\UserSettings\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Module\UserSettings\Form\UserSettingsType;
+use AppBundle\Modules\UserSettings\Form\UserSettingsType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;

@@ -48,9 +48,9 @@ services:
         tags:
           - { name: routing.loader }
 
-    AppBundle\Services\ModuleRoutesLoader:
+    AppBundle\Services\ModulesRoutesLoader:
         arguments:
-          - '%kernel.project_dir%/src/AppBundle/Module'
+          - '%kernel.project_dir%/src/AppBundle/Modules'
         tags:
           - { name: routing.loader }
 

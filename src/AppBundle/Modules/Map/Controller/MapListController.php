@@ -1,8 +1,9 @@
 <?php
 
-namespace AppBundle\Module\Map\Controller;
+namespace AppBundle\Modules\Map\Controller;
 
 use AppBundle\Entity\Map;
+use AppBundle\Modules\Map\DTO\MapFilter;
 use AppBundle\Repository\MapRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +27,16 @@ class MapListController
      */
     public function listAction(Request $request)
     {
+        $mapFilter = MapFilter::createFromParameters($request->query);
+
         /** @var Map[] $maps */
         $qb = $this->repository->getActiveMapsQueryBuilder();
-        $maps = $qb->getQuery()->execute();
+        $parameters = [];
+        if ($mapFilter->name !== '') {
+            $qb->andWhere('m.name LIKE :name');
+            $parameters['name'] = '%'.$mapFilter->name.'%';
+        }
+        $maps = $qb->getQuery()->execute($parameters);
 
         return [
             'maps' => $maps,
