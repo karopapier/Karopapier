@@ -146,7 +146,7 @@ module.exports = Backbone.Model.extend({
             r: '&lt;a .*href.*&gt;(.*)&lt;/a&gt;',
             f: () => {
                 const url = RegExp.$1;
-                console.log('URL MATCH', url);
+                // console.log('URL MATCH', url);
                 return '<a target="_blank" rel="nofollow" href="' + url + '">' + url + '</a>'; // eslint-disable-line max-len
             },
             sw: 'i',

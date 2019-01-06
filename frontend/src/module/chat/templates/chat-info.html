@@ -12,7 +12,12 @@
 </div>
 <div id="chatBlockerInfo">
     <!-- <div class="clearer"></div> -->
-    <button style="background-color: black; color: white" onclick="$('html').css({transform:'rotate(1440deg)',transition: '240s'})">DO NOT
-        PRESS!!
-    </button>
+    <script type="text/javascript">
+        function drehItAll() {
+            var html = document.getElementsByTagName('html')[0];
+            html.style.transform = 'rotate(1440deg)';
+            html.style.transition = '240s';
+        }
+    </script>
+    <button style="background-color: black; color: white" onclick="drehItAll()">DO NOT PRESS!!</button>
 </div>
