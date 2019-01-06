@@ -33,7 +33,6 @@ class KarolenderblattGenerator
         $blaetter = $this->fileParser->getRawFromFile('/home/pdietrich/karopapier.de/wrapper/index.html');
         foreach ($blaetter as $blatt) {
             $karolenderblatt = $this->normalizer->normalize($blatt);
-            var_dump($karolenderblatt);
         }
     }
 }

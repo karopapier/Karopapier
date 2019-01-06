@@ -43,8 +43,12 @@ class KarolenderblattNormalizer
             $line
         );
 
-
-        var_dump($line);
+        // 2015-06-26
+        $line = str_replace(
+            'Karolenderblatt: heute vor neun Jahren verlinkt Madeleine ein Foto ihrer Katze',
+            'Karolenderblatt: heute vor zehn Jahren verlinkt Madeleine ein Foto ihrer Katze',
+            $line
+        );
 
         $daymod = -1;
         if (preg_match('/heute vor/i', $line)) {
@@ -72,15 +76,20 @@ class KarolenderblattNormalizer
         $line = str_ireplace('vor zwei Jahren', 'vor 2 Jahren', $line);
         $line = str_ireplace('vor drei Jahren', 'vor 3 Jahren', $line);
         $line = str_ireplace('vor dre[ Jahren', 'vor 3 Jahren', $line);
+        $line = str_ireplace('vor frei Jahren', 'vor 3 Jahren', $line);
         $line = str_ireplace('vor vier Jahren', 'vor 4 Jahren', $line);
         $line = str_ireplace('vor fuenf Jahren', 'vor 5 Jahren', $line);
         $line = str_ireplace('vor fuend Jahren', 'vor 5 Jahren', $line);
         $line = str_ireplace('vor sechs Jahren', 'vor 6 Jahren', $line);
+        $line = str_ireplace('vor sech Jahren', 'vor 6 Jahren', $line);
         $line = str_ireplace('vor sieben Jahren', 'vor 7 Jahren', $line);
         $line = str_ireplace('vor acht Jahren', 'vor 8 Jahren', $line);
         $line = str_ireplace('vor neun Jahren', 'vor 9 Jahren', $line);
         $line = str_ireplace('vor neuen Jahren', 'vor 9 Jahren', $line);
         $line = str_ireplace('vor zehn Jahren', 'vor 10 Jahren', $line);
+        $line = str_ireplace('vor elf Jahren', 'vor 11 Jahren', $line);
+        $line = str_ireplace('vor zwoelf Jahren', 'vor 12 Jahren', $line);
+        $line = str_ireplace('vor dreizehn Jahren', 'vor 13 Jahren', $line);
 
         $pattern = '/vor (\d+) Jahren/';
         if (preg_match($pattern, $line, $matches)) {
@@ -108,7 +117,6 @@ class KarolenderblattNormalizer
         $d->sub(new \DateInterval("P".$years."Y"));
 
         $k = KarolenderBlatt::create($posted, $d->format('Y-m-d'), $normLine);
-        var_dump($k);
 
         return $k;
     }

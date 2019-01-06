@@ -38,6 +38,11 @@ class FileParser
                     continue;
                 }
 
+                // Skip anmerkung
+                if (preg_match('/.*nicht wirklich, ich tagge das nur, damit es nicht verloren geht.*/', $blattline)) {
+                    continue;
+                }
+
 
                 $posted = $matches[1];
 
