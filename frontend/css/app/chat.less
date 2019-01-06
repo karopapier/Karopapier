@@ -12,7 +12,32 @@
 }
 
 .chat-info-container {
-  width: 250px;
+  // desktop width
+  @media (min-width: @media-medium-breakpoint) {
+    width: 250px;
+  }
+
+  // no info on mobile
+  @media (max-width: @media-medium-breakpoint) {
+    display: none;
+  }
+}
+
+// unless info mode on mobile
+.chat-info-mode {
+  @media (max-width: @media-medium-breakpoint) {
+    .chat-info-container {
+      display: flex;
+    }
+
+    .chat-messages-container {
+      display: none;
+    }
+
+    .chat-footer {
+      display: none;
+    }
+  }
 }
 
 .chat-users {

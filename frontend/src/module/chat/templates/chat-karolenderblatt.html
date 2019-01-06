@@ -1,0 +1,17 @@
+<% const d = new Date() %>
+<div class="chat-karolenderblatt">
+    <span class="chat-karolenderblatt-month"><%= dateHelper.getLocalShortMonth(d) %></span>
+    <span class="chat-karolenderblatt-day"><%= d.getDate() %></span>
+    <span class="chat-karolenderblatt-wday"><%= dateHelper.getLocalShortWeekday(d) %></span>
+</div>
+
+<% if (blaetter.length > 0) { %>
+<div class="chat-karolenderblatt-modal">
+    <% for (var i=0;i< blaetter.length;i++) { %>
+    <%= blaetter[i].line %>
+    <% if (blaetter[i].posted!='') { %>
+    <a href="http://karolenderblatt.de/#<%= blaetter[i].posted %>">Mehr</a><br>
+    <% } %>
+    <% } %>
+</div>
+<% } %>

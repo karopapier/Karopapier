@@ -6,6 +6,7 @@ const dataChannel = Radio.channel('data');
 
 const ChatUsersView = require('./ChatUsersView');
 const ChatDranInfoView = require('./ChatDranInfoView');
+const ChatKarolenderblattView = require('./ChatKarolenderblattView');
 
 module.exports = Marionette.View.extend({
     tagName: 'div',
@@ -18,6 +19,10 @@ module.exports = Marionette.View.extend({
         },
         'chat-dran-info': {
             el: '.chat-dran-info',
+            replaceElement: true,
+        },
+        'chat-karolenderblatt': {
+            el: '.chat-karolenderblatt',
             replaceElement: true,
         },
     },
@@ -40,6 +45,8 @@ module.exports = Marionette.View.extend({
         this.showChildView('chat-dran-info', new ChatDranInfoView({
             collection: this.dranGames,
         }));
+        this.showChildView('chat-karolenderblatt', new ChatKarolenderblattView());
+
         this.users.getLoadedPromise().then(() => {
             this.updateHabdich();
         });
