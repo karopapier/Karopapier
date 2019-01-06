@@ -52,4 +52,22 @@ class KarolenderblattNormalizerTest extends TestCase
             'Line is converted correctly'
         );
     }
+
+    public function testLateBlatt()
+    {
+        $raw = RawKarolenderblatt::createFromLines(
+            '2014-09-07',
+            'kili (20:21): Karolenderblatt (nachgereicht): vorgestern vor acht Jahren spielt Didi alles kaputt (O-Ton quabla), baut dafuer aber ein, dass man bei angeschalteten Checkpoints ueber Startfelder ins Ziel fahren kann.'
+        );
+        $normalizer = new KarolenderblattNormalizer();
+        $blatt = $normalizer->normalize($raw);
+
+        $this->assertEquals('2014-09-07', $blatt->getPosted(), 'posted date is kept');
+        $this->assertEquals('2006-09-05', $blatt->getEventDate(), 'event date is calculated correctly');
+        $this->assertEquals(
+            'Heute vor {DIFF} Jahren spielt Didi alles kaputt (O-Ton quabla), baut dafuer aber ein, dass man bei angeschalteten Checkpoints ueber Startfelder ins Ziel fahren kann.',
+            $blatt->getLine(),
+            'Line is converted correctly'
+        );
+    }
 }

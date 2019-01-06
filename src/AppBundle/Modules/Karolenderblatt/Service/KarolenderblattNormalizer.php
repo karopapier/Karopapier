@@ -30,12 +30,22 @@ class KarolenderblattNormalizer
             $daymod = 1;
         }
 
+        if (preg_match('/vorgestern vor/i', $line)) {
+            $daymod = 2;
+        }
 
         if ($daymod < 0) {
             var_dump($blatt);
             die('weiss nicht wann - Tage');
         }
 
+        $line = str_replace('vor zwei Jahren', 'vor 2 Jahren', $line);
+        $line = str_replace('vor drei Jahren', 'vor 3 Jahren', $line);
+        $line = str_replace('vor vier Jahren', 'vor 4 Jahren', $line);
+        $line = str_replace('vor fuenf Jahren', 'vor 5 Jahren', $line);
+        $line = str_replace('vor sechs Jahren', 'vor 6 Jahren', $line);
+        $line = str_replace('vor sieben Jahren', 'vor 7 Jahren', $line);
+        $line = str_replace('vor acht Jahren', 'vor 8 Jahren', $line);
         $line = str_replace('vor neun Jahren', 'vor 9 Jahren', $line);
 
         $pattern = '/vor (\d+) Jahren/';
@@ -43,9 +53,13 @@ class KarolenderblattNormalizer
             $years = $matches[1];
 
             $normLine = preg_replace($pattern, 'vor {DIFF} Jahren', $line);
-            $normLine = preg_replace('/kili \((.*)\): Karolenderblatt: (heute|gestern) vor/i', 'Heute vor', $normLine);
             $normLine = preg_replace(
-                '/kili \((.*)\): Karolenderblatt \(nachgeliefert\): (heute|gestern) vor/i',
+                '/kili \((.*)\): Karolenderblatt: (heute|gestern|vorgestern) vor/i',
+                'Heute vor',
+                $normLine
+            );
+            $normLine = preg_replace(
+                '/kili \((.*)\): Karolenderblatt \(nachge(reicht|liefert)\): (heute|gestern|vorgestern) vor/i',
                 'Heute vor',
                 $normLine
             );
