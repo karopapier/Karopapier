@@ -58,6 +58,7 @@ class ApiBrowserController extends Controller
             "/api/games?user=1&finished=true" => "Legacy API",
             "/api/games?user=1&finished=true&limit=1&offset=300" => "Legacy API",
             "/api/games?limit=2&offset=3000" => "Legacy API",
+            "/api/karolenderblatt/".date("Y-m-d") => "APIv2",
             "http://volkswurst.de/api/" => "kilis API",
             "/api/users/1" => "APIv2, deprecated",
             "/api/user/check.json" => "APIv2, deprecated",
