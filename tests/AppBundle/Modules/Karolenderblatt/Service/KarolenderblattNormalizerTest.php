@@ -34,4 +34,22 @@ class KarolenderblattNormalizerTest extends TestCase
         );
     }
 
+    public function testYesterdayBlatt()
+    {
+        $raw = RawKarolenderblatt::createFromLines(
+            '2014-07-23',
+            'kili (23:43): Karolenderblatt (nachgeliefert): gestern vor neun Jahren wurde Incognitinchen morgens um 5:15 Uhr von ihren Meerschweinchen geweckt.'
+        );
+
+        $normalizer = new KarolenderblattNormalizer();
+        $blatt = $normalizer->normalize($raw);
+
+        $this->assertEquals('2014-07-23', $blatt->getPosted(), 'posted date is kept');
+        $this->assertEquals('2005-07-22', $blatt->getEventDate(), 'event date is calculated correctly');
+        $this->assertEquals(
+            'Heute vor {DIFF} Jahren wurde Incognitinchen morgens um 5:15 Uhr von ihren Meerschweinchen geweckt.',
+            $blatt->getLine(),
+            'Line is converted correctly'
+        );
+    }
 }

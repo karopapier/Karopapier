@@ -21,28 +21,34 @@ class KarolenderblattNormalizer
 
         var_dump($line);
 
-        $daymod = 99;
+        $daymod = -1;
         if (preg_match('/heute vor/i', $line)) {
             $daymod = 0;
         }
 
         if (preg_match('/gestern vor/i', $line)) {
-            $daymod = -1;
+            $daymod = 1;
         }
 
 
-        if ($daymod > 10) {
+        if ($daymod < 0) {
             var_dump($blatt);
             die('weiss nicht wann - Tage');
         }
 
+        $line = str_replace('vor neun Jahren', 'vor 9 Jahren', $line);
 
         $pattern = '/vor (\d+) Jahren/';
         if (preg_match($pattern, $line, $matches)) {
             $years = $matches[1];
 
             $normLine = preg_replace($pattern, 'vor {DIFF} Jahren', $line);
-            $normLine = preg_replace('/kili \((.*)\): Karolenderblatt: /', '', $normLine);
+            $normLine = preg_replace('/kili \((.*)\): Karolenderblatt: (heute|gestern) vor/i', 'Heute vor', $normLine);
+            $normLine = preg_replace(
+                '/kili \((.*)\): Karolenderblatt \(nachgeliefert\): (heute|gestern) vor/i',
+                'Heute vor',
+                $normLine
+            );
         } else {
             var_dump($blatt);
             die ('Weiss nicht wann - Jahre');
@@ -58,5 +64,4 @@ class KarolenderblattNormalizer
 
         return $k;
     }
-
 }
