@@ -27,6 +27,10 @@ class FileParser
                 $matches
             )) {
                 $blattline = $lines[$i + 1];
+                // Skip Sonderzitat
+                if (preg_match('/.*Sonderzitat.*/', $blattline)) {
+                    continue;
+                }
                 $posted = $matches[1];
 
                 $blaetter[] = RawKarolenderblatt::createFromLines($posted, $blattline);
