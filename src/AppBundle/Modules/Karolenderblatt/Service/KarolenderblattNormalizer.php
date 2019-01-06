@@ -9,23 +9,35 @@
 namespace AppBundle\Modules\Karolenderblatt\Service;
 
 
-use AppBundle\Modules\Karolenderblatt\ValueObject\KarolenderBlatt;
+use AppBundle\Entity\KarolenderBlatt;
 use AppBundle\Modules\Karolenderblatt\ValueObject\RawKarolenderblatt;
 
 class KarolenderblattNormalizer
 {
 
+    /**
+     * @param RawKarolenderblatt $blatt
+     * @return KarolenderBlatt
+     * @throws \Exception
+     */
     public function normalize(RawKarolenderblatt $blatt)
     {
         $line = $blatt->getLine();
+        $line = strip_tags($line);
+        $line = trim($line);
 
+        $line = str_replace('Reservekarolenderblatt', 'Karolenderblatt', $line);
+        $line = str_replace('Karolenderblatt; ', 'Karolenderblatt: ', $line);
+        $line = str_replace('Karolenderblatt heute vor', 'Karolenderblatt: Heute vor', $line);
+        $line = str_replace('(nachgereicht) gestern', '(nachgereicht): gestern', $line);
+        $line = str_replace('(nachgereicht) vorgestern', '(nachgereicht): vorgestern', $line);
 
         // Fixes/Korrekturen
 
         //2014-07-14
         $line = str_replace(
             'Karolenderblatt: mr-burns123, ultimate und Calypso fuehren ',
-            'Heute vor einem Jahren fuehren mr-burns123, ultimate und Calypso ',
+            'Karolenderblatt: Heute vor einem Jahren fuehren mr-burns123, ultimate und Calypso ',
             $line
         );
 
@@ -49,6 +61,12 @@ class KarolenderblattNormalizer
             'Karolenderblatt: heute vor zehn Jahren verlinkt Madeleine ein Foto ihrer Katze',
             $line
         );
+
+        // replace comments
+        $commentPattern = '/Karolenderblatt (.*?): (heute|gestern|vorgestern|vorvorgestern)/i';
+        if (preg_match($commentPattern, $line, $matches)) {
+            $line = preg_replace($commentPattern, 'Karolenderblatt: '.$matches[2], $line);
+        }
 
         $daymod = -1;
         if (preg_match('/heute vor/i', $line)) {
@@ -97,12 +115,12 @@ class KarolenderblattNormalizer
 
             $normLine = preg_replace($pattern, 'vor {DIFF} Jahren', $line);
             $normLine = preg_replace(
-                '/kili \((.*)\): Karolenderblatt:( |heute|gestern|vorgestern) vor/i',
+                '/kili \((.*)\): Karolenderblatt: (heute|gestern|vorgestern|vorvorgestern) vor/i',
                 'Heute vor',
                 $normLine
             );
             $normLine = preg_replace(
-                '/kili \((.*)\): Karolenderblatt \(nachge(reicht|liefert)\): (heute|gestern|vorgestern) vor/i',
+                '/kili \((.*)\): Karolenderblatt \(nachge(reicht|liefert)\): (heute|gestern|vorgestern|vorvorgestern) vor/i',
                 'Heute vor',
                 $normLine
             );
@@ -111,13 +129,18 @@ class KarolenderblattNormalizer
             die ('Weiss nicht wann - Jahre');
         }
 
+        // Safety check, darf nicht mehr mit "kili: (xxxxx) anfangen"
+
+        if (substr($normLine, 0, 4) === 'kili') {
+            var_dump($normLine);
+            die('Da ist noch kili uebrig');
+        }
+
         $posted = $blatt->getPosted();
         $d = \DateTime::createFromFormat("Y-m-d", $posted);
         $d->sub(new \DateInterval("P".$daymod."D"));
         $d->sub(new \DateInterval("P".$years."Y"));
 
-        $k = KarolenderBlatt::create($posted, $d->format('Y-m-d'), $normLine);
-
-        return $k;
+        return KarolenderBlatt::createFromStrings($posted, $d->format('Y-m-d'), $normLine);
     }
 }
