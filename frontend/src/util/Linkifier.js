@@ -109,16 +109,16 @@ module.exports = Backbone.Model.extend({
             });
 
             // /me
-            this.replacements.push({
-                r: '(\\s|\\b|^)/me(\\s|\\b|$)',
-                f: () => {
-                    if (this.authUser) {
-                        return ' ' + this.authUser.get('login') + ' ';
-                    }
-                    return '/me';
-                },
-                sw: 'i',
-            });
+            // this.replacements.push({
+            // r: '(\\s|\\b|^)/me(\\s|\\b|$)',
+            // f: () => {
+            // if (this.authUser) {
+            // return ' ' + this.authUser.get('login') + ' ';
+            // }
+            // return '/me';
+            // },
+            // sw: 'i',
+            // });
         }
 
         // img src mit quot
