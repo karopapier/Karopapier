@@ -74,6 +74,10 @@ module.exports = window.KaroApp = Marionette.Application.extend({
             return this.settings;
         });
 
+        dataChannel.reply('user:logged:in', () => {
+            return this.authUser;
+        });
+
         this.linkifier = new Linkifier();
 
         /*
@@ -96,10 +100,6 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         this.chatMessages.fetchLatest();
 
         this.navigator = Radio.channel('navigator');
-
-        dataChannel.reply('user:logged:in', () => {
-            return this.authUser;
-        });
 
         dataChannel.reply('maps', () => {
             return this.maps;

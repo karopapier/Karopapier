@@ -10,6 +10,7 @@ module.exports = Backbone.Model.extend({
         this.settings = dataChannel.request('settings');
         this.listenTo(this.settings, 'change:funny', this.loadReplacements);
         this.loadReplacements();
+        this.authUser = dataChannel.request('user:logged:in');
     },
 
     loadReplacements() {
@@ -103,6 +104,18 @@ module.exports = Backbone.Model.extend({
                 r: '\\bhoff\\b',
                 f: () => {
                     return ' <img style="opacity: .3" src="/images/hoff.jpg"     alt="hoff" title="hoff" />';
+                },
+                sw: 'i',
+            });
+
+            // /me
+            this.replacements.push({
+                r: '(\\s|\\b|^)/me(\\s|\\b|$)',
+                f: () => {
+                    if (this.authUser) {
+                        return ' ' + this.authUser.get('login') + ' ';
+                    }
+                    return '/me';
                 },
                 sw: 'i',
             });
