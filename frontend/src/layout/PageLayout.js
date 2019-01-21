@@ -5,6 +5,7 @@ module.exports = Marionette.View.extend({
     template() {
         return;
     },
+
     regions: {
         'header-preview': {
             el: '.header-dran-preview',
@@ -21,6 +22,11 @@ module.exports = Marionette.View.extend({
             el: '.mobile-nav',
             replaceElement: true,
         },
+        'navi': {
+            el: '.top-nav',
+            replaceElement: true,
+        },
+
     },
 
     events: {

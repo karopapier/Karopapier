@@ -37,6 +37,7 @@ const PageLayout = require('../layout/PageLayout');
 const UserInfoBarView = require('../module/header/view/UserInfoBarView');
 const FooterView = require('../module/footer/view/FooterView');
 const MobileNavView = require('../module/mobile-nav/view/MobileNavView');
+const NavigationView = require('../module/header/view/NavigationView');
 const HeaderPreview = require('../module/header-preview/view/HeaderPreview');
 
 module.exports = window.KaroApp = Marionette.Application.extend({
@@ -190,7 +191,12 @@ module.exports = window.KaroApp = Marionette.Application.extend({
         }));
 
         this.layout.showChildView('footer', new FooterView());
-        this.layout.showChildView('mobile-nav', new MobileNavView());
+        this.layout.showChildView('mobile-nav', new MobileNavView({
+            model: this.authUser,
+        }));
+        this.layout.showChildView('navi', new NavigationView({
+            model: this.authUser,
+        }));
         this.layout.showChildView('header-preview', new HeaderPreview({
             collection: dataChannel.request('dranGames'),
         }));
