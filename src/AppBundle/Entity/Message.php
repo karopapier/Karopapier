@@ -110,8 +110,8 @@ class Message
             "contact_id" => $this->contactId,
             "contact_name" => $this->contactName,
             "ts" => $this->createdAt->getTimestamp(),
-            "r" => (int)(!is_null($this->readAt)),
-            "text" => $this->text,
+            "r" => (int) (!is_null($this->readAt)),
+            "text" => htmlspecialchars($this->text),
             "rxtx" => $this->rxtx,
         ];
     }

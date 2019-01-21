@@ -1,6 +1,6 @@
 <% if (dateSeparator) { %>
 <div class="date-separator">---------------- <%= formatTsIsoDate(ts) %> ----------------</div><% } %>
 <div class="message-<%= rxtx %>">
-    <b><% if (rxtx=="rx") { %><%= contact_name %><% } else { %><%= user_name %><% } %></b> (<%= formatTs(ts) %>): <%- text %>
+    <b><% if (rxtx=="rx") { %><%= contact_name %><% } else { %><%= user_name %><% } %></b> (<%= formatTs(ts) %>): <%= prettyText() %>
 </div>
 
