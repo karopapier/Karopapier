@@ -1,6 +1,5 @@
 const $ = require('jquery');
 const Backbone = require('backbone');
-require('babel-polyfill');
 const Game = require('./model/Game');
 const MapViewSettings = require('./model/map/MapViewSettings');
 const MoveMessagesView = require('./view/game/MoveMessagesView');
