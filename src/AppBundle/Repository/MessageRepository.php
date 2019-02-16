@@ -34,7 +34,7 @@ class MessageRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('m')
             ->where("m.userId=:userId")
             ->setParameter('userId', $user->getId());
-        $qb->setMaxResults(100);
+        $qb->setMaxResults(150);
         $query = $qb->getQuery();
 
         return $query->execute();
