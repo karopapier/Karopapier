@@ -1,4 +1,4 @@
-@deprectaed
+@deprecated
 ===========
 
 This git repo is stale.
