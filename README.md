@@ -1,17 +1,6 @@
-wrapper2
-========
+@deprectaed
+===========
 
-A Symfony project created on March 9, 2016, 10:06 pm.
+This git repo is stale.
 
-
-## Eigendoku
-
-### Entity from table
-
-Liegen schon in AppBundle/Resources/config/unused
-
-```php bin/console doctrine:mapping:import --force AppBundle --filter Chat xml```
-
-```php bin/console doctrine:mapping:convert annotation ./src --filter Chat```
-
-```php bin/console doctrine:generate:entities AcmeBlogBundle```
+Schreib mich an, wenn Du was beitragen willst
